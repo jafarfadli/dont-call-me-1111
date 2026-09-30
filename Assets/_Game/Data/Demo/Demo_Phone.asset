@@ -1,0 +1,370 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 041cf89f7e55d4287be44650d070a6f8, type: 3}
+  m_Name: Demo_Phone
+  m_EditorClassIdentifier: DontCallMe::DontCallMe.Data.PhoneContent
+  ownerName: Kim Jiwoo
+  ownerNumber: 010-6620-0921
+  dateLabel: Tuesday, 6 October
+  startTime: 16:20
+  contacts:
+  - name: Mom
+    number: 010-2231-7745
+    memo: Park Hyejin
+    portrait: pt_mom
+  - name: Dad
+    number: 010-4418-0902
+    memo: Kim Dongsu
+    portrait: pt_dad
+  - name: Minjun
+    number: 010-3321-5580
+    memo: "Little brother \xB7 Daejeon"
+    portrait: pt_minjun
+  - name: Yuna
+    number: 010-7780-1123
+    memo: Concert on 7 Nov!
+    portrait: pt_yuna
+  - name: Landlord Choi
+    number: 010-5512-3380
+    memo: "1F \xB7 rent due on the 25th"
+    portrait: pt_landlord
+  - name: Hyunwoo (landlord's son)
+    number: 010-2280-6614
+    memo: Helps with the building
+    portrait: pt_hyunwoo
+  - name: Taeho (Minjun's friend)
+    number: 010-9043-2217
+    memo: Met at Chuseok
+    portrait: pt_taeho
+  - name: "Manager Han (caf\xE9)"
+    number: 010-5530-8812
+    memo: Mangwon Roasters
+    portrait: pt_cafe
+  - name: Nuri Bank
+    number: 1599-0000
+    memo: Customer centre, from the back of my card
+    portrait: app_bank
+  - name: Mangwon Heights office
+    number: 02-555-0192
+    memo: Building management
+    portrait: app_contacts
+  recents:
+  - number: 010-2231-7745
+    kind: 1
+    when: Yesterday 21:40
+    duration: 12:04
+  - number: 010-5530-8812
+    kind: 0
+    when: Yesterday 11:02
+    duration: 1:48
+  - number: 010-7780-1123
+    kind: 1
+    when: Sun 19:20
+    duration: 8:31
+  - number: 070-4852-1170
+    kind: 2
+    when: Fri 2 Oct 14:12
+    duration: 
+  - number: 02-555-0181
+    kind: 0
+    when: Thu 1 Oct 10:15
+    duration: 0:52
+  sms:
+  - sender: 1599-0000
+    messages:
+    - when: Mon 22:47
+      text: "[Web\uBC1C\uC2E0] [Nuri Bank] New device registered: MacBook Air (Seoul).
+        If this wasn't you, call 1599-0000."
+      outgoing: 0
+      link: 
+    - when: Today 09:03
+      text: "[Web\uBC1C\uC2E0] [Nuri Bank] Card payment \u20A94,500 \xB7 Mangwon
+        Roasters \xB7 approved."
+      outgoing: 0
+      link: 
+  - sender: Hangang Express
+    messages:
+    - when: Today 08:30
+      text: '[Hangang Express] Your parcel (desk lamp bulbs) arrives tomorrow 16:00-18:00.
+        Driver Kim Taesik 010-7715-5521.'
+      outgoing: 0
+      link: 
+  - sender: 010-8812-4471
+    messages:
+    - when: Sun 23:12
+      text: "[Web\uBC1C\uC2E0] [Nuri] Your account is restricted for security reasons.
+        Verify within 24 hours:"
+      outgoing: 0
+      link: nuri-secure.kr/verify
+  - sender: Hangul Telecom
+    messages:
+    - when: Thu 1 Oct
+      text: "[Hangul Telecom] Your September bill is \u20A943,200, due 20 Oct."
+      outgoing: 0
+      link: 
+  chats:
+  - id: family
+    title: Our family
+    avatar: photo_family
+    group: 1
+    notFriend: 0
+    profileId: 
+    profileNote: 
+    messages:
+    - sender: Mom
+      avatar: pt_mom
+      when: Yesterday 19:10
+      text: Jiwoo-ya, did you eat dinner?
+      outgoing: 0
+      photoCaption: 
+      facts: []
+    - sender: 
+      avatar: 
+      when: Yesterday 19:14
+      text: Yes! Kimchi stew after my shift
+      outgoing: 1
+      photoCaption: 
+      facts: []
+    - sender: Dad
+      avatar: pt_dad
+      when: Yesterday 20:02
+      text: 
+      outgoing: 0
+      photoCaption: Grandma's persimmons in Jeonju
+      facts: []
+    - sender: Minjun
+      avatar: pt_minjun
+      when: Yesterday 22:30
+      text: I'm coming up to Seoul on Saturday for a concert. Noona, can I sleep
+        over?
+      outgoing: 0
+      photoCaption: 
+      facts: []
+    - sender: 
+      avatar: 
+      when: Yesterday 22:41
+      text: Only if you bring snacks
+      outgoing: 1
+      photoCaption: 
+      facts: []
+    - sender: Mom
+      avatar: pt_mom
+      when: Today 16:12
+      text: 
+      outgoing: 0
+      photoCaption: Doenjang stew on the stove
+      facts: []
+    - sender: Mom
+      avatar: pt_mom
+      when: Today 16:12
+      text: Your dad cooked today! Come home for Mom's birthday on the 17th, okay?
+      outgoing: 0
+      photoCaption: 
+      facts: []
+  - id: villa
+    title: Mangwon Heights residents
+    avatar: app_contacts
+    group: 1
+    notFriend: 0
+    profileId: 
+    profileNote: 
+    messages:
+    - sender: Office
+      avatar: app_contacts
+      when: Mon 09:00
+      text: 'Reminder: gas safety inspection on Wed 14 Oct, 10:00-17:00. Inspectors
+        never ask for money.'
+      outgoing: 0
+      photoCaption: 
+      facts: []
+    - sender: 201
+      avatar: pt_unknown
+      when: Mon 10:31
+      text: Did anyone else get a call about a 'protected account'? Hung up on them.
+      outgoing: 0
+      photoCaption: 
+      facts: []
+    - sender: Landlord Choi
+      avatar: pt_landlord
+      when: Today 14:05
+      text: Water tank cleaning on Thursday 10:00-12:00. Please keep some water aside.
+      outgoing: 0
+      photoCaption: 
+      facts: []
+  - id: yuna
+    title: Yuna
+    avatar: pt_yuna
+    group: 0
+    notFriend: 0
+    profileId: 
+    profileNote: 
+    messages:
+    - sender: Yuna
+      avatar: 
+      when: Sun 18:55
+      text: Tickets done!! Standing A-128 and A-129, 7 Nov
+      outgoing: 0
+      photoCaption: 
+      facts: []
+    - sender: 
+      avatar: 
+      when: Sun 19:01
+      text: I owe you 55,000 won, sending it on payday
+      outgoing: 1
+      photoCaption: 
+      facts: []
+    - sender: Yuna
+      avatar: 
+      when: Sun 19:02
+      text: No rush :)
+      outgoing: 0
+      photoCaption: 
+      facts: []
+  - id: cafe
+    title: Mangwon Roasters crew
+    avatar: pt_cafe
+    group: 1
+    notFriend: 0
+    profileId: 
+    profileNote: 
+    messages:
+    - sender: Manager Han
+      avatar: pt_cafe
+      when: Mon 21:00
+      text: Wages go out on the 10th as usual. Can someone cover Saturday morning?
+      outgoing: 0
+      photoCaption: 
+      facts: []
+  bank:
+    bankName: Nuri Bank
+    accounts:
+    - name: Nuri Everyday
+      number: 110-302-558814
+      balance: 1284300
+    - name: Tuition savings
+      number: 110-302-558990
+      balance: 3000000
+    transactions:
+    - when: Today 09:03
+      counterparty: Mangwon Roasters
+      memo: Card
+      amount: -4500
+    - when: Mon 22:41
+      counterparty: DAILY 24 Mangwon
+      memo: Card
+      amount: -5850
+    - when: Mon 5 Oct
+      counterparty: Hangang Mall
+      memo: Desk lamp bulbs
+      amount: -12900
+    - when: Sat 3 Oct
+      counterparty: PARK HYEJIN
+      memo: Chuseok pocket money
+      amount: 100000
+    - when: Thu 1 Oct
+      counterparty: MANGWON ROASTERS
+      memo: September wages
+      amount: 486000
+    - when: Fri 25 Sep
+      counterparty: CHOI YOUNGSIK
+      memo: September rent
+      amount: -450000
+    - when: Sun 20 Sep
+      counterparty: Hangul Telecom
+      memo: Phone bill
+      amount: -43200
+    notices:
+    - when: Mon 22:47
+      title: New device registered
+      body: "MacBook Air \xB7 Seoul. If this wasn't you, call 1599-0000."
+      alert: 0
+    - when: Today 09:03
+      title: "Card payment \u20A94,500"
+      body: "Mangwon Roasters \xB7 approved"
+      alert: 0
+    banks:
+    - Nuri Bank
+    - Hanbit Bank
+    - Daehan Bank
+    - Mirae Savings
+    - K Post
+  parcels:
+  - item: Desk lamp bulbs (2)
+    seller: Hangang Mall
+    status: Out for delivery tomorrow
+    tracking: 4410 2287 1934
+    courier: Hangang Express
+    driver: Kim Taesik
+    driverPhone: 010-7715-5521
+    window: Wed 16:00-18:00
+    overseas: 0
+  - item: Phone case
+    seller: AliStar (overseas)
+    status: Delivered 21 Sep
+    tracking: KR4410983312
+    courier: K Post
+    driver: 
+    driverPhone: 
+    window: 
+    overseas: 1
+  mails:
+  - from: Hanbit University IT
+    fromAddress: it-help@hanbit.ac.kr
+    subject: Your new laptop is registered
+    when: Mon 20:15
+    body: 'Hi Kim Jiwoo,
+
+
+      Your MacBook Air is now registered for campus Wi-Fi.
+      Remember to sign in to your apps (e.g. banking) on the new device.
+
+
+      Hanbit
+      IT Help Desk'
+    attachments: []
+    unread: 0
+  - from: Nuri Bank
+    fromAddress: notice@nuribank.co.kr
+    subject: A new device was registered
+    when: Mon 22:47
+    body: 'A new device (MacBook Air) was registered to your Nuri Bank account in
+      Seoul.
+
+
+      If this was you, you don''t need to do anything. If not, call
+      1599-0000.
+
+
+      Nuri Bank will never ask you to move your money to ''protect''
+      it.'
+    attachments: []
+    unread: 0
+  - from: Daeyang Logistics careers
+    fromAddress: careers@daeyang-logistics.co.kr
+    subject: 'Application received: Winter internship'
+    when: Fri 2 Oct
+    body: Thank you for applying to the Daeyang Logistics winter internship. We will
+      contact you from our HR office (02-555-0240) if you are invited to an interview.
+    attachments: []
+    unread: 0
+  - from: Hanbit University
+    fromAddress: scholarship@hanbit.ac.kr
+    subject: Scholarship interview on 16 Oct
+    when: Wed 30 Sep
+    body: 'Your scholarship interview is on Friday 16 October at 14:00, Student Centre
+      room 204. Please bring your student ID.
+
+
+      The scholarship office never
+      charges fees.'
+    attachments: []
+    unread: 1

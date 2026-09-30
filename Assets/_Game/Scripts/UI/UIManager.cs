@@ -1,0 +1,463 @@
+using System;
+using System.Collections.Generic;
+using DontCallMe.Data;
+using DontCallMe.Flow;
+using DontCallMe.Player;
+using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
+
+namespace DontCallMe.UI
+{
+    /// <summary>What the "case closed" card shows at the end of a call or chat.</summary>
+    public class EndingCard
+    {
+        public string caller;
+        public string portrait;
+        public string verdict;
+        /// <summary>"SCAM" or "REAL" when the truth is revealed at once, else empty.</summary>
+        public string truth;
+        public bool truthGood;
+        /// <summary>"RIGHT CALL" or "WRONG CALL" when revealed, else empty.</summary>
+        public string judgement;
+        public bool judgementGood;
+        public string subtitle;
+        public string money;
+        public bool moneyIn;
+        public string consequence;
+    }
+
+    /// <summary>
+    /// Builds the game UI on one UIDocument and owns its layers: HUD, room panels, transcript,
+    /// phone, pressure overlay, toasts and modals. Handles Tab (phone), Esc/right-click (back),
+    /// 1/2 (answer), N (notebook), and locks walking while anything is open.
+    /// </summary>
+    [RequireComponent(typeof(UIDocument))]
+    public class UIManager : MonoBehaviour
+    {
+        [Header("Content (cloned at start, so play mode never edits the assets)")]
+        [SerializeField] PhoneContent phoneContent;
+        [SerializeField] WorldDirectory directory;
+        [SerializeField] RoomContent roomContent;
+        [SerializeField] UISkin skin;
+
+        [Header("Input")]
+        [SerializeField] InputActionReference phoneAction;
+        [SerializeField] InputActionReference backAction;
+
+        [Header("Scene")]
+        [SerializeField] FirstPersonController player;
+        [SerializeField] CallDirector director;
+
+        public PhoneContent Phone { get; private set; }
+        public WorldDirectory Directory { get; private set; }
+        public RoomContent Room { get; private set; }
+        public PhoneController PhoneView { get; private set; }
+        public TranscriptPanel Transcript { get; private set; }
+        public CallHud CallHud { get; private set; }
+        public PressureOverlay Pressure { get; private set; }
+        public HudView Hud { get; private set; }
+        public CaseFile CurrentCase { get; set; }
+        public bool InputLocked { get; private set; }
+        public RoomPanel OpenPanelView => openPanel;
+
+        public event Action<PanelId> PanelOpened;
+        public event Action<PanelId> PanelClosed;
+
+        VisualElement root;
+        VisualElement panelLayer;
+        VisualElement overlayLayer;
+        VisualElement dim;
+        RoomPanel openPanel;
+        ModalView modal;
+        VisualElement endingCard;
+        // Not serialized: after a script reload in Play mode the views are gone and must not be touched.
+        [System.NonSerialized] bool built;
+
+        void Awake()
+        {
+            UISkin.Current = skin;
+            Phone = phoneContent != null ? Instantiate(phoneContent) : ScriptableObject.CreateInstance<PhoneContent>();
+            Directory = directory != null ? Instantiate(directory) : ScriptableObject.CreateInstance<WorldDirectory>();
+            Room = roomContent != null ? Instantiate(roomContent) : ScriptableObject.CreateInstance<RoomContent>();
+            GameClock.Start(Phone.startTime);
+            if (director == null)
+                director = FindAnyObjectByType<CallDirector>();
+            if (player == null)
+                player = FindAnyObjectByType<FirstPersonController>();
+            if (GetComponent<Sfx>() == null)
+                gameObject.AddComponent<Sfx>();
+        }
+
+        void OnEnable()
+        {
+            Build();
+            phoneAction?.action.Enable();
+            backAction?.action.Enable();
+            Clipboard.Copied += OnCopied;
+            FirstPersonController.PointerOverUI = IsPointerOverUI;
+        }
+
+        void OnDisable()
+        {
+            Clipboard.Copied -= OnCopied;
+            if (FirstPersonController.PointerOverUI == (Func<bool>)IsPointerOverUI)
+                FirstPersonController.PointerOverUI = null;
+        }
+
+        void Build()
+        {
+            if (built)
+                return;
+            var doc = GetComponent<UIDocument>();
+            root = doc.rootVisualElement;
+            if (root == null)
+                return;
+            built = true;
+            root.pickingMode = PickingMode.Ignore;
+            root.AddToClassList("dcm-root");
+
+            Hud = new HudView(TogglePhone, () => OpenNotebook(false));
+            root.Add(Hud.Root);
+
+            CallHud = new CallHud();
+            root.Add(CallHud.Root);
+
+            panelLayer = Layer();
+            dim = UIKit.Div("dim");
+            dim.pickingMode = PickingMode.Ignore;
+            panelLayer.Add(dim);
+            root.Add(panelLayer);
+
+            Transcript = new TranscriptPanel();
+            root.Add(Transcript.Root);
+
+            PhoneView = new PhoneController(this, Phone, Directory);
+            root.Add(PhoneView.Root);
+
+            Pressure = new PressureOverlay();
+            root.Add(Pressure.Root);
+
+            overlayLayer = Layer();
+            root.Add(overlayLayer);
+            overlayLayer.Add(Hud.Toasts);
+        }
+
+        VisualElement Layer()
+        {
+            var l = new VisualElement();
+            l.style.position = Position.Absolute;
+            l.style.left = 0;
+            l.style.top = 0;
+            l.style.right = 0;
+            l.style.bottom = 0;
+            l.pickingMode = PickingMode.Ignore;
+            return l;
+        }
+
+        void Update()
+        {
+            if (!built)
+                return;
+            float dt = Time.deltaTime;
+            GameClock.Tick(dt);
+            Hud.SetTime(GameClock.Now);
+            Hud.SetBadge(PhoneView.TotalBadges);
+            PhoneView.Tick(dt);
+            HandleInput();
+
+            bool inCall = director != null && director.IsCallActive;
+            Transcript.SetVisible(inCall && PhoneView.IsUp);
+            CallHud.SetVisible(inCall && !PhoneView.IsUp);
+            Hud.SetHintsVisible(!PhoneView.IsUp && openPanel == null);
+
+            bool locked = PhoneView.IsUp || openPanel != null || modal != null || endingCard != null;
+            if (locked != InputLocked)
+            {
+                InputLocked = locked;
+                if (player != null)
+                    player.SetInputLocked(locked);
+                if (locked)
+                    Hud.HidePrompt();
+            }
+        }
+
+        void HandleInput()
+        {
+            bool typing = root.panel?.focusController?.focusedElement is TextField ||
+                          root.panel?.focusController?.focusedElement is VisualElement v && v.GetFirstAncestorOfType<TextField>() != null;
+
+            if (phoneAction != null && phoneAction.action.WasPressedThisFrame())
+            {
+                if (modal == null && endingCard == null)
+                {
+                    if (openPanel != null)
+                    {
+                        ClosePanel();
+                        PhoneView.Raise(true);
+                    }
+                    else
+                    {
+                        TogglePhone();
+                    }
+                }
+            }
+
+            bool back = backAction != null && backAction.action.WasPressedThisFrame();
+            if (!back && Mouse.current != null && Mouse.current.rightButton.wasReleasedThisFrame && (PhoneView.IsUp || openPanel != null))
+                back = true;
+            if (back)
+                Back();
+
+            var kb = Keyboard.current;
+            if (kb == null || typing || modal != null || endingCard != null)
+                return;
+            if (kb.digit1Key.wasPressedThisFrame || kb.numpad1Key.wasPressedThisFrame)
+                Choose(0);
+            if (kb.digit2Key.wasPressedThisFrame || kb.numpad2Key.wasPressedThisFrame)
+                Choose(1);
+            if (kb.nKey.wasPressedThisFrame)
+            {
+                if (openPanel is NotebookPanel)
+                    ClosePanel();
+                else
+                    OpenNotebook(false);
+            }
+        }
+
+        void Choose(int index)
+        {
+            if (PhoneView.IsUp && Transcript.HasDecision && director != null && director.IsCallActive)
+                Transcript.Pick(index);
+            else
+                PhoneView.App<TalkApp>().PickFromKeyboard(index);
+        }
+
+        public void Back()
+        {
+            if (modal != null)
+            {
+                CloseModal();
+                return;
+            }
+            if (endingCard != null)
+                return;
+            if (PhoneView.IsUp)
+            {
+                PhoneView.Back();
+                return;
+            }
+            if (openPanel != null && !openPanel.Back())
+                ClosePanel();
+        }
+
+        public void TogglePhone()
+        {
+            if (PhoneView.Locked)
+                return;
+            if (openPanel != null)
+                ClosePanel();
+            PhoneView.Toggle();
+        }
+
+        // ---------------------------------------------------------------- room panels
+
+        public void OpenPanel(PanelId id)
+        {
+            if (!built || id == PanelId.None)
+                return;
+            if (PhoneView.Locked)
+                return;
+            if (openPanel != null)
+                ClosePanel();
+            if (PhoneView.IsUp)
+                PhoneView.Raise(false);
+            RoomPanel p = id switch
+            {
+                PanelId.Newspaper => new NewspaperPanel(this),
+                PanelId.Drawer => new DrawerPanel(this),
+                PanelId.Board => new BoardPanel(this),
+                PanelId.Wallet => new WalletPanel(this),
+                PanelId.Notebook => new NotebookPanel(this),
+                _ => null,
+            };
+            if (p == null)
+                return;
+            openPanel = p;
+            panelLayer.Add(p.Root);
+            dim.AddToClassList("dim--on");
+            p.Root.schedule.Execute(() => p.Root.AddToClassList("room-panel--open")).ExecuteLater(20);
+            p.OnOpen();
+            PanelOpened?.Invoke(id);
+        }
+
+        public void OpenNotebook(bool caseTab)
+        {
+            bool raised = PhoneView.IsUp;
+            if (PhoneView.Locked)
+                return;
+            OpenPanel(PanelId.Notebook);
+            if (openPanel is NotebookPanel nb)
+                nb.ShowTab(caseTab);
+            if (raised)
+                returnToPhoneAfterNotebook = true;
+        }
+
+        bool returnToPhoneAfterNotebook;
+
+        public void ClosePanel()
+        {
+            if (openPanel == null)
+                return;
+            var p = openPanel;
+            openPanel = null;
+            dim.RemoveFromClassList("dim--on");
+            p.Root.RemoveFromClassList("room-panel--open");
+            p.Root.schedule.Execute(() => p.Root.RemoveFromHierarchy()).ExecuteLater(220);
+            PanelClosed?.Invoke(p.Id);
+            if (returnToPhoneAfterNotebook)
+            {
+                returnToPhoneAfterNotebook = false;
+                PhoneView.Raise(true);
+            }
+        }
+
+        // ---------------------------------------------------------------- modals, toasts, endings
+
+        public void Confirm(string title, string text, string yes, string no, Action onYes, Action onNo = null)
+        {
+            CloseModal();
+            modal = new ModalView(title, text, yes, no, () =>
+            {
+                CloseModal();
+                onYes?.Invoke();
+            }, () =>
+            {
+                CloseModal();
+                onNo?.Invoke();
+            });
+            overlayLayer.Add(modal.Root);
+        }
+
+        void CloseModal()
+        {
+            modal?.Root.RemoveFromHierarchy();
+            modal = null;
+        }
+
+        public void ShowEndingCard(EndingCard info, Action onClose)
+        {
+            endingCard?.RemoveFromHierarchy();
+            var shade = UIKit.Div("modal");
+            var card = UIKit.Div("modal__box", "paper", "ending");
+            var head = UIKit.Div("ending__head");
+            head.Add(UIKit.Portrait(info.portrait, "ending__portrait"));
+            var who = UIKit.Div("grow");
+            who.Add(UIKit.Text("CASE CLOSED", "section"));
+            who.Add(UIKit.Text(info.caller, "ending__caller"));
+            head.Add(who);
+            card.Add(head);
+            card.Add(UIKit.Text(info.verdict, "ending__verdict"));
+            var stamps = UIKit.Div("ending__stamps");
+            if (!string.IsNullOrEmpty(info.truth))
+                stamps.Add(Stamp(info.truth, info.truthGood, -7f, 450));
+            if (!string.IsNullOrEmpty(info.judgement))
+                stamps.Add(Stamp(info.judgement, info.judgementGood, 5f, 950));
+            if (stamps.childCount > 0)
+                card.Add(stamps);
+            if (!string.IsNullOrEmpty(info.subtitle))
+                card.Add(UIKit.Text(info.subtitle, "modal__text", "t-center"));
+            if (!string.IsNullOrEmpty(info.money))
+                card.Add(UIKit.Text(info.money, "recipient__amount", "t-center", info.moneyIn ? "amount-in" : "amount-out"));
+            if (!string.IsNullOrEmpty(info.consequence))
+                card.Add(UIKit.Text(info.consequence, "ending__line"));
+            var buttons = UIKit.Div("modal__buttons");
+            buttons.Add(UIKit.Btn("Continue", () =>
+            {
+                endingCard?.RemoveFromHierarchy();
+                endingCard = null;
+                onClose?.Invoke();
+            }, "btn--green"));
+            card.Add(buttons);
+            shade.Add(card);
+            endingCard = shade;
+            overlayLayer.Add(shade);
+        }
+
+        /// <summary>A rubber stamp that lands on the card after a delay, with a thump.</summary>
+        static VisualElement Stamp(string text, bool good, float angle, long delayMs)
+        {
+            var stamp = UIKit.Text(text, "stamp", good ? "stamp--green" : "stamp--red");
+            stamp.style.whiteSpace = WhiteSpace.NoWrap;
+            stamp.style.rotate = new Rotate(angle);
+            stamp.schedule.Execute(() =>
+            {
+                stamp.AddToClassList("stamp--down");
+                Sfx.Play(Sfx.Stamp);
+            }).ExecuteLater(delayMs);
+            return stamp;
+        }
+
+        public void Toast(string icon, string title, string text) => Hud?.Toast(icon, title, text);
+
+        void OnCopied(Fact f) => Hud?.Toast("ic_copy", "Copied", f.value + "  ·  paste it in any app");
+
+        // ---------------------------------------------------------------- phone hooks
+
+        public void Dial(string number)
+        {
+            if (director != null)
+                director.Dial(number);
+        }
+
+        /// <summary>Facts worth offering as one-tap suggestions: today's case first, then recent copies.</summary>
+        public List<Fact> SuggestedFacts(params FactKind[] kinds)
+        {
+            var list = new List<Fact>();
+            var seen = new HashSet<string>();
+            void Take(IEnumerable<Fact> facts)
+            {
+                foreach (var f in facts)
+                {
+                    if (list.Count >= 6)
+                        return;
+                    if (f == null || string.IsNullOrEmpty(f.value) || seen.Contains(f.value))
+                        continue;
+                    if (kinds.Length > 0 && Array.IndexOf(kinds, f.kind) < 0)
+                        continue;
+                    seen.Add(f.value);
+                    list.Add(f);
+                }
+            }
+            if (CurrentCase != null)
+            {
+                Take(new[] { new Fact(FactKind.Phone, CurrentCase.caller.number) });
+                Take(CurrentCase.facts);
+            }
+            Take(Clipboard.History);
+            return list;
+        }
+
+        // ---------------------------------------------------------------- pointer, prompt
+
+        public bool IsPointerOverUI()
+        {
+            if (root?.panel == null || Mouse.current == null)
+                return false;
+            var p = Mouse.current.position.ReadValue();
+            var panelPos = RuntimePanelUtils.ScreenToPanel(root.panel, new Vector2(p.x, Screen.height - p.y));
+            var picked = root.panel.Pick(panelPos);
+            return picked != null && picked != root;
+        }
+
+        public void ShowPrompt(string text, Vector2 screenPosition)
+        {
+            if (root?.panel == null || InputLocked)
+                return;
+            var panelPos = RuntimePanelUtils.ScreenToPanel(root.panel, new Vector2(screenPosition.x, Screen.height - screenPosition.y));
+            Hud.ShowPrompt(text, panelPos);
+        }
+
+        public void HidePrompt() => Hud?.HidePrompt();
+    }
+}

@@ -1,0 +1,211 @@
+{
+ "slices": [
+  {
+   "name": "bubble_in",
+   "border": [
+    48,
+    52,
+    26,
+    28
+   ]
+  },
+  {
+   "name": "bubble_out",
+   "border": [
+    26,
+    52,
+    48,
+    28
+   ]
+  },
+  {
+   "name": "bubble_system",
+   "border": [
+    48,
+    52,
+    26,
+    28
+   ]
+  },
+  {
+   "name": "button",
+   "border": [
+    26,
+    24,
+    26,
+    30
+   ]
+  },
+  {
+   "name": "button_amber",
+   "border": [
+    26,
+    24,
+    26,
+    30
+   ]
+  },
+  {
+   "name": "button_amber_down",
+   "border": [
+    26,
+    24,
+    26,
+    30
+   ]
+  },
+  {
+   "name": "button_blue",
+   "border": [
+    26,
+    24,
+    26,
+    30
+   ]
+  },
+  {
+   "name": "button_blue_down",
+   "border": [
+    26,
+    24,
+    26,
+    30
+   ]
+  },
+  {
+   "name": "button_down",
+   "border": [
+    26,
+    24,
+    26,
+    30
+   ]
+  },
+  {
+   "name": "button_green",
+   "border": [
+    26,
+    24,
+    26,
+    30
+   ]
+  },
+  {
+   "name": "button_green_down",
+   "border": [
+    26,
+    24,
+    26,
+    30
+   ]
+  },
+  {
+   "name": "button_red",
+   "border": [
+    26,
+    24,
+    26,
+    30
+   ]
+  },
+  {
+   "name": "button_red_down",
+   "border": [
+    26,
+    24,
+    26,
+    30
+   ]
+  },
+  {
+   "name": "chip",
+   "border": [
+    22,
+    20,
+    24,
+    24
+   ]
+  },
+  {
+   "name": "chip_green",
+   "border": [
+    22,
+    20,
+    24,
+    24
+   ]
+  },
+  {
+   "name": "chip_red",
+   "border": [
+    22,
+    20,
+    24,
+    24
+   ]
+  },
+  {
+   "name": "frame_card",
+   "border": [
+    36,
+    36,
+    40,
+    40
+   ]
+  },
+  {
+   "name": "frame_input",
+   "border": [
+    26,
+    26,
+    26,
+    26
+   ]
+  },
+  {
+   "name": "frame_inset_blue",
+   "border": [
+    22,
+    22,
+    22,
+    22
+   ]
+  },
+  {
+   "name": "frame_inset_paper",
+   "border": [
+    22,
+    22,
+    22,
+    22
+   ]
+  },
+  {
+   "name": "frame_paper",
+   "border": [
+    44,
+    44,
+    50,
+    50
+   ]
+  },
+  {
+   "name": "frame_transcript",
+   "border": [
+    56,
+    56,
+    62,
+    62
+   ]
+  },
+  {
+   "name": "slider_track",
+   "border": [
+    52,
+    50,
+    52,
+    50
+   ]
+  }
+ ]
+}

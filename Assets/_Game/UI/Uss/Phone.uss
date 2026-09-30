@@ -1,0 +1,903 @@
+/* The phone: frame, screen, status bar, home screen, app screens and call screens. */
+
+.phone {
+    position: absolute;
+    right: 70px;
+    top: 100px;
+    width: 440px;
+    height: 880px;
+    translate: 0 1100px;
+    rotate: 6deg;
+    transition-property: translate, rotate;
+    transition-duration: 0.35s;
+    transition-timing-function: ease-out-back;
+}
+
+.phone--up {
+    translate: 0 0;
+    rotate: 0deg;
+}
+
+.phone--ringing {
+    transition-duration: 0.05s;
+}
+
+.phone__body {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.phone__screen {
+    position: absolute;
+    left: 34px;
+    top: 34px;
+    right: 41px;
+    bottom: 44px;
+    border-radius: 34px;
+    overflow: hidden;
+    background-color: #1F2530;
+}
+
+/* App screens are light: the strip behind the status bar matches them. */
+.phone__screen.phone--light { background-color: var(--paper); }
+
+.phone__frame {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("project://database/Assets/_Game/UI/Sprites/phone_frame.png");
+    -unity-background-scale-mode: stretch-to-fill;
+}
+
+.status {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 40px;
+    flex-direction: row;
+    align-items: center;
+    padding: 6px 26px 0 30px;
+}
+
+.status__time {
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DotGothic16-Regular.asset");
+    font-size: 19px;
+    color: #F4EAD2;
+    flex-grow: 1;
+}
+
+.phone--light .status__time { color: var(--ink); }
+
+.status__bars {
+    flex-direction: row;
+    align-items: flex-end;
+    height: 16px;
+    margin-right: 10px;
+}
+
+.status__bar {
+    width: 4px;
+    margin-left: 2px;
+    background-color: #F4EAD2;
+}
+
+.phone--light .status__bar { background-color: var(--ink); }
+
+.status__battery {
+    width: 28px;
+    height: 14px;
+    border-width: 2px;
+    border-color: #F4EAD2;
+    border-radius: 3px;
+    padding: 1px;
+}
+
+.phone--light .status__battery { border-color: var(--ink); }
+
+.status__battery-level {
+    width: 72%;
+    height: 100%;
+    background-color: #9ED28E;
+}
+
+.phone__content {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 40px;
+    bottom: 28px;
+}
+
+/* Room for the "Return to call" bar while a call runs behind an app. */
+.phone__content--return { top: 80px; }
+
+.home-bar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 28px;
+    align-items: center;
+    justify-content: center;
+}
+
+.home-bar__pill {
+    width: 120px;
+    height: 7px;
+    border-radius: 4px;
+    background-color: #F4EAD2;
+    opacity: 0.8;
+}
+
+.phone--light .home-bar__pill { background-color: var(--ink); }
+
+.return-bar {
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    top: 42px;
+    height: 34px;
+    border-radius: 17px;
+    background-color: var(--green);
+    border-width: 2px;
+    border-color: var(--ink);
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+    font-size: 16px;
+    color: #FBF4E4;
+}
+
+/* ---------------------------------------------------------------- home */
+
+.home {
+    flex-grow: 1;
+    padding: 24px 18px 10px 18px;
+    background-image: url("project://database/Assets/_Game/UI/Sprites/wallpaper.png");
+    -unity-background-scale-mode: scale-and-crop;
+}
+
+.home__clock {
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DotGothic16-Regular.asset");
+    font-size: 76px;
+    color: #FBF4E4;
+    -unity-text-align: middle-center;
+    margin-top: 18px;
+    -unity-text-outline-width: 1px;
+    -unity-text-outline-color: rgba(43, 36, 48, 0.6);
+}
+
+.home__date {
+    font-size: 18px;
+    color: #FBF4E4;
+    -unity-text-align: middle-center;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset");
+    margin-bottom: 26px;
+}
+
+.home__grid {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.app {
+    width: 33%;
+    align-items: center;
+    margin-bottom: 16px;
+    transition-property: scale;
+    transition-duration: 0.1s;
+}
+
+.app:hover { scale: 1.08 1.08; }
+
+.app__icon {
+    width: 80px;
+    height: 80px;
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+.app__label {
+    font-size: 15px;
+    color: #FBF4E4;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset");
+    margin-top: 4px;
+    -unity-text-align: middle-center;
+    -unity-text-outline-width: 0.6px;
+    -unity-text-outline-color: rgba(43, 36, 48, 0.7);
+}
+
+.badge {
+    position: absolute;
+    right: 10px;
+    top: -4px;
+    min-width: 26px;
+    height: 26px;
+    border-radius: 13px;
+    background-color: var(--red);
+    border-width: 2px;
+    border-color: var(--ink);
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+    font-size: 14px;
+    color: #FBF4E4;
+    -unity-text-align: middle-center;
+    padding: 0 6px;
+}
+
+/* ---------------------------------------------------------------- app screens */
+
+.screen {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: var(--screen);
+    transition-property: translate, opacity;
+    transition-duration: 0.22s;
+    transition-timing-function: ease-out-cubic;
+}
+
+.screen--enter { translate: 110% 0; }
+.screen--leave { translate: 110% 0; }
+
+.screen__header {
+    flex-direction: row;
+    align-items: center;
+    height: 62px;
+    padding: 0 10px;
+    border-bottom-width: 3px;
+    border-color: var(--ink);
+    background-color: var(--paper);
+}
+
+.screen__back {
+    width: 44px;
+    height: 44px;
+    background-image: url("project://database/Assets/_Game/UI/Sprites/ic_back.png");
+    -unity-background-scale-mode: scale-to-fit;
+    margin-right: 6px;
+}
+
+.screen__back:hover { scale: 1.12 1.12; }
+
+.screen__title {
+    flex-grow: 1;
+    font-size: 24px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DoHyeon-Regular.asset");
+}
+
+.screen__accent {
+    width: 10px;
+    height: 34px;
+    border-radius: 4px;
+    margin-right: 10px;
+    border-width: 2px;
+    border-color: var(--ink);
+}
+
+.screen__body {
+    flex-grow: 1;
+}
+
+.screen__content {
+    padding: 10px 14px 20px 14px;
+}
+
+.section {
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+    font-size: 14px;
+    color: var(--muted);
+    margin: 14px 4px 6px 4px;
+    letter-spacing: 1px;
+}
+
+.list-row {
+    flex-direction: row;
+    align-items: center;
+    padding: 10px 8px;
+    border-bottom-width: 1px;
+    border-color: rgba(43, 36, 48, 0.25);
+    border-radius: 8px;
+}
+
+.list-row:hover {
+    background-color: rgba(227, 165, 60, 0.18);
+}
+
+.list-row__avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 26px;
+    border-width: 2px;
+    border-color: var(--ink);
+    -unity-background-scale-mode: scale-and-crop;
+    margin-right: 12px;
+    flex-shrink: 0;
+}
+
+.list-row__icon {
+    width: 40px;
+    height: 40px;
+    margin-right: 12px;
+    -unity-background-scale-mode: scale-to-fit;
+    flex-shrink: 0;
+}
+
+.list-row__text { flex-grow: 1; flex-shrink: 1; }
+
+.list-row__title {
+    font-size: 18px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset");
+}
+
+.list-row__subtitle {
+    font-size: 15px;
+    color: var(--ink-soft);
+    margin-top: 2px;
+}
+
+.list-row__meta {
+    font-size: 13px;
+    color: var(--muted);
+    margin-left: 6px;
+    -unity-text-align: upper-right;
+    flex-shrink: 0;
+}
+
+.list-row__meta--red { color: var(--red); }
+.list-row__meta--green { color: var(--green); }
+
+.dot-unread {
+    width: 12px;
+    height: 12px;
+    border-radius: 6px;
+    background-color: var(--red);
+    margin-left: 6px;
+}
+
+.detail {
+    padding: 14px 6px;
+}
+
+.detail__big {
+    font-size: 28px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DoHyeon-Regular.asset");
+    -unity-text-align: middle-center;
+}
+
+.detail__line {
+    font-size: 17px;
+    margin: 4px 0;
+}
+
+.kv {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 2px;
+    border-bottom-width: 1px;
+    border-color: rgba(43, 36, 48, 0.2);
+}
+
+.kv__key { font-size: 15px; color: var(--muted); margin-right: 10px; }
+.kv__value { font-size: 17px; -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset"); }
+
+/* ---------------------------------------------------------------- phone chat bubbles (Messages, Talk) */
+
+.msg {
+    flex-direction: row;
+    align-items: flex-start;
+    margin: 6px 0;
+}
+
+.msg--out { flex-direction: row-reverse; }
+
+.msg__avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    border-width: 2px;
+    border-color: var(--ink);
+    -unity-background-scale-mode: scale-and-crop;
+    margin: 0 6px;
+    flex-shrink: 0;
+}
+
+.msg__col { max-width: 74%; }
+.msg--out .msg__col { align-items: flex-end; }
+
+.msg__name {
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin: 0 0 2px 4px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset");
+}
+
+.msg__bubble {
+    background-color: #FFFBF0;
+    border-width: 2px;
+    border-color: var(--ink);
+    border-radius: 14px;
+    border-top-left-radius: 4px;
+    padding: 8px 12px;
+    font-size: 16px;
+}
+
+.msg--out .msg__bubble {
+    background-color: #F4D24A;
+    border-top-left-radius: 14px;
+    border-top-right-radius: 4px;
+}
+
+.msg--sms .msg__bubble { background-color: #E7ECF3; }
+.msg--sms.msg--out .msg__bubble { background-color: #BFD4EE; }
+
+.msg__time {
+    font-size: 12px;
+    color: var(--muted);
+    margin: 2px 6px;
+}
+
+.msg__photo {
+    width: 180px;
+    height: 120px;
+    border-radius: 8px;
+    border-width: 2px;
+    border-color: var(--ink);
+    background-color: #C9B08A;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+}
+
+.msg__photo-caption {
+    font-size: 13px;
+    color: #3A2E22;
+    -unity-text-align: middle-center;
+}
+
+.banner-warn {
+    flex-direction: row;
+    align-items: center;
+    background-color: #F3C8B6;
+    border-width: 2px;
+    border-color: var(--ink);
+    border-radius: 10px;
+    padding: 8px 10px;
+    margin: 6px 4px 10px 4px;
+}
+
+.banner-warn Label { font-size: 15px; flex-shrink: 1; }
+
+.reply-bar {
+    padding: 8px 10px 10px 10px;
+    border-top-width: 3px;
+    border-color: var(--ink);
+    background-color: var(--paper);
+}
+
+.reply-bar__prompt {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+}
+
+.reply-bar .btn {
+    min-height: 56px;
+    font-size: 16px;
+    -unity-text-align: middle-left;
+    margin: 3px 0;
+}
+
+/* ---------------------------------------------------------------- bank */
+
+.bank-card {
+    background-color: #2F7A6A;
+    border-width: 3px;
+    border-color: var(--ink);
+    border-radius: 16px;
+    padding: 16px 18px;
+    margin: 6px 2px 12px 2px;
+}
+
+.bank-card--savings { background-color: #4A5C79; }
+
+.bank-card__name { color: #E8F3EC; font-size: 16px; -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset"); }
+.bank-card__number { color: #C8E3D6; font-size: 14px; margin-top: 2px; }
+.bank-card__balance { color: #FFFFFF; font-size: 34px; margin-top: 8px; -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DotGothic16-Regular.asset"); }
+
+.bank-actions { flex-direction: row; justify-content: space-between; }
+.bank-actions .btn { flex-grow: 1; font-size: 17px; }
+
+.amount-in { color: #2F7A6A; }
+.amount-out { color: var(--red); }
+
+.bank-choice {
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.bank-choice .chip { margin-bottom: 6px; }
+.bank-choice .chip--selected { background-image: url("project://database/Assets/_Game/UI/Sprites/chip_green.png"); }
+
+.recipient {
+    align-items: center;
+    padding: 20px 8px;
+}
+
+.recipient__label { font-size: 16px; color: var(--muted); }
+
+.recipient__name {
+    font-size: 44px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DoHyeon-Regular.asset");
+    margin: 6px 0;
+    -unity-text-align: middle-center;
+}
+
+.recipient__sub { font-size: 16px; -unity-text-align: middle-center; }
+
+.recipient__amount {
+    font-size: 30px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DotGothic16-Regular.asset");
+    margin-top: 14px;
+}
+
+.recipient__note {
+    font-size: 15px;
+    color: var(--red);
+    margin-top: 12px;
+    -unity-text-align: middle-center;
+}
+
+.pin-dots { flex-direction: row; justify-content: center; margin: 16px 0; }
+
+.pin-dot {
+    width: 22px;
+    height: 22px;
+    border-radius: 11px;
+    border-width: 3px;
+    border-color: var(--ink);
+    margin: 0 6px;
+}
+
+.pin-dot--on { background-color: var(--ink); }
+
+/* ---------------------------------------------------------------- keypad */
+
+.keypad-display {
+    font-size: 36px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DotGothic16-Regular.asset");
+    -unity-text-align: middle-center;
+    min-height: 60px;
+    margin: 10px 0 4px 0;
+}
+
+.keypad-name {
+    font-size: 16px;
+    color: var(--muted);
+    -unity-text-align: middle-center;
+    min-height: 22px;
+}
+
+.keypad {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 6px 20px;
+}
+
+.key {
+    width: 30%;
+    height: 72px;
+    margin: 4px 1.5%;
+    font-size: 30px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DotGothic16-Regular.asset");
+    padding: 2px 4px 12px 4px;
+}
+
+.call-btn {
+    width: 84px;
+    height: 84px;
+    align-self: center;
+    background-image: url("project://database/Assets/_Game/UI/Sprites/circle_green.png");
+    -unity-background-scale-mode: scale-to-fit;
+    align-items: center;
+    justify-content: center;
+    margin: 6px;
+    transition-property: scale;
+    transition-duration: 0.1s;
+}
+
+.call-btn:hover { scale: 1.08 1.08; }
+.call-btn--red { background-image: url("project://database/Assets/_Game/UI/Sprites/circle_red.png"); }
+.call-btn--dark { background-image: url("project://database/Assets/_Game/UI/Sprites/circle_dark.png"); }
+.call-btn > .icon { width: 40px; height: 40px; }
+
+/* ---------------------------------------------------------------- browser */
+
+.browser-bar {
+    flex-direction: row;
+    align-items: center;
+    padding: 6px 8px;
+    background-color: var(--paper);
+    border-bottom-width: 3px;
+    border-color: var(--ink);
+}
+
+.url {
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin: 2px 4px 8px 4px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DotGothic16-Regular.asset");
+}
+
+.url--official { color: #2F7A6A; }
+.url--suspect { color: var(--red); }
+
+.web-title {
+    font-size: 24px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DoHyeon-Regular.asset");
+    margin: 4px 2px 6px 2px;
+}
+
+.web-p { font-size: 16px; margin: 4px 2px; }
+
+.web-notice {
+    border-width: 2px;
+    border-color: var(--ink);
+    border-radius: 8px;
+    background-color: #FFF6DC;
+    padding: 8px 10px;
+    margin: 8px 0;
+}
+
+.web-warning {
+    border-width: 2px;
+    border-color: var(--ink);
+    border-radius: 8px;
+    background-color: #F3C8B6;
+    padding: 8px 10px;
+    margin: 8px 0;
+}
+
+.web-form {
+    border-width: 2px;
+    border-color: var(--ink);
+    border-radius: 8px;
+    background-color: #E7ECF3;
+    padding: 8px 10px;
+    margin: 8px 0;
+}
+
+.badge-official {
+    font-size: 12px;
+    color: #FBF4E4;
+    background-color: #2F7A6A;
+    border-radius: 6px;
+    padding: 1px 6px;
+    margin-left: 6px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+}
+
+.lookup-result {
+    font-size: 16px;
+    margin-top: 6px;
+    padding: 8px;
+    border-radius: 6px;
+    background-color: #FFFBF0;
+    border-width: 1px;
+    border-color: var(--ink);
+}
+
+/* ---------------------------------------------------------------- CheckFirst */
+
+.report-count {
+    font-size: 40px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DotGothic16-Regular.asset");
+    -unity-text-align: middle-center;
+}
+
+.report-count--bad { color: var(--red); }
+.report-count--clean { color: #2F7A6A; }
+
+.report-item {
+    border-left-width: 4px;
+    border-color: var(--red);
+    padding: 4px 10px;
+    margin: 6px 0;
+    background-color: #FFF6EE;
+    font-size: 15px;
+}
+
+/* ---------------------------------------------------------------- call screens */
+
+.call {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: #1F1C24;
+}
+
+.call__bg {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-image: url("project://database/Assets/_Game/UI/Sprites/wallpaper.png");
+    -unity-background-scale-mode: scale-and-crop;
+    opacity: 0.3;
+}
+
+.call__shade {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: rgba(20, 16, 24, 0.35);
+}
+
+.call__avatar {
+    position: absolute;
+    top: 96px;
+    width: 164px;
+    height: 164px;
+    align-self: center;
+    border-radius: 82px;
+    border-width: 5px;
+    border-color: #F4EAD2;
+    background-color: #3A3342;
+    -unity-background-scale-mode: scale-and-crop;
+}
+
+.call__avatar--small {
+    top: 44px;
+    width: 124px;
+    height: 124px;
+    border-radius: 62px;
+    border-width: 4px;
+}
+
+.call__info {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 292px;
+    align-items: center;
+    padding: 0 16px;
+}
+
+.call__info--active { top: 186px; }
+
+.call__label {
+    font-size: 16px;
+    color: #CFC6D8;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset");
+    letter-spacing: 2px;
+}
+
+.call__name {
+    font-size: 46px;
+    color: #FBF4E4;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DoHyeon-Regular.asset");
+    -unity-text-align: middle-center;
+    -unity-text-outline-width: 1px;
+    -unity-text-outline-color: rgba(20, 16, 24, 0.8);
+}
+
+.call__number {
+    font-size: 24px;
+    color: #E6DDEF;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DotGothic16-Regular.asset");
+}
+
+.call__name--long { font-size: 34px; }
+
+.call__timer {
+    font-size: 22px;
+    color: #9ED28E;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DotGothic16-Regular.asset");
+    margin-top: 6px;
+}
+
+.call__buttons {
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: 34px;
+    align-items: center;
+}
+
+.call__grid {
+    flex-direction: row;
+    justify-content: space-around;
+    align-self: stretch;
+    margin-bottom: 22px;
+}
+
+.call__small,
+.call__hang {
+    align-items: center;
+}
+
+.call__small { width: 25%; }
+
+.call__small Label,
+.call__hang Label {
+    font-size: 13px;
+    color: #E6DDEF;
+    margin-top: 4px;
+}
+
+.call__small .call-btn { width: 62px; height: 62px; }
+.call__small .call-btn > .icon { width: 28px; height: 28px; }
+.call__hang .call-btn { width: 88px; height: 88px; }
+.call__hang .call-btn > .icon { width: 44px; height: 44px; }
+
+/* slide to answer */
+
+.slide {
+    position: absolute;
+    left: 22px;
+    right: 22px;
+    bottom: 64px;
+    height: 96px;
+    background-image: url("project://database/Assets/_Game/UI/Sprites/slider_track.png");
+    -unity-slice-left: 52;
+    -unity-slice-top: 50;
+    -unity-slice-right: 52;
+    -unity-slice-bottom: 50;
+    -unity-slice-scale: 0.92px;
+    justify-content: center;
+}
+
+.slide__hint {
+    position: absolute;
+    left: 96px;
+    right: 18px;
+    top: 0;
+    bottom: 6px;
+    white-space: nowrap;
+    -unity-text-align: middle-center;
+    font-size: 20px;
+    color: #E6DDEF;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset");
+}
+
+.slide__knob {
+    position: absolute;
+    left: 6px;
+    top: 4px;
+    width: 84px;
+    height: 84px;
+    background-image: url("project://database/Assets/_Game/UI/Sprites/circle_green.png");
+    -unity-background-scale-mode: scale-to-fit;
+    align-items: center;
+    justify-content: center;
+}
+
+.slide__knob > .icon { width: 38px; height: 38px; }
+
+.ring-pulse {
+    position: absolute;
+    width: 164px;
+    height: 164px;
+    border-radius: 82px;
+    border-width: 4px;
+    border-color: rgba(158, 210, 142, 0.9);
+    align-self: center;
+    top: 96px;
+}

@@ -1,0 +1,90 @@
+# ArtGen — the bedroom, generated from code
+
+Everything you see in `Assets/_Game/Scenes/Room.unity` comes from the scripts in this folder: textures from Python, the room model from Blender, and materials, prefab and scene from a Unity editor pipeline. Edit the scripts and rebuild; do not hand-edit the generated assets, because the next rebuild overwrites them.
+
+The room is a small bedroom in a twenty-year-old Seoul villa, after `references/art/ref5.jpg`: damp-stained painted walls, old vinyl floor, cherry-brown door and mouldings, a sliding window over the bed. The earlier Bekasi living room is kept in `legacy/living_room` for reference and is no longer built.
+
+## Requirements
+
+- Python 3 with `numpy` and `Pillow`
+- Blender 5.2 (`/Applications/Blender.app`)
+- Unity 6000.4 with this project open
+
+## Rebuild
+
+1. **Textures** — writes `Assets/_Game/Art/Textures/T_*.png`
+   ```
+   python3 Tools/ArtGen/tex_surfaces.py
+   python3 Tools/ArtGen/tex_prints.py
+   ```
+2. **Room model** — writes `Assets/_Game/Art/Models/SM_Bedroom.fbx`
+   ```
+   /Applications/Blender.app/Contents/MacOS/Blender -b --factory-startup -P Tools/ArtGen/blender/build_room.py
+   ```
+   Add `-- --preview <folder>` to also render quick Workbench previews of the layout.
+3. **Unity** — menu **Tools → Don't Call Me → Art → Run Full Pipeline**. The numbered menu items run single steps (textures, materials, model, prefab, renderer, scene).
+
+To check the look, use **Tools → Don't Call Me → Art → Capture Audit Views**. It renders every camera under `AuditCameras` in the Room scene to `Temp/AuditViews/`.
+
+**Tools → Don't Call Me → Art → Remove Stale Art...** lists generated assets the pipeline no longer uses (materials missing from `materials.json`, textures no material uses, older room models and prefabs, such as the living room's) and deletes them after you confirm.
+
+## The 2D UI
+
+The UI (UI Toolkit) takes its art from this folder too. It reuses printed art from the room, so rebuild the textures first.
+
+1. **UI art** — writes `Assets/_Game/UI/Sprites` (9-slice frames, buttons, chips, the phone frame, app icons, glyphs, pixel portraits of every caller, documents and cards) and `slices.json` with the 9-slice borders
+   ```
+   python3 Tools/ArtGen/ui_art.py
+   ```
+2. **Unity** — menu **Tools → Don't Call Me → UI → Run UI Pipeline**. It imports the sprites with their borders, builds the font assets (with Hangul fallbacks), the panel settings and the `UISkin`, and adds the UI objects to the Room scene: EventSystem, `GameUI`, `Flow` (`CallDirector`, `DemoDirector`) and an `Interactable` on each `INT_*` object. The art pipeline's scene step runs that last part as well.
+3. **Demo content** — **Tools → Don't Call Me → UI → Rebuild Demo Content** rewrites `Assets/_Game/Data/Demo`: the phone's contents, the directory of numbers, accounts and web pages, the room's documents, the M6 demo call and the E2 demo chat.
+
+**Tools → Don't Call Me → UI → Capture UI Tour** enters Play mode and saves a screenshot of every panel and app, the demo call played three ways, the chat and an outgoing call to `Temp/UITour`. Failed checks are logged as `[UITour] FAILED`.
+
+| What | Where |
+| --- | --- |
+| Colours, fonts, sizes, animation | `Assets/_Game/UI/Uss/*.uss` (colour tokens at the top of `Theme.uss`) |
+| Frames, icons, portraits, cards and documents | `ui_art.py` |
+| Screen layouts | C# builders in `Assets/_Game/Scripts/UI` (`Panels/` for the room, `Phone/` for the apps and call screens, `Call/` for the transcript) |
+| Demo texts, numbers, accounts and web pages | `Assets/_Game/Scripts/Editor/UI/DemoContentBuilder.cs` |
+
+## Where to change things
+
+| What | Where |
+| --- | --- |
+| Colours, ink detail, hatching and glints per material | `materials.json` (names match the Blender and Unity materials) |
+| Walls, window, door, mouldings, switches, air conditioner, ceiling light | `blender/bedroom_shell.py` |
+| Furniture (bed, wardrobe, shelves, desk, chair, TV cabinet, ...) | `blender/bedroom_furniture.py` |
+| Where everything stands, desk items, cork board, posters, photos | `blender/bedroom_props.py` |
+| The view from the window (neighbour's rooftop, power lines, city) | `blender/bedroom_exterior.py`, backdrop painting in `tex_prints.backdrop` |
+| Reusable small props (paper, tape, frames, drawers, plants, fan, cat, interactables) | `blender/props.py` |
+| Printed art (newspaper, calendar, notes, photos, labels, posters, rug, clock) | `tex_prints.py` |
+| Atlas layouts shared by the textures and the UVs | `atlas.py` |
+| Surfaces (wood, plaster, vinyl floor, bedding, brick) and the wall paint with its stains | `tex_surfaces.py` (`WALL_FEATURES` places leaks, mould, grime and poster ghosts per wall) |
+| Pixel-art people | `pixel_people.py` |
+| Window fill light, contact shadows, hatching scale | `DCMLook` component on `Lighting/WindowFill` (set in `RoomArtPipeline.BuildScene`) |
+| Sun, ambient light, player spawn, audit cameras, colliders | `RoomArtPipeline.BuildScene` and `AddColliders` |
+| Outline thickness and paper grain | `Assets/_Game/Rendering/M_InkComposite.mat` (set in `RoomArtPipeline.SetupRenderer`) |
+| Colour grading | `Assets/_Game/Rendering/VP_Room.asset` (set in `RoomArtPipeline.BuildVolumeProfile`) |
+
+## How the look works
+
+- `DontCallMe/Toon` shades in hard bands: shade (ambient), window fill, sunlight with hard shadows, plus banded SSAO for contact shadows and world-space hatching in shade.
+- The `DCM Ink` renderer feature on `PC_Renderer` draws outlines from depth, normals and a per-material ink id stored in the normals alpha, so every material boundary gets a line.
+- Dust motes (`DontCallMe/SunMote`) sample the sun's shadow map and only glow inside the sunbeam.
+- The palette is retro: dusty blue paint gone yellow under the ceiling, honey vinyl floor, cherry-brown trim, blue gingham bedding, floral curtains, a navy-red-ochre rug. The volume adds a faded print grade (lifted blacks, blue shadows, warm highlights, muted greens, film grain) and the ink is dark brown on aged paper.
+- Late-afternoon sun comes low through the west window, over the bed and onto the floor. Looking out, the neighbour's rooftop is backlit, as it would be.
+
+## Player
+
+`Player` in the Room scene is a first-person rig: `CharacterController` + `FirstPersonController` (`Assets/_Game/Scripts/Player`), camera at eye height, starting by the door. WASD or left stick to walk, Shift to walk faster. To look around, hold a mouse button and drag (the cursor hides while turning and comes back where you clicked); the right stick also turns the view. Drag sensitivity, dead zone and drag direction are on the component. Open panels and the raised phone call `SetInputLocked(true)` to stop walking, and presses that start on the UI never turn the view.
+
+Walls, floor, ceiling and the closed door have mesh colliders. Furniture gets knee-high box colliders: they stop the player but leave a clear line of sight (and of click) to things standing on it.
+
+## Conventions
+
+- Blender coordinates are metres, Z up, room centre at the origin, north `+Y`; the window wall is west (`-X`). In Unity that becomes `(x, z, y)`, north `+Z`.
+- Objects the player will interact with are groups named `INT_*`: `INT_Newspaper`, `INT_Wallet`, `INT_Rulebook`, `INT_Drawer` (top desk drawer, with the bills inside), `INT_BulletinBoard` (cork board with the calendar). The pipeline gives each one a box collider. Parts inside a group are named without the prefix.
+- Wall items live in groups made by `bedroom_shell.wall_group`: local `-Y` points into the room and local `X` runs left to right as seen from inside.
+- People in pictures are pixel art in the style of `references/art/ref4.png`, drawn by `pixel_people.py` (Jiwoo, her parents and grandmother): height-field lighting at 8x resolution, box-downsampled to a small grid and reduced to a small palette.
+- Brands, shops, people and their phone numbers are fictional. The public numbers on the notes (police 112, fire and ambulance 119, the financial fraud hotline 1332) are the real ones, on purpose.
