@@ -1,0 +1,957 @@
+/* Day flow and menus: the DAY card, CASE OPENED, the deadline, pause and settings, the title
+   screen and the next morning. Same retro paper and ink as the rest of the UI. */
+
+/* ---------------------------------------------------------------- fade */
+
+.fader {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #120E14;
+}
+
+/* ---------------------------------------------------------------- DAY card */
+
+.daycard {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #17121A;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    transition-property: opacity;
+    transition-duration: 0.85s;
+}
+
+.daycard--out { opacity: 0; }
+
+.daycard__inner {
+    align-items: center;
+    width: 1000px;
+}
+
+.daycard__inner > * {
+    opacity: 0;
+    translate: 0 14px;
+    transition-property: opacity, translate;
+    transition-duration: 0.6s;
+    transition-timing-function: ease-out-cubic;
+}
+
+.daycard__inner > .daycard--in {
+    opacity: 1;
+    translate: 0 0;
+}
+
+.daycard__day {
+    font-size: 150px;
+    color: #F8EFDA;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DoHyeon-Regular.asset");
+    letter-spacing: 16px;
+    -unity-text-outline-width: 2px;
+    -unity-text-outline-color: #2B2430;
+    text-shadow: 8px 9px 0 #C9483A;
+}
+
+.daycard__rule {
+    width: 420px;
+    height: 4px;
+    background-color: #C9483A;
+    margin: 6px 0 22px 0;
+}
+
+.daycard__date {
+    font-size: 44px;
+    color: #F2E4C4;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DoHyeon-Regular.asset");
+}
+
+.daycard__place {
+    font-size: 26px;
+    color: #B9AFA0;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DotGothic16-Regular.asset");
+    margin-top: 8px;
+}
+
+.daycard__intro {
+    font-size: 30px;
+    color: #E6DDC8;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/Gaegu-Regular.asset");
+    -unity-text-align: middle-center;
+    margin-top: 40px;
+    max-width: 900px;
+}
+
+.daycard__echo {
+    font-size: 26px;
+    color: #E9BE8A;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/Gaegu-Regular.asset");
+    -unity-text-align: middle-center;
+    margin-top: 14px;
+    max-width: 860px;
+}
+
+.daycard__hint {
+    font-size: 18px;
+    color: #7E7480;
+    margin-top: 60px;
+    letter-spacing: 3px;
+}
+
+/* ---------------------------------------------------------------- CASE OPENED */
+
+.case-shade {
+    background-color: rgba(18, 12, 16, 0.62);
+}
+
+.case-file {
+    width: 900px;
+    padding: 44px 54px 50px 46px;
+    translate: 0 60px;
+    rotate: -2deg;
+    opacity: 0;
+    transition-property: translate, rotate, opacity;
+    transition-duration: 0.35s;
+    transition-timing-function: ease-out-back;
+}
+
+.case-file--in {
+    translate: 0 0;
+    rotate: -0.6deg;
+    opacity: 1;
+}
+
+.case-file__tab {
+    position: absolute;
+    left: 56px;
+    top: -34px;
+    flex-direction: row;
+    align-items: center;
+    padding: 6px 20px 10px 14px;
+    background-color: #C99A5C;
+    border-width: 3px;
+    border-color: var(--ink);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.case-file__tab-icon { width: 30px; height: 30px; margin-right: 8px; }
+
+.case-file__tab-text {
+    font-size: 20px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DotGothic16-Regular.asset");
+    letter-spacing: 2px;
+}
+
+.case-file__head {
+    flex-direction: row;
+    align-items: center;
+    padding-bottom: 14px;
+    margin-bottom: 8px;
+    border-bottom-width: 3px;
+    border-color: var(--ink);
+}
+
+.case-file__portrait { width: 96px; height: 96px; margin-right: 20px; }
+
+.case-file__title {
+    font-size: 46px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DoHyeon-Regular.asset");
+}
+
+.case-file__caller {
+    font-size: 20px;
+    color: var(--ink-soft);
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DotGothic16-Regular.asset");
+}
+
+.case-file__row {
+    flex-direction: row;
+    padding: 12px 0;
+    border-bottom-width: 1px;
+    border-color: rgba(43, 36, 48, 0.25);
+}
+
+.case-file__label {
+    width: 190px;
+    flex-shrink: 0;
+    font-size: 18px;
+    color: var(--muted);
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+    padding-top: 2px;
+}
+
+.case-file__value {
+    flex-grow: 1;
+    flex-shrink: 1;
+    font-size: 23px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset");
+}
+
+.case-file__value--red { color: var(--red); }
+
+.case-file__job {
+    margin: 22px 0 12px 0;
+    padding: 16px 20px 20px 20px;
+    background-color: #FFF6DE;
+    border-width: 2px;
+    border-color: var(--ink);
+    border-radius: 8px;
+    border-left-width: 8px;
+    border-left-color: var(--amber);
+}
+
+.case-file__job-title {
+    font-size: 16px;
+    letter-spacing: 2px;
+    color: #B07A1E;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+}
+
+.case-file__job-text {
+    font-size: 26px;
+    margin-top: 4px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/Gaegu-Bold.asset");
+}
+
+.case-file__stamp {
+    position: absolute;
+    right: 50px;
+    top: 34px;
+    font-size: 44px;
+}
+
+/* ---------------------------------------------------------------- deadline (under the clock) */
+
+.deadline {
+    position: absolute;
+    left: 28px;
+    top: 92px;
+    width: 360px;
+    padding: 10px 16px 14px 14px;
+    background-color: #F8EFDA;
+    border-width: 3px;
+    border-color: var(--ink);
+    border-radius: 10px;
+    transition-property: background-color;
+    transition-duration: 0.4s;
+}
+
+.deadline--amber { background-color: #F7DFA6; }
+.deadline--red { background-color: #F2B8A6; }
+
+.deadline__top {
+    flex-direction: row;
+    align-items: center;
+}
+
+.deadline__icon { width: 30px; height: 30px; margin-right: 8px; }
+
+.deadline__label {
+    flex-grow: 1;
+    font-size: 20px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+}
+
+.deadline__left {
+    margin-left: 12px;
+    font-size: 20px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DotGothic16-Regular.asset");
+    color: var(--red);
+}
+
+.deadline__bar {
+    height: 14px;
+    margin-top: 8px;
+    border-width: 2px;
+    border-color: var(--ink);
+    border-radius: 7px;
+    background-color: #E3D3B2;
+    overflow: hidden;
+}
+
+.deadline__fill {
+    height: 100%;
+    width: 100%;
+    background-color: var(--green);
+}
+
+.deadline--amber .deadline__fill { background-color: var(--amber); }
+.deadline--red .deadline__fill { background-color: var(--red); }
+
+/* ---------------------------------------------------------------- transcript: voice meter and the hold */
+
+.voice-bars {
+    flex-direction: row;
+    align-items: center;
+    height: 30px;
+    margin: 0 14px;
+    opacity: 0.25;
+    transition-property: opacity;
+    transition-duration: 0.2s;
+}
+
+.voice-bars--on { opacity: 1; }
+
+.voice-bars__bar {
+    width: 6px;
+    height: 28px;
+    margin: 0 2px;
+    border-radius: 3px;
+    background-color: var(--green);
+}
+
+.hold {
+    flex-grow: 1;
+}
+
+.hold__head {
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.hold__dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 6px;
+    background-color: var(--amber);
+    margin-right: 8px;
+    border-width: 2px;
+    border-color: var(--ink);
+}
+
+.hold__title {
+    font-size: 17px;
+    color: var(--ink-soft);
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+}
+
+.hold__wait {
+    font-size: 26px;
+    color: var(--muted);
+    margin: 6px 0 6px 8px;
+}
+
+.hold__hint {
+    font-size: 15px;
+    color: var(--muted);
+    margin: 6px 4px 0 4px;
+}
+
+.option--ask {
+    min-height: 46px;
+    margin: 2px 0;
+    padding: 6px 16px 12px 12px;
+}
+
+.option--ask .option__text { font-size: 17px; }
+
+/* ---------------------------------------------------------------- menus (pause, settings) */
+
+.menu-shade {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(18, 12, 16, 0.6);
+    align-items: center;
+    justify-content: center;
+}
+
+.menu-card {
+    width: 560px;
+    padding: 40px 52px 48px 44px;
+    translate: 0 40px;
+    opacity: 0;
+    transition-property: translate, opacity;
+    transition-duration: 0.28s;
+    transition-timing-function: ease-out-back;
+}
+
+.menu-card--in {
+    translate: 0 0;
+    opacity: 1;
+}
+
+.menu-card__title {
+    font-size: 54px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DoHyeon-Regular.asset");
+    letter-spacing: 4px;
+}
+
+.pause__head {
+    flex-direction: row;
+    align-items: center;
+}
+
+.pause__icon { width: 48px; height: 48px; margin-right: 14px; }
+
+.pause__day {
+    font-size: 19px;
+    color: var(--ink-soft);
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DotGothic16-Regular.asset");
+    margin-top: 2px;
+}
+
+.pause__hint {
+    font-size: 15px;
+    color: var(--muted);
+    -unity-text-align: middle-center;
+    margin-top: 12px;
+}
+
+.menu-btn {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 78px;
+    margin: 8px 0;
+    padding: 10px 26px 18px 20px;
+}
+
+.menu-btn__icon {
+    width: 36px;
+    height: 36px;
+    margin-right: 16px;
+}
+
+.btn--green .menu-btn__icon,
+.btn--red .menu-btn__icon,
+.btn--blue .menu-btn__icon {
+    -unity-background-image-tint-color: #FBF4E4;
+}
+
+.menu-btn__text {
+    font-size: 26px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+}
+
+.settings { width: 760px; }
+
+.settings__row {
+    flex-direction: row;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom-width: 1px;
+    border-color: rgba(43, 36, 48, 0.2);
+}
+
+.settings__icon { width: 34px; height: 34px; margin-right: 14px; }
+
+.settings__label {
+    width: 220px;
+    font-size: 22px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset");
+}
+
+.settings__value {
+    width: 76px;
+    font-size: 22px;
+    -unity-text-align: middle-right;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DotGothic16-Regular.asset");
+}
+
+.settings__langs {
+    flex-grow: 1;
+    flex-direction: row;
+}
+
+.settings__lang {
+    flex-grow: 1;
+    flex-basis: 0;
+    min-height: 50px;
+    margin: 2px 4px;
+    font-size: 21px;
+}
+
+.settings__note {
+    font-size: 16px;
+    color: var(--muted);
+    margin: 14px 0 8px 0;
+}
+
+/* Retro slider: an inked groove and a chunky round knob. */
+.dcm-slider {
+    flex-grow: 1;
+    margin: 0 16px;
+}
+
+.dcm-slider .unity-base-slider__drag-container {
+    height: 34px;
+}
+
+.dcm-slider .unity-base-slider__tracker {
+    height: 14px;
+    margin-top: -7px;
+    background-color: #E3D3B2;
+    border-width: 3px;
+    border-color: var(--ink);
+    border-radius: 7px;
+}
+
+.dcm-slider .unity-base-slider__dragger {
+    width: 30px;
+    height: 30px;
+    margin-top: -15px;
+    margin-left: -3px;
+    background-color: var(--amber);
+    border-width: 3px;
+    border-color: var(--ink);
+    border-radius: 15px;
+}
+
+.dcm-slider .unity-base-slider__dragger:hover {
+    background-color: #F0BB59;
+}
+
+.dcm-slider .unity-base-slider__dragger-border {
+    display: none;
+}
+
+/* ---------------------------------------------------------------- title screen */
+
+.title-screen {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.title-screen__shade {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 62%;
+    background-image: url("project://database/Assets/_Game/UI/Sprites/grad_left.png");
+    -unity-background-scale-mode: stretch-to-fill;
+}
+
+.title-screen__left {
+    position: absolute;
+    left: 90px;
+    top: 70px;
+    bottom: 60px;
+    width: 1000px;
+}
+
+.title-logo {
+    width: 900px;
+    height: 368px;
+    -unity-background-scale-mode: scale-to-fit;
+    scale: 1.6 1.6;
+    opacity: 0;
+    transition-property: scale, opacity;
+    transition-duration: 0.28s;
+    transition-timing-function: ease-in;
+}
+
+.title-logo--in {
+    scale: 1 1;
+    opacity: 1;
+}
+
+.title-tagline {
+    align-self: flex-start;
+    margin: 6px 0 0 40px;
+    padding: 18px 40px 26px 30px;
+    rotate: -2deg;
+    translate: -40px 0;
+    opacity: 0;
+    transition-property: translate, opacity;
+    transition-duration: 0.4s;
+    transition-timing-function: ease-out-back;
+}
+
+.title-tagline--in {
+    translate: 0 0;
+    opacity: 1;
+}
+
+.title-tagline__text {
+    font-size: 34px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/Gaegu-Bold.asset");
+}
+
+.title-tagline__ko {
+    font-size: 20px;
+    color: var(--red);
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+    letter-spacing: 2px;
+}
+
+.title-menu {
+    width: 470px;
+    margin: 40px 0 0 44px;
+    translate: 0 30px;
+    opacity: 0;
+    transition-property: translate, opacity;
+    transition-duration: 0.4s;
+    transition-timing-function: ease-out-cubic;
+}
+
+.title-menu--in {
+    translate: 0 0;
+    opacity: 1;
+}
+
+.title-phone {
+    position: absolute;
+    right: 120px;
+    top: 90px;
+    width: 440px;
+    height: 880px;
+    scale: 0.86 0.86;
+    rotate: 8deg;
+    opacity: 0;
+    translate: 0 200px;
+    transition-property: translate, opacity, rotate;
+    transition-duration: 0.5s;
+    transition-timing-function: ease-out-back;
+}
+
+.title-phone--in {
+    translate: 0 0;
+    opacity: 1;
+    rotate: 5deg;
+}
+
+.title-footer {
+    position: absolute;
+    left: 94px;
+    bottom: 34px;
+}
+
+.title-footer__text {
+    font-size: 18px;
+    color: #E6DDC8;
+    -unity-text-outline-width: 1px;
+    -unity-text-outline-color: rgba(20, 14, 18, 0.8);
+    letter-spacing: 1px;
+}
+
+.title-settings {
+    position: absolute;
+    left: 90px;
+    top: 150px;
+}
+
+/* ---------------------------------------------------------------- the next morning */
+
+.end-screen {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(24, 18, 26, 0.45);
+    align-items: center;
+    padding-top: 30px;
+}
+
+.end-caption {
+    font-size: 30px;
+    color: #F8EFDA;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DoHyeon-Regular.asset");
+    letter-spacing: 3px;
+    -unity-text-outline-width: 1px;
+    -unity-text-outline-color: rgba(20, 14, 18, 0.9);
+    margin-bottom: 18px;
+    opacity: 0;
+    transition-property: opacity;
+    transition-duration: 0.8s;
+}
+
+.end-row {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.end-left {
+    width: 1000px;
+}
+
+.end-paper {
+    width: 1000px;
+    height: 700px;
+    rotate: -1.5deg;
+    translate: -80px 60px;
+    opacity: 0;
+    transition-property: translate, opacity;
+    transition-duration: 0.5s;
+    transition-timing-function: ease-out-cubic;
+}
+
+.end-paper__headline {
+    font-size: 64px;
+}
+
+.end-card {
+    width: 700px;
+    margin-left: 34px;
+    rotate: 1deg;
+    translate: 80px 60px;
+    opacity: 0;
+    transition-property: translate, opacity;
+    transition-duration: 0.5s;
+    transition-timing-function: ease-out-back;
+}
+
+.end--in {
+    translate: 0 0;
+    opacity: 1;
+}
+
+.end-card__head {
+    flex-direction: row;
+    align-items: center;
+    padding-bottom: 10px;
+    border-bottom-width: 3px;
+    border-color: var(--ink);
+}
+
+.end-card__portrait { width: 72px; height: 72px; margin-right: 16px; }
+
+.end-card__title {
+    font-size: 36px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DoHyeon-Regular.asset");
+}
+
+.end-card__stamps {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    min-height: 80px;
+    margin: 6px 0 2px 0;
+}
+
+.end-card__note {
+    font-size: 20px;
+    -unity-text-align: middle-center;
+    margin: 0 10px 10px 10px;
+}
+
+.end-card__stats {
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 4px 0 6px 0;
+    padding: 12px 16px 16px 16px;
+    background-color: #FFF6DE;
+    border-width: 2px;
+    border-color: rgba(43, 36, 48, 0.4);
+    border-radius: 8px;
+}
+
+.end-stat { align-items: center; }
+
+.end-stat__label {
+    font-size: 15px;
+    color: var(--muted);
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+}
+
+.end-stat__value {
+    font-size: 28px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DotGothic16-Regular.asset");
+}
+
+.end-card__clues { margin-bottom: 8px; }
+
+.end-clue {
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 3px 4px;
+    opacity: 0;
+    translate: 20px 0;
+    transition-property: opacity, translate;
+    transition-duration: 0.25s;
+}
+
+.end-clue--in {
+    opacity: 1;
+    translate: 0 0;
+}
+
+.end-clue__icon { width: 26px; height: 26px; margin-right: 10px; }
+
+.end-clue__text {
+    font-size: 17px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset");
+}
+
+.end-clue--missed .end-clue__text { color: var(--ink-soft); }
+
+.end-clue__where {
+    font-size: 14px;
+    color: var(--red);
+}
+
+.end-rule {
+    margin-top: 18px;
+    rotate: -1deg;
+    opacity: 0;
+    translate: 0 30px;
+    transition-property: opacity, translate;
+    transition-duration: 0.4s;
+    padding: 14px 20px 18px 20px;
+    background-color: #E9F0DA;
+    border-width: 2px;
+    border-color: var(--ink);
+    border-radius: 8px;
+    border-left-width: 8px;
+    border-left-color: var(--green);
+}
+
+.end-rule__title {
+    font-size: 15px;
+    letter-spacing: 2px;
+    color: #3F7F3A;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+}
+
+.end-rule__text {
+    font-size: 25px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/Gaegu-Bold.asset");
+}
+
+.end-rule__source {
+    font-size: 15px;
+    color: var(--muted);
+    margin-top: 2px;
+}
+
+.end-card__buttons {
+    flex-direction: row;
+    margin-top: 12px;
+}
+
+.end-card__buttons > .menu-btn {
+    flex-grow: 1;
+    flex-basis: 0;
+    margin: 4px 6px;
+}
+
+.end-rule.end--in {
+    opacity: 1;
+    translate: 0 0;
+}
+
+.end-card__buttons .menu-btn {
+    min-height: 66px;
+    padding: 8px 14px 15px 14px;
+}
+
+.end-card__buttons .menu-btn__icon {
+    width: 28px;
+    height: 28px;
+    margin-right: 10px;
+}
+
+.end-card__buttons .menu-btn__text { font-size: 21px; }
+
+/* ---------------------------------------------------------------- the week (after the last day) */
+
+.week-card {
+    width: 1180px;
+    padding: 26px 34px 26px 34px;
+    rotate: -0.5deg;
+    translate: 0 60px;
+    opacity: 0;
+    transition-property: translate, opacity;
+    transition-duration: 0.5s;
+    transition-timing-function: ease-out-back;
+}
+
+.week-table { margin-bottom: 10px; }
+
+.week-row {
+    flex-direction: row;
+    align-items: center;
+    padding: 10px 8px;
+    border-bottom-width: 2px;
+    border-color: rgba(43, 36, 48, 0.25);
+    opacity: 0;
+    translate: 24px 0;
+    transition-property: opacity, translate;
+    transition-duration: 0.3s;
+}
+
+.week-row--in {
+    opacity: 1;
+    translate: 0 0;
+}
+
+.week-row__portrait { width: 64px; height: 64px; margin-right: 16px; }
+
+.week-row__name {
+    width: 400px;
+}
+
+.week-row__day {
+    font-size: 15px;
+    color: var(--muted);
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+    letter-spacing: 1px;
+}
+
+.week-row__title {
+    font-size: 28px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DoHyeon-Regular.asset");
+}
+
+.week-row__truth {
+    width: 110px;
+    font-size: 22px;
+    -unity-text-align: middle-center;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DoHyeon-Regular.asset");
+    letter-spacing: 2px;
+    border-width: 3px;
+    border-radius: 6px;
+    padding: 2px 0 4px 0;
+    margin-right: 22px;
+    rotate: -3deg;
+}
+
+.week-row__truth--scam { color: #C9483A; border-color: #C9483A; }
+.week-row__truth--real { color: #3F7F3A; border-color: #3F7F3A; }
+
+.week-row__did {
+    flex-grow: 1;
+    font-size: 21px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset");
+}
+
+.week-row__clues {
+    width: 90px;
+    font-size: 22px;
+    -unity-text-align: middle-center;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DotGothic16-Regular.asset");
+}
+
+.week-row__mark { width: 60px; align-items: center; }
+
+.week-row__icon { width: 36px; height: 36px; }
+
+.week-stats { margin-top: 6px; }
+
+.week-rules { margin: 2px 0 6px 0; }
+
+.week-rules__rule {
+    font-size: 21px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/Gaegu-Bold.asset");
+    margin: 2px 0;
+}
+
+.week-card.end--in {
+    translate: 0 0;
+    opacity: 1;
+}

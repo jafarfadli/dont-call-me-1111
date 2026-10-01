@@ -1,0 +1,316 @@
+/* Don't Call Me — retro paper theme (references/UI).
+   Cream paper, hand-inked outlines, dusty blue insets, chunky buttons with a hard shadow. */
+
+:root {
+    --ink: #2B2430;
+    --ink-soft: #5A4E54;
+    --paper: #F2E4C4;
+    --paper-light: #F8EFDA;
+    --paper-dark: #DCC7A0;
+    --blue: #5D7292;
+    --blue-dark: #4A5C79;
+    --green: #5E9E55;
+    --sage: #CFE0C0;
+    --red: #C9483A;
+    --amber: #E3A53C;
+    --tan: #C79D6B;
+    --screen: #F4EAD2;
+    --muted: #76685F;
+
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Regular.asset");
+    font-size: 20px;
+    color: var(--ink);
+}
+
+/* ---------------------------------------------------------------- type */
+
+.t-ui { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Regular.asset"); }
+.t-bold { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset"); }
+.t-heavy { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset"); }
+.t-display { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DoHyeon-Regular.asset"); }
+.t-hand { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/Gaegu-Regular.asset"); }
+.t-hand-bold { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/Gaegu-Bold.asset"); }
+.t-pixel { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DotGothic16-Regular.asset"); }
+.t-serif-display { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DMSerifDisplay-Regular.asset"); }
+.t-serif { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/CrimsonText-Regular.asset"); }
+.t-serif-bold { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/CrimsonText-Bold.asset"); }
+.t-serif-italic { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/CrimsonText-Italic.asset"); }
+.t-muted { color: var(--muted); }
+.t-red { color: var(--red); }
+.t-green { color: var(--green); }
+.t-center { -unity-text-align: middle-center; }
+.t-wrap { white-space: normal; }
+
+/* The default theme makes labels single-line; ours wrap. */
+.unity-label {
+    white-space: normal;
+    margin: 0;
+    padding: 0;
+}
+
+.unity-button {
+    white-space: normal;
+}
+
+/* ---------------------------------------------------------------- frames */
+
+.paper {
+    background-image: url("project://database/Assets/_Game/UI/Sprites/frame_paper.png");
+    -unity-slice-left: 44;
+    -unity-slice-top: 44;
+    -unity-slice-right: 50;
+    -unity-slice-bottom: 50;
+    padding: 30px 38px 38px 30px;
+}
+
+.card {
+    background-image: url("project://database/Assets/_Game/UI/Sprites/frame_card.png");
+    -unity-slice-left: 36;
+    -unity-slice-top: 36;
+    -unity-slice-right: 40;
+    -unity-slice-bottom: 40;
+    padding: 22px 28px 28px 22px;
+}
+
+.inset-blue {
+    background-image: url("project://database/Assets/_Game/UI/Sprites/frame_inset_blue.png");
+    -unity-slice-left: 22;
+    -unity-slice-top: 22;
+    -unity-slice-right: 22;
+    -unity-slice-bottom: 22;
+}
+
+.inset-paper {
+    background-image: url("project://database/Assets/_Game/UI/Sprites/frame_inset_paper.png");
+    -unity-slice-left: 22;
+    -unity-slice-top: 22;
+    -unity-slice-right: 22;
+    -unity-slice-bottom: 22;
+    padding: 12px 16px;
+}
+
+.input-frame {
+    background-image: url("project://database/Assets/_Game/UI/Sprites/frame_input.png");
+    -unity-slice-left: 26;
+    -unity-slice-top: 26;
+    -unity-slice-right: 26;
+    -unity-slice-bottom: 26;
+}
+
+/* ---------------------------------------------------------------- buttons */
+
+.btn {
+    background-image: url("project://database/Assets/_Game/UI/Sprites/button.png");
+    -unity-slice-left: 26;
+    -unity-slice-top: 24;
+    -unity-slice-right: 26;
+    -unity-slice-bottom: 30;
+    background-color: rgba(0, 0, 0, 0);
+    border-width: 0;
+    margin: 4px;
+    padding: 10px 22px 18px 22px;
+    min-height: 64px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+    font-size: 20px;
+    color: var(--ink);
+    -unity-text-align: middle-center;
+    white-space: normal;
+    transition-property: translate, scale;
+    transition-duration: 0.08s;
+}
+
+.btn:hover {
+    scale: 1.03 1.03;
+}
+
+.btn:active {
+    background-image: url("project://database/Assets/_Game/UI/Sprites/button_down.png");
+    translate: 0 2px;
+    scale: 1 1;
+}
+
+.btn--green { background-image: url("project://database/Assets/_Game/UI/Sprites/button_green.png"); color: #FBF4E4; }
+.btn--green:active { background-image: url("project://database/Assets/_Game/UI/Sprites/button_green_down.png"); }
+.btn--red { background-image: url("project://database/Assets/_Game/UI/Sprites/button_red.png"); color: #FBF4E4; }
+.btn--red:active { background-image: url("project://database/Assets/_Game/UI/Sprites/button_red_down.png"); }
+.btn--blue { background-image: url("project://database/Assets/_Game/UI/Sprites/button_blue.png"); color: #FBF4E4; }
+.btn--blue:active { background-image: url("project://database/Assets/_Game/UI/Sprites/button_blue_down.png"); }
+.btn--amber { background-image: url("project://database/Assets/_Game/UI/Sprites/button_amber.png"); }
+.btn--amber:active { background-image: url("project://database/Assets/_Game/UI/Sprites/button_amber_down.png"); }
+
+.btn:disabled {
+    opacity: 0.45;
+    scale: 1 1;
+}
+
+.btn-icon {
+    width: 76px;
+    height: 76px;
+    min-height: 76px;
+    padding: 12px 14px 20px 14px;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-icon > .icon {
+    width: 40px;
+    height: 40px;
+}
+
+.icon {
+    -unity-background-scale-mode: scale-to-fit;
+    flex-shrink: 0;
+}
+
+/* ---------------------------------------------------------------- chips */
+
+.chip {
+    flex-direction: row;
+    flex-shrink: 0;
+    align-items: center;
+    align-self: flex-start;
+    background-image: url("project://database/Assets/_Game/UI/Sprites/chip.png");
+    -unity-slice-left: 22;
+    -unity-slice-top: 20;
+    -unity-slice-right: 24;
+    -unity-slice-bottom: 24;
+    -unity-slice-scale: 0.7px;
+    padding: 5px 14px 9px 12px;
+    margin: 3px 6px 3px 0;
+    transition-property: scale;
+    transition-duration: 0.08s;
+}
+
+.chip:hover { scale: 1.05 1.05; }
+.chip--copied { background-image: url("project://database/Assets/_Game/UI/Sprites/chip_green.png"); }
+.chip--warn { background-image: url("project://database/Assets/_Game/UI/Sprites/chip_red.png"); }
+
+.chip__label {
+    font-size: 17px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset");
+    white-space: nowrap;
+}
+
+.chip__icon {
+    width: 18px;
+    height: 18px;
+    margin-left: 8px;
+    background-image: url("project://database/Assets/_Game/UI/Sprites/ic_copy.png");
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+.chip-row {
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+/* ---------------------------------------------------------------- text input */
+
+.field {
+    flex-direction: row;
+    align-items: center;
+    margin: 6px 0;
+}
+
+.field TextField {
+    flex-grow: 1;
+    margin: 0;
+}
+
+.field TextField > #unity-text-input {
+    background-image: url("project://database/Assets/_Game/UI/Sprites/frame_input.png");
+    -unity-slice-left: 26;
+    -unity-slice-top: 26;
+    -unity-slice-right: 26;
+    -unity-slice-bottom: 26;
+    -unity-slice-scale: 0.6px;
+    background-color: rgba(0, 0, 0, 0);
+    border-width: 0;
+    padding: 10px 14px;
+    min-height: 48px;
+    font-size: 20px;
+    color: var(--ink);
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset");
+}
+
+.field .btn {
+    min-height: 52px;
+    padding: 6px 12px 14px 12px;
+    font-size: 16px;
+}
+
+/* ---------------------------------------------------------------- scrollbars
+   A thin inked pill on a faint track, no arrow buttons. */
+
+.unity-scroll-view .unity-scroller--vertical {
+    width: 12px;
+    margin-left: 4px;
+    border-width: 0;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.unity-scroll-view .unity-scroller--vertical > .unity-scroller__low-button,
+.unity-scroll-view .unity-scroller--vertical > .unity-scroller__high-button,
+.unity-scroll-view .unity-scroller--horizontal {
+    display: none;
+}
+
+.unity-scroll-view .unity-scroller--vertical > .unity-scroller__slider {
+    margin: 4px 0;
+}
+
+.unity-scroll-view .unity-scroller--vertical .unity-base-slider__tracker,
+.unity-scroll-view .unity-scroller--vertical .unity-base-slider__tracker:hover {
+    background-color: rgba(43, 36, 48, 0.1);
+    border-width: 0;
+    border-radius: 5px;
+}
+
+.unity-scroll-view .unity-scroller--vertical .unity-base-slider__dragger,
+.unity-scroll-view .unity-scroller--vertical .unity-base-slider__dragger:hover,
+.unity-scroll-view .unity-scroller--vertical .unity-base-slider__dragger:active {
+    left: 1px;
+    width: 10px;
+    margin: 0;
+    background-color: rgba(90, 78, 84, 0.75);
+    border-width: 0;
+    border-radius: 5px;
+}
+
+.unity-scroll-view .unity-scroller--vertical .unity-base-slider__dragger:hover {
+    background-color: rgba(43, 36, 48, 0.9);
+}
+
+/* ---------------------------------------------------------------- misc */
+
+.row { flex-direction: row; align-items: center; }
+.grow { flex-grow: 1; }
+.hidden { display: none; }
+.rule { height: 2px; background-color: var(--ink); margin: 8px 0; opacity: 0.8; }
+.rule-thin { height: 1px; background-color: var(--ink); margin: 6px 0; opacity: 0.35; }
+
+.dim {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(26, 18, 22, 0.55);
+    opacity: 0;
+    transition-property: opacity;
+    transition-duration: 0.2s;
+}
+
+.dim--on { opacity: 1; }
+
+.portrait {
+    width: 64px;
+    height: 64px;
+    border-width: 3px;
+    border-color: var(--ink);
+    border-radius: 8px;
+    -unity-background-scale-mode: scale-and-crop;
+    flex-shrink: 0;
+}
+
+.portrait--round { border-radius: 40px; }

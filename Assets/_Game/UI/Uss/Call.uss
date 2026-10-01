@@ -1,0 +1,759 @@
+/* Conversation UI (transcript, decisions, timer, call HUD, pressure) and the HUD. */
+
+.transcript {
+    position: absolute;
+    right: 540px;
+    top: 90px;
+    width: 900px;
+    height: 900px;
+    background-image: url("project://database/Assets/_Game/UI/Sprites/frame_transcript.png");
+    -unity-slice-left: 56;
+    -unity-slice-top: 56;
+    -unity-slice-right: 62;
+    -unity-slice-bottom: 62;
+    padding: 28px 36px 38px 28px;
+    opacity: 0;
+    translate: -60px 0;
+    transition-property: opacity, translate;
+    transition-duration: 0.25s;
+    transition-timing-function: ease-out-cubic;
+}
+
+.transcript--open {
+    opacity: 1;
+    translate: 0 0;
+}
+
+.transcript__header {
+    flex-direction: row;
+    align-items: center;
+    height: 70px;
+    padding: 0 12px 6px 12px;
+}
+
+.transcript__header .portrait { width: 52px; height: 52px; margin-right: 12px; }
+
+.transcript__who {
+    flex-grow: 1;
+}
+
+.transcript__name {
+    font-size: 24px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DoHyeon-Regular.asset");
+}
+
+.transcript__number {
+    font-size: 17px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DotGothic16-Regular.asset");
+    color: var(--ink-soft);
+}
+
+.rec {
+    flex-direction: row;
+    align-items: center;
+    border-width: 2px;
+    border-color: var(--ink);
+    border-radius: 8px;
+    padding: 4px 10px;
+    background-color: #F8EFDA;
+}
+
+.rec__dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 6px;
+    background-color: var(--red);
+    margin-right: 8px;
+}
+
+.rec__time {
+    font-size: 20px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DotGothic16-Regular.asset");
+}
+
+.transcript__log {
+    flex-grow: 1;
+    margin: 4px 0 10px 0;
+    background-image: url("project://database/Assets/_Game/UI/Sprites/frame_inset_blue.png");
+    -unity-slice-left: 22;
+    -unity-slice-top: 22;
+    -unity-slice-right: 22;
+    -unity-slice-bottom: 22;
+}
+
+.transcript__content {
+    padding: 18px 18px 12px 16px;
+}
+
+.line {
+    flex-direction: row;
+    align-items: flex-start;
+    margin: 6px 0;
+    opacity: 0;
+    translate: 0 10px;
+    transition-property: opacity, translate;
+    transition-duration: 0.25s;
+}
+
+.line--shown { opacity: 1; translate: 0 0; }
+.line--player { flex-direction: row-reverse; }
+.line--system { justify-content: center; }
+
+.line .portrait {
+    width: 70px;
+    height: 70px;
+    margin-top: 4px;
+}
+
+.line__col {
+    max-width: 78%;
+    flex-shrink: 1;
+}
+
+.line--player .line__col { align-items: flex-end; }
+
+.bubble {
+    background-image: url("project://database/Assets/_Game/UI/Sprites/bubble_in.png");
+    -unity-slice-left: 48;
+    -unity-slice-top: 52;
+    -unity-slice-right: 26;
+    -unity-slice-bottom: 28;
+    -unity-slice-scale: 0.8px;
+    padding: 12px 22px 18px 38px;
+    margin-left: 4px;
+}
+
+.line--player .bubble {
+    background-image: url("project://database/Assets/_Game/UI/Sprites/bubble_out.png");
+    -unity-slice-left: 26;
+    -unity-slice-top: 52;
+    -unity-slice-right: 48;
+    -unity-slice-bottom: 28;
+    padding: 12px 38px 18px 22px;
+    margin-left: 0;
+    margin-right: 4px;
+}
+
+.bubble__text {
+    font-size: 22px;
+}
+
+.bubble .chip-row { margin-top: 6px; }
+
+.line__time {
+    font-size: 14px;
+    color: #E6E0EA;
+    margin: 2px 14px 0 30px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset");
+}
+
+.system-tag {
+    background-color: rgba(248, 239, 218, 0.9);
+    border-width: 2px;
+    border-color: var(--ink);
+    border-radius: 12px;
+    padding: 4px 14px;
+    font-size: 15px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset");
+    -unity-text-align: middle-center;
+}
+
+.system-tag--good { background-color: #CFE0C0; }
+.system-tag--bad { background-color: #F3C8B6; }
+
+.typing {
+    flex-direction: row;
+    padding: 10px 6px 4px 6px;
+}
+
+.typing__dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 6px;
+    background-color: var(--ink);
+    margin: 0 4px;
+    opacity: 0.35;
+}
+
+.typing__dot--on { opacity: 1; }
+
+/* decision area */
+
+.decide {
+    flex-shrink: 0;
+    background-image: url("project://database/Assets/_Game/UI/Sprites/frame_input.png");
+    -unity-slice-left: 26;
+    -unity-slice-top: 26;
+    -unity-slice-right: 26;
+    -unity-slice-bottom: 26;
+    padding: 12px 16px;
+    flex-direction: row;
+    align-items: center;
+    min-height: 86px;
+}
+
+.decide__options { flex-grow: 1; }
+
+.decide__prompt {
+    font-size: 16px;
+    color: var(--ink-soft);
+    margin: 0 0 4px 6px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset");
+}
+
+.option {
+    flex-direction: row;
+    align-items: center;
+    -unity-text-align: middle-left;
+    min-height: 62px;
+    margin: 4px 0;
+    padding: 8px 18px 16px 14px;
+}
+
+.option__key {
+    width: 34px;
+    height: 34px;
+    border-width: 2px;
+    border-color: var(--ink);
+    border-radius: 6px;
+    background-color: #F8EFDA;
+    -unity-text-align: middle-center;
+    font-size: 18px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DotGothic16-Regular.asset");
+    margin-right: 12px;
+    flex-shrink: 0;
+}
+
+.option__text {
+    font-size: 19px;
+    flex-shrink: 1;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset");
+}
+
+.decide__idle {
+    flex-grow: 1;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 10px;
+}
+
+.decide__idle-dots {
+    font-size: 30px;
+    color: var(--ink-soft);
+    flex-grow: 1;
+    letter-spacing: 6px;
+}
+
+.decide__send {
+    width: 44px;
+    height: 44px;
+    background-image: url("project://database/Assets/_Game/UI/Sprites/ic_send.png");
+    -unity-background-scale-mode: scale-to-fit;
+    opacity: 0.6;
+}
+
+.timer {
+    width: 104px;
+    height: 104px;
+    margin-left: 12px;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.timer__label {
+    font-size: 30px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DotGothic16-Regular.asset");
+    -unity-text-align: middle-center;
+}
+
+.timer--small { width: 64px; height: 64px; margin-left: 10px; }
+.timer--small .timer__label { font-size: 20px; }
+
+/* ---------------------------------------------------------------- call HUD (phone down) */
+
+.call-hud {
+    position: absolute;
+    top: 26px;
+    left: 50%;
+    width: 760px;
+    translate: -380px -160px;
+    flex-direction: row;
+    align-items: center;
+    background-image: url("project://database/Assets/_Game/UI/Sprites/frame_paper.png");
+    -unity-slice-left: 44;
+    -unity-slice-top: 44;
+    -unity-slice-right: 50;
+    -unity-slice-bottom: 50;
+    -unity-slice-scale: 0.7px;
+    padding: 16px 30px 26px 22px;
+    transition-property: translate;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out-back;
+}
+
+.call-hud--on { translate: -380px 0; }
+
+.call-hud .portrait { width: 64px; height: 64px; margin-right: 14px; }
+
+.call-hud__text { flex-grow: 1; flex-shrink: 1; }
+
+.call-hud__name {
+    font-size: 20px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DoHyeon-Regular.asset");
+}
+
+.call-hud__line {
+    font-size: 18px;
+    margin-top: 2px;
+}
+
+.call-hud__hint {
+    font-size: 15px;
+    color: var(--red);
+    margin-top: 4px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+}
+
+/* ---------------------------------------------------------------- pressure, toasts, HUD */
+
+.pressure {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("project://database/Assets/_Game/UI/Sprites/vignette.png");
+    -unity-background-scale-mode: stretch-to-fill;
+    opacity: 0;
+}
+
+.toasts {
+    position: absolute;
+    right: 30px;
+    top: 24px;
+    width: 440px;
+    align-items: flex-end;
+}
+
+.toast {
+    width: 440px;
+    flex-direction: row;
+    align-items: center;
+    background-image: url("project://database/Assets/_Game/UI/Sprites/frame_card.png");
+    -unity-slice-left: 36;
+    -unity-slice-top: 36;
+    -unity-slice-right: 40;
+    -unity-slice-bottom: 40;
+    -unity-slice-scale: 0.7px;
+    padding: 12px 24px 20px 16px;
+    margin-bottom: 8px;
+    opacity: 0;
+    translate: 60px 0;
+    transition-property: opacity, translate;
+    transition-duration: 0.25s;
+}
+
+.toast--on { opacity: 1; translate: 0 0; }
+
+.toast__icon {
+    width: 48px;
+    height: 48px;
+    margin-right: 12px;
+    -unity-background-scale-mode: scale-to-fit;
+    flex-shrink: 0;
+}
+
+.toast__title {
+    font-size: 16px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+}
+
+.toast__text { font-size: 16px; }
+
+.hud {
+    position: absolute;
+    right: 34px;
+    bottom: 30px;
+    flex-direction: row;
+    align-items: flex-end;
+}
+
+.hud-btn {
+    width: 104px;
+    height: 104px;
+    min-height: 104px;
+    margin-left: 14px;
+    padding: 14px 16px 24px 16px;
+    align-items: center;
+    justify-content: center;
+}
+
+.hud-btn > .icon { width: 58px; height: 58px; }
+
+.hud-btn__key {
+    position: absolute;
+    left: -8px;
+    bottom: -2px;
+    min-width: 30px;
+    height: 26px;
+    border-width: 2px;
+    border-color: var(--ink);
+    border-radius: 6px;
+    background-color: #F8EFDA;
+    font-size: 13px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+    -unity-text-align: middle-center;
+    padding: 0 4px;
+}
+
+.hud .badge { right: -6px; top: -8px; }
+
+.daytag {
+    position: absolute;
+    left: 28px;
+    top: 24px;
+    flex-direction: row;
+    align-items: center;
+    background-image: url("project://database/Assets/_Game/UI/Sprites/frame_card.png");
+    -unity-slice-left: 36;
+    -unity-slice-top: 36;
+    -unity-slice-right: 40;
+    -unity-slice-bottom: 40;
+    -unity-slice-scale: 0.6px;
+    padding: 10px 24px 18px 16px;
+}
+
+.daytag__day {
+    font-size: 22px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DoHyeon-Regular.asset");
+    margin-right: 14px;
+}
+
+.daytag__time {
+    font-size: 22px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DotGothic16-Regular.asset");
+}
+
+.prompt {
+    position: absolute;
+    flex-direction: row;
+    align-items: center;
+    background-image: url("project://database/Assets/_Game/UI/Sprites/chip.png");
+    -unity-slice-left: 22;
+    -unity-slice-top: 20;
+    -unity-slice-right: 24;
+    -unity-slice-bottom: 24;
+    -unity-slice-scale: 0.8px;
+    padding: 6px 18px 12px 12px;
+}
+
+.prompt__key {
+    border-width: 2px;
+    border-color: var(--ink);
+    border-radius: 5px;
+    background-color: #F8EFDA;
+    padding: 0 6px;
+    font-size: 15px;
+    margin-right: 8px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+}
+
+.prompt__text {
+    font-size: 18px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset");
+}
+
+.controls-hint {
+    position: absolute;
+    left: 28px;
+    bottom: 26px;
+    flex-direction: row;
+    opacity: 0.85;
+}
+
+.controls-hint Label {
+    font-size: 15px;
+    color: #FBF4E4;
+    -unity-text-outline-width: 1px;
+    -unity-text-outline-color: rgba(43, 36, 48, 0.9);
+    margin-right: 18px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset");
+}
+
+/* modal confirm */
+
+.modal {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(26, 18, 22, 0.55);
+    align-items: center;
+    justify-content: center;
+}
+
+.modal__box {
+    width: 620px;
+}
+
+.modal__title {
+    font-size: 30px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DoHyeon-Regular.asset");
+    margin-bottom: 10px;
+}
+
+.modal__text { font-size: 20px; margin-bottom: 16px; }
+
+.modal__buttons { flex-direction: row; justify-content: flex-end; }
+
+/* case closed card */
+
+.ending {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 760px;
+    translate: -380px -260px;
+}
+
+.ending { width: 780px; }
+
+.ending__head {
+    flex-direction: row;
+    align-items: center;
+    padding-bottom: 10px;
+    margin-bottom: 6px;
+    border-bottom-width: 2px;
+    border-color: rgba(43, 36, 48, 0.25);
+}
+
+.ending__portrait {
+    width: 64px;
+    height: 64px;
+    margin-right: 14px;
+}
+
+.ending__caller {
+    font-size: 22px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset");
+}
+
+.ending__verdict {
+    font-size: 54px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DoHyeon-Regular.asset");
+    -unity-text-align: middle-center;
+    margin-top: 6px;
+}
+
+.ending__stamps {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    min-height: 76px;
+    margin: 6px 0 12px 0;
+}
+
+/* Rubber stamps land with a thump: big and invisible, then pressed down. */
+.stamp {
+    font-size: 34px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DoHyeon-Regular.asset");
+    letter-spacing: 3px;
+    padding: 6px 18px 2px 18px;
+    margin: 0 16px;
+    border-width: 5px;
+    border-radius: 10px;
+    opacity: 0;
+    scale: 2.4 2.4;
+    transition-property: opacity, scale;
+    transition-duration: 0.16s;
+    transition-timing-function: ease-in;
+}
+
+.stamp--down {
+    opacity: 0.9;
+    scale: 1 1;
+}
+
+.stamp--red { color: var(--red); border-color: var(--red); }
+.stamp--green { color: #3F7F3A; border-color: #3F7F3A; }
+
+.ending__line {
+    font-size: 20px;
+    margin: 6px 0;
+}
+
+/* ---------------------------------------------------------------- the verdict (on the call)
+   A dark strip under the questions. Colours follow the kind of verdict, never whether it is right:
+   go along gold, refuse red. */
+
+.hold__verdict { margin-top: 8px; }
+
+.verdict {
+    padding: 10px 12px 12px 12px;
+    background-color: #2B2430;
+    border-width: 3px;
+    border-color: #17121A;
+    border-radius: 12px;
+}
+
+.verdict__head {
+    flex-direction: row;
+    align-items: center;
+    margin: 0 4px 8px 4px;
+}
+
+.verdict__head-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+}
+
+.verdict__title {
+    font-size: 21px;
+    color: #F8EFDA;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DoHyeon-Regular.asset");
+    letter-spacing: 3px;
+}
+
+.verdict__head--gold .verdict__title { color: #F2C15E; }
+.verdict__head--red .verdict__title { color: #F29A8C; }
+
+.verdict__row {
+    flex-direction: row;
+}
+
+.verdict-btn {
+    flex-grow: 1;
+    flex-basis: 0;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 84px;
+    margin: 0 4px;
+    padding: 8px 12px 16px 12px;
+}
+
+.verdict-btn__icon {
+    width: 34px;
+    height: 34px;
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+
+.verdict-btn__glyph {
+    width: 34px;
+    margin-right: 10px;
+    flex-shrink: 0;
+    font-size: 34px;
+    color: var(--ink);
+    -unity-text-align: middle-center;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+}
+
+.verdict-btn__text {
+    flex-shrink: 1;
+    flex-grow: 1;
+}
+
+.verdict-btn__label {
+    font-size: 19px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+    -unity-text-align: middle-left;
+}
+
+.verdict-btn__detail {
+    font-size: 13px;
+    -unity-text-align: middle-left;
+    opacity: 0.85;
+}
+
+.verdict-btn--gold .verdict-btn__label,
+.verdict-btn--gold .verdict-btn__detail { color: var(--ink); }
+
+.verdict-btn--red .verdict-btn__label,
+.verdict-btn--red .verdict-btn__detail { color: #FBF4E4; }
+
+.verdict__line {
+    font-size: 21px;
+    color: #F8EFDA;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset");
+    margin: 0 6px 4px 6px;
+}
+
+.verdict__sub {
+    font-size: 15px;
+    color: #CFC6D8;
+    margin: 0 6px 8px 6px;
+}
+
+.verdict__buttons {
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-top: 4px;
+}
+
+.verdict__back,
+.verdict__go {
+    min-height: 54px;
+    padding: 6px 22px 14px 22px;
+}
+
+.verdict__go { min-width: 220px; }
+
+/* The phone's red button is off during a case: the verdict is given on the call. */
+.call-btn--off {
+    opacity: 0.3;
+}
+
+.call-btn--off:hover { scale: 1 1; }
+
+/* ---------------------------------------------------------------- the first day's guide */
+
+.tutorial {
+    position: absolute;
+    left: 28px;
+    top: 196px;
+    width: 296px;
+    padding: 12px 16px 16px 16px;
+    background-color: #F7E27A;
+    border-width: 3px;
+    border-color: var(--ink);
+    border-radius: 6px;
+    rotate: -1.2deg;
+    opacity: 0;
+    translate: -40px 0;
+    transition-property: opacity, translate, scale;
+    transition-duration: 0.25s;
+}
+
+.tutorial--on { opacity: 1; translate: 0 0; }
+.tutorial--pop { scale: 1.07 1.07; }
+
+.tutorial__head {
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.tutorial__icon { width: 22px; height: 22px; margin-right: 8px; }
+
+.tutorial__title {
+    flex-grow: 1;
+    font-size: 15px;
+    letter-spacing: 1px;
+    color: var(--ink-soft);
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+}
+
+.tutorial__count {
+    font-size: 18px;
+    color: var(--red);
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DotGothic16-Regular.asset");
+}
+
+.tutorial__text {
+    font-size: 21px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset");
+}

@@ -1,0 +1,122 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 797667f628a9d46008e2075eca252954, type: 3}
+  m_Name: Day3_Scam_Directory_ko
+  m_EditorClassIdentifier: DontCallMe::DontCallMe.Data.WorldDirectory
+  accounts:
+  - bank: "\uB204\uB9AC\uC740\uD589"
+    number: 110-900-551207
+    holder: "\uC815\uBBF8\uB780"
+    note: "\uAC1C\uC778 \uACC4\uC88C \xB7 \uAC1C\uC124 3\uC8FC"
+    reports:
+    - "10\uC6D4 4\uC77C \xB7 \"\uB204\uB9AC\uC740\uD589 \uBCF4\uD638\uD300\uC774\uB77C\uACE0
+      \uD574\uC11C 200\uB9CC \uC6D0 \uBCF4\uB0C8\uC5B4\uC694.\""
+    - "9\uC6D4 29\uC77C \xB7 \"\uBCF4\uD638\uACC4\uC88C \uC598\uAE30. \uBA87 \uBD84
+      \uB9CC\uC5D0 \uB3C8\uC774 \uBE60\uC838\uB098\uAC14\uC5B4\uC694.\""
+  - bank: "\uB204\uB9AC\uC740\uD589"
+    number: 110-302-558814
+    holder: "\uAE40\uC9C0\uC6B0"
+    note: "\uAC1C\uC778 \uACC4\uC88C"
+    reports: []
+  - bank: "\uB204\uB9AC\uC740\uD589"
+    number: 110-302-558990
+    holder: "\uAE40\uC9C0\uC6B0"
+    note: "\uC801\uAE08 \uACC4\uC88C"
+    reports: []
+  - bank: "\uB204\uB9AC\uC740\uD589"
+    number: 110-845-100233
+    holder: "\uBC15\uD61C\uC9C4"
+    note: "\uAC1C\uC778 \uACC4\uC88C"
+    reports: []
+  - bank: "\uB204\uB9AC\uC740\uD589"
+    number: 110-771-209944
+    holder: "\uCD5C\uC601\uC2DD"
+    note: "\uAC1C\uC778 \uACC4\uC88C \xB7 2011\uB144 \uAC1C\uC124"
+    reports: []
+  - bank: "\uD55C\uBE5B\uC740\uD589"
+    number: 620-557-301144
+    holder: "(\uC8FC)\uCF00\uC774\uC54C\uD1B5\uAD00"
+    note: "\uBC95\uC778 \uACC4\uC88C \xB7 \uAC1C\uC124 5\uC77C"
+    reports: []
+  numbers:
+  - number: 070-8844-2019
+    owner: "\uBBF8\uB4F1\uB85D"
+    note: "\uC778\uD130\uB137\uC804\uD654(070) \xB7 \uAC1C\uD1B5 9\uC77C"
+    official: 0
+    reports:
+    - "10\uC6D4 5\uC77C \xB7 \"\uB204\uB9AC\uC740\uD589 '\uACC4\uC88C\uBCF4\uD638\uD300'.
+      \uC608\uAE08\uC744 \uC62E\uAE30\uB77C\uACE0 \uD568\""
+    - "10\uC6D4 5\uC77C \xB7 \"\uACC4\uC88C \uB05D\uC790\uB9AC\uAE4C\uC9C0 \uC54C\uACE0
+      \uC788\uC5B4\uC11C \uAE5C\uBE61 \uC18D\uC744 \uBED4\""
+    - "10\uC6D4 4\uC77C \xB7 \"\uC804 \uACFC\uC7A5. \uC804\uD654 \uB04A\uC9C0 \uB9D0\uACE0
+      \uC544\uBB34\uD55C\uD14C\uB3C4 \uB9D0\uD558\uC9C0 \uB9D0\uB798\uC694\""
+    - "10\uC6D4 3\uC77C \xB7 \"\uBCF4\uD638\uACC4\uC88C 110-900-551207, \uB2E4\uB978
+      \uC0AC\uB78C \uBA85\uC758\""
+    - "10\uC6D4 2\uC77C \xB7 \"\uBD80\uC0B0\uC5D0\uC11C \uB204\uAC00 \uB85C\uADF8\uC778\uD588\uB2E4\uACE0
+      \uD568\""
+    - "10\uC6D4 1\uC77C \xB7 \"\uC0AC\uAE30. \uB04A\uC5C8\uC74C\""
+    - "9\uC6D4 30\uC77C \xB7 \"\uC740\uD589 \uC0AC\uCE6D\""
+  - number: 1599-0000
+    owner: "\uB204\uB9AC\uC740\uD589 \uACE0\uAC1D\uC13C\uD130"
+    note: "\uC740\uD589\uC758 \uC720\uC77C\uD55C \uACE0\uAC1D \uC0C1\uB2F4 \uBC88\uD638"
+    official: 1
+    reports: []
+  - number: 1588-5520
+    owner: "\uD55C\uAC15\uC775\uC2A4\uD504\uB808\uC2A4 \uACE0\uAC1D\uC13C\uD130"
+    note: "\uACE0\uAC1D\uC13C\uD130 \xB7 \uD1B5\uAD00\uD300"
+    official: 1
+    reports: []
+  - number: 1332
+    owner: "\uAE08\uC735\uAC10\uB3C5\uC6D0 \uBD88\uBC95\uAE08\uC735 \uC2E0\uACE0\uC13C\uD130"
+    note: 
+    official: 1
+    reports: []
+  - number: 112
+    owner: "\uACBD\uCC30"
+    note: 
+    official: 1
+    reports: []
+  - number: 02-555-0192
+    owner: "\uB9DD\uC6D0\uD558\uC774\uCE20 \uAD00\uB9AC\uC0AC\uBB34\uC18C"
+    note: 
+    official: 1
+    reports: []
+  - number: 010-5512-3380
+    owner: "\uCD5C\uC601\uC2DD"
+    note: "\uD734\uB300\uC804\uD654 \xB7 2009\uB144 \uAC00\uC785"
+    official: 0
+    reports: []
+  - number: 010-2280-6614
+    owner: "\uCD5C\uD604\uC6B0"
+    note: "\uD734\uB300\uC804\uD654 \xB7 2016\uB144 \uAC00\uC785"
+    official: 0
+    reports: []
+  - number: 010-2231-7745
+    owner: "\uBC15\uD61C\uC9C4"
+    note: "\uD734\uB300\uC804\uD654"
+    official: 0
+    reports: []
+  - number: 010-4418-0902
+    owner: "\uAE40\uB3D9\uC218"
+    note: "\uD734\uB300\uC804\uD654"
+    official: 0
+    reports: []
+  - number: 010-6620-0921
+    owner: "\uAE40\uC9C0\uC6B0"
+    note: "\uD734\uB300\uC804\uD654"
+    official: 0
+    reports: []
+  - number: 1588-5502
+    owner: "\uCF00\uC774\uC54C\uD1B5\uAD00\uC11C\uBE44\uC2A4"
+    note: "\uBC95\uC778 \uD68C\uC120 \xB7 \uAC1C\uD1B5 4\uC77C"
+    official: 0
+    reports: []

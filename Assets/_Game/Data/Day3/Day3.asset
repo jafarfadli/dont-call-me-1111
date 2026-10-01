@@ -1,0 +1,446 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ea1fbb0ab59d4c84a59e909f29a5c4f, type: 3}
+  m_Name: Day3
+  m_EditorClassIdentifier: DontCallMe::DontCallMe.Data.DayData
+  day: 3
+  dateLabel: Thursday, 8 October
+  weekday: Thu
+  shortLabel: "Day 3 \xB7 Thu 8 Oct"
+  place: Mangwon-dong, Seoul
+  startTime: 16:25
+  intro: Midterms are next week. The water came back at noon, and the monitor you
+    ordered should arrive any day now.
+  ringDelay: 6
+  variants:
+  - id: scam
+    conversation: {fileID: 11400000, guid: dd8f3009526ae4ecea1b3cc941188dfb, type: 2}
+    phone: {fileID: 11400000, guid: 4a2be0ca92ed64286bd3594736a8d095, type: 2}
+    room: {fileID: 11400000, guid: 34704f64ca23c402bbd5d03136cf3325, type: 2}
+    directory: {fileID: 11400000, guid: 532f324eb1836452a9c0cf514f56ff8d, type: 2}
+    clues:
+    - id: courier_notice
+      text: Hangang Express's own notice says the monitor cleared customs and arrives
+        on Friday, with nothing to pay.
+      where: "Chats \u2192 Hangang Express, or the calendar on the wall"
+      when:
+      - kind: 4
+        target: hangang
+      - kind: 0
+        target: Calendar
+    - id: taxes
+      text: AliStar's message says the import taxes were included at checkout.
+      where: "Chats \u2192 AliStar"
+      when:
+      - kind: 4
+        target: alistar
+    - id: number
+      text: Hangang Express's number is 1588-5520. The caller's 1588-5502 is one
+        digit off and belongs to "KR Clearance Service".
+      where: "Desk drawer \u2192 Delivery slip, or Computer \u2192 Check a phone
+        number"
+      when:
+      - kind: 1
+        target: Delivery slip
+      - kind: 2
+        target: 1588-5502
+    - id: account_owner
+      text: The account belongs to "KR CUSTOMS CLEARANCE", not to Hangang Express.
+      where: "Computer \u2192 Check a bank account"
+      when:
+      - kind: 2
+        target: 620-557-301144
+      - kind: 3
+        target: 620-557-301144
+    papers:
+    - outcome: 1
+      headline: Fake customs desk used leaked AliStar orders
+      subhead: The callers knew the item and the tracking number. The parcels had
+        already cleared customs.
+      body: 'Callers posing as Hangang Express''s "customs clearance desk" phoned
+        AliStar customers in Mapo yesterday. They read out each customer''s order
+        and tracking number and asked for "unpaid duty" to be paid into an account
+        before 5 p.m.
+
+
+        The details came from last month''s AliStar data
+        leak. The parcels had already cleared customs with their taxes paid, and
+        the calls came from 1588-5502, one digit off Hangang Express''s real number,
+        1588-5520.
+
+
+        "If duty is due, our own notice says so, with an account
+        in our name," a Hangang Express spokesperson said. "We never ask you to pay
+        anyone else."'
+      verdictNote: You hung up. The parcel had cleared customs, the taxes were included,
+        and the number was one digit off.
+      print: {fileID: 0}
+    - outcome: 0
+      headline: 56,600 won of "duty" on a parcel that was already paid for
+      subhead: Scammers with leaked AliStar orders posed as a courier's customs desk.
+      body: 'Callers posing as Hangang Express''s "customs clearance desk" phoned
+        AliStar customers in Mapo yesterday. They read out each customer''s order
+        and tracking number and asked for "unpaid duty" to be paid into an account
+        before 5 p.m.
+
+
+        A Mangwon student paid 56,600 won into an account
+        in the name "KR Customs Clearance", opened a week ago. Her monitor had cleared
+        customs on Wednesday, its taxes paid by the seller at checkout. It arrived
+        this morning.
+
+
+        "If duty is due, our own notice says so, with an
+        account in our name," a Hangang Express spokesperson said. "We never ask
+        you to pay anyone else."'
+      verdictNote: The courier's notice and AliStar's message both said the taxes
+        were paid, and the account wasn't in Hangang Express's name.
+      print: {fileID: 0}
+    - outcome: 3
+      headline: Customs desk calling? Read the courier's notice
+      subhead: Scammers with leaked orders called AliStar customers yesterday.
+      body: 'Callers posing as Hangang Express''s "customs clearance desk" phoned
+        AliStar customers in Mapo yesterday. They read out each customer''s order
+        and tracking number and asked for "unpaid duty" to be paid into an account
+        before 5 p.m.
+
+
+        The details came from last month''s AliStar data
+        leak. The parcels had already cleared customs with their taxes paid, and
+        the calls came from 1588-5502, one digit off Hangang Express''s real number,
+        1588-5520.
+
+
+        "If duty is due, our own notice says so, with an account
+        in our name," a Hangang Express spokesperson said. "We never ask you to pay
+        anyone else."'
+      verdictNote: Nothing was sent. The courier's own notice would have told you
+        the monitor had already cleared customs.
+      print: {fileID: 0}
+    ruleTitle: Is anything due? Read the courier's own notice
+    rule: Courier or customs asking for money? Read the courier's own notice and
+      check who owns the number and the account. If the courier says nothing is due,
+      nothing is due.
+    ruleSource: Seoul Daily, 9 Oct
+  - id: legit
+    conversation: {fileID: 11400000, guid: 5a17a919d848b411b8f363cb15b0d857, type: 2}
+    phone: {fileID: 11400000, guid: f6a73e558567c4210a3307ef4d373a6f, type: 2}
+    room: {fileID: 11400000, guid: ab53550557ffd4d9ea32ed20fee2339f, type: 2}
+    directory: {fileID: 11400000, guid: 02f9f9698de7441c38173bbfcb7635ef, type: 2}
+    clues:
+    - id: courier_notice
+      text: "Hangang Express's own notice says the monitor is held at customs, with
+        \u20A956,600 due and the same account."
+      where: "Chats \u2192 Hangang Express, or the calendar on the wall"
+      when:
+      - kind: 4
+        target: hangang
+      - kind: 0
+        target: Calendar
+    - id: taxes
+      text: AliStar's message says the import taxes were not included.
+      where: "Chats \u2192 AliStar"
+      when:
+      - kind: 4
+        target: alistar
+    - id: number
+      text: 1588-5520, the number calling you, is Hangang Express's official number.
+      where: "Desk drawer \u2192 Delivery slip, or Computer \u2192 Check a phone
+        number"
+      when:
+      - kind: 1
+        target: Delivery slip
+      - kind: 2
+        target: 1588-5520
+    - id: account_owner
+      text: The account is a virtual account in the name HANGANG EXPRESS (CUSTOMS).
+      where: "Computer \u2192 Check a bank account"
+      when:
+      - kind: 2
+        target: 5620-44-018830
+      - kind: 3
+        target: 5620-44-018830
+    papers:
+    - outcome: 0
+      headline: 'Shopping abroad: when the duty is real'
+      subhead: Couriers say more overseas orders are held for duty, and that customers
+        are right to check before paying.
+      body: 'With cheap overseas shopping booming, Hangang Express says it now holds
+        hundreds of parcels a day at Incheon for unpaid duty and VAT, usually because
+        the seller didn''t collect the taxes at checkout.
+
+
+        "When duty is
+        due, we send a notice and call from 1588-5520," said Yoon Seora of the courier''s
+        customs desk. "The account is always a virtual account in our name." "Customers
+        who check that first are doing exactly the right thing."
+
+
+        Personal
+        orders up to US$150 are duty-free. Above that, duty and VAT are due on arrival
+        unless the seller collected them.'
+      verdictNote: 'The duty was real, and you checked: the courier''s notice, AliStar''s
+        message, the official number and the account name all matched.'
+      print: {fileID: 0}
+    - outcome: 1
+      headline: Real duty notices ignored after a wave of scams
+      subhead: Parcels pile up at Incheon as customers hang up on real customs calls.
+      body: 'With cheap overseas shopping booming, Hangang Express says it now holds
+        hundreds of parcels a day at Incheon for unpaid duty and VAT, usually because
+        the seller didn''t collect the taxes at checkout. After weeks of fake customs
+        texts, many customers now hang up on the real thing, and dozens of parcels
+        were sent back yesterday.
+
+
+        "When duty is due, we send a notice and
+        call from 1588-5520," said Yoon Seora of the courier''s customs desk. "The
+        account is always a virtual account in our name." "Check it, by all means.
+        But check the facts, not just your nerves."
+
+
+        Personal orders up
+        to US$150 are duty-free. Above that, duty and VAT are due on arrival unless
+        the seller collected them.'
+      verdictNote: 'This one was real: the courier''s own notice showed the same
+        duty and account, and the call came from Hangang Express''s official number.'
+      print: {fileID: 0}
+    - outcome: 3
+      headline: Parcels go back as duty goes unpaid
+      subhead: Customers who never decided lost their orders to the return queue.
+      body: 'With cheap overseas shopping booming, Hangang Express says it now holds
+        hundreds of parcels a day at Incheon for unpaid duty and VAT, usually because
+        the seller didn''t collect the taxes at checkout.
+
+
+        "When duty is
+        due, we send a notice and call from 1588-5520," said Yoon Seora of the courier''s
+        customs desk. "The account is always a virtual account in our name."
+
+
+        Personal
+        orders up to US$150 are duty-free. Above that, duty and VAT are due on arrival
+        unless the seller collected them.'
+      verdictNote: The duty was real, and the evidence was in the courier's notice
+        and AliStar's message. Deciding in time matters too.
+      print: {fileID: 0}
+    ruleTitle: Pay duty only to the courier
+    rule: Real duty shows up in the courier's own notice, with an account in the
+      courier's name. When they match the call, paying is safe.
+    ruleSource: Seoul Daily, 9 Oct
+  echoes:
+  - afterDay: 2
+    truth: 1
+    outcomes: 1
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: Mr. Choi never asked for a new account. You paid him the real rent this
+      morning, again.
+    amount: 0
+    outgoing: 0
+    notify: 0
+  - afterDay: 2
+    truth: 1
+    outcomes: 2
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: The "landlord's son" was a fake. Mr. Choi thanked the tenants who hung
+      up.
+    amount: 0
+    outgoing: 0
+    notify: 0
+  - afterDay: 2
+    truth: 1
+    outcomes: 8
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: The "landlord's son" was a fake. Mr. Choi warned everyone in the chat last
+      night.
+    amount: 0
+    outgoing: 0
+    notify: 0
+  - afterDay: 2
+    truth: 1
+    outcomes: 15
+    kind: 0
+    from: villa
+    sender: Landlord Choi
+    avatar: pt_landlord
+    when: Yesterday 19:02
+    title: 
+    text: "Everyone: someone is calling tenants pretending to be my son. I am NOT
+      in hospital, and the rent account has NOT changed: Nuri Bank 110-771-209944,
+      as always. \u2013 Choi, 1F"
+    amount: 0
+    outgoing: 0
+    notify: 1
+  - afterDay: 2
+    truth: 1
+    outcomes: 2
+    kind: 0
+    from: villa
+    sender: Landlord Choi
+    avatar: pt_landlord
+    when: Yesterday 19:05
+    title: 
+    text: 302 hung up on him. Well done!
+    amount: 0
+    outgoing: 0
+    notify: 0
+  - afterDay: 2
+    truth: 1
+    outcomes: 1
+    kind: 0
+    from: landlord
+    sender: Landlord Choi
+    avatar: pt_landlord
+    when: Yesterday 19:10
+    title: Landlord Choi
+    text: Jiwoo, I heard what happened. I'm so sorry. Please report it to the police.
+      Take until the end of the month for the rent.
+    amount: 0
+    outgoing: 0
+    notify: 1
+  - afterDay: 2
+    truth: 1
+    outcomes: 1
+    kind: 1
+    from: CHOI YOUNGSIK
+    sender: 
+    avatar: 
+    when: Today 09:20
+    title: October rent
+    text: 
+    amount: -450000
+    outgoing: 0
+    notify: 0
+  - afterDay: 2
+    truth: 1
+    outcomes: 10
+    kind: 1
+    from: CHOI YOUNGSIK
+    sender: 
+    avatar: 
+    when: Yesterday 19:30
+    title: October rent
+    text: 
+    amount: -450000
+    outgoing: 0
+    notify: 0
+  - afterDay: 2
+    truth: 2
+    outcomes: 1
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: The rent reached Hyunwoo. Mr. Choi is recovering in hospital.
+    amount: 0
+    outgoing: 0
+    notify: 0
+  - afterDay: 2
+    truth: 2
+    outcomes: 10
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: The "landlord's son" was real. You sent him the rent this morning, a day
+      late.
+    amount: 0
+    outgoing: 0
+    notify: 0
+  - afterDay: 2
+    truth: 2
+    outcomes: 15
+    kind: 2
+    from: 010-2280-6614
+    sender: Hyunwoo (landlord's son)
+    avatar: pt_hyunwoo
+    when: 
+    title: 
+    text: Looks after the building while Mr. Choi recovers
+    amount: 0
+    outgoing: 0
+    notify: 0
+  - afterDay: 2
+    truth: 2
+    outcomes: 1
+    kind: 0
+    from: hyunwoo
+    sender: Hyunwoo (landlord's son)
+    avatar: pt_hyunwoo
+    when: Yesterday 18:02
+    title: Hyunwoo (landlord's son)
+    text: Thanks for the rent, Jiwoo-ssi! Dad says hi from the ward :)
+    amount: 0
+    outgoing: 0
+    notify: 1
+  - afterDay: 2
+    truth: 2
+    outcomes: 10
+    kind: 0
+    from: hyunwoo
+    sender: Hyunwoo (landlord's son)
+    avatar: pt_hyunwoo
+    when: Yesterday 17:20
+    title: Hyunwoo (landlord's son)
+    text: Hi Jiwoo-ssi, it's Hyunwoo from the first floor. I understand you were
+      careful. Dad's message is in the residents' chat. Please send the rent when
+      you can.
+    amount: 0
+    outgoing: 0
+    notify: 1
+  - afterDay: 2
+    truth: 2
+    outcomes: 10
+    kind: 1
+    from: CHOI HYUNWOO
+    sender: 
+    avatar: 
+    when: Today 09:20
+    title: October rent (late)
+    text: 
+    amount: -450000
+    outgoing: 0
+    notify: 0
+  - afterDay: 2
+    truth: 2
+    outcomes: 15
+    kind: 0
+    from: villa
+    sender: Landlord Choi
+    avatar: pt_landlord
+    when: Today 10:15
+    title: 
+    text: Thank you all for the get-well messages. The hospital food is terrible,
+      haha
+    amount: 0
+    outgoing: 0
+    notify: 0
+  nextDateLabel: Friday, 9 October
+  builtWith: 6

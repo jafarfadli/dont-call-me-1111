@@ -1,0 +1,762 @@
+[
+ {
+  "voice": "Daniel",
+  "text": "Hello, is this Kim Jiwoo? This is Manager Jeon from Nuri Bank's account protection team.",
+  "file": "Assets/_Game/Audio/Voices/Daniel/f1d2d27ee384.wav"
+ },
+ {
+  "voice": "Daniel",
+  "text": "Twenty minutes ago, someone logged into your account from an unregistered device in Busan.",
+  "file": "Assets/_Game/Audio/Voices/Daniel/b622966cf180.wav"
+ },
+ {
+  "voice": "Daniel",
+  "text": "Miss Kim? Are you still there? This is urgent.",
+  "file": "Assets/_Game/Audio/Voices/Daniel/dddad20578db.wav"
+ },
+ {
+  "voice": "Daniel",
+  "text": "That's exactly why I'm calling. A fraud ring is emptying accounts in Mapo today, and yours is on their list.",
+  "file": "Assets/_Game/Audio/Voices/Daniel/3736c9eb5fc9.wav"
+ },
+ {
+  "voice": "Daniel",
+  "text": "I have your account ending in eight, eight, one, four on my screen, Miss Kim.",
+  "file": "Assets/_Game/Audio/Voices/Daniel/b05704c02257.wav"
+ },
+ {
+  "voice": "Daniel",
+  "text": "We're the protection team, not the call centre, so we call from our direct line.",
+  "file": "Assets/_Game/Audio/Voices/Daniel/8cb4373f965d.wav"
+ },
+ {
+  "voice": "Daniel",
+  "text": "To keep your savings safe, we'll move them to a protected account until the security reset at five o'clock.",
+  "file": "Assets/_Game/Audio/Voices/Daniel/37647dab5e83.wav"
+ },
+ {
+  "voice": "Daniel",
+  "text": "Please transfer one million, two hundred thousand won to the protected account. Nuri Bank, one one zero, nine zero zero, five five one two zero seven.",
+  "file": "Assets/_Game/Audio/Voices/Daniel/bc9be5bf75b9.wav"
+ },
+ {
+  "voice": "Daniel",
+  "text": "Stay on the line and don't tell anyone. The fraud ring may be watching your messages.",
+  "file": "Assets/_Game/Audio/Voices/Daniel/3f2c6240854f.wav"
+ },
+ {
+  "voice": "Daniel",
+  "text": "I'll hold while you open your bank app. It has to be done before five.",
+  "file": "Assets/_Game/Audio/Voices/Daniel/b2a157cfbc2c.wav"
+ },
+ {
+  "voice": "Daniel",
+  "text": "The call centre can't see protection cases, Miss Kim. If you hang up, the case closes and the fraud ring gets your money.",
+  "file": "Assets/_Game/Audio/Voices/Daniel/23f3359486f7.wav"
+ },
+ {
+  "voice": "Daniel",
+  "text": "Please, just stay with me.",
+  "file": "Assets/_Game/Audio/Voices/Daniel/94f444530b46.wav"
+ },
+ {
+  "voice": "Daniel",
+  "text": "It's registered to our security officer, Jeong Miran. Protection accounts are always in an officer's name.",
+  "file": "Assets/_Game/Audio/Voices/Daniel/3e6b56a7a253.wav"
+ },
+ {
+  "voice": "Daniel",
+  "text": "It's our team's direct line, Miss Kim. Every bank uses internet lines for calls like this.",
+  "file": "Assets/_Game/Audio/Voices/Daniel/59e166039f1a.wav"
+ },
+ {
+  "voice": "Daniel",
+  "text": "Miss Kim? Are you still there? Please don't put me on hold for long.",
+  "file": "Assets/_Game/Audio/Voices/Daniel/5e04a8240d31.wav"
+ },
+ {
+  "voice": "Daniel",
+  "text": "I've opened a protection case for you, Miss Kim, so this is official. Please finish the transfer.",
+  "file": "Assets/_Game/Audio/Voices/Daniel/432b3fab31bc.wav"
+ },
+ {
+  "voice": "Daniel",
+  "text": "The fraud ring just tried to log in again. We need that transfer now, Miss Kim.",
+  "file": "Assets/_Game/Audio/Voices/Daniel/1645af581560.wav"
+ },
+ {
+  "voice": "Daniel",
+  "text": "Seven minutes. After the reset I can't protect anything.",
+  "file": "Assets/_Game/Audio/Voices/Daniel/afbfc8abb320.wav"
+ },
+ {
+  "voice": "Daniel",
+  "text": "Three minutes! Please, transfer it now!",
+  "file": "Assets/_Game/Audio/Voices/Daniel/3e39a44aa63e.wav"
+ },
+ {
+  "voice": "Daniel",
+  "text": "Miss Kim? It's five o'clock.",
+  "file": "Assets/_Game/Audio/Voices/Daniel/d9724362cfe5.wav"
+ },
+ {
+  "voice": "Daniel",
+  "text": "Fine. Your account will be frozen. Don't call us when it's empty.",
+  "file": "Assets/_Game/Audio/Voices/Daniel/e21a7f06d4e9.wav"
+ },
+ {
+  "voice": "Daniel",
+  "text": "Thank you, Miss Kim. Your money is safe with us now.",
+  "file": "Assets/_Game/Audio/Voices/Daniel/3a3cbcf580e5.wav"
+ },
+ {
+  "voice": "Daniel",
+  "text": "Don't tell anyone until tomorrow's reset.",
+  "file": "Assets/_Game/Audio/Voices/Daniel/6e04a1cd61a1.wav"
+ },
+ {
+  "voice": "Rocko (Korean (South Korea))",
+  "text": "여보세요, 김지우 씨 되시죠? 누리은행 계좌보호팀 전 과장입니다.",
+  "file": "Assets/_Game/Audio/Voices/RockoKoreanSouthKorea/35dc4fe53632.wav"
+ },
+ {
+  "voice": "Rocko (Korean (South Korea))",
+  "text": "20분 전에 부산에서 등록되지 않은 기기로 고객님 계좌에 로그인한 기록이 있습니다.",
+  "file": "Assets/_Game/Audio/Voices/RockoKoreanSouthKorea/6e469636fb9a.wav"
+ },
+ {
+  "voice": "Rocko (Korean (South Korea))",
+  "text": "김지우 씨? 듣고 계세요? 급한 일입니다.",
+  "file": "Assets/_Game/Audio/Voices/RockoKoreanSouthKorea/518f1f623245.wav"
+ },
+ {
+  "voice": "Rocko (Korean (South Korea))",
+  "text": "그래서 전화드린 겁니다. 오늘 마포에서 사기 조직이 계좌를 털고 있는데, 고객님 계좌가 그 명단에 있어요.",
+  "file": "Assets/_Game/Audio/Voices/RockoKoreanSouthKorea/e7e8b92f7008.wav"
+ },
+ {
+  "voice": "Rocko (Korean (South Korea))",
+  "text": "지금 제 화면에 끝자리 팔팔일사인 고객님 계좌가 떠 있습니다.",
+  "file": "Assets/_Game/Audio/Voices/RockoKoreanSouthKorea/8eac1b619da5.wav"
+ },
+ {
+  "voice": "Rocko (Korean (South Korea))",
+  "text": "저희는 고객센터가 아니라 보호팀이라 직통 번호로 연락드립니다.",
+  "file": "Assets/_Game/Audio/Voices/RockoKoreanSouthKorea/13c28ff388a9.wav"
+ },
+ {
+  "voice": "Rocko (Korean (South Korea))",
+  "text": "고객님 예금을 지키기 위해 다섯 시 보안 초기화 때까지 보호계좌로 옮겨 두겠습니다.",
+  "file": "Assets/_Game/Audio/Voices/RockoKoreanSouthKorea/eb76a16d58cb.wav"
+ },
+ {
+  "voice": "Rocko (Korean (South Korea))",
+  "text": "보호계좌로 백이십만 원을 이체해 주세요. 누리은행, 일일공, 구공공, 오오일이공칠입니다.",
+  "file": "Assets/_Game/Audio/Voices/RockoKoreanSouthKorea/9f331289e0ec.wav"
+ },
+ {
+  "voice": "Rocko (Korean (South Korea))",
+  "text": "전화 끊지 마시고 아무에게도 말하지 마세요. 사기 조직이 고객님 메시지를 보고 있을 수도 있습니다.",
+  "file": "Assets/_Game/Audio/Voices/RockoKoreanSouthKorea/a01962b372fa.wav"
+ },
+ {
+  "voice": "Rocko (Korean (South Korea))",
+  "text": "은행 앱 여시는 동안 기다리겠습니다. 다섯 시 전에 끝내야 합니다.",
+  "file": "Assets/_Game/Audio/Voices/RockoKoreanSouthKorea/f0ffc99aac34.wav"
+ },
+ {
+  "voice": "Rocko (Korean (South Korea))",
+  "text": "고객센터에서는 보호 사건 내용을 볼 수 없습니다. 전화를 끊으시면 사건이 종료되고 사기 조직이 돈을 가져갑니다.",
+  "file": "Assets/_Game/Audio/Voices/RockoKoreanSouthKorea/2a77e4b7ee20.wav"
+ },
+ {
+  "voice": "Rocko (Korean (South Korea))",
+  "text": "제발 저랑 통화를 유지해 주세요.",
+  "file": "Assets/_Game/Audio/Voices/RockoKoreanSouthKorea/4e1a48b4f93a.wav"
+ },
+ {
+  "voice": "Rocko (Korean (South Korea))",
+  "text": "저희 보안 담당자 정미란 명의로 되어 있습니다. 보호계좌는 항상 담당 직원 명의로 개설돼요.",
+  "file": "Assets/_Game/Audio/Voices/RockoKoreanSouthKorea/c33b17ae60ee.wav"
+ },
+ {
+  "voice": "Rocko (Korean (South Korea))",
+  "text": "저희 팀 직통 번호입니다. 은행들은 이런 전화에 다 인터넷전화를 써요.",
+  "file": "Assets/_Game/Audio/Voices/RockoKoreanSouthKorea/2c7ee8ea79ac.wav"
+ },
+ {
+  "voice": "Rocko (Korean (South Korea))",
+  "text": "김지우 씨? 계세요? 너무 오래 기다리게 하지 마세요.",
+  "file": "Assets/_Game/Audio/Voices/RockoKoreanSouthKorea/c54d500eddaf.wav"
+ },
+ {
+  "voice": "Rocko (Korean (South Korea))",
+  "text": "고객님 앞으로 보호 사건을 접수해 뒀습니다. 공식 절차예요. 이체를 마무리해 주세요.",
+  "file": "Assets/_Game/Audio/Voices/RockoKoreanSouthKorea/afdbf61df920.wav"
+ },
+ {
+  "voice": "Rocko (Korean (South Korea))",
+  "text": "방금 사기 조직이 또 로그인을 시도했습니다. 지금 바로 이체하셔야 해요.",
+  "file": "Assets/_Game/Audio/Voices/RockoKoreanSouthKorea/31e3cea95389.wav"
+ },
+ {
+  "voice": "Rocko (Korean (South Korea))",
+  "text": "칠 분 남았습니다. 초기화되면 저도 아무것도 지켜 드릴 수 없어요.",
+  "file": "Assets/_Game/Audio/Voices/RockoKoreanSouthKorea/12deb397ff02.wav"
+ },
+ {
+  "voice": "Rocko (Korean (South Korea))",
+  "text": "삼 분 남았어요! 제발 지금 이체하세요!",
+  "file": "Assets/_Game/Audio/Voices/RockoKoreanSouthKorea/b3abcfa99a96.wav"
+ },
+ {
+  "voice": "Rocko (Korean (South Korea))",
+  "text": "김지우 씨? 다섯 시입니다.",
+  "file": "Assets/_Game/Audio/Voices/RockoKoreanSouthKorea/81cf380f4f2f.wav"
+ },
+ {
+  "voice": "Rocko (Korean (South Korea))",
+  "text": "좋습니다. 계좌가 동결될 겁니다. 텅 비어도 저희한테 연락하지 마세요.",
+  "file": "Assets/_Game/Audio/Voices/RockoKoreanSouthKorea/9ae98352d813.wav"
+ },
+ {
+  "voice": "Rocko (Korean (South Korea))",
+  "text": "감사합니다, 김지우 씨. 이제 고객님 돈은 안전합니다.",
+  "file": "Assets/_Game/Audio/Voices/RockoKoreanSouthKorea/5cfc14fcfc89.wav"
+ },
+ {
+  "voice": "Rocko (Korean (South Korea))",
+  "text": "내일 초기화 전까지는 아무에게도 말하지 마세요.",
+  "file": "Assets/_Game/Audio/Voices/RockoKoreanSouthKorea/28f2bb626698.wav"
+ },
+ {
+  "voice": "Reed (English (US))",
+  "text": "Hello, is this Kim Jiwoo in three oh two? This is Choi Hyunwoo, Mr. Choi's son, from the first floor.",
+  "file": "Assets/_Game/Audio/Voices/ReedEnglishUS/e5bd6b1671e4.wav"
+ },
+ {
+  "voice": "Reed (English (US))",
+  "text": "Sorry to call out of the blue. My father went into hospital this morning. It's his knee. Nothing serious, but he'll be there all week.",
+  "file": "Assets/_Game/Audio/Voices/ReedEnglishUS/d580263fda3c.wav"
+ },
+ {
+  "voice": "Reed (English (US))",
+  "text": "Jiwoo-ssi? Can you hear me?",
+  "file": "Assets/_Game/Audio/Voices/ReedEnglishUS/2b17e3d43c15.wav"
+ },
+ {
+  "voice": "Reed (English (US))",
+  "text": "He's fine, thanks. Grumpy about the hospital food.",
+  "file": "Assets/_Game/Audio/Voices/ReedEnglishUS/c4ba1508fd19.wav"
+ },
+ {
+  "voice": "Reed (English (US))",
+  "text": "Choi Hyunwoo, the landlord's son. I'm on your lease, under if absent.",
+  "file": "Assets/_Game/Audio/Voices/ReedEnglishUS/9110b6dd5b9c.wav"
+ },
+ {
+  "voice": "Reed (English (US))",
+  "text": "So I'm looking after the building this week, and today's the seventh. Rent day.",
+  "file": "Assets/_Game/Audio/Voices/ReedEnglishUS/3d19968bdf64.wav"
+ },
+ {
+  "voice": "Reed (English (US))",
+  "text": "Dad can't use his banking app from the hospital, so this month the rent comes to me.",
+  "file": "Assets/_Game/Audio/Voices/ReedEnglishUS/bb3497793ed0.wav"
+ },
+ {
+  "voice": "Reed (English (US))",
+  "text": "Please send the four hundred and fifty thousand won to my account. Nuri Bank, one one zero, seven seven one, two zero two three five eight.",
+  "file": "Assets/_Game/Audio/Voices/ReedEnglishUS/74859321d96f.wav"
+ },
+ {
+  "voice": "Reed (English (US))",
+  "text": "I'm paying his hospital bill with the rents, and the billing desk closes at five. Could you send it before then? I'll hold.",
+  "file": "Assets/_Game/Audio/Voices/ReedEnglishUS/bdfe824ada5d.wav"
+ },
+ {
+  "voice": "Reed (English (US))",
+  "text": "Mine. Choi Hyunwoo. Same as on your lease.",
+  "file": "Assets/_Game/Audio/Voices/ReedEnglishUS/c0e8104a7a17.wav"
+ },
+ {
+  "voice": "Reed (English (US))",
+  "text": "Dad can't get into his banking app from the ward. He wrote it in the residents' chat this morning, before he went in.",
+  "file": "Assets/_Game/Audio/Voices/ReedEnglishUS/80c1c8ebd6f7.wav"
+ },
+ {
+  "voice": "Reed (English (US))",
+  "text": "Yes. It's the one on your lease, under if absent.",
+  "file": "Assets/_Game/Audio/Voices/ReedEnglishUS/b2adc9562614.wav"
+ },
+ {
+  "voice": "Reed (English (US))",
+  "text": "He's asleep after the operation. Look in the residents' chat: he wrote there this morning.",
+  "file": "Assets/_Game/Audio/Voices/ReedEnglishUS/0f22e248f3b4.wav"
+ },
+ {
+  "voice": "Reed (English (US))",
+  "text": "Jiwoo-ssi? Still there? No rush, but the desk closes at five.",
+  "file": "Assets/_Game/Audio/Voices/ReedEnglishUS/397291d7ce7e.wav"
+ },
+ {
+  "voice": "Reed (English (US))",
+  "text": "The nurse is asking me about the bill again. Any luck with the transfer?",
+  "file": "Assets/_Game/Audio/Voices/ReedEnglishUS/09c861eb0f49.wav"
+ },
+ {
+  "voice": "Reed (English (US))",
+  "text": "The hospital just called me again about the bill. Have you sent it?",
+  "file": "Assets/_Game/Audio/Voices/ReedEnglishUS/4872e3cf9015.wav"
+ },
+ {
+  "voice": "Reed (English (US))",
+  "text": "Seven minutes, Jiwoo-ssi. Please.",
+  "file": "Assets/_Game/Audio/Voices/ReedEnglishUS/4b114ab13595.wav"
+ },
+ {
+  "voice": "Reed (English (US))",
+  "text": "Three minutes! Please, just send it.",
+  "file": "Assets/_Game/Audio/Voices/ReedEnglishUS/bef4e4e0cc5d.wav"
+ },
+ {
+  "voice": "Reed (English (US))",
+  "text": "Jiwoo-ssi? It's five. The desk's closed. I'll sort it out some other way.",
+  "file": "Assets/_Game/Audio/Voices/ReedEnglishUS/6af7a8a7bf90.wav"
+ },
+ {
+  "voice": "Reed (English (US))",
+  "text": "Got it! Thank you, Jiwoo-ssi. I'll tell Dad you were the first.",
+  "file": "Assets/_Game/Audio/Voices/ReedEnglishUS/9e4ce800301b.wav"
+ },
+ {
+  "voice": "Reed (English (US))",
+  "text": "Please send the four hundred and fifty thousand won to my account. Hanbit Bank, six two zero, one one eight, four four nine zero two seven.",
+  "file": "Assets/_Game/Audio/Voices/ReedEnglishUS/b67fa8d3aff6.wav"
+ },
+ {
+  "voice": "Reed (English (US))",
+  "text": "My wife's, Seo Jiyeon. Mine's a business account, it takes a day to clear.",
+  "file": "Assets/_Game/Audio/Voices/ReedEnglishUS/ad239961d6cf.wav"
+ },
+ {
+  "voice": "Reed (English (US))",
+  "text": "Just for this month. Dad didn't want to bother everyone with a notice.",
+  "file": "Assets/_Game/Audio/Voices/ReedEnglishUS/ce7293348665.wav"
+ },
+ {
+  "voice": "Reed (English (US))",
+  "text": "It's my work phone. My own one is the number on your lease, but the screen's broken.",
+  "file": "Assets/_Game/Audio/Voices/ReedEnglishUS/0bd15622dda7.wav"
+ },
+ {
+  "voice": "Reed (English (US))",
+  "text": "He's in surgery right now. Please, I don't want to worry him.",
+  "file": "Assets/_Game/Audio/Voices/ReedEnglishUS/17da8b39ea92.wav"
+ },
+ {
+  "voice": "Reed (English (US))",
+  "text": "It's five. Forget it. You'll get a late notice.",
+  "file": "Assets/_Game/Audio/Voices/ReedEnglishUS/16988b23b6f2.wav"
+ },
+ {
+  "voice": "Reed (English (US))",
+  "text": "Received. Thank you... I'll send you a receipt.",
+  "file": "Assets/_Game/Audio/Voices/ReedEnglishUS/923518eb6c7d.wav"
+ },
+ {
+  "voice": "Reed (Korean (South Korea))",
+  "text": "안녕하세요, 삼백이 호 김지우 씨 맞으시죠? 일 층 최 사장님 아들 최현우입니다.",
+  "file": "Assets/_Game/Audio/Voices/ReedKoreanSouthKorea/1329c0c0a72c.wav"
+ },
+ {
+  "voice": "Reed (Korean (South Korea))",
+  "text": "갑자기 전화드려 죄송해요. 아버지가 오늘 아침에 입원하셨어요. 무릎 때문인데 큰일은 아니고, 이번 주 내내 병원에 계실 거예요.",
+  "file": "Assets/_Game/Audio/Voices/ReedKoreanSouthKorea/5c723cbef79b.wav"
+ },
+ {
+  "voice": "Reed (Korean (South Korea))",
+  "text": "지우 씨? 제 말 들리세요?",
+  "file": "Assets/_Game/Audio/Voices/ReedKoreanSouthKorea/fdd43c06f114.wav"
+ },
+ {
+  "voice": "Reed (Korean (South Korea))",
+  "text": "네, 괜찮으세요. 병원 밥이 맛없다고 투덜대시긴 하지만요.",
+  "file": "Assets/_Game/Audio/Voices/ReedKoreanSouthKorea/fd90d8eef00a.wav"
+ },
+ {
+  "voice": "Reed (Korean (South Korea))",
+  "text": "집주인 아들 최현우요. 계약서 부재 시 연락처에 제 이름 있을 거예요.",
+  "file": "Assets/_Game/Audio/Voices/ReedKoreanSouthKorea/9a25ea937125.wav"
+ },
+ {
+  "voice": "Reed (Korean (South Korea))",
+  "text": "그래서 이번 주는 제가 건물을 관리하는데, 오늘이 칠 일이잖아요. 월세 날이요.",
+  "file": "Assets/_Game/Audio/Voices/ReedKoreanSouthKorea/0a8ceaa52fc3.wav"
+ },
+ {
+  "voice": "Reed (Korean (South Korea))",
+  "text": "아버지가 병원에서 은행 앱을 못 쓰셔서, 이번 달 월세는 제가 받기로 했어요.",
+  "file": "Assets/_Game/Audio/Voices/ReedKoreanSouthKorea/dd064f83ded5.wav"
+ },
+ {
+  "voice": "Reed (Korean (South Korea))",
+  "text": "월세 사십오만 원은 제 계좌로 보내 주세요. 누리은행, 일일공, 칠칠일, 이공이삼오팔입니다.",
+  "file": "Assets/_Game/Audio/Voices/ReedKoreanSouthKorea/715e3c5a1a01.wav"
+ },
+ {
+  "voice": "Reed (Korean (South Korea))",
+  "text": "월세로 병원비를 내야 하는데 원무과가 다섯 시에 닫아요. 그 전에 보내 주실 수 있을까요? 기다릴게요.",
+  "file": "Assets/_Game/Audio/Voices/ReedKoreanSouthKorea/42f2ea9aa6bf.wav"
+ },
+ {
+  "voice": "Reed (Korean (South Korea))",
+  "text": "제 거예요. 최현우. 계약서에 있는 이름 그대로요.",
+  "file": "Assets/_Game/Audio/Voices/ReedKoreanSouthKorea/5d536219ef57.wav"
+ },
+ {
+  "voice": "Reed (Korean (South Korea))",
+  "text": "아버지가 병실에서 은행 앱을 못 쓰세요. 오늘 아침 입원하시기 전에 입주민 채팅방에 올리셨어요.",
+  "file": "Assets/_Game/Audio/Voices/ReedKoreanSouthKorea/baedd677c46d.wav"
+ },
+ {
+  "voice": "Reed (Korean (South Korea))",
+  "text": "네. 계약서 부재 시 연락처에 있는 그 번호예요.",
+  "file": "Assets/_Game/Audio/Voices/ReedKoreanSouthKorea/8eeae5446484.wav"
+ },
+ {
+  "voice": "Reed (Korean (South Korea))",
+  "text": "수술 끝나고 주무세요. 입주민 채팅방 보세요. 오늘 아침에 올리셨어요.",
+  "file": "Assets/_Game/Audio/Voices/ReedKoreanSouthKorea/82881bb912af.wav"
+ },
+ {
+  "voice": "Reed (Korean (South Korea))",
+  "text": "지우 씨? 아직 계세요? 재촉하는 건 아닌데 원무과가 다섯 시에 닫아서요.",
+  "file": "Assets/_Game/Audio/Voices/ReedKoreanSouthKorea/6faa698e958d.wav"
+ },
+ {
+  "voice": "Reed (Korean (South Korea))",
+  "text": "간호사가 또 병원비 얘기를 하네요. 이체는 어떻게 되고 있어요?",
+  "file": "Assets/_Game/Audio/Voices/ReedKoreanSouthKorea/fdfe2f137d60.wav"
+ },
+ {
+  "voice": "Reed (Korean (South Korea))",
+  "text": "병원에서 방금 또 병원비 얘기로 전화 왔어요. 보내셨어요?",
+  "file": "Assets/_Game/Audio/Voices/ReedKoreanSouthKorea/938254d62307.wav"
+ },
+ {
+  "voice": "Reed (Korean (South Korea))",
+  "text": "칠 분 남았어요, 지우 씨. 부탁드려요.",
+  "file": "Assets/_Game/Audio/Voices/ReedKoreanSouthKorea/49d492143b57.wav"
+ },
+ {
+  "voice": "Reed (Korean (South Korea))",
+  "text": "삼 분 남았어요! 제발 보내 주세요.",
+  "file": "Assets/_Game/Audio/Voices/ReedKoreanSouthKorea/d5c43c915954.wav"
+ },
+ {
+  "voice": "Reed (Korean (South Korea))",
+  "text": "지우 씨? 다섯 시예요. 원무과 닫았네요. 다른 방법을 찾아볼게요.",
+  "file": "Assets/_Game/Audio/Voices/ReedKoreanSouthKorea/c5ef1cf8140c.wav"
+ },
+ {
+  "voice": "Reed (Korean (South Korea))",
+  "text": "받았어요! 고마워요, 지우 씨. 아버지께 일 등으로 보냈다고 전할게요.",
+  "file": "Assets/_Game/Audio/Voices/ReedKoreanSouthKorea/154d50013c1b.wav"
+ },
+ {
+  "voice": "Reed (Korean (South Korea))",
+  "text": "월세 사십오만 원은 제 계좌로 보내 주세요. 한빛은행, 육이공, 일일팔, 사사구공이칠입니다.",
+  "file": "Assets/_Game/Audio/Voices/ReedKoreanSouthKorea/fdb6f6681eae.wav"
+ },
+ {
+  "voice": "Reed (Korean (South Korea))",
+  "text": "제 아내 서지연 명의예요. 제 건 사업자 계좌라 입금 확인이 하루 걸려서요.",
+  "file": "Assets/_Game/Audio/Voices/ReedKoreanSouthKorea/840f50648510.wav"
+ },
+ {
+  "voice": "Reed (Korean (South Korea))",
+  "text": "이번 달만이에요. 아버지가 공지까지 하긴 번거롭다고 하셔서요.",
+  "file": "Assets/_Game/Audio/Voices/ReedKoreanSouthKorea/1c3fdfd84e2f.wav"
+ },
+ {
+  "voice": "Reed (Korean (South Korea))",
+  "text": "이건 회사 폰이에요. 계약서에 있는 건 제 개인 번호인데 액정이 깨져서요.",
+  "file": "Assets/_Game/Audio/Voices/ReedKoreanSouthKorea/afda3857fcda.wav"
+ },
+ {
+  "voice": "Reed (Korean (South Korea))",
+  "text": "지금 수술 중이세요. 걱정 끼쳐 드리고 싶지 않아요.",
+  "file": "Assets/_Game/Audio/Voices/ReedKoreanSouthKorea/498ac4683135.wav"
+ },
+ {
+  "voice": "Reed (Korean (South Korea))",
+  "text": "다섯 시네요. 됐어요. 연체 통지나 받으세요.",
+  "file": "Assets/_Game/Audio/Voices/ReedKoreanSouthKorea/9f014f060beb.wav"
+ },
+ {
+  "voice": "Reed (Korean (South Korea))",
+  "text": "확인했습니다. 감사합니다… 영수증 보내 드릴게요.",
+  "file": "Assets/_Game/Audio/Voices/ReedKoreanSouthKorea/b1755dff0d67.wav"
+ },
+ {
+  "voice": "Shelley (English (UK))",
+  "text": "Hello, is this Kim Jiwoo? This is Yoon Seora from Hangang Express, the customs clearance desk.",
+  "file": "Assets/_Game/Audio/Voices/ShelleyEnglishUK/42855ff46a4b.wav"
+ },
+ {
+  "voice": "Shelley (English (UK))",
+  "text": "I'm calling about your parcel from AliStar. The twenty seven inch monitor, tracking number H X, five five two zero, one one eight three, K R.",
+  "file": "Assets/_Game/Audio/Voices/ShelleyEnglishUK/77abd1c9c690.wav"
+ },
+ {
+  "voice": "Shelley (English (UK))",
+  "text": "Miss Kim? Are you there?",
+  "file": "Assets/_Game/Audio/Voices/ShelleyEnglishUK/5474d051f213.wav"
+ },
+ {
+  "voice": "Shelley (English (UK))",
+  "text": "It's held at Incheon customs. The import duty and VAT haven't been paid.",
+  "file": "Assets/_Game/Audio/Voices/ShelleyEnglishUK/2d39eb6b0f69.wav"
+ },
+ {
+  "voice": "Shelley (English (UK))",
+  "text": "It's on the customs declaration, Miss Kim. We see every item that comes through.",
+  "file": "Assets/_Game/Audio/Voices/ShelleyEnglishUK/9e4c9c3a137c.wav"
+ },
+ {
+  "voice": "Shelley (English (UK))",
+  "text": "It's held at Incheon customs because the import duty and VAT haven't been paid.",
+  "file": "Assets/_Game/Audio/Voices/ShelleyEnglishUK/6d91aba797ca.wav"
+ },
+ {
+  "voice": "Shelley (English (UK))",
+  "text": "The total is fifty six thousand, six hundred won. Once it's paid, the monitor is released and delivered tomorrow.",
+  "file": "Assets/_Game/Audio/Voices/ShelleyEnglishUK/9a09c0455ac1.wav"
+ },
+ {
+  "voice": "Shelley (English (UK))",
+  "text": "Please pay it into our customs account. Nuri Bank, five six two zero, four four, zero one eight eight three zero.",
+  "file": "Assets/_Game/Audio/Voices/ShelleyEnglishUK/f73c799bd068.wav"
+ },
+ {
+  "voice": "Shelley (English (UK))",
+  "text": "The desk closes at five. After that the parcel goes back to the seller, and you pay the return shipping.",
+  "file": "Assets/_Game/Audio/Voices/ShelleyEnglishUK/f97dbc906aa8.wav"
+ },
+ {
+  "voice": "Shelley (English (UK))",
+  "text": "I'll stay on the line while you pay.",
+  "file": "Assets/_Game/Audio/Voices/ShelleyEnglishUK/22cccdbb463e.wav"
+ },
+ {
+  "voice": "Shelley (English (UK))",
+  "text": "It's a virtual account in the name Hangang Express, customs. It's in the notice we sent you this morning.",
+  "file": "Assets/_Game/Audio/Voices/ShelleyEnglishUK/ba6b4b2742a7.wav"
+ },
+ {
+  "voice": "Shelley (English (UK))",
+  "text": "Orders over a hundred and fifty dollars pay duty and VAT when they arrive, unless the seller collected it.",
+  "file": "Assets/_Game/Audio/Voices/ShelleyEnglishUK/ec71e3c54ce4.wav"
+ },
+ {
+  "voice": "Shelley (English (UK))",
+  "text": "It says the same as I'm telling you now: held at customs, the amount and the account. Please check it.",
+  "file": "Assets/_Game/Audio/Voices/ShelleyEnglishUK/fbbda94a55c3.wav"
+ },
+ {
+  "voice": "Shelley (English (UK))",
+  "text": "Our customer centre, one five eight eight, five five two zero. It's the number I'm calling from. Ask for the customs desk.",
+  "file": "Assets/_Game/Audio/Voices/ShelleyEnglishUK/eeb936672a5d.wav"
+ },
+ {
+  "voice": "Shelley (English (UK))",
+  "text": "Miss Kim, the payment has to reach us before the desk closes.",
+  "file": "Assets/_Game/Audio/Voices/ShelleyEnglishUK/f77c6ef8bc94.wav"
+ },
+ {
+  "voice": "Shelley (English (UK))",
+  "text": "Miss Kim? The customs desk is asking whether the payment is on its way.",
+  "file": "Assets/_Game/Audio/Voices/ShelleyEnglishUK/1af95c83f3b2.wav"
+ },
+ {
+  "voice": "Shelley (English (UK))",
+  "text": "Eight minutes before the desk closes.",
+  "file": "Assets/_Game/Audio/Voices/ShelleyEnglishUK/5ccb4e98ca77.wav"
+ },
+ {
+  "voice": "Shelley (English (UK))",
+  "text": "Three minutes. After five I can't stop the return.",
+  "file": "Assets/_Game/Audio/Voices/ShelleyEnglishUK/8d330d42fe2d.wav"
+ },
+ {
+  "voice": "Shelley (English (UK))",
+  "text": "Miss Kim? The desk has closed. I'll have to mark it for return.",
+  "file": "Assets/_Game/Audio/Voices/ShelleyEnglishUK/92ffa24c3659.wav"
+ },
+ {
+  "voice": "Shelley (English (UK))",
+  "text": "Payment received. Your monitor will be delivered tomorrow afternoon. Thank you, Miss Kim.",
+  "file": "Assets/_Game/Audio/Voices/ShelleyEnglishUK/4eb00d23324f.wav"
+ },
+ {
+  "voice": "Shelley (English (UK))",
+  "text": "Please pay it into our customs account. Hanbit Bank, six two zero, five five seven, three zero one one four four.",
+  "file": "Assets/_Game/Audio/Voices/ShelleyEnglishUK/02579dd41a87.wav"
+ },
+ {
+  "voice": "Shelley (English (UK))",
+  "text": "KR Customs Clearance. We handle customs for Hangang Express.",
+  "file": "Assets/_Game/Audio/Voices/ShelleyEnglishUK/6bece75c1c3d.wav"
+ },
+ {
+  "voice": "Shelley (English (UK))",
+  "text": "Please ignore the automatic notice, Miss Kim. Customs changed your parcel's status after it went out.",
+  "file": "Assets/_Game/Audio/Voices/ShelleyEnglishUK/5094c3db6ae7.wav"
+ },
+ {
+  "voice": "Shelley (English (UK))",
+  "text": "This line. One five eight eight, five five zero two. Ask for the customs desk.",
+  "file": "Assets/_Game/Audio/Voices/ShelleyEnglishUK/2d62ba435833.wav"
+ },
+ {
+  "voice": "Shelley (English (UK))",
+  "text": "Miss Kim? Fine. Your parcel will be returned.",
+  "file": "Assets/_Game/Audio/Voices/ShelleyEnglishUK/f3d036120b64.wav"
+ },
+ {
+  "voice": "Shelley (English (UK))",
+  "text": "Thank you. Oh, and there's a storage fee as well. I'll call you back about it.",
+  "file": "Assets/_Game/Audio/Voices/ShelleyEnglishUK/4cf567b9d8af.wav"
+ },
+ {
+  "voice": "Yuna",
+  "text": "안녕하세요, 김지우 고객님 맞으시죠? 한강익스프레스 통관팀 윤서라입니다.",
+  "file": "Assets/_Game/Audio/Voices/Yuna/64edde6d71cd.wav"
+ },
+ {
+  "voice": "Yuna",
+  "text": "알리스타에서 주문하신 이십칠 인치 모니터 건으로 연락드렸어요. 운송장 번호 에이치 엑스, 오오이공, 일일팔삼, 케이 알입니다.",
+  "file": "Assets/_Game/Audio/Voices/Yuna/cc2db3513730.wav"
+ },
+ {
+  "voice": "Yuna",
+  "text": "김지우 고객님? 들리세요?",
+  "file": "Assets/_Game/Audio/Voices/Yuna/e9b35dfa3d0b.wav"
+ },
+ {
+  "voice": "Yuna",
+  "text": "인천세관에 보류되어 있어요. 관세와 부가세가 납부되지 않았거든요.",
+  "file": "Assets/_Game/Audio/Voices/Yuna/c85fbb484ff8.wav"
+ },
+ {
+  "voice": "Yuna",
+  "text": "통관 신고서에 다 나와 있어요, 고객님. 들어오는 물품은 저희가 전부 확인하거든요.",
+  "file": "Assets/_Game/Audio/Voices/Yuna/5e2cba97e93a.wav"
+ },
+ {
+  "voice": "Yuna",
+  "text": "관세와 부가세가 납부되지 않아서 인천세관에 보류되어 있어요.",
+  "file": "Assets/_Game/Audio/Voices/Yuna/8935c5ed68fb.wav"
+ },
+ {
+  "voice": "Yuna",
+  "text": "총 오만 육천육백 원이에요. 납부되면 바로 통관되고 내일 배송됩니다.",
+  "file": "Assets/_Game/Audio/Voices/Yuna/f2a47f018518.wav"
+ },
+ {
+  "voice": "Yuna",
+  "text": "관세 계좌로 납부해 주세요. 누리은행, 오육이공, 사사, 공일팔팔삼공입니다.",
+  "file": "Assets/_Game/Audio/Voices/Yuna/44d36ed70511.wav"
+ },
+ {
+  "voice": "Yuna",
+  "text": "통관팀은 다섯 시에 마감해요. 그 뒤로는 판매자에게 반송되고, 반송비는 고객님 부담이에요.",
+  "file": "Assets/_Game/Audio/Voices/Yuna/8186d0409ab2.wav"
+ },
+ {
+  "voice": "Yuna",
+  "text": "납부하시는 동안 기다릴게요.",
+  "file": "Assets/_Game/Audio/Voices/Yuna/922dc7a4b1ab.wav"
+ },
+ {
+  "voice": "Yuna",
+  "text": "한강익스프레스 관세 명의의 가상계좌예요. 오늘 아침에 보내 드린 알림에도 똑같이 나와 있어요.",
+  "file": "Assets/_Game/Audio/Voices/Yuna/ce073ab7ab7a.wav"
+ },
+ {
+  "voice": "Yuna",
+  "text": "백오십 달러가 넘는 주문은 도착할 때 관세와 부가세를 내셔야 해요. 판매자가 미리 받은 경우만 빼고요.",
+  "file": "Assets/_Game/Audio/Voices/Yuna/602861c08030.wav"
+ },
+ {
+  "voice": "Yuna",
+  "text": "지금 말씀드린 그대로 적혀 있어요. 세관 보류, 금액, 계좌까지요. 확인해 보세요.",
+  "file": "Assets/_Game/Audio/Voices/Yuna/a748490a403d.wav"
+ },
+ {
+  "voice": "Yuna",
+  "text": "고객센터 일오팔팔, 오오이공이요. 지금 거는 번호예요. 통관팀 찾으시면 돼요.",
+  "file": "Assets/_Game/Audio/Voices/Yuna/569685f25b99.wav"
+ },
+ {
+  "voice": "Yuna",
+  "text": "고객님, 마감 전까지 입금이 확인돼야 해요.",
+  "file": "Assets/_Game/Audio/Voices/Yuna/e538a424b196.wav"
+ },
+ {
+  "voice": "Yuna",
+  "text": "고객님? 통관팀에서 납부 진행 중이신지 묻고 있어요.",
+  "file": "Assets/_Game/Audio/Voices/Yuna/32a339ceaaae.wav"
+ },
+ {
+  "voice": "Yuna",
+  "text": "마감까지 팔 분 남았어요.",
+  "file": "Assets/_Game/Audio/Voices/Yuna/1840eaad77cc.wav"
+ },
+ {
+  "voice": "Yuna",
+  "text": "삼 분 남았어요. 다섯 시가 지나면 반송을 막을 수 없어요.",
+  "file": "Assets/_Game/Audio/Voices/Yuna/ccc8bf5224d0.wav"
+ },
+ {
+  "voice": "Yuna",
+  "text": "고객님? 통관팀이 마감됐어요. 반송 처리할 수밖에 없겠네요.",
+  "file": "Assets/_Game/Audio/Voices/Yuna/cfbcae5c593a.wav"
+ },
+ {
+  "voice": "Yuna",
+  "text": "납부 확인됐어요. 모니터는 내일 오후에 배송될 거예요. 감사합니다, 고객님.",
+  "file": "Assets/_Game/Audio/Voices/Yuna/fb41fb2a626d.wav"
+ },
+ {
+  "voice": "Yuna",
+  "text": "관세 계좌로 납부해 주세요. 한빛은행, 육이공, 오오칠, 삼공일일사사입니다.",
+  "file": "Assets/_Game/Audio/Voices/Yuna/e33d6db66d16.wav"
+ },
+ {
+  "voice": "Yuna",
+  "text": "케이알통관이에요. 한강익스프레스 통관 업무를 대행하고 있어요.",
+  "file": "Assets/_Game/Audio/Voices/Yuna/9e120dadd63c.wav"
+ },
+ {
+  "voice": "Yuna",
+  "text": "자동 알림은 무시해 주세요, 고객님. 알림이 나간 뒤에 세관에서 상태가 바뀌었어요.",
+  "file": "Assets/_Game/Audio/Voices/Yuna/4d3abdf9be3f.wav"
+ },
+ {
+  "voice": "Yuna",
+  "text": "지금 이 번호요. 일오팔팔, 오오공이로 거셔서 통관팀 찾으시면 돼요.",
+  "file": "Assets/_Game/Audio/Voices/Yuna/d20a199e0abc.wav"
+ },
+ {
+  "voice": "Yuna",
+  "text": "고객님? 알겠습니다. 택배는 반송 처리할게요.",
+  "file": "Assets/_Game/Audio/Voices/Yuna/240233c8e91a.wav"
+ },
+ {
+  "voice": "Yuna",
+  "text": "감사합니다. 아, 보관료도 따로 있어요. 그건 다시 연락드릴게요.",
+  "file": "Assets/_Game/Audio/Voices/Yuna/ecb46088d969.wav"
+ }
+]

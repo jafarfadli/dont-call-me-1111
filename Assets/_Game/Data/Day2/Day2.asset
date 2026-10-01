@@ -1,0 +1,363 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ea1fbb0ab59d4c84a59e909f29a5c4f, type: 3}
+  m_Name: Day2
+  m_EditorClassIdentifier: DontCallMe::DontCallMe.Data.DayData
+  day: 2
+  dateLabel: Wednesday, 7 October
+  weekday: Wed
+  shortLabel: "Day 2 \xB7 Wed 7 Oct"
+  place: Mangwon-dong, Seoul
+  startTime: 16:20
+  intro: Rent day. You meant to send it to Mr. Choi after class, like every month.
+  ringDelay: 7
+  variants:
+  - id: scam
+    conversation: {fileID: 11400000, guid: 22f2aed7e321048b1abf80217b6a709b, type: 2}
+    phone: {fileID: 11400000, guid: 70939c56e2207464b95a14904dfde186, type: 2}
+    room: {fileID: 11400000, guid: e56ae609b70414623bb93ec08017ab05, type: 2}
+    directory: {fileID: 11400000, guid: 5e6ad6ff1111844828136268946bd8cd, type: 2}
+    clues:
+    - id: number
+      text: 'The caller''s number isn''t the son''s: your lease gives 010-2280-6614,
+        and CheckFirst shows the caller''s as a prepaid phone opened six days ago.'
+      where: "Desk drawer \u2192 Lease contract, or Computer \u2192 Check a phone
+        number"
+      when:
+      - kind: 1
+        target: "Lease contract \xB7 Unit 302"
+      - kind: 2
+        target: 010-4127-8830
+    - id: account_owner
+      text: 'The "new rent account" is in a stranger''s name: SEO JIYEON.'
+      where: "Computer \u2192 Check a bank account"
+      when:
+      - kind: 2
+        target: 620-118-449027
+      - kind: 3
+        target: 620-118-449027
+    - id: landlord
+      text: 'Mr. Choi was writing in the residents'' chat this afternoon: at home,
+        fixing a light, asking for the rent on the usual account.'
+      where: "Chats \u2192 Mangwon Heights residents"
+      when:
+      - kind: 4
+        target: villa
+    papers:
+    - outcome: 1
+      headline: Fake "landlord's son" calls tenants on rent day
+      subhead: The landlord was at home all along. Tenants who checked their lease
+        kept their rent.
+      body: 'A man claiming to be the son of a Mangwon-dong landlord phoned tenants
+        on rent day yesterday. His father was in hospital, he said, and this month''s
+        rent should go to a new account before 5 p.m.
+
+
+        The real landlord,
+        Choi Youngsik, 71, was not in hospital: he spent the afternoon organising
+        a water tank cleaning. "My son''s number is in every lease," he said. "And
+        the rent account only changes when I write it down."
+
+
+        Police say
+        the account the caller gave, Hanbit Bank 620-118-449027, belongs to a woman
+        who sold her bank book online. Anyone called by 010-4127-8830 should report
+        it to 112.'
+      verdictNote: You hung up and kept the rent. The lease had the son's real number,
+        and the chat showed Mr. Choi at home.
+      print: {fileID: 2800000, guid: 8687e732fe83540049be292512a0ee15, type: 3}
+    - outcome: 0
+      headline: Tenant loses a month's rent to a fake landlord's son
+      subhead: 450,000 won went to a stranger's account. The landlord never asked
+        for it.
+      body: 'A man claiming to be the son of a Mangwon-dong landlord phoned tenants
+        on rent day yesterday. His father was in hospital, he said, and this month''s
+        rent should go to a new account before 5 p.m.
+
+
+        A 22-year-old student
+        sent 450,000 won to Hanbit Bank 620-118-449027. The account belongs to a
+        woman who sold her bank book online; the money was withdrawn within minutes.
+
+
+        The
+        real landlord, Choi Youngsik, 71, was not in hospital: he spent the afternoon
+        organising a water tank cleaning. "My son''s number is in every lease," he
+        said. "And the rent account only changes when I write it down."
+
+
+        Police
+        ask anyone called by 010-4127-8830 to report it to 112.'
+      verdictNote: The account was in SEO JIYEON's name, and the caller's number
+        wasn't the one in your lease.
+      print: {fileID: 2800000, guid: 49aa448867e3f4df6b1d012b0cc41ae8, type: 3}
+    - outcome: 3
+      headline: 'Rent-day calls: "pay my new account"'
+      subhead: Tenants in Mangwon kept their rent, but few reported the calls.
+      body: 'A man claiming to be the son of a Mangwon-dong landlord phoned tenants
+        on rent day yesterday. His father was in hospital, he said, and this month''s
+        rent should go to a new account before 5 p.m.
+
+
+        Most tenants let
+        the call run on until the caller gave up. The real landlord, Choi Youngsik,
+        71, was not in hospital: he spent the afternoon organising a water tank cleaning.
+        "My son''s number is in every lease," he said. "And the rent account only
+        changes when I write it down."
+
+
+        Police ask anyone called by 010-4127-8830
+        to report it to 112.'
+      verdictNote: Nothing was sent, but you never decided. The lease and the residents'
+        chat had the answer.
+      print: {fileID: 2800000, guid: 021adfc04d8a5413a9a5da5672b99158, type: 3}
+    ruleTitle: A new rent account? Check the lease
+    rule: No reports doesn't mean safe. Check the caller's number and the account
+      holder's name against your lease, and ask the landlord's own chat.
+    ruleSource: Seoul Daily, 8 Oct
+  - id: legit
+    conversation: {fileID: 11400000, guid: b5782b6a4626142aeb0c45af35ce3eb5, type: 2}
+    phone: {fileID: 11400000, guid: aa208c986f6b54834b6580dd0b9383d9, type: 2}
+    room: {fileID: 11400000, guid: 3060e3da6775b47c3aa5d4b1db8cbb4f, type: 2}
+    directory: {fileID: 11400000, guid: baf3a0b530af9438c878caa3a20f573f, type: 2}
+    clues:
+    - id: number
+      text: The caller's number, 010-2280-6614, is the son's number in your lease,
+        registered to Choi Hyunwoo.
+      where: "Desk drawer \u2192 Lease contract, or Computer \u2192 Check a phone
+        number"
+      when:
+      - kind: 1
+        target: "Lease contract \xB7 Unit 302"
+      - kind: 2
+        target: 010-2280-6614
+    - id: account_owner
+      text: The new account is in Choi Hyunwoo's name, the son your lease names.
+      where: "Computer \u2192 Check a bank account"
+      when:
+      - kind: 2
+        target: 110-771-202358
+      - kind: 3
+        target: 110-771-202358
+    - id: landlord
+      text: Mr. Choi wrote in the residents' chat this morning that he is in hospital
+        and that Hyunwoo collects this month's rent on this account.
+      where: "Chats \u2192 Mangwon Heights residents, or the calendar on the wall"
+      when:
+      - kind: 4
+        target: villa
+      - kind: 0
+        target: Calendar
+    papers:
+    - outcome: 0
+      headline: A son keeps the building running
+      subhead: While Mangwon Heights' landlord recovers from surgery, his son collects
+        the rent, after a message to every tenant.
+      body: 'Choi Youngsik, 71, who owns Mangwon Heights on Poeun-ro, had knee surgery
+        at Severance Hospital yesterday. While he recovers, his son Choi Hyunwoo
+        is collecting the rent, and found out how hard that can be.
+
+
+        "Dad
+        wrote the new account in the residents'' chat before he went in," Hyunwoo
+        said. "Some tenants checked everything before paying, which I was glad to
+        see."
+
+
+        The Seoul Housing Centre says tenants are right to check
+        a new rent account against the lease, the landlord''s own message and the
+        name on the account. "Checking works both ways," a spokesperson said. "When
+        they all match, the change is real."'
+      verdictNote: 'The change was real, and you checked it: the number in your lease,
+        the name on the account and the landlord''s own message all matched.'
+      print: {fileID: 2800000, guid: a365c11f6902c42c18a9663ba26ef4ca, type: 3}
+    - outcome: 1
+      headline: When the real call sounds like a scam
+      subhead: A landlord's son says half the tenants hung up on him on rent day.
+      body: 'Choi Youngsik, 71, who owns Mangwon Heights on Poeun-ro, had knee surgery
+        at Severance Hospital yesterday. While he recovers, his son Choi Hyunwoo
+        is collecting the rent, and found out how hard that can be.
+
+
+        "After
+        all the scam calls, I understand," Hyunwoo said. "But Dad wrote the new account
+        in the chat that morning, and my number is in every lease. It was all there."
+
+
+        The
+        Seoul Housing Centre says tenants are right to check a new rent account against
+        the lease, the landlord''s own message and the name on the account. "Checking
+        works both ways," a spokesperson said. "When they all match, the change is
+        real."'
+      verdictNote: This one was real. The number in your lease, the landlord's own
+        message and the name on the account all matched.
+      print: {fileID: 2800000, guid: f7f0d9c1827c9442887c7e9ac6bd2de8, type: 3}
+    - outcome: 3
+      headline: Rent day, hospital day
+      subhead: A landlord's son waited on the line for tenants who never decided.
+      body: 'Choi Youngsik, 71, who owns Mangwon Heights on Poeun-ro, had knee surgery
+        at Severance Hospital yesterday. While he recovers, his son Choi Hyunwoo
+        is collecting the rent, and found out how hard that can be.
+
+
+        "I
+        waited on the phone for ages," Hyunwoo said. "The chat message and the lease
+        had everything they needed."
+
+
+        The Seoul Housing Centre says tenants
+        are right to check a new rent account against the lease, the landlord''s
+        own message and the name on the account. "Checking works both ways," a spokesperson
+        said. "When they all match, the change is real."'
+      verdictNote: The change was real, and the evidence was in the lease, the chat
+        and the account's name. Deciding in time matters too.
+      print: {fileID: 2800000, guid: 69bd3651b164a42cb9b7db7ba31a28db, type: 3}
+    ruleTitle: Checking works both ways
+    rule: When the number in your lease, the landlord's own message and the name
+      on the account all match, the change is real. Check, then act.
+    ruleSource: Seoul Daily, 8 Oct
+  echoes:
+  - afterDay: 1
+    truth: 0
+    outcomes: 1
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: "The bank said the \u20A91,200,000 is probably gone for good."
+    amount: 0
+    outgoing: 0
+    notify: 0
+  - afterDay: 1
+    truth: 0
+    outcomes: 1
+    kind: 0
+    from: family
+    sender: Mom
+    avatar: pt_mom
+    when: Yesterday 21:30
+    title: 
+    text: "Jiwoo-ya, Dad told me. Don't blame yourself, these people are professionals.
+      We'll help with tuition \u2665"
+    amount: 0
+    outgoing: 0
+    notify: 1
+  - afterDay: 1
+    truth: 0
+    outcomes: 1
+    kind: 0
+    from: family
+    sender: 
+    avatar: 
+    when: Yesterday 21:34
+    title: 
+    text: Thanks Mom... I should have looked up the account first.
+    amount: 0
+    outgoing: 1
+    notify: 0
+  - afterDay: 1
+    truth: 0
+    outcomes: 2
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: Yesterday's fake "bank" call made this morning's paper. You hung up on
+      it.
+    amount: 0
+    outgoing: 0
+    notify: 0
+  - afterDay: 1
+    truth: 0
+    outcomes: 2
+    kind: 0
+    from: yuna
+    sender: 
+    avatar: 
+    when: Yesterday 17:30
+    title: 
+    text: A fake bank called me today!! They wanted 1.2 million
+    amount: 0
+    outgoing: 1
+    notify: 0
+  - afterDay: 1
+    truth: 0
+    outcomes: 2
+    kind: 0
+    from: yuna
+    sender: Yuna
+    avatar: pt_yuna
+    when: Yesterday 17:31
+    title: 
+    text: WHAT. Good thing you hung up!!
+    amount: 0
+    outgoing: 0
+    notify: 1
+  - afterDay: 1
+    truth: 0
+    outcomes: 2
+    kind: 0
+    from: villa
+    sender: 
+    avatar: 
+    when: Yesterday 17:50
+    title: 
+    text: The 'protection team' called me too. Hung up. It's 070-8844-2019.
+    amount: 0
+    outgoing: 1
+    notify: 0
+  - afterDay: 1
+    truth: 0
+    outcomes: 2
+    kind: 0
+    from: villa
+    sender: 201
+    avatar: pt_unknown
+    when: Yesterday 18:10
+    title: 
+    text: Same number! Thanks 302, reported it.
+    amount: 0
+    outgoing: 0
+    notify: 0
+  - afterDay: 1
+    truth: 0
+    outcomes: 8
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: Yesterday's "bank" caller gave up at five. You never gave him an answer.
+    amount: 0
+    outgoing: 0
+    notify: 0
+  - afterDay: 1
+    truth: 0
+    outcomes: 8
+    kind: 0
+    from: villa
+    sender: 201
+    avatar: pt_unknown
+    when: Yesterday 18:10
+    title: 
+    text: 'That ''protection team'' is still calling people. It''s 070-8844-2019:
+      just hang up.'
+    amount: 0
+    outgoing: 0
+    notify: 1
+  nextDateLabel: Thursday, 8 October
+  builtWith: 6

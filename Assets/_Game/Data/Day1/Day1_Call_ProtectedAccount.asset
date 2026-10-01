@@ -1,0 +1,331 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfd03999caeea4a5788ed68a4194a80e, type: 3}
+  m_Name: Day1_Call_ProtectedAccount
+  m_EditorClassIdentifier: DontCallMe::DontCallMe.Data.ConversationData
+  title: "Day 1 \xB7 The protected account (M6)"
+  isScam: 1
+  revealAtEnd: 0
+  caller:
+    displayName: Manager Jeon
+    number: 070-8844-2019
+    inContacts: 0
+    portrait: pt_jeon
+    voice: Daniel
+  claims:
+  - He is Manager Jeon from Nuri Bank's "account protection team".
+  - Someone logged into my account from Busan twenty minutes ago.
+  - My money has to go to a "protected account" until the 17:00 "security reset".
+  - 'Protected account: Nuri Bank 110-900-551207.'
+  - I should stay on the line and not tell anyone.
+  nodes:
+  - id: start
+    lines:
+    - speaker: 0
+      text: Hello, is this Kim Jiwoo? This is Manager Jeon from Nuri Bank's account
+        protection team.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    - speaker: 0
+      text: Twenty minutes ago, someone logged into your account from an unregistered
+        device in Busan.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    hasDecision: 1
+    decision:
+      kind: 0
+      prompt: How do you answer?
+      patienceSeconds: 45
+      a:
+        label: Busan? I've been home all day.
+        playerLine: Busan? I've been home all day.
+        next: story
+      b:
+        label: How do I know you're really from Nuri Bank?
+        playerLine: How do I know you're really from Nuri Bank?
+        next: proof
+      pressure:
+      - atPatience: 0.5
+        text: Miss Kim? Are you still there? This is urgent.
+        spoken: 
+    next: 
+    holds: 0
+  - id: story
+    lines:
+    - speaker: 0
+      text: That's exactly why I'm calling. A fraud ring is emptying accounts in
+        Mapo today, and yours is on their list.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    hasDecision: 0
+    decision:
+      kind: 0
+      prompt: 
+      patienceSeconds: 60
+      a:
+        label: 
+        playerLine: 
+        next: 
+      b:
+        label: 
+        playerLine: 
+        next: 
+      pressure: []
+    next: ask
+    holds: 0
+  - id: proof
+    lines:
+    - speaker: 0
+      text: I have your account ending in 8814 on my screen, Miss Kim.
+      spoken: I have your account ending in eight, eight, one, four on my screen,
+        Miss Kim.
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    - speaker: 0
+      text: We're the protection team, not the call centre, so we call from our direct
+        line.
+      spoken: 
+      facts:
+      - kind: 0
+        value: 070-8844-2019
+        label: Caller
+      deliver: []
+      pauseAfter: 0.4
+    hasDecision: 0
+    decision:
+      kind: 0
+      prompt: 
+      patienceSeconds: 60
+      a:
+        label: 
+        playerLine: 
+        next: 
+      b:
+        label: 
+        playerLine: 
+        next: 
+      pressure: []
+    next: ask
+    holds: 0
+  - id: ask
+    lines:
+    - speaker: 0
+      text: To keep your savings safe, we'll move them to a protected account until
+        the security reset at five o'clock.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    - speaker: 0
+      text: 'Please transfer 1,200,000 won to the protected account: Nuri Bank 110-900-551207.'
+      spoken: Please transfer one million, two hundred thousand won to the protected
+        account. Nuri Bank, one one zero, nine zero zero, five five one two zero
+        seven.
+      facts:
+      - kind: 1
+        value: 110-900-551207
+        label: 
+      - kind: 5
+        value: 1,200,000
+        label: 
+      deliver: []
+      pauseAfter: 0.4
+    - speaker: 0
+      text: Stay on the line and don't tell anyone. The fraud ring may be watching
+        your messages.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    - speaker: 0
+      text: I'll hold while you open your bank app. It has to be done before five.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    hasDecision: 0
+    decision:
+      kind: 0
+      prompt: 
+      patienceSeconds: 60
+      a:
+        label: 
+        playerLine: 
+        next: 
+      b:
+        label: 
+        playerLine: 
+        next: 
+      pressure: []
+    next: 
+    holds: 1
+  endings:
+  - id: refuse
+    verdict: 1
+    timedOut: 0
+    moneyDelta: 0
+    lines: []
+    consequence: You hung up and kept your money. The number 070-8844-2019 has seven
+      reports on CheckFirst, and the "protected account" belongs to Jeong Miran.
+  - id: timeout
+    verdict: 1
+    timedOut: 1
+    moneyDelta: 0
+    lines:
+    - speaker: 0
+      text: Miss Kim? It's five o'clock.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    - speaker: 0
+      text: Fine. Your account will be frozen. Don't call us when it's empty.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    consequence: The caller gave up at five. You lost nothing, but you never decided
+      and nobody reported the number.
+  - id: go_along
+    verdict: 0
+    timedOut: 0
+    moneyDelta: -1200000
+    lines:
+    - speaker: 0
+      text: Thank you, Miss Kim. Your money is safe with us now.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    - speaker: 0
+      text: Don't tell anyone until tomorrow's reset.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    consequence: The 1,200,000 won went to Jeong Miran's account and was withdrawn
+      within minutes. Nuri Bank has no "protected accounts".
+  actions:
+  - kind: 0
+    target: 110-900-551207
+    endingId: go_along
+    bank: Nuri Bank
+    amount: 1200000
+  hangUpEndingId: refuse
+  timeoutEndingId: timeout
+  caseInfo:
+    caseTitle: The protected account
+    claimedIdentity: Manager Jeon, Nuri Bank's "account protection team"
+    ask: "Move \u20A91,200,000 to a \"protected account\": Nuri Bank 110-900-551207"
+    deadline: 17:00
+    deadlineReason: before the "security reset"
+    objective: 'Is he really from your bank? Look up his number and the account on
+      the computer before 17:00, then give your verdict on the call: send the money,
+      or hang up.'
+  questions:
+  - label: Ask why you can't just call the bank
+    playerLine: Why can't I just call Nuri Bank's customer centre?
+    answer:
+    - speaker: 0
+      text: The call centre can't see protection cases, Miss Kim. If you hang up,
+        the case closes and the fraud ring gets your money.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    - speaker: 0
+      text: Please, just stay with me.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    endingId: 
+  - label: Ask whose account it is
+    playerLine: Whose name is on the protected account?
+    answer:
+    - speaker: 0
+      text: It's registered to our security officer, Jeong Miran. Protection accounts
+        are always in an officer's name.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    endingId: 
+  - label: Ask why he calls from an 070 number
+    playerLine: Why are you calling from an 070 number?
+    answer:
+    - speaker: 0
+      text: It's our team's direct line, Miss Kim. Every bank uses internet lines
+        for calls like this.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    endingId: 
+  beats:
+  - at: 16:34
+    line:
+      speaker: 0
+      text: Miss Kim? Are you still there? Please don't put me on hold for long.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+  - at: 16:40
+    line:
+      speaker: 0
+      text: I've opened a protection case for you, Miss Kim, so this is official.
+        Please finish the transfer.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+  - at: 16:47
+    line:
+      speaker: 0
+      text: The fraud ring just tried to log in again. We need that transfer now,
+        Miss Kim.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+  - at: 16:53
+    line:
+      speaker: 0
+      text: Seven minutes. After the reset I can't protect anything.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+  - at: 16:57
+    line:
+      speaker: 0
+      text: Three minutes! Please, transfer it now!
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+  verdict:
+    goAlong: Send the money
+    goAlongDetail: 
+    goAlongEndingId: 
+    refuse: Hang up
+    refuseDetail: Say no and end the call
+    goAlongLine: Okay... I'm sending it now.
+    refuseLine: I'm not sending anything. Goodbye.
