@@ -28,52 +28,22 @@ MonoBehaviour:
     room: {fileID: 11400000, guid: 0aa6ea02e8f2f4901b561270e05fb28e, type: 2}
     directory: {fileID: 11400000, guid: 1ca42ca149eb5428db5091a6fa0268d8, type: 2}
     clues:
-    - id: recipient_name
-      text: 'The "protected account" is in a person''s name: JEONG MIRAN.'
-      where: "Bank app \u2192 Transfer \u2192 the recipient check"
+    - id: account_owner
+      text: The "protected account" belongs to a private person, JEONG MIRAN, and
+        has two fraud reports.
+      where: "Computer \u2192 Check a bank account"
       when:
-      - kind: 4
-        target: 110-900-551207
-      - kind: 5
-        target: 110-900-551207
-    - id: caller_reports
-      text: The caller's number, 070-8844-2019, has seven scam reports.
-      where: "CheckFirst \u2192 look up the caller's number"
-      when:
-      - kind: 5
-        target: 070-8844-2019
-    - id: official_notice
-      text: Nuri Bank says it never moves money to a "protected account".
-      where: "Browser \u2192 nuribank.co.kr"
-      when:
-      - kind: 6
-        target: nuribank.co.kr/help
-    - id: real_number
-      text: Nuri Bank's real number is 1599-0000, not an 070 line.
-      where: "Wallet \u2192 back of the bank card, or the cork board's numbers"
-      when:
-      - kind: 1
-        target: Nuri Bank check card
       - kind: 2
-        target: Important numbers
-    - id: no_busan_login
-      text: The bank app shows no sign-in from Busan, only this phone.
-      where: "Bank app \u2192 Alerts"
+        target: 110-900-551207
+      - kind: 3
+        target: 110-900-551207
+    - id: caller_number
+      text: The caller's number, 070-8844-2019, is an unregistered internet phone
+        with seven scam reports. It isn't Nuri Bank's.
+      where: "Computer \u2192 Check a phone number"
       when:
-      - kind: 7
-        target: 
-    - id: fake_site
-      text: The texted link goes to nuri-secure.kr, not the bank's site.
-      where: "Messages \u2192 the case-number text"
-      when:
-      - kind: 6
-        target: nuri-secure.kr/verify
-    - id: paper_warning
-      text: Today's paper warns about fake "bank staff" and "protected accounts".
-      where: The Seoul Daily on the desk
-      when:
-      - kind: 0
-        target: Newspaper
+      - kind: 2
+        target: 070-8844-2019
     papers:
     - outcome: 1
       headline: '"Protection team" scam calls hit Mangwon'
@@ -93,11 +63,10 @@ MonoBehaviour:
 
 
         "There is no such thing as a protected account," said Song
-        Eunji of Nuri Bank''s customer centre. "Every banking app shows the name
-        of the person you are sending money to. If it''s a person''s name, stop,
-        hang up and call us on the number you already have."'
-      verdictNote: 'You hung up and kept your money. Next time, also report it: call
-        the bank on 1599-0000 or the hotline 1332.'
+        Eunji of Nuri Bank''s customer centre. "Look up whose account it is before
+        you send anything. If it''s a person''s name, stop and hang up."'
+      verdictNote: You hung up and kept your money. The account was a stranger's
+        and the number was no bank's.
       print: {fileID: 2800000, guid: a705afd03a672458a8b3a2428965a44b, type: 3}
     - outcome: 0
       headline: 1.2 million won gone in minutes
@@ -116,10 +85,9 @@ MonoBehaviour:
 
         "There
         is no such thing as a protected account," said Song Eunji of Nuri Bank''s
-        customer centre. "Every banking app shows the name of the person you are
-        sending money to. If it''s a person''s name, stop, hang up and call us on
-        the number you already have."'
-      verdictNote: 'The transfer screen showed who would get the money: JEONG MIRAN,
+        customer centre. "Look up whose account it is before you send anything. If
+        it''s a person''s name, stop and hang up."'
+      verdictNote: 'The account lookup showed who would get the money: JEONG MIRAN,
         a person, not the bank.'
       print: {fileID: 2800000, guid: ec0d4914df0744804aa96cf3413362cd, type: 3}
     - outcome: 3
@@ -138,16 +106,17 @@ MonoBehaviour:
 
 
         "There is no such thing as a protected
-        account," said Song Eunji of Nuri Bank''s customer centre. "Every banking
-        app shows the name of the person you are sending money to. If it''s a person''s
-        name, stop, hang up and call us on the number you already have."'
-      verdictNote: Nothing was sent, but you ran out of time. Hanging up, or calling
-        your bank, would have ended it on your terms.
+        account," said Song Eunji of Nuri Bank''s customer centre. "Look up whose
+        account it is before you send anything. If it''s a person''s name, stop and
+        hang up."'
+      verdictNote: Nothing was sent, but you ran out of time. Check the account and
+        the number, then hang up yourself.
       print: {fileID: 2800000, guid: d906d2a4b5ca84cd6a770623d4a69a2c, type: 3}
     ruleTitle: Banks never "protect" your money
-    rule: A bank never moves your money to a "safe" or "protected" account. Check
-      the name on the transfer screen, then hang up and call the number on your card.
+    rule: 'A bank never moves your money to a "safe" or "protected" account. Look
+      up the account and the caller''s number first: a stranger''s name on an "official"
+      account means stop.'
     ruleSource: Seoul Daily, 7 Oct
   echoes: []
   nextDateLabel: Wednesday, 7 October
-  builtWith: 5
+  builtWith: 6

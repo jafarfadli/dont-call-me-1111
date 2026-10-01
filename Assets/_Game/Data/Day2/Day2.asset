@@ -27,40 +27,31 @@ MonoBehaviour:
     room: {fileID: 11400000, guid: e56ae609b70414623bb93ec08017ab05, type: 2}
     directory: {fileID: 11400000, guid: 5e6ad6ff1111844828136268946bd8cd, type: 2}
     clues:
-    - id: chat_home
-      text: 'Mr. Choi was posting in the residents'' chat this afternoon: no hospital,
-        no new account.'
-      where: "Talk \u2192 Mangwon Heights residents"
+    - id: number
+      text: 'The caller''s number isn''t the son''s: your lease gives 010-2280-6614,
+        and CheckFirst shows the caller''s as a prepaid phone opened six days ago.'
+      where: "Desk drawer \u2192 Lease contract, or Computer \u2192 Check a phone
+        number"
       when:
-      - kind: 11
-        target: villa
-    - id: lease
-      text: Your lease gives the son's number as 010-2280-6614, not the caller's,
-        and says the account changes only in writing.
-      where: "Desk drawer \u2192 Lease contract"
-      when:
-      - kind: 3
+      - kind: 1
         target: "Lease contract \xB7 Unit 302"
-    - id: name_wrong
+      - kind: 2
+        target: 010-4127-8830
+    - id: account_owner
       text: 'The "new rent account" is in a stranger''s name: SEO JIYEON.'
-      where: "Bank app \u2192 Transfer \u2192 the recipient check"
+      where: "Computer \u2192 Check a bank account"
+      when:
+      - kind: 2
+        target: 620-118-449027
+      - kind: 3
+        target: 620-118-449027
+    - id: landlord
+      text: 'Mr. Choi was writing in the residents'' chat this afternoon: at home,
+        fixing a light, asking for the rent on the usual account.'
+      where: "Chats \u2192 Mangwon Heights residents"
       when:
       - kind: 4
-        target: 620-118-449027
-      - kind: 5
-        target: 620-118-449027
-    - id: caller_reports
-      text: 'CheckFirst has two reports on 010-4127-8830: a fake "landlord''s son".'
-      where: "CheckFirst \u2192 look up the caller's number"
-      when:
-      - kind: 5
-        target: 010-4127-8830
-    - id: paper_warning
-      text: Today's paper warns about "new rent account" calls on rent day.
-      where: The Seoul Daily on the desk
-      when:
-      - kind: 0
-        target: Newspaper
+        target: villa
     papers:
     - outcome: 1
       headline: Fake "landlord's son" calls tenants on rent day
@@ -130,8 +121,8 @@ MonoBehaviour:
         chat had the answer.
       print: {fileID: 2800000, guid: 021adfc04d8a5413a9a5da5672b99158, type: 3}
     ruleTitle: A new rent account? Check the lease
-    rule: A rent account changes only the way your lease says. Check the caller's
-      number and the account holder's name against the lease before you send.
+    rule: No reports doesn't mean safe. Check the caller's number and the account
+      holder's name against your lease, and ask the landlord's own chat.
     ruleSource: Seoul Daily, 8 Oct
   - id: legit
     conversation: {fileID: 11400000, guid: b5782b6a4626142aeb0c45af35ce3eb5, type: 2}
@@ -139,56 +130,55 @@ MonoBehaviour:
     room: {fileID: 11400000, guid: 3060e3da6775b47c3aa5d4b1db8cbb4f, type: 2}
     directory: {fileID: 11400000, guid: baf3a0b530af9438c878caa3a20f573f, type: 2}
     clues:
-    - id: chat_notice
-      text: Mr. Choi posted in the residents' chat that he's in hospital and that
-        Hyunwoo collects this month's rent.
-      where: "Talk \u2192 Mangwon Heights residents"
+    - id: number
+      text: The caller's number, 010-2280-6614, is the son's number in your lease,
+        registered to Choi Hyunwoo.
+      where: "Desk drawer \u2192 Lease contract, or Computer \u2192 Check a phone
+        number"
       when:
-      - kind: 11
-        target: villa
-    - id: lease
-      text: The caller's number, 010-2280-6614, is the son's number in your lease.
-      where: "Desk drawer \u2192 Lease contract (\"If absent, contact\")"
-      when:
-      - kind: 3
+      - kind: 1
         target: "Lease contract \xB7 Unit 302"
-    - id: name_matches
+      - kind: 2
+        target: 010-2280-6614
+    - id: account_owner
       text: The new account is in Choi Hyunwoo's name, the son your lease names.
-      where: "Bank app \u2192 Transfer \u2192 the recipient check"
-      when:
-      - kind: 4
-        target: 110-771-202358
-      - kind: 5
-        target: 110-771-202358
-    - id: written_notice
-      text: The landlord's written notice with the new account is pinned on your
-        board, as the lease requires.
-      where: "Cork board \u2192 Note from the landlord"
+      where: "Computer \u2192 Check a bank account"
       when:
       - kind: 2
-        target: Note from the landlord
+        target: 110-771-202358
+      - kind: 3
+        target: 110-771-202358
+    - id: landlord
+      text: Mr. Choi wrote in the residents' chat this morning that he is in hospital
+        and that Hyunwoo collects this month's rent on this account.
+      where: "Chats \u2192 Mangwon Heights residents, or the calendar on the wall"
+      when:
+      - kind: 4
+        target: villa
+      - kind: 0
+        target: Calendar
     papers:
     - outcome: 0
       headline: A son keeps the building running
       subhead: While Mangwon Heights' landlord recovers from surgery, his son collects
-        the rent, with a note and a message for every tenant.
+        the rent, after a message to every tenant.
       body: 'Choi Youngsik, 71, who owns Mangwon Heights on Poeun-ro, had knee surgery
         at Severance Hospital yesterday. While he recovers, his son Choi Hyunwoo
         is collecting the rent, and found out how hard that can be.
 
 
         "Dad
-        left a note under every door and posted the new account in the residents''
-        chat," Hyunwoo said. "Some tenants checked everything before paying, which
-        I was glad to see."
+        wrote the new account in the residents'' chat before he went in," Hyunwoo
+        said. "Some tenants checked everything before paying, which I was glad to
+        see."
 
 
-        The Seoul Housing Centre says tenants are right
-        to check a new rent account against the lease, the landlord''s written notice
-        and the name on the account. "Checking works both ways," a spokesperson said.
-        "When they all match, the change is real."'
+        The Seoul Housing Centre says tenants are right to check
+        a new rent account against the lease, the landlord''s own message and the
+        name on the account. "Checking works both ways," a spokesperson said. "When
+        they all match, the change is real."'
       verdictNote: 'The change was real, and you checked it: the number in your lease,
-        the name on the account and the landlord''s note all matched.'
+        the name on the account and the landlord''s own message all matched.'
       print: {fileID: 2800000, guid: a365c11f6902c42c18a9663ba26ef4ca, type: 3}
     - outcome: 1
       headline: When the real call sounds like a scam
@@ -199,17 +189,17 @@ MonoBehaviour:
 
 
         "After
-        all the scam calls, I understand," Hyunwoo said. "But Dad posted the new
-        account in the chat and left a note under every door. It was all there."
+        all the scam calls, I understand," Hyunwoo said. "But Dad wrote the new account
+        in the chat that morning, and my number is in every lease. It was all there."
 
 
         The
         Seoul Housing Centre says tenants are right to check a new rent account against
-        the lease, the landlord''s written notice and the name on the account. "Checking
+        the lease, the landlord''s own message and the name on the account. "Checking
         works both ways," a spokesperson said. "When they all match, the change is
         real."'
-      verdictNote: This one was real. The number in your lease, the landlord's note
-        and the name on the account all matched.
+      verdictNote: This one was real. The number in your lease, the landlord's own
+        message and the name on the account all matched.
       print: {fileID: 2800000, guid: f7f0d9c1827c9442887c7e9ac6bd2de8, type: 3}
     - outcome: 3
       headline: Rent day, hospital day
@@ -220,39 +210,22 @@ MonoBehaviour:
 
 
         "I
-        waited on the phone for ages," Hyunwoo said. "The note and the chat message
+        waited on the phone for ages," Hyunwoo said. "The chat message and the lease
         had everything they needed."
 
 
         The Seoul Housing Centre says tenants
         are right to check a new rent account against the lease, the landlord''s
-        written notice and the name on the account. "Checking works both ways," a
-        spokesperson said. "When they all match, the change is real."'
+        own message and the name on the account. "Checking works both ways," a spokesperson
+        said. "When they all match, the change is real."'
       verdictNote: The change was real, and the evidence was in the lease, the chat
-        and on your board. Deciding in time matters too.
+        and the account's name. Deciding in time matters too.
       print: {fileID: 2800000, guid: 69bd3651b164a42cb9b7db7ba31a28db, type: 3}
     ruleTitle: Checking works both ways
-    rule: When the number in your lease, the landlord's written notice and the name
+    rule: When the number in your lease, the landlord's own message and the name
       on the account all match, the change is real. Check, then act.
     ruleSource: Seoul Daily, 8 Oct
   echoes:
-  - afterDay: 1
-    truth: 0
-    outcomes: 1
-    kind: 8
-    from: 
-    sender: 
-    avatar: 
-    when: 
-    title: 
-    text: "The bank said the \u20A91,200,000 is probably gone for good."
-    link: 
-    amount: 0
-    outgoing: 0
-    image: {fileID: 0}
-    position: {x: 0, y: 0}
-    rotation: 0
-    notify: 0
   - afterDay: 1
     truth: 0
     outcomes: 1
@@ -260,39 +233,16 @@ MonoBehaviour:
     from: 
     sender: 
     avatar: 
-    when: Yesterday 17:05
-    title: Fraud report received
-    text: We've asked the receiving bank to freeze account 110-900-551207. Recovery
-      is not guaranteed. Report NB-2026-10-0612.
-    link: 
+    when: 
+    title: 
+    text: "The bank said the \u20A91,200,000 is probably gone for good."
     amount: 0
     outgoing: 0
-    image: {fileID: 0}
-    position: {x: 0, y: 0}
-    rotation: 0
     notify: 0
   - afterDay: 1
     truth: 0
     outcomes: 1
     kind: 0
-    from: 02-555-0112
-    sender: 
-    avatar: 
-    when: Yesterday 19:20
-    title: 
-    text: '[Mapo Police] Your voice phishing report (2026-4471) has been received.
-      An investigator will contact you.'
-    link: 
-    amount: 0
-    outgoing: 0
-    image: {fileID: 0}
-    position: {x: 0, y: 0}
-    rotation: 0
-    notify: 0
-  - afterDay: 1
-    truth: 0
-    outcomes: 1
-    kind: 1
     from: family
     sender: Mom
     avatar: pt_mom
@@ -300,34 +250,26 @@ MonoBehaviour:
     title: 
     text: "Jiwoo-ya, Dad told me. Don't blame yourself, these people are professionals.
       We'll help with tuition \u2665"
-    link: 
     amount: 0
     outgoing: 0
-    image: {fileID: 0}
-    position: {x: 0, y: 0}
-    rotation: 0
     notify: 1
   - afterDay: 1
     truth: 0
     outcomes: 1
-    kind: 1
+    kind: 0
     from: family
     sender: 
     avatar: 
     when: Yesterday 21:34
     title: 
-    text: Thanks Mom... I should have checked the name.
-    link: 
+    text: Thanks Mom... I should have looked up the account first.
     amount: 0
     outgoing: 1
-    image: {fileID: 0}
-    position: {x: 0, y: 0}
-    rotation: 0
     notify: 0
   - afterDay: 1
     truth: 0
     outcomes: 2
-    kind: 8
+    kind: 3
     from: 
     sender: 
     avatar: 
@@ -335,200 +277,87 @@ MonoBehaviour:
     title: 
     text: Yesterday's fake "bank" call made this morning's paper. You hung up on
       it.
-    link: 
     amount: 0
     outgoing: 0
-    image: {fileID: 0}
-    position: {x: 0, y: 0}
-    rotation: 0
     notify: 0
   - afterDay: 1
     truth: 0
     outcomes: 2
-    kind: 1
+    kind: 0
     from: yuna
     sender: 
     avatar: 
     when: Yesterday 17:30
     title: 
     text: A fake bank called me today!! They wanted 1.2 million
-    link: 
     amount: 0
     outgoing: 1
-    image: {fileID: 0}
-    position: {x: 0, y: 0}
-    rotation: 0
     notify: 0
   - afterDay: 1
     truth: 0
     outcomes: 2
-    kind: 1
+    kind: 0
     from: yuna
     sender: Yuna
     avatar: pt_yuna
     when: Yesterday 17:31
     title: 
-    text: WHAT. Good thing you hung up!! Report the number!
-    link: 
+    text: WHAT. Good thing you hung up!!
     amount: 0
     outgoing: 0
-    image: {fileID: 0}
-    position: {x: 0, y: 0}
-    rotation: 0
     notify: 1
   - afterDay: 1
     truth: 0
     outcomes: 2
-    kind: 1
+    kind: 0
     from: villa
     sender: 
     avatar: 
     when: Yesterday 17:50
     title: 
     text: The 'protection team' called me too. Hung up. It's 070-8844-2019.
-    link: 
     amount: 0
     outgoing: 1
-    image: {fileID: 0}
-    position: {x: 0, y: 0}
-    rotation: 0
     notify: 0
   - afterDay: 1
     truth: 0
     outcomes: 2
-    kind: 1
+    kind: 0
     from: villa
     sender: 201
     avatar: pt_unknown
     when: Yesterday 18:10
     title: 
     text: Same number! Thanks 302, reported it.
-    link: 
     amount: 0
     outgoing: 0
-    image: {fileID: 0}
-    position: {x: 0, y: 0}
-    rotation: 0
     notify: 0
   - afterDay: 1
     truth: 0
     outcomes: 8
-    kind: 8
+    kind: 3
     from: 
     sender: 
     avatar: 
     when: 
     title: 
-    text: Yesterday's "bank" caller gave up at five. He tried again this morning.
-    link: 
+    text: Yesterday's "bank" caller gave up at five. You never gave him an answer.
     amount: 0
     outgoing: 0
-    image: {fileID: 0}
-    position: {x: 0, y: 0}
-    rotation: 0
     notify: 0
-  - afterDay: 1
-    truth: 0
-    outcomes: 8
-    kind: 5
-    from: 070-8844-2019
-    sender: 
-    avatar: 
-    when: Today 09:41
-    title: 
-    text: 
-    link: 
-    amount: 0
-    outgoing: 0
-    image: {fileID: 0}
-    position: {x: 0, y: 0}
-    rotation: 0
-    notify: 0
-  - afterDay: 1
-    truth: 0
-    outcomes: 8
-    kind: 5
-    from: 070-8844-2019
-    sender: 
-    avatar: 
-    when: Today 11:02
-    title: 
-    text: 
-    link: 
-    amount: 0
-    outgoing: 0
-    image: {fileID: 0}
-    position: {x: 0, y: 0}
-    rotation: 0
-    notify: 1
   - afterDay: 1
     truth: 0
     outcomes: 8
     kind: 0
-    from: 010-8812-4471
-    sender: 
-    avatar: 
-    when: Today 11:05
+    from: villa
+    sender: 201
+    avatar: pt_unknown
+    when: Yesterday 18:10
     title: 
-    text: "[Web\uBC1C\uC2E0] [Nuri Bank] Your protection case is still open. Call
-      back 070-8844-2019 today."
-    link: 
+    text: 'That ''protection team'' is still calling people. It''s 070-8844-2019:
+      just hang up.'
     amount: 0
     outgoing: 0
-    image: {fileID: 0}
-    position: {x: 0, y: 0}
-    rotation: 0
-    notify: 0
-  - afterDay: 1
-    truth: 0
-    outcomes: 1
-    kind: 6
-    from: 
-    sender: 
-    avatar: 
-    when: 
-    title: Sticky note
-    text: NEVER send money to a "protected account". READ THE NAME.
-    link: 
-    amount: 0
-    outgoing: 0
-    image: {fileID: 2800000, guid: b4a3ac4525cc14c8abd49fffb6f17949, type: 3}
-    position: {x: 0.27, y: 0.75}
-    rotation: -5
-    notify: 0
-  - afterDay: 1
-    truth: 0
-    outcomes: 2
-    kind: 6
-    from: 
-    sender: 
-    avatar: 
-    when: 
-    title: Sticky note
-    text: 070-8844-2019 = fake bank. Hung up!
-    link: 
-    amount: 0
-    outgoing: 0
-    image: {fileID: 2800000, guid: ff587b7efa0e9483dae0a028c229d238, type: 3}
-    position: {x: 0.27, y: 0.75}
-    rotation: 4
-    notify: 0
-  - afterDay: 1
-    truth: 0
-    outcomes: 8
-    kind: 6
-    from: 
-    sender: 
-    avatar: 
-    when: 
-    title: Sticky note
-    text: 'Next time: decide. Hang up, or call the bank yourself.'
-    link: 
-    amount: 0
-    outgoing: 0
-    image: {fileID: 2800000, guid: b4a3ac4525cc14c8abd49fffb6f17949, type: 3}
-    position: {x: 0.27, y: 0.75}
-    rotation: -3
-    notify: 0
+    notify: 1
   nextDateLabel: Thursday, 8 October
-  builtWith: 5
+  builtWith: 6

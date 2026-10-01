@@ -708,3 +708,52 @@
 }
 
 .call-btn--off:hover { scale: 1 1; }
+
+/* ---------------------------------------------------------------- the first day's guide */
+
+.tutorial {
+    position: absolute;
+    left: 28px;
+    top: 196px;
+    width: 296px;
+    padding: 12px 16px 16px 16px;
+    background-color: #F7E27A;
+    border-width: 3px;
+    border-color: var(--ink);
+    border-radius: 6px;
+    rotate: -1.2deg;
+    opacity: 0;
+    translate: -40px 0;
+    transition-property: opacity, translate, scale;
+    transition-duration: 0.25s;
+}
+
+.tutorial--on { opacity: 1; translate: 0 0; }
+.tutorial--pop { scale: 1.07 1.07; }
+
+.tutorial__head {
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.tutorial__icon { width: 22px; height: 22px; margin-right: 8px; }
+
+.tutorial__title {
+    flex-grow: 1;
+    font-size: 15px;
+    letter-spacing: 1px;
+    color: var(--ink-soft);
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+}
+
+.tutorial__count {
+    font-size: 18px;
+    color: var(--red);
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DotGothic16-Regular.asset");
+}
+
+.tutorial__text {
+    font-size: 21px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset");
+}

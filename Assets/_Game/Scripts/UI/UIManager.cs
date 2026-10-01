@@ -31,8 +31,8 @@ namespace DontCallMe.UI
     /// <summary>
     /// Builds the game UI on one UIDocument and owns its layers: HUD, room panels, transcript,
     /// phone, pressure overlay, day and case cards, toasts, modals, the pause menu and the screen
-    /// fade. Handles Tab (phone), Esc/right-click (back, then pause), 1–4 (answer or ask),
-    /// N (notebook), and locks walking while anything is open.
+    /// fade. Handles Tab (phone), Esc/right-click (back, then pause) and 1–4 (answer or ask), and
+    /// locks walking while anything is open.
     /// </summary>
     [RequireComponent(typeof(UIDocument))]
     public class UIManager : MonoBehaviour
@@ -60,6 +60,8 @@ namespace DontCallMe.UI
         public CallHud CallHud { get; private set; }
         public PressureOverlay Pressure { get; private set; }
         public HudView Hud { get; private set; }
+        /// <summary>The first day's guide card (hidden until a step is shown).</summary>
+        public TutorialCard Tutorial { get; private set; }
         public CaseFile CurrentCase { get; set; }
         public bool InputLocked { get; private set; }
         public bool Paused => pauseMenu != null;
@@ -133,7 +135,7 @@ namespace DontCallMe.UI
             root.pickingMode = PickingMode.Ignore;
             root.AddToClassList("dcm-root");
 
-            Hud = new HudView(TogglePhone, () => OpenNotebook(false));
+            Hud = new HudView(TogglePhone);
             root.Add(Hud.Root);
 
             CallHud = new CallHud();
@@ -162,6 +164,9 @@ namespace DontCallMe.UI
 
             overlayLayer = Layer();
             root.Add(overlayLayer);
+            // Over the panels (it guides inside them), under the cards, modals and the pause menu.
+            Tutorial = new TutorialCard();
+            overlayLayer.Add(Tutorial.Root);
             overlayLayer.Add(Hud.Toasts);
 
             Fade = new Fader(false);
@@ -196,6 +201,7 @@ namespace DontCallMe.UI
             Transcript.SetVisible(inCall && PhoneView.IsUp);
             CallHud.SetVisible(inCall && !PhoneView.IsUp);
             Hud.SetHintsVisible(!PhoneView.IsUp && openPanel == null && card == null && (player == null || !player.IsSeated));
+            Hud.SetButtonsVisible(!PhoneView.IsUp);
 
             bool locked = PhoneView.IsUp || openPanel != null || modal != null || endingCard != null || card != null || Paused;
             if (locked != InputLocked)
@@ -262,32 +268,17 @@ namespace DontCallMe.UI
                 Choose(2);
             if (kb.digit4Key.wasPressedThisFrame || kb.numpad4Key.wasPressedThisFrame)
                 Choose(3);
-            if (kb.nKey.wasPressedThisFrame)
-            {
-                if (openPanel is NotebookPanel)
-                    ClosePanel();
-                else
-                    OpenNotebook(false);
-            }
         }
 
-        /// <summary>Keys 1–4: a decision's option, a question for a holding caller, or a chat reply.</summary>
+        /// <summary>Keys 1–4: a decision's option, or a question for a holding caller.</summary>
         void Choose(int index)
         {
-            if (PhoneView.IsUp && director != null && director.IsCallActive)
-            {
-                if (Transcript.HasDecision)
-                {
-                    Transcript.Pick(index);
-                    return;
-                }
-                if (Transcript.HasQuestions)
-                {
-                    Transcript.PickQuestion(index);
-                    return;
-                }
-            }
-            PhoneView.App<TalkApp>().PickFromKeyboard(index);
+            if (!PhoneView.IsUp || director == null || !director.IsCallActive)
+                return;
+            if (Transcript.HasDecision)
+                Transcript.Pick(index);
+            else if (Transcript.HasQuestions)
+                Transcript.PickQuestion(index);
         }
 
         /// <summary>Esc: close the top thing (modal, phone screen, panel); with nothing open, pause.</summary>
@@ -431,9 +422,8 @@ namespace DontCallMe.UI
             {
                 PanelId.Newspaper => new NewspaperPanel(this),
                 PanelId.Drawer => new DrawerPanel(this),
-                PanelId.Board => new BoardPanel(this),
-                PanelId.Wallet => new WalletPanel(this),
-                PanelId.Notebook => new NotebookPanel(this),
+                PanelId.Calendar => new CalendarPanel(this),
+                PanelId.Computer => new ComputerPanel(this),
                 _ => null,
             };
             if (p == null)
@@ -447,20 +437,6 @@ namespace DontCallMe.UI
             PanelOpened?.Invoke(id);
         }
 
-        public void OpenNotebook(bool caseTab)
-        {
-            bool raised = PhoneView.IsUp;
-            if (PhoneView.Locked)
-                return;
-            OpenPanel(PanelId.Notebook);
-            if (openPanel is NotebookPanel nb)
-                nb.ShowTab(caseTab);
-            if (raised)
-                returnToPhoneAfterNotebook = true;
-        }
-
-        bool returnToPhoneAfterNotebook;
-
         public void ClosePanel()
         {
             if (openPanel == null)
@@ -471,11 +447,6 @@ namespace DontCallMe.UI
             p.Root.RemoveFromClassList("room-panel--open");
             p.Root.schedule.Execute(() => p.Root.RemoveFromHierarchy()).ExecuteLater(220);
             PanelClosed?.Invoke(p.Id);
-            if (returnToPhoneAfterNotebook)
-            {
-                returnToPhoneAfterNotebook = false;
-                PhoneView.Raise(true);
-            }
         }
 
         // ---------------------------------------------------------------- modals, toasts, endings
@@ -556,17 +527,9 @@ namespace DontCallMe.UI
 
         public void Toast(string icon, string title, string text) => Hud?.Toast(icon, title, text);
 
-        void OnCopied(Fact f) => Hud?.Toast("ic_copy", Loc.T("Copied"), f.value + Loc.T("  ·  paste it in any app"));
+        void OnCopied(Fact f) => Hud?.Toast("ic_copy", Loc.T("Copied"), f.value + Loc.T("  ·  paste it on the computer"));
 
-        // ---------------------------------------------------------------- phone hooks
-
-        public void Dial(string number)
-        {
-            if (director != null)
-                director.Dial(number);
-        }
-
-        /// <summary>Facts worth offering as one-tap suggestions: today's case first, then recent copies.</summary>
+        /// <summary>Facts worth offering as one-click suggestions: today's case first, then recent copies.</summary>
         public List<Fact> SuggestedFacts(params FactKind[] kinds)
         {
             var list = new List<Fact>();

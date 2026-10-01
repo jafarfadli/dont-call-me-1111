@@ -5,8 +5,8 @@ using UnityEngine;
 namespace DontCallMe.Data
 {
     /// <summary>
-    /// Everything on Jiwoo's phone for one day: contacts, calls, texts, chats, bank, parcels, mail.
-    /// The UI templates read it as-is; later the EvidenceComposer builds it per day.
+    /// Everything on Jiwoo's phone for one day: contacts, chats and the bank. The three apps read
+    /// it as-is; the content builder writes it per day and variant.
     /// </summary>
     [CreateAssetMenu(menuName = "Don't Call Me/Phone Content")]
     public class PhoneContent : ScriptableObject
@@ -16,12 +16,8 @@ namespace DontCallMe.Data
         public string dateLabel = "Tuesday, 6 October";
         public string startTime = "16:20";
         public List<Contact> contacts = new List<Contact>();
-        public List<CallRecord> recents = new List<CallRecord>();
-        public List<SmsThread> sms = new List<SmsThread>();
         public List<ChatThread> chats = new List<ChatThread>();
         public BankData bank = new BankData();
-        public List<Parcel> parcels = new List<Parcel>();
-        public List<MailItem> mails = new List<MailItem>();
 
         public Contact FindContact(string number)
         {
@@ -41,33 +37,6 @@ namespace DontCallMe.Data
         public string portrait;   // UISkin portrait id, e.g. "pt_mom"
     }
 
-    public enum CallKind { Incoming, Outgoing, Missed }
-
-    [Serializable]
-    public class CallRecord
-    {
-        public string number;
-        public CallKind kind;
-        public string when;       // "Yesterday 19:02"
-        public string duration;   // "3:12"
-    }
-
-    [Serializable]
-    public class SmsThread
-    {
-        public string sender;     // name or number
-        public List<SmsMessage> messages = new List<SmsMessage>();
-    }
-
-    [Serializable]
-    public class SmsMessage
-    {
-        public string when;
-        [TextArea(2, 6)] public string text;
-        public bool outgoing;
-        public string link;       // opens in Browser
-    }
-
     [Serializable]
     public class ChatThread
     {
@@ -75,9 +44,6 @@ namespace DontCallMe.Data
         public string title;
         public string avatar;           // portrait id
         public bool group;
-        public bool notFriend;          // shows the "not in your friends list" banner
-        public string profileId;        // shown on the profile
-        public string profileNote;      // "Joined Talk today"
         public List<ChatMessage> messages = new List<ChatMessage>();
     }
 
@@ -99,8 +65,6 @@ namespace DontCallMe.Data
         public string bankName = "Nuri Bank";
         public List<BankAccount> accounts = new List<BankAccount>();
         public List<BankTransaction> transactions = new List<BankTransaction>();
-        public List<BankNotice> notices = new List<BankNotice>();
-        public List<string> banks = new List<string>();
 
         /// <summary>
         /// Adds to (or takes from) the main account. Money going out beyond its balance comes out of
@@ -134,45 +98,6 @@ namespace DontCallMe.Data
         public string when;
         public string counterparty;
         public string memo;
-        public long amount;       // + in, − out
-    }
-
-    [Serializable]
-    public class BankNotice
-    {
-        public string when;
-        public string title;
-        [TextArea(2, 5)] public string body;
-        public bool alert;
-    }
-
-    [Serializable]
-    public class Parcel
-    {
-        public string item;
-        public string seller;
-        public string status;
-        public string tracking;
-        public string courier;
-        public string driver;
-        public string driverPhone;
-        public string window;
-        public bool overseas;
-        [Tooltip("A line from the courier under the status, e.g. what is due and how to pay it.")]
-        [TextArea(1, 4)] public string note;
-        [Tooltip("The account to pay, when something is due (shown as a copy chip).")]
-        public string account;
-    }
-
-    [Serializable]
-    public class MailItem
-    {
-        public string from;
-        public string fromAddress;
-        public string subject;
-        public string when;
-        [TextArea(3, 10)] public string body;
-        public List<string> attachments = new List<string>();
-        public bool unread;
+        public long amount;       // + in, - out
     }
 }

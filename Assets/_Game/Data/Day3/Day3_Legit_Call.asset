@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: Day3_Legit_Call
   m_EditorClassIdentifier: DontCallMe::DontCallMe.Data.ConversationData
   title: "Day 3 \xB7 The held parcel (legit)"
-  channel: 0
   isScam: 0
   revealAtEnd: 0
   caller:
@@ -21,8 +20,6 @@ MonoBehaviour:
     number: 1588-5520
     inContacts: 0
     portrait: pt_hr
-    chatId: 
-    profileId: 
     voice: Shelley (English (UK))
   claims:
   - She is Yoon Seora from Hangang Express's customs clearance desk.
@@ -215,9 +212,6 @@ MonoBehaviour:
   - kind: 0
     target: 5620-44-018830
     endingId: go_along
-    answeredBy: 
-    portrait: 
-    voice: 
     bank: Nuri Bank
     amount: 56600
   hangUpEndingId: refuse
@@ -237,7 +231,7 @@ MonoBehaviour:
     answer:
     - speaker: 0
       text: It's a virtual account in the name Hangang Express, customs. It's in
-        your Parcels app too.
+        the notice we sent you this morning.
       spoken: 
       facts: []
       deliver: []
@@ -254,12 +248,12 @@ MonoBehaviour:
       deliver: []
       pauseAfter: 0.4
     endingId: 
-  - label: Ask if you can pay in the Parcels app
-    playerLine: Can I pay in the Parcels app instead?
+  - label: Ask about the notice Hangang Express sent you
+    playerLine: What about the notice you sent me this morning?
     answer:
     - speaker: 0
-      text: Of course. The same account is under your parcel in the app. Either way
-        works.
+      text: 'It says the same as I''m telling you now: held at customs, the amount
+        and the account. Please check it.'
       spoken: 
       facts: []
       deliver: []
@@ -284,18 +278,10 @@ MonoBehaviour:
   - at: 16:39
     line:
       speaker: 0
-      text: I've texted you the payment details, so you have them in writing.
+      text: Miss Kim, the payment has to reach us before the desk closes.
       spoken: 
       facts: []
-      deliver:
-      - kind: 0
-        from: Hangang Express
-        title: 
-        text: "[Hangang Express] Customs: duty and VAT \u20A956,600 due for HX-5520-1183-KR.
-          Pay by 17:00 in the app or to virtual account Nuri Bank 5620-44-018830
-          (HANGANG EXPRESS (CUSTOMS))."
-        link: 
-        amount: 0
+      deliver: []
       pauseAfter: 0.4
   - at: 16:46
     line:

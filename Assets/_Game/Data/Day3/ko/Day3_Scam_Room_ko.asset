@@ -23,8 +23,8 @@ MonoBehaviour:
       \uACC4\uC57D\uC11C\uB97C \uD655\uC778\uD55C \uC138\uC785\uC790\uB4E4\uC740
       \uC6D4\uC138\uB97C \uC9C0\uCF30\uB2E4."
     photo: {fileID: 2800000, guid: 4c63c0d2cf38942db834f06de02c655f, type: 3}
-    caption: "\uC1A1\uAE08 \uD654\uBA74\uC5D0\uB294 \uB3C8\uC744 \uC2E4\uC81C\uB85C
-      \uBC1B\uB294 \uC0AC\uB78C\uC774 \uB098\uC628\uB2E4. \uC0AC\uC9C4: \uC11C\uC6B8\uB370\uC77C\uB9AC"
+    caption: "\uC774\uCCB4 \uC804, \uC740\uD589\uC740 \uB3C8\uC744 \uC2E4\uC81C\uB85C
+      \uBC1B\uB294 \uC0AC\uB78C\uC744 \uBCF4\uC5EC \uC900\uB2E4. \uC0AC\uC9C4: \uC11C\uC6B8\uB370\uC77C\uB9AC"
     body:
     - "\uC5B4\uC81C \uC6D4\uC138 \uB0A0, \uB9DD\uC6D0\uB3D9\uC758 \uD55C \uC9D1\uC8FC\uC778
       \uC544\uB4E4\uC744 \uC790\uCE6D\uD55C \uB0A8\uC131\uC774 \uC138\uC785\uC790\uB4E4\uC5D0\uAC8C
@@ -43,12 +43,15 @@ MonoBehaviour:
       \uD1B5\uC7A5\uC744 \uD310 \uC5EC\uC131\uC758 \uBA85\uC758\uB2E4. 010-4127-8830\uC73C\uB85C
       \uC804\uD654\uB97C \uBC1B\uC740 \uC0AC\uB78C\uC740 112\uC5D0 \uC2E0\uACE0\uD574
       \uB2EC\uB77C\uACE0 \uACBD\uCC30\uC740 \uB2F9\uBD80\uD588\uB2E4."
-    warningTitle: "\uD0DD\uBC30 \uBB38\uC790: \uC8FC\uC18C\uB97C \uD655\uC778\uD558\uB77C"
-    warningText: "\uAC00\uC9DC '\uAD00\uC138 \uBBF8\uB0A9' \uBB38\uC790\uB294 \uBE44\uC2B7\uD558\uAC8C
-      \uC0DD\uAE34 \uC0AC\uC774\uD2B8\uB85C \uC5F0\uACB0\uB41C\uB2E4. \uB9C1\uD06C\uB97C
-      \uB204\uB974\uC9C0 \uB9D0\uACE0, \uD0DD\uBC30\uC0AC \uC571\uC774\uB098 \uACF5\uC2DD
-      \uD648\uD398\uC774\uC9C0\uB97C \uC9C1\uC811 \uC5F4\uC5B4 \uB0BC \uB3C8\uC774
-      \uC788\uB294\uC9C0 \uD655\uC778\uD558\uB77C."
+    warningTitle: "\uD0DD\uBC30 \uC804\uD654: \uB204\uAC00 \uC694\uAD6C\uD558\uB294\uC9C0
+      \uD655\uC778\uD558\uB77C"
+    warningText: "\uAC00\uC9DC '\uAD00\uC138 \uBBF8\uB0A9' \uC804\uD654\uAC00 \uC774\uC81C
+      \uC2E4\uC81C \uC8FC\uBB38 \uB0B4\uC5ED\uAE4C\uC9C0 \uB304\uB2E4. \uC0C8 \uBC88\uD638\uC640
+      \uC0C8 \uACC4\uC88C\uC5D0\uB294 \uC544\uC9C1 \uC2E0\uACE0\uAC00 \uC5C6\uB2E4.
+      \uADF8\uB7EC\uB2C8 \uB300\uC870\uD558\uB77C. \uADF8 \uBC88\uD638\uAC00 \uD0DD\uBC30\uC0AC
+      \uBC88\uD638\uC778\uAC00? \uACC4\uC88C\uAC00 \uD0DD\uBC30\uC0AC \uBA85\uC758\uC778\uAC00?
+      \uD0DD\uBC30\uC0AC\uAC00 \uC9C1\uC811 \uBCF4\uB0B8 \uC54C\uB9BC\uC5D0\uB294
+      \uBB50\uB77C\uACE0 \uC801\uD600 \uC788\uB294\uAC00?"
     print: {fileID: 0}
     local:
     - title: "\uC54C\uB9AC\uC2A4\uD0C0 \uAC1C\uC778\uC815\uBCF4 \uC720\uCD9C"
@@ -66,12 +69,13 @@ MonoBehaviour:
     - title: "24\uC2DC \uCE58\uD0A8"
       text: "\uD6C4\uB77C\uC774\uB4DC & \uAC04\uC7A5\uB9C8\uB298. 2\uB9CC \uC6D0
         \uC774\uC0C1 \uBB34\uB8CC \uBC30\uB2EC. 02-555-0147"
+    - title: "\uCCB4\uD06C\uD37C\uC2A4\uD2B8"
+      text: "\uADF8 \uBC88\uD638\uC758 \uC8FC\uC778\uC740? \uADF8 \uACC4\uC88C\uC758
+        \uC608\uAE08\uC8FC\uB294? \uBCF4\uB0B4\uAE30 \uC804\uC5D0 \uC870\uD68C\uD558\uC138\uC694.
+        checkfirst.kr"
     - title: "\uD55C\uBE5B\uD559\uC6D0"
       text: "\uD1A0\uC775 \uC8FC\uB9D0\uBC18, \uB300\uD559\uC0DD 30% \uD560\uC778.
         02-555-0166"
-    - title: "\uACE0\uC218\uC775 \uC54C\uBC14!"
-      text: "\uC7AC\uD0DD \uBD80\uC5C5: \uACE0\uAC1D \uC785\uAE08\uC561\uC744 \uC804\uB2EC\uB9CC
-        \uD558\uBA74 3% \uC218\uB2F9. \uACBD\uB825 \uBB34\uAD00! 010-3309-2214"
   drawer:
   - title: "\uC784\uB300\uCC28 \uACC4\uC57D\uC11C \xB7 302\uD638"
     kind: 0
@@ -90,15 +94,19 @@ MonoBehaviour:
       isFact: 0
       factKind: 6
     - label: "\uC6D4\uC138 \uACC4\uC88C"
-      value: "\uB204\uB9AC\uC740\uD589 110-771-209944 (\uCD5C\uC601\uC2DD)"
+      value: 110-771-209944
       isFact: 1
       factKind: 1
-    - label: "\uBCF4\uC99D\uAE08"
-      value: "1,000\uB9CC \uC6D0"
+    - label: "\uC608\uAE08\uC8FC"
+      value: "\uCD5C\uC601\uC2DD (\uB204\uB9AC\uC740\uD589)"
       isFact: 0
       factKind: 6
     - label: "\uBD80\uC7AC \uC2DC \uC5F0\uB77D\uCC98"
-      value: "\uCD5C\uD604\uC6B0 (\uC544\uB4E4) 010-2280-6614"
+      value: "\uCD5C\uD604\uC6B0 (\uC544\uB4E4)"
+      isFact: 0
+      factKind: 6
+    - label: "\uC544\uB4E4 \uC5F0\uB77D\uCC98"
+      value: 010-2280-6614
       isFact: 1
       factKind: 0
     body: "\uD2B9\uC57D\uC0AC\uD56D\n1. \uC6D4\uC138 \uACC4\uC88C\uB294 \uC784\uB300\uC778\uC758
@@ -123,36 +131,30 @@ MonoBehaviour:
       value: "9\uC6D4 28\uC77C (\uC790\uB3D9\uC774\uCCB4)"
       isFact: 0
       factKind: 6
-    - label: "\uACE0\uAC1D\uC13C\uD130"
-      value: 02-555-0181
-      isFact: 1
-      factKind: 0
     body: "\uC774\uB2EC \uC548\uC804\uC810\uAC80: 10\uC6D4 14\uC77C(\uC218). \uC810\uAC80\uC6D0\uC740
       \uC2E0\uBD84\uC99D\uC744 \uC9C0\uCC38\uD558\uBA70 \uC808\uB300 \uB3C8\uC744
       \uC694\uAD6C\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
     stamp: stamp_paid
     image: {fileID: 0}
-  - title: "\uD734\uB300\uD3F0 \uC694\uAE08 \uACE0\uC9C0\uC11C \xB7 9\uC6D4"
-    kind: 1
-    issuer: "\uD55C\uAE00\uD154\uB808\uCF64"
+  - title: "\uD0DD\uBC30 \uC1A1\uC7A5"
+    kind: 4
+    issuer: "\uD55C\uAC15\uC775\uC2A4\uD504\uB808\uC2A4"
     fields:
-    - label: "\uBC88\uD638"
-      value: 010-6620-0921
+    - label: "\uD488\uBAA9"
+      value: "\uD734\uB300\uD3F0 \uCF00\uC774\uC2A4 (9\uC6D4 21\uC77C \uBC30\uC1A1
+        \uC644\uB8CC)"
       isFact: 0
       factKind: 6
-    - label: "\uAE08\uC561"
-      value: "43,200\uC6D0"
-      isFact: 0
-      factKind: 6
-    - label: "\uB0A9\uBD80\uAE30\uD55C"
-      value: "10\uC6D4 20\uC77C"
+    - label: "\uC6B4\uC1A1\uC7A5"
+      value: HX-4410-2287-KR
       isFact: 0
       factKind: 6
     - label: "\uACE0\uAC1D\uC13C\uD130"
-      value: 02-555-0114
+      value: 1588-5520
       isFact: 1
       factKind: 0
-    body: 
+    body: "\uD55C\uAC15\uC775\uC2A4\uD504\uB808\uC2A4\uC758 \uBC30\uC1A1\xB7\uD1B5\uAD00
+      \uBB38\uC758 \uBC88\uD638\uB294 \uD558\uB098\uC785\uB2C8\uB2E4: 1588-5520"
     stamp: 
     image: {fileID: 0}
   - title: "\uC601\uC218\uC99D \xB7 10\uC6D4 5\uC77C"
@@ -170,250 +172,31 @@ MonoBehaviour:
     body: 
     stamp: 
     image: {fileID: 2800000, guid: 83fa7e6b1771849458b4623c76dc8211, type: 3}
-  - title: "\uC7A5\uD559\uAE08 \uBA74\uC811 \uC548\uB0B4"
-    kind: 3
-    issuer: "\uD55C\uBE5B\uB300\uD559\uAD50"
-    fields:
-    - label: "\uC77C\uC2DC"
-      value: "10\uC6D4 16\uC77C(\uAE08) 14:00"
-      isFact: 0
-      factKind: 6
-    - label: "\uC7A5\uC18C"
-      value: "\uD559\uC0DD\uD68C\uAD00 204\uD638"
-      isFact: 0
-      factKind: 6
-    - label: "\uC7A5\uD559\uD300"
-      value: 02-555-0200
-      isFact: 1
-      factKind: 0
-    body: "\uD559\uC0DD\uC99D\uC744 \uC9C0\uCC38\uD574 \uC8FC\uC138\uC694. \uC7A5\uD559\uD300\uC740
-      \uC5B4\uB5A0\uD55C \uC218\uC218\uB8CC\uB3C4 \uBC1B\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
-    stamp: 
-    image: {fileID: 0}
-  - title: "\uD0DD\uBC30 \uC1A1\uC7A5"
-    kind: 4
-    issuer: "\uD55C\uAC15\uC775\uC2A4\uD504\uB808\uC2A4"
-    fields:
-    - label: "\uC6B4\uC1A1\uC7A5"
-      value: 4410 2287 1934
-      isFact: 1
-      factKind: 3
-    - label: "\uBC30\uC1A1\uAE30\uC0AC"
-      value: "\uAE40\uD0DC\uC2DD"
-      isFact: 0
-      factKind: 6
-    - label: "\uAE30\uC0AC \uC5F0\uB77D\uCC98"
-      value: 010-7715-5521
-      isFact: 1
-      factKind: 0
-    - label: "\uACE0\uAC1D\uC13C\uD130"
-      value: 1588-5520
-      isFact: 1
-      factKind: 0
-    body: 
-    stamp: 
-    image: {fileID: 0}
-  board:
-  - title: "\uD589\uBCF5\uC57D\uAD6D \uB2EC\uB825 \xB7 10\uC6D4"
-    kind: 0
+  calendar:
+    title: "\uD589\uBCF5\uC57D\uAD6D \uB2EC\uB825 \xB7 10\uC6D4"
     image: {fileID: 2800000, guid: a1da30c34289e4f228f4febace33d6af, type: 3}
-    position: {x: 0.03, y: 0.05}
-    width: 0.25
-    rotation: -1.5
-    details: []
-    calendar:
+    todayLabel: "\uC624\uB298: 10\uC6D4 8\uC77C \uBAA9\uC694\uC77C"
+    today: 8
+    entries:
     - day: 5
+      label: "5\uC77C (\uC6D4)"
       text: "\uB300\uCCB4\uACF5\uD734\uC77C"
     - day: 7
-      text: "\uC6D4\uC138"
+      label: "7\uC77C (\uC218)"
+      text: "\uC6D4\uC138 \uB0A0! \uCD5C \uC0AC\uC7A5\uB2D8\uAED8 45\uB9CC \uC6D0"
     - day: 8
-      text: "\uCE58\uACFC"
+      label: "8\uC77C (\uBAA9)"
+      text: "\uCE58\uACFC 18:30"
+    - day: 9
+      label: "9\uC77C (\uAE08)"
+      text: "\uBAA8\uB2C8\uD130 \uB3C4\uCC29! \uD55C\uAC15\uC775\uC2A4\uD504\uB808\uC2A4
+        14:00~18:00"
     - day: 13
+      label: "13\uC77C (\uD654)"
       text: "\uC911\uAC04\uACE0\uC0AC \uC2DC\uC791"
     - day: 14
-      text: "\uAC00\uC2A4 \uC810\uAC80"
+      label: "14\uC77C (\uC218)"
+      text: "\uAC00\uC2A4 \uC548\uC804\uC810\uAC80 10:00~17:00"
     - day: 17
-      text: "\uC5C4\uB9C8 \uC0DD\uC2E0"
-    handwriting: 
-  - title: "\uC911\uC694\uD55C \uBC88\uD638"
-    kind: 1
-    image: {fileID: 2800000, guid: bd4ed3d8cb0c147aaa2cbffbe4dab024, type: 3}
-    position: {x: 0.32, y: 0.04}
-    width: 0.24
-    rotation: 2.5
-    details:
-    - label: "\uACBD\uCC30"
-      value: 112
-      isFact: 1
-      factKind: 0
-    - label: "\uD654\uC7AC \xB7 \uAD6C\uAE09"
-      value: 119
-      isFact: 1
-      factKind: 0
-    - label: "\uBCF4\uC774\uC2A4\uD53C\uC2F1 (\uAE08\uAC10\uC6D0)"
-      value: 1332
-      isFact: 1
-      factKind: 0
-    - label: "\uB204\uB9AC\uC740\uD589"
-      value: 1599-0000
-      isFact: 1
-      factKind: 0
-    - label: "\uC9D1\uC8FC\uC778"
-      value: 010-5512-3380
-      isFact: 1
-      factKind: 0
-    - label: "\uC5C4\uB9C8"
-      value: 010-2231-7745
-      isFact: 1
-      factKind: 0
-    - label: "\uC544\uBE60"
-      value: 010-4418-0902
-      isFact: 1
-      factKind: 0
-    calendar: []
-    handwriting: 
-  - title: "\uAD00\uB9AC\uC0AC\uBB34\uC18C \uC548\uB0B4"
-    kind: 2
-    image: {fileID: 2800000, guid: fc87ae54cd07b4c5981a602c504171f5, type: 3}
-    position: {x: 0.6, y: 0.05}
-    width: 0.25
-    rotation: -2
-    details:
-    - label: "\uAC00\uC2A4 \uC548\uC804\uC810\uAC80"
-      value: "10\uC6D4 14\uC77C(\uC218) 10:00~17:00"
-      isFact: 0
-      factKind: 6
-    - label: "\uBB3C\uD0F1\uD06C \uCCAD\uC18C"
-      value: "10\uC6D4 8\uC77C(\uBAA9) 10:00~12:00"
-      isFact: 0
-      factKind: 6
-    - label: "\uCC38\uACE0"
-      value: "\uC810\uAC80\uC6D0\uC740 \uB3C8\uC774\uB098 \uAE08\uC735\uC815\uBCF4\uB97C
-        \uC808\uB300 \uC694\uAD6C\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4"
-      isFact: 0
-      factKind: 6
-    - label: "\uAD00\uB9AC\uC0AC\uBB34\uC18C"
-      value: 02-555-0192
-      isFact: 1
-      factKind: 0
-    calendar: []
-    handwriting: 
-  - title: "\uBA54\uBAA8"
-    kind: 1
-    image: {fileID: 2800000, guid: f04a6d298aa55461eaf64a18cddc31ff, type: 3}
-    position: {x: 0.33, y: 0.52}
-    width: 0.1
-    rotation: -4
-    details:
-    - label: "\uD560 \uC77C"
-      value: "\uD734\uB300\uD3F0 \uC694\uAE08: 20\uC77C\uAE4C\uC9C0 (\uC790\uB3D9\uC774\uCCB4?)"
-      isFact: 0
-      factKind: 6
-    calendar: []
-    handwriting: 
-  - title: "\uBA54\uBAA8"
-    kind: 1
-    image: {fileID: 2800000, guid: af652bbbc0070409c8e6a448eedd12ef, type: 3}
-    position: {x: 0.45, y: 0.57}
-    width: 0.1
-    rotation: 7
-    details:
-    - label: "\uD560 \uC77C"
-      value: "17\uC77C \uC5C4\uB9C8 \uC0DD\uC2E0: \uC804\uD654 + \uC120\uBB3C"
-      isFact: 0
-      factKind: 6
-    calendar: []
-    handwriting: 
-  - title: "\uCF58\uC11C\uD2B8 \uD2F0\uCF13"
-    kind: 4
-    image: {fileID: 2800000, guid: 53f55436b981f4e57b8129bae233afd1, type: 3}
-    position: {x: 0.58, y: 0.55}
-    width: 0.24
-    rotation: -3
-    details:
-    - label: "\uACF5\uC5F0"
-      value: "\uBE44 \uC624\uB294 \uACC4\uC808 \uB2E8\uB3C5 \uACF5\uC5F0, \uD64D\uB300"
-      isFact: 0
-      factKind: 6
-    - label: "\uC77C\uC2DC"
-      value: "11\uC6D4 7\uC77C(\uD1A0) 19:00"
-      isFact: 0
-      factKind: 6
-    - label: "\uC88C\uC11D"
-      value: "\uC2A4\uD0E0\uB529 A-128"
-      isFact: 0
-      factKind: 6
-    calendar: []
-    handwriting: 
-  - title: "\uC778\uC0DD\uB124\uCEF7"
-    kind: 3
-    image: {fileID: 2800000, guid: e8cd983f2836a449ea5b92e85b6bdde7, type: 3}
-    position: {x: 0.86, y: 0.42}
-    width: 0.09
-    rotation: 4
-    details:
-    - label: "\uD568\uAED8"
-      value: "\uC720\uB098, 9\uC6D4 12\uC77C"
-      isFact: 0
-      factKind: 6
-    calendar: []
-    handwriting: 
-  - title: "\uC99D\uBA85\uC0AC\uC9C4"
-    kind: 3
-    image: {fileID: 2800000, guid: 8a8d6ab04b4fe4a29b3ada0d5670b80c, type: 3}
-    position: {x: 0.88, y: 0.08}
-    width: 0.08
-    rotation: -6
-    details: []
-    calendar: []
-    handwriting: 
-  wallet:
-  - title: "\uB204\uB9AC\uC740\uD589 \uCCB4\uD06C\uCE74\uB4DC"
-    front: {fileID: 2800000, guid: 1bb38ff8f1e134d19aaa0a7c7aebce98, type: 3}
-    back: {fileID: 2800000, guid: 93d454bf2935142e8b2c046d0f43239b, type: 3}
-    details:
-    - label: "\uC774\uB984"
-      value: KIM JIWOO
-      isFact: 0
-      factKind: 6
-    - label: "\uCE74\uB4DC\uBC88\uD638"
-      value: 9410 2231 7745 0921
-      isFact: 0
-      factKind: 6
-    - label: "\uACE0\uAC1D\uC13C\uD130"
-      value: 1599-0000
-      isFact: 1
-      factKind: 0
-  - title: "\uD559\uC0DD\uC99D"
-    front: {fileID: 2800000, guid: 03466ff647eba40fc8e450c63f987c1d, type: 3}
-    back: {fileID: 0}
-    details:
-    - label: "\uD559\uAD50"
-      value: "\uD55C\uBE5B\uB300\uD559\uAD50"
-      isFact: 0
-      factKind: 6
-    - label: "\uD559\uBC88"
-      value: 2024-10573
-      isFact: 0
-      factKind: 6
-  - title: "\uCE74\uD398 \uC2A4\uD0EC\uD504 \uCE74\uB4DC"
-    front: {fileID: 2800000, guid: 3cf4e96a2e56d4677899c79a47317388, type: 3}
-    back: {fileID: 0}
-    details:
-    - label: "\uC2A4\uD0EC\uD504"
-      value: "10\uAC1C \uC911 7\uAC1C"
-      isFact: 0
-      factKind: 6
-  rules:
-  - title: "\uC9C1\uC811 \uCC3E\uC740 \uBC88\uD638\uB85C \uC804\uD654\uD558\uAE30"
-    text: "\uC758\uC2EC\uB418\uBA74 \uC804\uD654\uB97C \uB04A\uACE0, \uC0C1\uB300\uAC00
-      \uC54C\uB824 \uC900 \uBC88\uD638\uAC00 \uC544\uB2C8\uB77C \uCE74\uB4DC \uB4B7\uBA74\uC774\uB098
-      \uACF5\uC2DD \uD648\uD398\uC774\uC9C0\uC758 \uBC88\uD638\uB85C \uC9C1\uC811
-      \uC804\uD654\uD558\uC138\uC694."
-    learnedOn: "\uC11C\uC6B8\uB370\uC77C\uB9AC, 10\uC6D4 6\uC77C"
-  - title: "\uC608\uAE08\uC8FC \uC774\uB984 \uD655\uC778\uD558\uAE30"
-    text: "\uB3C8\uC744 \uBCF4\uB0B4\uAE30 \uC804\uC5D0 \uC774\uCCB4 \uD654\uBA74\uC5D0\uC11C
-      \uC608\uAE08\uC8FC \uC774\uB984\uC744 \uD655\uC778\uD558\uC138\uC694. '\uACF5\uC2DD'
-      \uACC4\uC88C\uB77C\uB294\uB370 \uAC1C\uC778 \uC774\uB984\uC774\uB77C\uBA74
-      \uC704\uD5D8 \uC2E0\uD638\uC785\uB2C8\uB2E4."
-    learnedOn: "\uC11C\uC6B8\uB370\uC77C\uB9AC, 10\uC6D4 6\uC77C"
+      label: "17\uC77C (\uD1A0)"
+      text: "\uC5C4\uB9C8 \uC0DD\uC2E0: \uC804\uD654 + \uC120\uBB3C"

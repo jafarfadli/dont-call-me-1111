@@ -14,7 +14,8 @@ namespace DontCallMe.Flow
     /// the desk while yesterday's aftermath buzzes in, the forced call, the CASE OPENED card once the
     /// caller has made the ask and starts holding the line, the investigation against the caller's
     /// deadline (pressure beats, music that tightens, red screen edges and a ticking clock), and
-    /// finally the record of the day and the fade to the next morning (End scene).
+    /// finally the record of the day and the fade to the next morning (End scene). The first day
+    /// runs with the <see cref="TutorialGuide"/>: its call waits until the newspaper has been read.
     /// </summary>
     public class DayDirector : MonoBehaviour
     {
@@ -50,6 +51,11 @@ namespace DontCallMe.Flow
         bool subscribed;
         float decidedMinutes = -1f;
         string decidedAt;
+        TutorialGuide tutorial;
+        DayCardView dayCard;
+
+        /// <summary>The longest the first day's call waits for the player to read the newspaper.</summary>
+        const float TutorialWait = 75f;
 
         void Awake()
         {
@@ -107,6 +113,10 @@ namespace DontCallMe.Flow
         {
             StopAllCoroutines();
             Unsubscribe();
+            if (tutorial != null)
+                tutorial.Stop();
+            dayCard?.Close();
+            dayCard = null;
             Current = Phase.Done;
             GameClock.Running = true;
             if (director != null)
@@ -136,30 +146,46 @@ namespace DontCallMe.Flow
             MarkUnread();
 
             bool shown = false;
-            var card = ui.ShowDayCard(today, Plan.dayCardLines, () => shown = true);
+            dayCard = ui.ShowDayCard(today, Plan.dayCardLines, () => shown = true);
             float wait = 0f;
             float readTime = 7f + 2.5f * Plan.dayCardLines.Count;
             while (!shown)
             {
                 wait += Time.deltaTime;
                 if (wait > readTime)
-                    card.Close();
+                    dayCard.Close();
                 yield return null;
             }
+            dayCard = null;
 
             Current = Phase.Seated;
-            GameClock.Running = true;
             if (today.day == 1)
-                ui.Toast("ic_mouse", Loc.T("Look around"), Loc.T("Hold a mouse button and drag to look. Esc pauses."));
-            // Yesterday's aftermath buzzes in while Jiwoo sits down.
-            float waited = 0f;
-            foreach (var echo in Plan.notifications)
             {
-                yield return new WaitForSeconds(1.3f);
-                waited += 1.3f;
-                Notify(echo);
+                // The guide teaches looking and reading the paper first; the clock waits with the call.
+                tutorial = gameObject.AddComponent<TutorialGuide>();
+                tutorial.Begin(ui, director, this, player);
+                float t = 0f;
+                while (!tutorial.ReadyForCall && t < TutorialWait)
+                {
+                    t += Time.deltaTime;
+                    yield return null;
+                }
+                yield return new WaitForSeconds(1.8f);
+                GameClock.Running = true;
             }
-            yield return new WaitForSeconds(Mathf.Max(2.5f, today.ringDelay - waited * 0.5f));
+            else
+            {
+                GameClock.Running = true;
+                // Yesterday's aftermath buzzes in while Jiwoo sits down.
+                float waited = 0f;
+                foreach (var echo in Plan.notifications)
+                {
+                    yield return new WaitForSeconds(1.3f);
+                    waited += 1.3f;
+                    Notify(echo);
+                }
+                yield return new WaitForSeconds(Mathf.Max(2.5f, today.ringDelay - waited * 0.5f));
+            }
 
             Current = Phase.OnCall;
             rangAt = GameClock.Minutes;
@@ -183,37 +209,22 @@ namespace DontCallMe.Flow
             }
         }
 
-        /// <summary>The echoes' texts, chats, alerts and missed calls start out unread.</summary>
+        /// <summary>The echoes' chat messages start out unread.</summary>
         void MarkUnread()
         {
-            var phone = ui.PhoneView;
-            foreach (string sender in Plan.unreadSms)
-                phone.App<MessagesApp>().MarkUnread(sender);
             foreach (string chat in Plan.unreadChats)
-                phone.App<TalkApp>().MarkUnread(chat);
-            phone.App<BankApp>().AddUnreadAlerts(Plan.unreadBankAlerts);
-            phone.App<CallsApp>().AddMissed(Plan.missedCalls);
+                ui.PhoneView.App<ChatsApp>().MarkUnread(chat);
         }
 
         void Notify(DayEcho echo)
         {
             switch (echo.kind)
             {
-                case EchoKind.Sms:
-                    ui.Toast("app_messages", Loc.T("Messages") + " · " + (ui.Phone.FindContact(echo.from)?.name ?? echo.from), echo.text);
-                    break;
                 case EchoKind.Chat:
-                    ui.Toast("app_talk", Loc.T("Talk") + " · " + (ui.PhoneView.App<TalkApp>().Thread(echo.from)?.title ?? echo.sender), echo.text);
+                    ui.Toast("app_talk", Loc.T("Chats") + " · " + (ui.PhoneView.App<ChatsApp>().Thread(echo.from)?.title ?? echo.sender), echo.text);
                     break;
-                case EchoKind.Mail:
-                    ui.Toast("app_mail", Loc.T("Mail") + " · " + echo.from, echo.title);
-                    break;
-                case EchoKind.BankNotice:
                 case EchoKind.BankTransaction:
                     ui.Toast("app_bank", Loc.T("Nuri Bank"), string.IsNullOrEmpty(echo.title) ? echo.text : echo.title);
-                    break;
-                case EchoKind.MissedCall:
-                    ui.Toast("app_phone", Loc.T("Missed call"), ui.Phone.FindContact(echo.from)?.name ?? echo.from);
                     break;
                 default:
                     return;
@@ -249,7 +260,8 @@ namespace DontCallMe.Flow
             ui.Hud.Deadline.Show(true);
             if (music != null && calmLoop != null)
                 music.Play(calmLoop, tenseLoop, 3f);
-            ui.Toast("ic_case", Loc.T("Investigate"), Loc.F("The caller is holding the line. Check the room and your phone before {0}, then give your verdict on the call (Tab).", conv.caseInfo.deadline));
+            if (tutorial == null)
+                ui.Toast("ic_case", Loc.T("Investigate"), Loc.F("The caller is holding the line. Check the room and your phone before {0}, then give your verdict on the call (Tab).", conv.caseInfo.deadline));
         }
 
         void Update()

@@ -35,109 +35,25 @@ MonoBehaviour:
     portrait: pt_yuna
   - name: Landlord Choi
     number: 010-5512-3380
-    memo: "1F \xB7 rent due on the 7th"
+    memo: "Choi Youngsik \xB7 1F \xB7 rent due on the 7th"
     portrait: pt_landlord
-  - name: Taeho (Minjun's friend)
-    number: 010-9043-2217
-    memo: Met at Chuseok
-    portrait: pt_taeho
   - name: Manager Han (cafe)
     number: 010-5530-8812
     memo: Mangwon Roasters
     portrait: pt_cafe
   - name: Nuri Bank
     number: 1599-0000
-    memo: Customer centre, from the back of my card
+    memo: Customer centre, the number on my card
     portrait: app_bank
   - name: Mangwon Heights office
     number: 02-555-0192
     memo: Building management
     portrait: app_contacts
-  recents:
-  - number: 010-7780-1123
-    kind: 0
-    when: Today 12:10
-    duration: 2:05
-  - number: 010-2231-7745
-    kind: 1
-    when: Mon 21:40
-    duration: 12:04
-  - number: 010-5530-8812
-    kind: 0
-    when: Mon 11:02
-    duration: 1:48
-  - number: 010-7780-1123
-    kind: 1
-    when: Sun 19:20
-    duration: 8:31
-  - number: 070-4852-1170
-    kind: 2
-    when: Fri 14:12
-    duration: 
-  - number: 02-555-0181
-    kind: 0
-    when: Thu 10:15
-    duration: 0:52
-  sms:
-  - sender: 1599-0000
-    messages:
-    - when: Mon 22:47
-      text: "[Web\uBC1C\uC2E0] [Nuri Bank] New device registered: MacBook Air (Seoul).
-        If this wasn't you, call 1599-0000."
-      outgoing: 0
-      link: 
-    - when: Yesterday 09:03
-      text: "[Web\uBC1C\uC2E0] [Nuri Bank] Card payment \u20A94,500 \xB7 Mangwon
-        Roasters \xB7 approved."
-      outgoing: 0
-      link: 
-    - when: Today 12:40
-      text: "[Web\uBC1C\uC2E0] [Nuri Bank] Card payment \u20A98,900 \xB7 Hanbit Univ.
-        cafeteria \xB7 approved."
-      outgoing: 0
-      link: 
-  - sender: 010-7240-1182
-    messages:
-    - when: Yesterday 11:20
-      text: "[Web\uBC1C\uC2E0] [International delivery] Customs duty unpaid for your
-        parcel. Pay now or it will be returned: kr-customs.help/pay"
-      outgoing: 0
-      link: kr-customs.help/pay
-  - sender: Hangang Express
-    messages:
-    - when: Yesterday 08:30
-      text: '[Hangang Express] Your parcel (desk lamp bulbs) arrives tomorrow 16:00-18:00.
-        Driver Kim Taesik 010-7715-5521.'
-      outgoing: 0
-      link: 
-  - sender: 010-8812-4471
-    messages:
-    - when: Sun 23:12
-      text: "[Web\uBC1C\uC2E0] [Nuri] Your account is restricted for security reasons.
-        Verify within 24 hours:"
-      outgoing: 0
-      link: nuri-secure.kr/verify
-  - sender: Hangul Telecom
-    messages:
-    - when: Thu 09:00
-      text: "[Hangul Telecom] Your September bill is \u20A943,200, due 20 Oct."
-      outgoing: 0
-      link: 
-  - sender: 010-5903-2271
-    messages:
-    - when: Wed 30 Sep 18:22
-      text: "[Web\uBC1C\uC2E0] [Landlord notice] Your rent account has changed. Check
-        the new account before paying: rent-notice.kr"
-      outgoing: 0
-      link: rent-notice.kr
   chats:
   - id: villa
     title: Mangwon Heights residents
     avatar: app_contacts
     group: 1
-    notFriend: 0
-    profileId: 
-    profileNote: 
     messages:
     - sender: Office
       avatar: app_contacts
@@ -164,8 +80,16 @@ MonoBehaviour:
     - sender: Landlord Choi
       avatar: pt_landlord
       when: Today 13:40
-      text: "Thank you all for keeping the stairs so clean! See you at the water
-        tank cleaning tomorrow morning. \u2013 Choi, 1F"
+      text: "Thank you all for keeping the stairs so clean! I'm fixing the light
+        on the second floor now. See you at the water tank cleaning tomorrow. \u2013
+        Choi, 1F"
+      outgoing: 0
+      photoCaption: 
+      facts: []
+    - sender: Landlord Choi
+      avatar: pt_landlord
+      when: Today 15:52
+      text: 'The light is fixed. Rent as always, please: Nuri Bank 110-771-209944.'
       outgoing: 0
       photoCaption: 
       facts: []
@@ -173,9 +97,6 @@ MonoBehaviour:
     title: Yuna
     avatar: pt_yuna
     group: 0
-    notFriend: 0
-    profileId: 
-    profileNote: 
     messages:
     - sender: Yuna
       avatar: pt_yuna
@@ -189,13 +110,6 @@ MonoBehaviour:
       when: Sun 19:01
       text: I owe you 55,000 won, sending it on payday
       outgoing: 1
-      photoCaption: 
-      facts: []
-    - sender: Yuna
-      avatar: pt_yuna
-      when: Sun 19:02
-      text: No rush :)
-      outgoing: 0
       photoCaption: 
       facts: []
     - sender: Yuna
@@ -216,9 +130,6 @@ MonoBehaviour:
     title: Our family
     avatar: photo_family
     group: 1
-    notFriend: 0
-    profileId: 
-    profileNote: 
     messages:
     - sender: Mom
       avatar: pt_mom
@@ -233,13 +144,6 @@ MonoBehaviour:
       text: Yes! Kimchi stew after my shift
       outgoing: 1
       photoCaption: 
-      facts: []
-    - sender: Dad
-      avatar: pt_dad
-      when: Mon 20:02
-      text: 
-      outgoing: 0
-      photoCaption: Grandma's persimmons in Jeonju
       facts: []
     - sender: Minjun
       avatar: pt_minjun
@@ -284,18 +188,49 @@ MonoBehaviour:
       outgoing: 1
       photoCaption: 
       facts: []
+  - id: hangang
+    title: Hangang Express
+    avatar: av_courier
+    group: 0
+    messages:
+    - sender: Hangang Express
+      avatar: av_courier
+      when: Yesterday 08:30
+      text: '[Hangang Express] Your parcel (desk lamp bulbs) arrives tomorrow, 16:00-18:00.
+        Questions? Customer centre 1588-5520.'
+      outgoing: 0
+      photoCaption: 
+      facts: []
   - id: cafe
     title: Mangwon Roasters crew
     avatar: pt_cafe
     group: 1
-    notFriend: 0
-    profileId: 
-    profileNote: 
     messages:
     - sender: Manager Han
       avatar: pt_cafe
       when: Mon 21:00
       text: Wages go out on the 10th as usual. Can someone cover Saturday morning?
+      outgoing: 0
+      photoCaption: 
+      facts: []
+  - id: alistar
+    title: AliStar
+    avatar: av_shop
+    group: 0
+    messages:
+    - sender: AliStar
+      avatar: av_shop
+      when: Tue 29 Sep 22:10
+      text: "Thanks for your order, Kim Jiwoo!\n27-inch IPS monitor \xD7 1: US$ 214.00\nShipping
+        to Korea: US$ 9.00"
+      outgoing: 0
+      photoCaption: 
+      facts: []
+    - sender: AliStar
+      avatar: av_shop
+      when: Sat 09:15
+      text: 'Your monitor has left our warehouse in Shenzhen. In Korea it travels
+        with Hangang Express: HX-5520-1183-KR.'
       outgoing: 0
       photoCaption: 
       facts: []
@@ -333,137 +268,15 @@ MonoBehaviour:
       counterparty: MANGWON ROASTERS
       memo: September wages
       amount: 486000
+    - when: Tue 29 Sep 22:10
+      counterparty: AliStar
+      memo: 27-inch monitor
+      amount: -307000
     - when: Sun 20 Sep 09:00
       counterparty: Hangul Telecom
       memo: Phone bill
       amount: -43200
     - when: Mon 7 Sep 10:12
       counterparty: CHOI YOUNGSIK
-      memo: September rent
+      memo: "September rent \xB7 Nuri 110-771-209944"
       amount: -450000
-    notices:
-    - when: Today 12:40
-      title: "Card payment \u20A98,900"
-      body: "Hanbit Univ. cafeteria \xB7 approved"
-      alert: 0
-    - when: Yesterday 16:02
-      title: Signed in
-      body: "This phone \xB7 Seoul. No other sign-ins today."
-      alert: 0
-    - when: Yesterday 09:03
-      title: "Card payment \u20A94,500"
-      body: "Mangwon Roasters \xB7 approved"
-      alert: 0
-    - when: Mon 22:47
-      title: New device registered
-      body: "MacBook Air \xB7 Seoul. If this wasn't you, call 1599-0000."
-      alert: 0
-    banks:
-    - Nuri Bank
-    - Hanbit Bank
-    - Daehan Bank
-    - Mirae Savings
-    - K Post
-  parcels:
-  - item: Desk lamp bulbs (2)
-    seller: Hangang Mall
-    status: Out for delivery today
-    tracking: 4410 2287 1934
-    courier: Hangang Express
-    driver: Kim Taesik
-    driverPhone: 010-7715-5521
-    window: Wed 7 Oct, 16:00-18:00
-    overseas: 0
-    note: 
-    account: 
-  - item: 27-inch monitor
-    seller: AliStar (overseas)
-    status: Arrived in Korea (Incheon), 7 Oct
-    tracking: HX-5520-1183-KR
-    courier: Hangang Express (from Incheon)
-    driver: 
-    driverPhone: 
-    window: 
-    overseas: 1
-    note: 
-    account: 
-  - item: Phone case
-    seller: AliStar (overseas)
-    status: Delivered 21 Sep
-    tracking: KR4410983312
-    courier: K Post
-    driver: 
-    driverPhone: 
-    window: 
-    overseas: 1
-    note: 
-    account: 
-  mails:
-  - from: Hanbit University
-    fromAddress: notice@hanbit.ac.kr
-    subject: Midterm timetable
-    when: Today 09:30
-    body: Midterm exams run from Monday 13 October. Check your timetable on the student
-      portal.
-    attachments: []
-    unread: 0
-  - from: Nuri Bank
-    fromAddress: notice@nuribank.co.kr
-    subject: A new device was registered
-    when: Mon 22:47
-    body: 'A new device (MacBook Air) was registered to your Nuri Bank account in
-      Seoul.
-
-
-      If this was you, you don''t need to do anything. If not, call
-      1599-0000.
-
-
-      Nuri Bank will never ask you to move your money to ''protect''
-      it.'
-    attachments: []
-    unread: 0
-  - from: Hanbit University IT
-    fromAddress: it-help@hanbit.ac.kr
-    subject: Your new laptop is registered
-    when: Mon 20:15
-    body: 'Hi Kim Jiwoo,
-
-
-      Your MacBook Air is now registered for campus Wi-Fi.
-      Remember to sign in to your apps (e.g. banking) on the new device.
-
-
-      Hanbit
-      IT Help Desk'
-    attachments: []
-    unread: 0
-  - from: Daeyang Logistics careers
-    fromAddress: careers@daeyang-logistics.co.kr
-    subject: 'Application received: Winter internship'
-    when: Fri 15:30
-    body: Thank you for applying to the Daeyang Logistics winter internship. We will
-      contact you from our HR office (02-555-0240) if you are invited to an interview.
-    attachments: []
-    unread: 0
-  - from: Hanbit University
-    fromAddress: scholarship@hanbit.ac.kr
-    subject: Scholarship interview on 16 Oct
-    when: Wed 30 Sep 10:00
-    body: 'Your scholarship interview is on Friday 16 October at 14:00, Student Centre
-      room 204. Please bring your student ID.
-
-
-      The scholarship office never
-      charges fees.'
-    attachments: []
-    unread: 1
-  - from: AliStar
-    fromAddress: orders@alistar.com
-    subject: 'Order confirmed: 27-inch monitor'
-    when: Tue 29 Sep 22:10
-    body: "Hi Kim Jiwoo,\n\nThanks for your order!\n\n27-inch IPS monitor \xD7 1
-      \xB7 US$ 214.00\nShipping to Korea \xB7 US$ 9.00\n\nWe'll email you when it
-      ships."
-    attachments: []
-    unread: 0

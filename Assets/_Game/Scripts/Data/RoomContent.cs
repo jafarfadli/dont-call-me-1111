@@ -4,15 +4,13 @@ using UnityEngine;
 
 namespace DontCallMe.Data
 {
-    /// <summary>What the room's panels show for one day: newspaper, desk drawer, cork board, wallet, rules.</summary>
+    /// <summary>What the room's panels show for one day: the newspaper, the desk drawer and the wall calendar.</summary>
     [CreateAssetMenu(menuName = "Don't Call Me/Room Content")]
     public class RoomContent : ScriptableObject
     {
         public NewspaperData newspaper = new NewspaperData();
         public List<DocumentData> drawer = new List<DocumentData>();
-        public List<BoardItem> board = new List<BoardItem>();
-        public List<WalletCard> wallet = new List<WalletCard>();
-        public List<RuleEntry> rules = new List<RuleEntry>();
+        public CalendarData calendar = new CalendarData();
     }
 
     [Serializable]
@@ -65,44 +63,25 @@ namespace DontCallMe.Data
         public FactKind factKind;
     }
 
-    public enum BoardItemKind { Calendar, Note, Notice, Photo, Ticket }
-
+    /// <summary>The pharmacy calendar on the cork board, with what Jiwoo wrote on it.</summary>
     [Serializable]
-    public class BoardItem
+    public class CalendarData
     {
         public string title;
-        public BoardItemKind kind;
         public Texture2D image;
-        public Vector2 position;      // 0..1 on the board, top-left of the item
-        public float width = 0.2f;    // fraction of the board width
-        public float rotation;
-        public List<DocField> details = new List<DocField>();
-        public List<CalendarEntry> calendar = new List<CalendarEntry>();
-        [Tooltip("Written over the picture, for blank notes (the game writes on them).")]
-        [TextArea(2, 6)] public string handwriting;
+        [Tooltip("Today, as the panel's heading says it, e.g. \"Today: Wednesday, 7 October\".")]
+        public string todayLabel;
+        [Tooltip("Day of the month, to mark today's note.")]
+        public int today;
+        public List<CalendarEntry> entries = new List<CalendarEntry>();
     }
 
     [Serializable]
     public class CalendarEntry
     {
         public int day;
-        public string text;
-    }
-
-    [Serializable]
-    public class WalletCard
-    {
-        public string title;
-        public Texture2D front;
-        public Texture2D back;
-        public List<DocField> details = new List<DocField>();
-    }
-
-    [Serializable]
-    public class RuleEntry
-    {
-        public string title;
-        [TextArea(2, 5)] public string text;
-        public string learnedOn;
+        [Tooltip("The date as the list shows it, e.g. \"Wed 7\".")]
+        public string label;
+        [TextArea(1, 3)] public string text;
     }
 }

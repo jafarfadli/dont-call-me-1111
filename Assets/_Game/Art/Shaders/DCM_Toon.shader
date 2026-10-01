@@ -40,6 +40,9 @@ Shader "DontCallMe/Toon"
         _Cutoff ("Alpha Cutoff", Range(0, 1)) = 0.5
         [Enum(UnityEngine.Rendering.CullMode)] _Cull ("Cull", Float) = 2
         [HideInInspector] _InkId ("Ink Id (outline between different ids)", Float) = 0
+        // Things the player can use; the game sets it per object (Interactable). RGB is added
+        // light; any alpha marks the object for the ink pass, which draws a glowing outline round it.
+        [HideInInspector] _Highlight ("Highlight (RGB added, A marks for outline)", Color) = (0, 0, 0, 0)
     }
 
     SubShader
@@ -75,6 +78,7 @@ Shader "DontCallMe/Toon"
             half4 _EmissionColor;
             half _Cutoff;
             half _InkId;
+            half4 _Highlight;
         CBUFFER_END
 
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/SurfaceInput.hlsl"
@@ -251,6 +255,8 @@ Shader "DontCallMe/Toon"
                 color += _RimColor.rgb * (_RimColor.a * rim * saturate(directAmount + 0.25h));
 
                 color += SampleEmission(input.uv, _EmissionColor.rgb, TEXTURE2D_ARGS(_EmissionMap, sampler_EmissionMap));
+                // Something the player can use, under the cursor: a warm wash.
+                color += _Highlight.rgb;
                 color = MixFog(color, input.fogFactor);
                 return half4(color, 1.0h);
             }
@@ -351,8 +357,9 @@ Shader "DontCallMe/Toon"
                     Alpha(SampleAlbedoAlpha(input.uv, TEXTURE2D_ARGS(_BaseMap, sampler_BaseMap)).a, _BaseColor, _Cutoff);
                 #endif
                 half3 normalWS = normalize(input.normalWS) * (isFrontFace ? 1.0h : -1.0h);
-                // Alpha carries the material's ink id; the ink pass outlines id changes.
-                return half4(normalWS, _InkId);
+                // Alpha carries the material's ink id; the ink pass outlines id changes. A negative
+                // id marks a highlighted object (one step further, so id 0 can be marked too).
+                return half4(normalWS, _Highlight.a > 0.001h ? -(_InkId + 1.0h / 127.0h) : _InkId);
             }
             ENDHLSL
         }

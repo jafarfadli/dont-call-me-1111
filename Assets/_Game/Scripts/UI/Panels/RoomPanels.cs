@@ -11,9 +11,8 @@ namespace DontCallMe.UI
         None,
         Newspaper,
         Drawer,
-        Board,
-        Wallet,
-        Notebook,
+        Calendar,
+        Computer,
     }
 
     /// <summary>
@@ -211,323 +210,209 @@ namespace DontCallMe.UI
         }
     }
 
-    // ==================================================================== cork board
+    // ==================================================================== wall calendar
 
-    public class BoardPanel : RoomPanel
+    /// <summary>The pharmacy calendar from the cork board, with a list of what Jiwoo wrote on it and today marked.</summary>
+    public class CalendarPanel : RoomPanel
     {
-        public override PanelId Id => PanelId.Board;
+        public override PanelId Id => PanelId.Calendar;
 
-        VisualElement board;
-        VisualElement zoom;
-
-        public BoardPanel(UIManager ui) : base(ui) { }
+        public CalendarPanel(UIManager ui) : base(ui) { }
 
         protected override VisualElement Build()
         {
-            board = UIKit.Div("board");
-            var frame = UIKit.Div("board__frame");
-            frame.pickingMode = PickingMode.Ignore;
-            board.Add(frame);
-            const float W = 1272f, H = 872f;
-            string[] pins = { "#D2403A", "#3F76C8", "#E9BE3A", "#4CA05A" };
-            for (int i = 0; i < UI.Room.board.Count; i++)
-            {
-                var item = UI.Room.board[i];
-                var e = UIKit.Image(item.image, "board__item");
-                float w = item.width * W;
-                float aspect = item.image != null ? (float)item.image.height / item.image.width : 1f;
-                e.style.left = item.position.x * W;
-                e.style.top = item.position.y * H;
-                e.style.width = w;
-                e.style.height = w * aspect;
-                e.style.rotate = new Rotate(new Angle(item.rotation, AngleUnit.Degree));
-                if (!string.IsNullOrEmpty(item.handwriting))
-                    e.Add(Handwriting(item.handwriting, 0f, 0f, w, w * aspect));
-                var pin = UIKit.Div("board__pin");
-                pin.style.backgroundColor = PhoneScreen.Hex(pins[i % pins.Length]);
-                pin.pickingMode = PickingMode.Ignore;
-                e.Add(pin);
-                e.tooltip = item.title;
-                var captured = item;
-                e.RegisterCallback<ClickEvent>(ev =>
-                {
-                    Zoom(captured);
-                    ev.StopPropagation();
-                });
-                board.Add(e);
-            }
-            return board;
-        }
-
-        void Zoom(BoardItem item)
-        {
-            ClueEvents.Raise(ClueEvent.BoardItemOpened, item.title);
-            CloseZoom();
-            Sfx.Play(Sfx.Paper, 0.6f);
-            zoom = UIKit.Div("board__zoom");
-            var img = UIKit.Image(item.image, "board__zoom-image");
-            if (!string.IsNullOrEmpty(item.handwriting))
-            {
-                // The picture is fitted into 640 × 820; write inside the part it covers.
-                const float boxW = 640f, boxH = 820f;
-                float aspect = item.image != null ? (float)item.image.height / item.image.width : 1f;
-                float w = Mathf.Min(boxW, boxH / aspect), h = w * aspect;
-                img.Add(Handwriting(item.handwriting, (boxW - w) / 2f, (boxH - h) / 2f, w, h));
-            }
-            zoom.Add(img);
-            var side = UIKit.Div("board__zoom-side", "paper");
-            side.Add(UIKit.Text(item.title, "doc__title"));
-            foreach (var f in item.details)
-            {
-                var row = UIKit.Div("doc__field");
-                row.Add(UIKit.Text(f.label, "doc__label"));
-                if (f.isFact)
-                    row.Add(UIKit.Chip(f.value, f.factKind));
-                else
-                    row.Add(UIKit.Text(f.value, "doc__value"));
-                side.Add(row);
-            }
-            foreach (var entry in item.calendar)
-            {
-                var row = UIKit.Div("doc__field");
-                row.Add(UIKit.Text(Loc.F("Oct {0}", entry.day), "doc__label"));
-                row.Add(UIKit.Text(entry.text, "doc__value"));
-                side.Add(row);
-            }
-            side.Add(UIKit.Btn(Loc.T("Back to the board"), CloseZoom));
-            zoom.Add(side);
-            zoom.RegisterCallback<ClickEvent>(e =>
-            {
-                if (e.target == zoom)
-                    CloseZoom();
-            });
-            board.Add(zoom);
-        }
-
-        void CloseZoom()
-        {
-            zoom?.RemoveFromHierarchy();
-            zoom = null;
-        }
-
-        /// <summary>Handwriting on a blank note, inside the note's own rectangle (left, top, width, height).</summary>
-        static Label Handwriting(string text, float left, float top, float width, float height)
-        {
-            var hand = UIKit.Text(text, "board__hand");
-            hand.pickingMode = PickingMode.Ignore;
-            hand.style.left = left + width * 0.1f;
-            hand.style.top = top + height * 0.1f;
-            hand.style.width = width * 0.82f;
-            hand.style.height = height * 0.8f;
-            // Longer notes are written smaller, so they still fit on the paper.
-            float fit = Mathf.Min(1f, Mathf.Sqrt(55f / Mathf.Max(55f, text.Length)));
-            hand.style.fontSize = Mathf.Clamp(width * 0.095f * fit, 10f, 44f);
-            return hand;
-        }
-
-        public override bool Back()
-        {
-            if (zoom == null)
-                return false;
-            CloseZoom();
-            return true;
-        }
-    }
-
-    // ==================================================================== wallet
-
-    public class WalletPanel : RoomPanel
-    {
-        public override PanelId Id => PanelId.Wallet;
-
-        VisualElement big;
-        VisualElement side;
-        readonly List<VisualElement> thumbs = new List<VisualElement>();
-        int current;
-        bool showingBack;
-
-        public WalletPanel(UIManager ui) : base(ui) { }
-
-        protected override VisualElement Build()
-        {
-            var wallet = UIKit.Div("wallet");
-            var stitch = UIKit.Div("wallet__stitch");
-            stitch.pickingMode = PickingMode.Ignore;
-            wallet.Add(stitch);
-            var row = UIKit.Div("wallet__cards");
-            for (int i = 0; i < UI.Room.wallet.Count; i++)
-            {
-                int k = i;
-                var t = UIKit.Image(UI.Room.wallet[i].front, "wallet__thumb");
-                t.tooltip = UI.Room.wallet[i].title;
-                t.RegisterCallback<ClickEvent>(e =>
-                {
-                    Select(k);
-                    e.StopPropagation();
-                });
-                thumbs.Add(t);
-                row.Add(t);
-            }
-            wallet.Add(row);
-            var main = UIKit.Div("wallet__main");
-            big = UIKit.Div("wallet__card");
-            big.tooltip = Loc.T("Click to flip");
-            big.RegisterCallback<ClickEvent>(e =>
-            {
-                Flip();
-                e.StopPropagation();
-            });
-            main.Add(big);
-            side = UIKit.Div("wallet__side", "paper");
-            main.Add(side);
-            wallet.Add(main);
-            Select(0);
-            return wallet;
-        }
-
-        void Select(int i)
-        {
-            if (UI.Room.wallet.Count == 0)
-                return;
-            current = i;
-            showingBack = false;
-            var card = UI.Room.wallet[i];
-            UIKit.SetImage(big, card.front);
-            for (int k = 0; k < thumbs.Count; k++)
-                thumbs[k].EnableInClassList("wallet__thumb--on", k == i);
-            side.Clear();
-            side.Add(UIKit.Text(card.title, "doc__title"));
-            foreach (var f in card.details)
-            {
-                var row = UIKit.Div("doc__field");
-                row.Add(UIKit.Text(f.label, "doc__label"));
-                if (f.isFact)
-                    row.Add(UIKit.Chip(f.value, f.factKind));
-                else
-                    row.Add(UIKit.Text(f.value, "doc__value"));
-                side.Add(row);
-            }
-            var flip = UIKit.Btn(Loc.T(card.back != null ? "Flip the card" : "No back side"), Flip);
-            flip.SetEnabled(card.back != null);
-            side.Add(flip);
-            Sfx.Play(Sfx.Click);
-        }
-
-        void Flip()
-        {
-            var card = UI.Room.wallet[current];
-            if (card.back == null)
-                return;
-            if (!showingBack)
-                ClueEvents.Raise(ClueEvent.CardFlipped, card.title);
-            big.AddToClassList("wallet__card--flip");
-            Sfx.Play(Sfx.Paper, 0.5f);
-            big.schedule.Execute(() =>
-            {
-                showingBack = !showingBack;
-                UIKit.SetImage(big, showingBack ? card.back : card.front);
-                big.RemoveFromClassList("wallet__card--flip");
-            }).ExecuteLater(150);
-        }
-    }
-
-    // ==================================================================== notebook
-
-    /// <summary>Two tabs: the rules read so far, and the current case (caller, claims, facts heard).</summary>
-    public class NotebookPanel : RoomPanel
-    {
-        public override PanelId Id => PanelId.Notebook;
-
-        VisualElement page;
-        Button rulesTab;
-        Button caseTab;
-        bool showCase;
-
-        public NotebookPanel(UIManager ui) : base(ui) { }
-
-        protected override VisualElement Build()
-        {
-            var book = UIKit.Div("notebook");
-            var lines = UIKit.Div("notebook__lines");
-            lines.pickingMode = PickingMode.Ignore;
-            book.Add(lines);
-            var rings = UIKit.Div("notebook__rings");
-            rings.pickingMode = PickingMode.Ignore;
-            for (int i = 0; i < 9; i++)
-                rings.Add(UIKit.Div("notebook__ring"));
-            book.Add(rings);
-            var tabs = UIKit.Div("notebook__tabs");
-            rulesTab = UIKit.Btn(Loc.T("Rules"), () => ShowTab(false), "notebook__tab");
-            caseTab = UIKit.Btn(Loc.T("Case"), () => ShowTab(true), "notebook__tab");
-            tabs.Add(rulesTab);
-            tabs.Add(caseTab);
-            book.Add(tabs);
+            var cal = UI.Room.calendar;
+            var wrap = UIKit.Div("calendar");
+            wrap.Add(UIKit.Image(cal.image, "calendar__image"));
+            var side = UIKit.Div("calendar__side", "paper");
+            side.Add(UIKit.Text(cal.title, "doc__title"));
+            side.Add(UIKit.Text(cal.todayLabel, "calendar__today"));
+            side.Add(UIKit.Text(Loc.T("WRITTEN ON IT"), "section"));
             var scroll = new ScrollView(ScrollViewMode.Vertical);
             scroll.style.flexGrow = 1;
-            page = scroll.contentContainer;
-            book.Add(scroll);
-            return book;
-        }
-
-        public void ShowTab(bool caseTabOn)
-        {
-            showCase = caseTabOn;
-            rulesTab.EnableInClassList("notebook__tab--on", !showCase);
-            caseTab.EnableInClassList("notebook__tab--on", showCase);
-            page.Clear();
-            if (showCase)
-                BuildCase();
-            else
-                BuildRules();
-            Sfx.Play(Sfx.Paper, 0.5f);
-        }
-
-        public override void OnOpen() => ShowTab(showCase);
-
-        void BuildRules()
-        {
-            page.Add(UIKit.Text(Loc.T("Rules I've learned"), "hand-title"));
-            if (UI.Room.rules.Count == 0)
-                page.Add(UIKit.Text(Loc.T("Nothing yet. The newspaper teaches a rule every day."), "hand"));
-            for (int i = UI.Room.rules.Count - 1; i >= 0; i--)
+            foreach (var entry in cal.entries)
             {
-                var r = UI.Room.rules[i];
-                var entry = UIKit.Div("rule-entry");
-                entry.Add(UIKit.Text($"{UI.Room.rules.Count - i}. {r.title}", "rule-entry__title"));
-                entry.Add(UIKit.Text(r.text, "hand"));
-                if (!string.IsNullOrEmpty(r.learnedOn))
-                    entry.Add(UIKit.Text("— " + r.learnedOn, "hand", "t-muted"));
-                page.Add(entry);
+                var row = UIKit.Div("calendar__row", entry.day == cal.today ? "calendar__row--today" : entry.day < cal.today ? "calendar__row--past" : null);
+                row.Add(UIKit.Text(entry.label, "calendar__date"));
+                row.Add(UIKit.Text(entry.text, "calendar__note"));
+                scroll.contentContainer.Add(row);
+            }
+            side.Add(scroll);
+            wrap.Add(side);
+            return wrap;
+        }
+
+        public override void OnOpen() => Sfx.Play(Sfx.Paper, 0.6f);
+    }
+
+    // ==================================================================== computer
+
+    /// <summary>
+    /// The laptop, open on CheckFirst: look up a phone number or a bank account and see who owns
+    /// it and what people reported about it. The caller's number and the account they gave are one
+    /// click away as chips.
+    /// </summary>
+    public class ComputerPanel : RoomPanel
+    {
+        public override PanelId Id => PanelId.Computer;
+
+        Button phoneTab;
+        Button accountTab;
+        Label prompt;
+        TextField field;
+        VisualElement suggestions;
+        VisualElement result;
+        bool accountMode;
+
+        public ComputerPanel(UIManager ui) : base(ui) { }
+
+        protected override VisualElement Build()
+        {
+            var laptop = UIKit.Div("computer");
+            var window = UIKit.Div("browser");
+            var bar = UIKit.Div("browser__bar");
+            for (int i = 0; i < 3; i++)
+                bar.Add(UIKit.Div("browser__dot", "browser__dot--" + i));
+            bar.Add(UIKit.Text("CheckFirst", "browser__tab"));
+            var address = UIKit.Div("browser__address");
+            address.Add(UIKit.Icon("ic_lock", "browser__lock"));
+            address.Add(UIKit.Text("https://checkfirst.kr", "browser__url"));
+            bar.Add(address);
+            window.Add(bar);
+
+            var scroll = new ScrollView(ScrollViewMode.Vertical);
+            scroll.AddToClassList("browser__page");
+            var page = scroll.contentContainer;
+            var head = UIKit.Div("check__head");
+            head.Add(UIKit.Icon("app_checkfirst", "check__logo"));
+            var brand = UIKit.Div("grow");
+            brand.Add(UIKit.Text(Loc.T("CheckFirst"), "check__brand"));
+            brand.Add(UIKit.Text(Loc.T("Who is really behind a number or an account? Look it up before you trust it."), "check__tagline"));
+            head.Add(brand);
+            page.Add(head);
+
+            var tabs = UIKit.Div("check__tabs");
+            phoneTab = UIKit.Btn(Loc.T("Check a phone number"), () => SetMode(false), "check__tab");
+            accountTab = UIKit.Btn(Loc.T("Check a bank account"), () => SetMode(true), "check__tab");
+            tabs.Add(phoneTab);
+            tabs.Add(accountTab);
+            page.Add(tabs);
+
+            var form = UIKit.Div("check__form");
+            prompt = UIKit.Text("", "check__prompt");
+            form.Add(prompt);
+            var row = UIKit.Div("field", "check__field");
+            field = new TextField();
+            row.Add(field);
+            row.Add(UIKit.Btn(Loc.T("Paste"), () =>
+            {
+                if (!string.IsNullOrEmpty(Clipboard.Value))
+                    field.value = Clipboard.Value;
+            }));
+            row.Add(UIKit.Btn(Loc.T("Check"), () => Check(field.value), "btn--blue"));
+            field.RegisterCallback<KeyDownEvent>(e =>
+            {
+                if (e.keyCode == KeyCode.Return || e.keyCode == KeyCode.KeypadEnter)
+                    Check(field.value);
+            }, TrickleDown.TrickleDown);
+            form.Add(row);
+            suggestions = UIKit.Div("chip-row", "check__suggestions");
+            form.Add(suggestions);
+            page.Add(form);
+
+            result = UIKit.Div("check__result");
+            page.Add(result);
+            window.Add(scroll);
+            laptop.Add(window);
+            SetMode(false, false);
+            return laptop;
+        }
+
+        public override void OnOpen() => Sfx.Play(Sfx.Click);
+
+        void SetMode(bool account, bool clear = true)
+        {
+            accountMode = account;
+            phoneTab.EnableInClassList("check__tab--on", !account);
+            accountTab.EnableInClassList("check__tab--on", account);
+            prompt.text = Loc.T(account ? "Account number" : "Phone number");
+            field.textEdition.placeholder = Loc.T(account ? "e.g. 110-123-456789" : "e.g. 010-1234-5678");
+            if (clear)
+            {
+                field.value = "";
+                result.Clear();
+            }
+            suggestions.Clear();
+            var facts = UI.SuggestedFacts(account ? FactKind.Account : FactKind.Phone);
+            if (facts.Count > 0)
+                suggestions.Add(UIKit.Text(Loc.T("From the call and your notes:"), "check__hint"));
+            foreach (var f in facts)
+            {
+                var fact = f;
+                var chip = UIKit.Div("chip");
+                var label = UIKit.Text(fact.value, "chip__label");
+                label.pickingMode = PickingMode.Ignore;
+                chip.Add(label);
+                chip.RegisterCallback<ClickEvent>(e =>
+                {
+                    field.value = fact.value;
+                    Check(fact.value);
+                    e.StopPropagation();
+                });
+                suggestions.Add(chip);
             }
         }
 
-        void BuildCase()
+        void Check(string query)
         {
-            var c = UI.CurrentCase;
-            page.Add(UIKit.Text(Loc.T("Today's case"), "hand-title"));
-            if (c == null)
+            result.Clear();
+            if (FactText.Digits(query).Length < 3)
+                return;
+            Sfx.Play(Sfx.Click);
+            var number = UI.Directory.FindNumber(query);
+            var account = UI.Directory.FindAccount(query);
+            // Pasted into the wrong tab: switch to the one that knows it.
+            if (accountMode && account == null && number != null)
+                SetMode(false, false);
+            else if (!accountMode && number == null && account != null)
+                SetMode(true, false);
+            field.value = query;
+            ClueEvents.Raise(ClueEvent.NumberChecked, query);
+
+            var card = UIKit.Div("check-card");
+            if (accountMode ? account == null : number == null)
             {
-                page.Add(UIKit.Text(Loc.T("No call yet. When someone calls, their claims and every number they give end up here."), "hand"));
+                card.Add(UIKit.Text(query, "check-card__what"));
+                card.Add(UIKit.Text(Loc.T(accountMode ? "No account with this number. Check the digits." : "No record of this number. Check the digits."), "check-card__none"));
+                result.Add(card);
                 return;
             }
-            var card = UIKit.Div("case-card");
-            card.Add(UIKit.Portrait(c.caller.portrait));
-            var who = UIKit.Div("grow");
-            who.Add(UIKit.Text(c.callerTitle, "rule-entry__title"));
-            var chips = UIKit.Div("chip-row");
-            chips.Add(UIKit.Chip(c.caller.number, FactKind.Phone, Loc.T("Caller ID")));
-            who.Add(chips);
+            string what = accountMode ? $"{account.bank}  {account.number}" : number.number;
+            string owner = accountMode ? account.holder : number.owner;
+            string note = accountMode ? account.note : number.note;
+            var reports = accountMode ? account.reports : number.reports;
+            card.Add(UIKit.Text(what, "check-card__what"));
+            var who = UIKit.Div("check-card__row");
+            who.Add(UIKit.Text(Loc.T(accountMode ? "Account holder" : "Owner"), "check-card__label"));
+            var name = UIKit.Div("check-card__owner");
+            name.Add(UIKit.Text(owner, "check-card__name"));
+            if (!accountMode && number.official)
+                name.Add(UIKit.Text(Loc.T("OFFICIAL NUMBER"), "check-card__official"));
+            who.Add(name);
             card.Add(who);
-            page.Add(card);
-            page.Add(UIKit.Text(Loc.T("They claim"), "rule-entry__title"));
-            foreach (var claim in c.claims)
-                page.Add(UIKit.Text("• " + claim, "hand"));
-            page.Add(UIKit.Text(Loc.T("Heard or found"), "rule-entry__title"));
-            var facts = UIKit.Div("chip-row");
-            foreach (var f in c.facts)
-                facts.Add(UIKit.Chip(f));
-            page.Add(facts);
-            page.Add(UIKit.Text(Loc.T("Check: whose account is it? Is the number really theirs? What does the family chat say?"), "hand", "hand--red"));
+            if (!string.IsNullOrEmpty(note))
+                card.Add(UIKit.Text(note, "check-card__note"));
+            var rep = UIKit.Div("check-card__row");
+            rep.Add(UIKit.Text(Loc.T("Reports"), "check-card__label"));
+            int count = reports?.Count ?? 0;
+            rep.Add(UIKit.Text(count > 1 ? Loc.F("{0} reports", count) : count == 1 ? Loc.T("1 report") : Loc.T("No reports"),
+                               "check-card__count", count > 0 ? "check-card__count--bad" : "check-card__count--clean"));
+            card.Add(rep);
+            if (reports != null)
+                foreach (string r in reports)
+                    card.Add(UIKit.Text(r, "check-card__report"));
+            card.Add(UIKit.Text(Loc.T("No reports doesn't mean safe: new numbers and accounts start clean. Check that the owner is who the caller says."), "check-card__tip"));
+            result.Add(card);
         }
     }
 }

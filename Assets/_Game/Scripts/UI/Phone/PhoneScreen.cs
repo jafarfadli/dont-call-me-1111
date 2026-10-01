@@ -7,7 +7,7 @@ namespace DontCallMe.UI
 {
     /// <summary>
     /// One screen on the phone: a header with back button and title, and a scrolling body.
-    /// Apps build their screens from the helpers here (sections, list rows, key/value rows, paste fields).
+    /// Apps build their screens from the helpers here (sections and list rows).
     /// </summary>
     public class PhoneScreen
     {
@@ -109,29 +109,6 @@ namespace DontCallMe.UI
                 });
             (parent ?? Content).Add(row);
             return row;
-        }
-
-        /// <summary>Text field with Paste and an action button; Enter also submits.</summary>
-        protected TextField PasteField(string placeholder, string buttonText, Action<string> onSubmit, VisualElement parent = null)
-        {
-            var row = UIKit.Div("field");
-            var field = new TextField();
-            field.textEdition.placeholder = placeholder;
-            row.Add(field);
-            row.Add(UIKit.Btn(Loc.T("Paste"), () =>
-            {
-                if (!string.IsNullOrEmpty(Clipboard.Value))
-                    field.value = Clipboard.Value;
-            }));
-            if (!string.IsNullOrEmpty(buttonText))
-                row.Add(UIKit.Btn(buttonText, () => onSubmit?.Invoke(field.value), "btn--blue"));
-            field.RegisterCallback<KeyDownEvent>(e =>
-            {
-                if (e.keyCode == KeyCode.Return || e.keyCode == KeyCode.KeypadEnter)
-                    onSubmit?.Invoke(field.value);
-            }, TrickleDown.TrickleDown);
-            (parent ?? Content).Add(row);
-            return field;
         }
 
         public static Color Hex(string hex)

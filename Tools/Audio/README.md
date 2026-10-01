@@ -6,7 +6,7 @@ Both run on macOS with Python 3 and `numpy`. The Unity menus under **Tools → D
 
 Every voiced line comes from the content assets, so the text never lives in two places.
 
-1. **Export**: Unity collects every caller line, question answer, pressure line and official-line reply that has a voice, in English and in Korean, and writes `Tools/Audio/voice_lines.json` (`[{ "voice", "text" }]`). The text is the line's `spoken` field when it has one (for numbers read digit by digit), else its `text`.
+1. **Export**: Unity collects every line a caller speaks (the opening, the answers to questions, pressure lines, the timed beats and the closing lines), in English and in Korean, and writes `Tools/Audio/voice_lines.json` (`[{ "voice", "text" }]`). The text is the line's `spoken` field when it has one (for numbers read digit by digit), else its `text`.
 2. **Generate**: `python3 Tools/Audio/tts.py` speaks each line with the macOS `say` voice, converts it with `afconvert`, then shapes it like a phone line: a 300 Hz to 3.4 kHz band with a presence lift, gentle compression, a little line hiss, trimmed and levelled. Clips land in `Assets/_Game/Audio/Voices/<voice>/<hash>.wav`, listed in `manifest.json`. Lines already generated are kept; clips no line uses any more are removed. `--force` renders everything again.
 3. **Import**: Unity sets the clips to mono Vorbis and fills `Assets/_Game/Data/VoiceBank.asset`, which the game searches by voice and text.
 
@@ -14,12 +14,7 @@ Every voiced line comes from the content assets, so the text never lives in two 
 
 | Character | English voice | wpm | Korean voice | wpm |
 | --- | --- | --- | --- | --- |
-| Manager Jeon (the scammer) | Daniel | 186 | Rocko (Korean (South Korea)) | 240 |
-| Nuri Bank customer centre (Song Eunji) | Samantha | 178 | Sandy (Korean (South Korea)) | 232 |
-| FSS fraud hotline | Karen | 176 | Shelley (Korean (South Korea)) | 232 |
-| Police 112, building office | Tessa | 172 | Flo (Korean (South Korea)) | 232 |
-| Mom | Moira | 170 | Grandma (Korean (South Korea)) | 215 |
-| Dad | Rishi | 176 | Grandpa (Korean (South Korea)) | 215 |
+| Manager Jeon, "Nuri Bank's account protection team" (Day 1) | Daniel | 186 | Rocko (Korean (South Korea)) | 240 |
 | Choi Hyunwoo, "the landlord's son" (Day 2, both truths) | Reed (English (US)) | 178 | Reed (Korean (South Korea)) | 232 |
 | Yoon Seora, "Hangang Express customs desk" (Day 3, both truths) | Shelley (English (UK)) | 176 | Yuna | 185 |
 
@@ -27,7 +22,9 @@ A scam and its legit twin share the caller's voice, so the voice never gives the
 
 The Korean voices ship with macOS (`say -v '?' | grep ko_KR` lists them). The `Korean (South Korea)` variants speak slowly at their default rate, so they run faster. Korean lines write numbers the way they are read aloud in their `spoken` field (`일일공, 구공공…`), as the English ones do.
 
-A character's voice is set on the conversation's caller (`caller.voice`), on an action trigger for whoever picks up a call-back (`ActionTrigger.voice`), and on the directory's callback scripts. Speeds are in `RATES` in `tts.py`.
+A character's voice is set on the conversation's caller (`caller.voice`, from `VoiceJeon`, `VoiceHyunwoo` and `VoiceCustoms` in `ContentBuilder`). Speeds are in `RATES` in `tts.py`, which also keeps the speeds of the voices earlier versions used for call-backs (Samantha, Karen, Tessa, Moira, Rishi and the Korean Sandy, Shelley, Flo, Grandma, Grandpa), ready for a new character.
+
+The three days have 152 voiced lines: 23, 27 and 26 per language.
 
 ## Music
 

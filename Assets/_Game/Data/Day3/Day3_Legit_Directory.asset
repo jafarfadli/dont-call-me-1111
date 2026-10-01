@@ -16,41 +16,40 @@ MonoBehaviour:
   - bank: Nuri Bank
     number: 110-900-551207
     holder: JEONG MIRAN
+    note: Personal account, opened 3 weeks ago
     reports:
     - "4 Oct \xB7 \"Said he was from the Nuri Bank protection team. I sent 2,000,000
       won.\""
     - "29 Sep \xB7 \"Protected account story. The money was gone in minutes.\""
-  - bank: Daehan Bank
-    number: 3333-12-7788901
-    holder: YOON JAEHEE
-    reports: []
   - bank: Nuri Bank
     number: 110-302-558814
     holder: KIM JIWOO
+    note: Personal account
     reports: []
   - bank: Nuri Bank
     number: 110-302-558990
     holder: KIM JIWOO
+    note: Savings account
     reports: []
   - bank: Nuri Bank
     number: 110-845-100233
     holder: PARK HYEJIN
+    note: Personal account
     reports: []
   - bank: Nuri Bank
     number: 110-771-209944
     holder: CHOI YOUNGSIK
-    reports: []
-  - bank: Nuri Bank
-    number: 110-287-004411
-    holder: PARK TAEHO
+    note: Personal account, opened 2011
     reports: []
   - bank: Nuri Bank
     number: 5620-44-018830
     holder: HANGANG EXPRESS (CUSTOMS)
+    note: Virtual account issued to Hangang Express Co., Ltd.
     reports: []
   numbers:
   - number: 070-8844-2019
-    owner: Unknown (internet phone)
+    owner: Not registered
+    note: Internet phone (070), opened 9 days ago
     official: 0
     reports:
     - "5 Oct \xB7 \"Nuri Bank 'account protection team'. Wanted my savings moved.\""
@@ -62,456 +61,51 @@ MonoBehaviour:
     - "30 Sep \xB7 \"Bank impersonation.\""
   - number: 1599-0000
     owner: Nuri Bank customer centre
+    note: The bank's only customer number
     official: 1
     reports: []
   - number: 1588-5520
     owner: Hangang Express customer centre
+    note: Customer centre and customs desk
     official: 1
     reports: []
   - number: 1332
     owner: Financial Supervisory Service fraud hotline
+    note: 
     official: 1
     reports: []
   - number: 112
     owner: Police
-    official: 1
-    reports: []
-  - number: 02-555-0112
-    owner: Mapo Police Station
-    official: 1
-    reports: []
-  - number: 02-555-0181
-    owner: Mapo City Gas
+    note: 
     official: 1
     reports: []
   - number: 02-555-0192
     owner: Mangwon Heights office
+    note: 
     official: 1
     reports: []
-  - number: 070-4852-1170
-    owner: Unknown (internet phone)
+  - number: 010-5512-3380
+    owner: CHOI YOUNGSIK
+    note: Mobile phone, since 2009
     official: 0
-    reports:
-    - "2 Oct \xB7 \"'Customs': pay duty for a parcel I never ordered.\""
-    - "1 Oct \xB7 \"Customs scam, asked for a transfer.\""
-    - "28 Sep \xB7 \"Fake customs clearance.\""
-    - "25 Sep \xB7 \"Scam.\""
-  - number: 010-8812-4471
-    owner: Unknown
+    reports: []
+  - number: 010-2280-6614
+    owner: CHOI HYUNWOO
+    note: Mobile phone, since 2016
     official: 0
-    reports:
-    - "Sun \xB7 \"Fake Nuri 'restricted account' text with a link.\""
-    - "Sat \xB7 \"Smishing link nuri-secure.kr\""
-    - "Sat \xB7 \"Spam.\""
-  - number: 010-5903-2271
-    owner: Unknown
-    official: 0
-    reports:
-    - "1 Oct \xB7 \"Fake 'rent account changed' text.\""
-    - "30 Sep \xB7 \"Smishing, rent-notice.kr\""
-  - number: 010-7240-1182
-    owner: Unknown
-    official: 0
-    reports:
-    - "6 Oct \xB7 \"'Unpaid customs duty' text with a link.\""
-    - "6 Oct \xB7 \"Smishing.\""
-  pages:
-  - url: nuribank.co.kr/help
-    title: Nuri Bank customer centre
-    site: Nuri Bank
-    official: 1
-    aliases:
-    - nuri bank
-    - "\uB204\uB9AC\uC740\uD589"
-    - "\uB204\uB9AC"
-    - nuri
-    - bank
-    - "\uC740\uD589"
-    - customer centre
-    - "\uACE0\uAC1D\uC13C\uD130"
-    - protection team
-    - "\uBCF4\uD638\uD300"
-    - protected account
-    - "\uBCF4\uD638\uACC4\uC88C"
-    - safe account
-    - "\uC548\uC804\uACC4\uC88C"
-    blocks:
-    - kind: 1
-      text: Need help with your account or card? We're here 24 hours a day.
-      value: 
-    - kind: 2
-      text: Customer centre (24h)
-      value: 1599-0000
-    - kind: 6
-      text: Nuri Bank never asks you to move money to a 'protected' or 'safe' account.
-        There is no such account. If someone asks, hang up and call 1599-0000 yourself.
-      value: 
-    - kind: 3
-      text: Our staff call you from 1599-0000. If you're unsure, hang up and call
-        us back.
-      value: 
-    lookup: []
-  - url: nuri-secure.kr/verify
-    title: Nuri Bank Security Verification
-    site: nuri-secure.kr
-    official: 0
-    aliases: []
-    blocks:
-    - kind: 1
-      text: Your account has been restricted. Enter your card details to lift the
-        restriction within 24 hours.
-      value: 
-    - kind: 5
-      text: Card number, expiry date and PIN
-      value: Verify now
-    lookup: []
-  - url: rent-notice.kr
-    title: Rent account change notice
-    site: rent-notice.kr
-    official: 0
-    aliases: []
-    blocks:
-    - kind: 1
-      text: Your landlord has registered a new rent account. Sign in with your bank
-        details to see it.
-      value: 
-    - kind: 5
-      text: Bank, account number and PIN
-      value: See my new account
-    lookup: []
-  - url: kr-customs.help/pay
-    title: "Korea Customs \xB7 pay unpaid duty"
-    site: kr-customs.help
-    official: 0
-    aliases: []
-    blocks:
-    - kind: 1
-      text: "Your parcel is held for unpaid customs duty (\u20A93,200). Pay by card
-        now or it will be returned."
-      value: 
-    - kind: 5
-      text: Card number, expiry date and CVC
-      value: "Pay \u20A93,200"
-    lookup: []
-  - url: fss.or.kr/fraud
-    title: 'Financial Supervisory Service: report financial fraud'
-    site: FSS
-    official: 1
-    aliases:
-    - fss
-    - financial supervisory service
-    - "\uAE08\uC735\uAC10\uB3C5\uC6D0"
-    - "\uAE08\uAC10\uC6D0"
-    - 1332
-    - voice phishing
-    - "\uBCF4\uC774\uC2A4\uD53C\uC2F1"
-    - safe account
-    - "\uC548\uC804\uACC4\uC88C"
-    - fraud
-    - "\uC0AC\uAE30"
-    blocks:
-    - kind: 2
-      text: Fraud hotline
-      value: 1332
-    - kind: 6
-      text: No bank, prosecutor or government office will ask you to transfer money
-        to a 'safe account' or an 'inspection account'.
-      value: 
-    - kind: 1
-      text: 'Sent money to a scammer? Call your bank or 112 at once: a transfer can
-        be frozen if you act within minutes.'
-      value: 
-    lookup: []
-  - url: police.go.kr/mapo
-    title: Mapo Police Station
-    site: Mapo Police
-    official: 1
-    aliases:
-    - mapo police
-    - police
-    - "\uACBD\uCC30"
-    - mapo police station
-    - "\uB9C8\uD3EC\uACBD\uCC30\uC11C"
-    blocks:
-    - kind: 2
-      text: Main number
-      value: 02-555-0112
-    - kind: 2
-      text: Emergency
-      value: 112
-    - kind: 3
-      text: Police never ask for transfers, 'safe accounts' or your bank details
-        over the phone.
-      value: 
-    lookup: []
-  - url: mapocitygas.co.kr
-    title: 'Mapo City Gas: safety inspections'
-    site: Mapo City Gas
-    official: 1
-    aliases:
-    - gas
-    - "\uAC00\uC2A4"
-    - mapo city gas
-    - "\uB9C8\uD3EC\uB3C4\uC2DC\uAC00\uC2A4"
-    - inspection
-    - "\uC810\uAC80"
-    - boiler
-    - "\uBCF4\uC77C\uB7EC"
-    blocks:
-    - kind: 2
-      text: Customer centre
-      value: 02-555-0181
-    - kind: 3
-      text: Inspections are announced by your building two weeks ahead. Inspectors
-        show an ID card and never collect money.
-      value: 
-    lookup: []
-  - url: seoulhousing.go.kr/rent
-    title: 'Seoul Housing Centre: paying your rent safely'
-    site: Seoul Housing Centre
-    official: 1
-    aliases:
-    - rent
-    - "\uC6D4\uC138"
-    - landlord
-    - "\uC9D1\uC8FC\uC778"
-    - "\uC784\uB300\uC778"
-    - housing
-    - "\uC8FC\uAC70"
-    - lease
-    - "\uACC4\uC57D\uC11C"
-    - rent account
-    - "\uC6D4\uC138 \uACC4\uC88C"
-    - tenant
-    - "\uC138\uC785\uC790"
-    blocks:
-    - kind: 1
-      text: Most leases say how the rent account can change. If yours says 'in writing',
-        a phone call alone is not enough.
-      value: 
-    - kind: 6
-      text: A new rent account in the name of someone who isn't in your lease is
-        the most common rental scam. Check the name before you send.
-      value: 
-    - kind: 3
-      text: Unsure? Ask your landlord on the number you already have, or check the
-        residents' notices.
-      value: 
-    lookup: []
-  - url: customs.go.kr/import
-    title: 'Korea Customs Service: shopping from overseas'
-    site: Korea Customs Service
-    official: 1
-    aliases:
-    - customs
-    - "\uAD00\uC138\uCCAD"
-    - "\uC138\uAD00"
-    - duty
-    - "\uAD00\uC138"
-    - import
-    - "\uC9C1\uAD6C"
-    - vat
-    - "\uBD80\uAC00\uC138"
-    - korea customs
-    - overseas
-    - "\uD574\uC678"
-    blocks:
-    - kind: 1
-      text: Personal orders up to US$150 are free of duty. Above that you pay duty
-        and VAT, unless the seller collected them at checkout.
-      value: 
-    - kind: 3
-      text: Duty is paid through your courier (their app or a virtual account in
-        the courier's name) or on our UNI-PASS site.
-      value: 
-    - kind: 6
-      text: Customs never asks you to pay into an account in a person's name, or
-        through a link in a text.
-      value: 
-    lookup: []
-  - url: seouldaily.kr/2026/10/06/read-the-name
-    title: Before you send, read the name
-    site: Seoul Daily
-    official: 1
-    aliases:
-    - seoul daily
-    - "\uC11C\uC6B8\uB370\uC77C\uB9AC"
-    - news
-    - "\uB274\uC2A4"
-    - read the name
-    - protected account
-    - "\uBCF4\uD638\uACC4\uC88C"
-    - voice phishing
-    - "\uBCF4\uC774\uC2A4\uD53C\uC2F1"
-    blocks:
-    - kind: 1
-      text: Callers claiming to be bank 'protection teams' are asking customers to
-        move their savings to 'protected accounts'.
-      value: 
-    - kind: 1
-      text: Every banking app shows the account holder's name before a transfer goes
-        through. A person's name on an 'official' account is the giveaway.
-      value: 
-    lookup: []
-  - url: hangangexpress.co.kr/customs
-    title: 'Hangang Express: customs and duty'
-    site: Hangang Express
-    official: 1
-    aliases:
-    - hangang express
-    - hangang
-    - "\uD55C\uAC15\uC775\uC2A4\uD504\uB808\uC2A4"
-    - "\uD55C\uAC15"
-    - courier
-    - "\uD0DD\uBC30"
-    - customs
-    - "\uD1B5\uAD00"
-    - "\uAD00\uC138"
-    - duty
-    - parcel
-    - tracking
-    - track
-    - "\uC6B4\uC1A1\uC7A5"
-    blocks:
-    - kind: 2
-      text: Customer centre and customs desk
-      value: 1588-5520
-    - kind: 3
-      text: If duty is due on an overseas parcel, we text you and it shows in the
-        Parcels app. Our customs desk may call you from 1588-5520.
-      value: 
-    - kind: 6
-      text: Pay duty only in the Parcels app or to a virtual account in the name
-        HANGANG EXPRESS (CUSTOMS). We never ask you to pay any other account or through
-        a link from another number.
-      value: 
-    - kind: 4
-      text: Track a parcel
-      value: parcel
-    lookup:
-    - key: HX-5520-1183-KR
-      result: "HX-5520-1183-KR \xB7 27-inch monitor \xB7 Held at Incheon customs
-        since 8 Oct \xB7 Duty and VAT \u20A956,600 due \xB7 Pay to Nuri Bank 5620-44-018830
-        (HANGANG EXPRESS (CUSTOMS))"
-    - key: 4410 2287 1934
-      result: "4410 2287 1934 \xB7 Desk lamp bulbs \xB7 Delivered Wed 7 Oct, 17:32"
-  callbacks:
-  - number: 1599-0000
-    answeredBy: Nuri Bank customer centre
-    portrait: pt_song
-    voice: Samantha
-    lines:
-    - speaker: 0
-      text: Nuri Bank customer centre, this is Song Eunji speaking. How can I help?
-      spoken: 
-      facts: []
-      deliver: []
-      pauseAfter: 0.3
-    - speaker: 0
-      text: Your account looks normal. If anyone asks you to move money, hang up
-        and call us on this number.
-      spoken: 
-      facts: []
-      deliver: []
-      pauseAfter: 0.3
-  - number: 1332
-    answeredBy: FSS fraud hotline
-    portrait: pt_oh
-    voice: Karen
-    lines:
-    - speaker: 0
-      text: Financial Supervisory Service, fraud hotline.
-      spoken: 
-      facts: []
-      deliver: []
-      pauseAfter: 0.3
-    - speaker: 0
-      text: If someone asks you to move money to a 'safe account', it's a scam. Report
-        the number to 112.
-      spoken: If someone asks you to move money to a safe account, it's a scam. Report
-        the number to one one two.
-      facts: []
-      deliver: []
-      pauseAfter: 0.3
-  - number: 112
-    answeredBy: Police 112
-    portrait: pt_oh
-    voice: Tessa
-    lines:
-    - speaker: 0
-      text: 112, police. What's happening?
-      spoken: One one two, police. What's happening?
-      facts: []
-      deliver: []
-      pauseAfter: 0.3
-    - speaker: 0
-      text: Tell us the number and the account. We can ask the bank to freeze a transfer
-        if you call right away.
-      spoken: 
-      facts: []
-      deliver: []
-      pauseAfter: 0.3
+    reports: []
   - number: 010-2231-7745
-    answeredBy: Mom
-    portrait: pt_mom
-    voice: Moira
-    lines:
-    - speaker: 0
-      text: Jiwoo-ya! Did you eat?
-      spoken: Jiwoo ya! Did you eat?
-      facts: []
-      deliver: []
-      pauseAfter: 0.3
-    - speaker: 0
-      text: Your dad cooked doenjang stew today. Come home on the 17th, okay?
-      spoken: Your dad cooked doenjang stew today. Come home on the seventeenth,
-        okay?
-      facts: []
-      deliver: []
-      pauseAfter: 0.3
+    owner: PARK HYEJIN
+    note: Mobile phone
+    official: 0
+    reports: []
   - number: 010-4418-0902
-    answeredBy: Dad
-    portrait: pt_dad
-    voice: Rishi
-    lines:
-    - speaker: 0
-      text: Jiwoo! Everything okay?
-      spoken: 
-      facts: []
-      deliver: []
-      pauseAfter: 0.3
-    - speaker: 0
-      text: Call your mom, she misses you.
-      spoken: 
-      facts: []
-      deliver: []
-      pauseAfter: 0.3
-  - number: 02-555-0192
-    answeredBy: Mangwon Heights office
-    portrait: app_contacts
-    voice: Tessa
-    lines:
-    - speaker: 0
-      text: Mangwon Heights office.
-      spoken: 
-      facts: []
-      deliver: []
-      pauseAfter: 0.3
-    - speaker: 0
-      text: The gas inspection is on the 14th. They won't ask for any money.
-      spoken: The gas inspection is on the fourteenth. They won't ask for any money.
-      facts: []
-      deliver: []
-      pauseAfter: 0.3
-  - number: 070-8844-2019
-    answeredBy: Manager Jeon
-    portrait: pt_jeon
-    voice: Daniel
-    lines:
-    - speaker: 0
-      text: Nuri Bank protection team... Miss Kim? Good, please go ahead with the
-        transfer.
-      spoken: 
-      facts: []
-      deliver: []
-      pauseAfter: 0.3
+    owner: KIM DONGSU
+    note: Mobile phone
+    official: 0
+    reports: []
+  - number: 010-6620-0921
+    owner: KIM JIWOO
+    note: Mobile phone
+    official: 0
+    reports: []

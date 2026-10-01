@@ -11,49 +11,45 @@ using Object = UnityEngine.Object;
 namespace DontCallMe.Editor.UI
 {
     /// <summary>
-    /// Writes the game's content: the days of the run, the catalog that lists them and a sample chat.
+    /// Writes the game's content as assets: the three days of the run (Data/Day1..Day3) and the
+    /// catalog that lists them.
     /// <list type="bullet">
-    /// <item>Day 1 (Data/Day1): "Nuri Bank's protection team" wants the savings moved. Always a scam.</item>
-    /// <item>Day 2 (Data/Day2): the landlord's son asks for the rent on a new account. Scam or legit.</item>
-    /// <item>Day 3 (Data/Day3): a courier's customs desk asks for the duty on a parcel. Scam or legit.</item>
+    /// <item>Day 1 (Easy, 2 clues): "Nuri Bank's protection team" wants the savings moved. Always a scam; the tutorial day.</item>
+    /// <item>Day 2 (Medium, 3 clues): the landlord's son asks for the rent on a new account. Scam or legit.</item>
+    /// <item>Day 3 (Hard, 4 clues): a courier's customs desk asks for the duty on a parcel. Scam or legit.</item>
     /// </list>
-    /// Every day's phone, room and directory grow from one household timeline
-    /// (ContentBuilder.Household.cs): a text sent on Monday reads "Mon 22:47" on Day 1 and is still there
-    /// on Day 3. Each variant adds its own evidence on top. Everything is built twice, in English and in
-    /// Korean (<see cref="L"/>): the Korean assets sit in a "ko" folder next to the English ones and are
-    /// listed in Resources/DayCatalog_ko. Rerun to reset edits; then run the voice pipeline for new or
-    /// changed lines.
+    /// The player has three phone apps (Contacts, Chats, Nuri Bank) and four things in the room
+    /// (newspaper, calendar, desk drawer, and the computer that looks up who owns a number or an
+    /// account); every clue is in one of them. Every day's phone, room and directory grow from one
+    /// household timeline (ContentBuilder.Household.cs): a message sent on Monday reads "Mon 22:47"
+    /// on Day 1 and is still there on Day 3. Each variant adds its own evidence on top. Everything
+    /// is built twice, in English and in Korean (<see cref="L"/>): the Korean assets sit in a "ko"
+    /// folder next to the English ones and are listed in Resources/DayCatalog_ko. Rerun to reset
+    /// edits; then run the voice pipeline for new or changed lines.
     /// </summary>
     public static partial class ContentBuilder
     {
         const string Day1Dir = "Assets/_Game/Data/Day1";
         const string Day2Dir = "Assets/_Game/Data/Day2";
         const string Day3Dir = "Assets/_Game/Data/Day3";
-        const string SamplesDir = "Assets/_Game/Data/Samples";
         const string ResourcesDir = "Assets/_Game/Resources";
         public const string PhonePath = Day1Dir + "/Day1_Phone.asset";
         public const string DirectoryPath = Day1Dir + "/Day1_Directory.asset";
         public const string RoomPath = Day1Dir + "/Day1_Room.asset";
         public const string CallPath = Day1Dir + "/Day1_Call_ProtectedAccount.asset";
         public const string DayPath = Day1Dir + "/Day1.asset";
-        public const string ChatPath = SamplesDir + "/Chat_E2_MomsBrokenPhone.asset";
         public const string CatalogPath = ResourcesDir + "/" + DayCatalog.ResourceName + ".asset";
         const string Sprites = "Assets/_Game/UI/Sprites/";
         const string PapersJson = "Tools/ArtGen/papers.json";
         const string PrintsDir = "Assets/_Game/Art/Textures/Papers";
 
-        // The voices (macOS `say`) for everyone who speaks on the phone, per language.
+        // The voices (macOS `say`) of the three callers, per language.
         static string VoiceJeon => L("Daniel", "Rocko (Korean (South Korea))");
-        static string VoiceBank => L("Samantha", "Sandy (Korean (South Korea))");
-        static string VoiceFss => L("Karen", "Shelley (Korean (South Korea))");
-        static string VoicePolice => L("Tessa", "Flo (Korean (South Korea))");
-        static string VoiceMom => L("Moira", "Grandma (Korean (South Korea))");
-        static string VoiceDad => L("Rishi", "Grandpa (Korean (South Korea))");
         static string VoiceHyunwoo => L("Reed (English (US))", "Reed (Korean (South Korea))");
         static string VoiceCustoms => L("Shelley (English (UK))", "Yuna");
 
         /// <summary>Bump when the built content changes, so open projects rebuild it (and its voices) by themselves.</summary>
-        public const int Version = 5;
+        public const int Version = 6;
 
         /// <summary>The language being built.</summary>
         static Lang lang = Lang.En;
@@ -96,14 +92,7 @@ namespace DontCallMe.Editor.UI
             EnsureFolder(Day1Dir);
             EnsureFolder(Day2Dir);
             EnsureFolder(Day3Dir);
-            EnsureFolder(SamplesDir);
             EnsureFolder(ResourcesDir);
-            // Earlier builds wrote the same assets as "demo" content; move them so scenes keep their references.
-            Move("Assets/_Game/Data/Demo/Demo_Phone.asset", PhonePath);
-            Move("Assets/_Game/Data/Demo/Demo_Directory.asset", DirectoryPath);
-            Move("Assets/_Game/Data/Demo/Demo_Room.asset", RoomPath);
-            Move("Assets/_Game/Data/Demo/Demo_Call_M6_ProtectedAccount.asset", CallPath);
-            Move("Assets/_Game/Data/Demo/Demo_Chat_E2_MomsBrokenPhone.asset", ChatPath);
 
             var built = new List<(Lang, List<DayData>)>();
             foreach (var l in new[] { Lang.En, Lang.Ko })
@@ -118,7 +107,6 @@ namespace DontCallMe.Editor.UI
                 built.Add((l, catalog.days));
             }
             lang = Lang.En;
-            Store(BuildChat(), ChatPath);
             ExportPapers(built);
             AssignPrints(built);
             AssetDatabase.SaveAssets();
@@ -126,15 +114,6 @@ namespace DontCallMe.Editor.UI
         }
 
         // ---------------------------------------------------------------- assets
-
-        static void Move(string from, string to)
-        {
-            if (AssetDatabase.LoadMainAssetAtPath(from) == null || AssetDatabase.LoadMainAssetAtPath(to) != null)
-                return;
-            string error = AssetDatabase.MoveAsset(from, to);
-            if (!string.IsNullOrEmpty(error))
-                Debug.LogWarning($"[ContentBuilder] Could not move {from}: {error}");
-        }
 
         static void EnsureFolder(string path)
         {
@@ -376,9 +355,6 @@ namespace DontCallMe.Editor.UI
         static ConvLine Caller(string text, string spoken, params Fact[] facts) =>
             new ConvLine { speaker = Speaker.Caller, text = text, spoken = spoken, facts = new List<Fact>(facts) };
 
-        static CallbackScript Callback(string number, string answeredBy, string portrait, string voice, params ConvLine[] lines) =>
-            new CallbackScript { number = number, answeredBy = answeredBy, portrait = portrait, voice = voice, lines = new List<ConvLine>(lines) };
-
         static ConvNode Node(string id, string next, params ConvLine[] lines) => new ConvNode { id = id, next = next, lines = new List<ConvLine>(lines) };
 
         static ConvNode Decide(string id, ConvDecision d, params ConvLine[] lines) =>
@@ -402,12 +378,6 @@ namespace DontCallMe.Editor.UI
 
         static PressureBeat Beat(string at, ConvLine line) => new PressureBeat { at = at, line = line };
 
-        static ConvLine WithSms(ConvLine line, string from, string text, string link = null)
-        {
-            line.deliver.Add(new Delivery { kind = DeliveryKind.Sms, from = from, text = text, link = link });
-            return line;
-        }
-
         static ClueDef Clue(string id, string text, string where, params ClueWhen[] when) =>
             new ClueDef { id = id, text = text, where = where, when = new List<ClueWhen>(when) };
 
@@ -417,16 +387,6 @@ namespace DontCallMe.Editor.UI
         // Echoes: what an earlier day left behind.
         static DayEcho Echo(int afterDay, Truth truth, OutcomeMask outcomes, EchoKind kind) =>
             new DayEcho { afterDay = afterDay, truth = truth, outcomes = outcomes, kind = kind };
-
-        static DayEcho EchoSms(int afterDay, Truth truth, OutcomeMask outcomes, string from, string when, string text, bool notify = false)
-        {
-            var e = Echo(afterDay, truth, outcomes, EchoKind.Sms);
-            e.from = from;
-            e.when = when;
-            e.text = text;
-            e.notify = notify;
-            return e;
-        }
 
         static DayEcho EchoChat(int afterDay, Truth truth, OutcomeMask outcomes, string chat, string sender, string avatar, string when, string text, bool notify = false)
         {
@@ -454,17 +414,6 @@ namespace DontCallMe.Editor.UI
         {
             var e = Echo(afterDay, truth, outcomes, EchoKind.DayCard);
             e.text = text;
-            return e;
-        }
-
-        static DayEcho EchoNote(int afterDay, Truth truth, OutcomeMask outcomes, string title, string text, string sticky, Vector2 position, float rotation)
-        {
-            var e = Echo(afterDay, truth, outcomes, EchoKind.BoardNote);
-            e.title = title;
-            e.text = text;
-            e.image = Tex(sticky + "_blank");
-            e.position = position;
-            e.rotation = rotation;
             return e;
         }
 

@@ -4,27 +4,24 @@ using UnityEngine;
 
 namespace DontCallMe.Data
 {
-    public enum Channel { Call, Chat }
     public enum Speaker { Caller, Player, System }
     public enum DecisionKind { Ask, Test, Commit }
     public enum Verdict { GoAlong, Refuse, Verify }
-    public enum ActionKind { Transfer, Call, HangUp }
+    public enum ActionKind { Transfer, HangUp }
 
     /// <summary>
-    /// One call or chat: a small graph of nodes with two-option decisions, endings and the
-    /// phone actions that also end it (a transfer, a call to a looked-up number, hanging up).
-    /// This is the conversation part of the planned ScenarioData (docs/technical-plan.md, section 9).
+    /// One call: a small graph of nodes with two-option decisions, the hold (questions, pressure
+    /// beats, the verdict) and the endings. The transfer action says what "going along" sends.
     /// </summary>
     [CreateAssetMenu(menuName = "Don't Call Me/Conversation")]
     public class ConversationData : ScriptableObject
     {
         public string title;
-        public Channel channel;
         public bool isScam;
         [Tooltip("Template/demo only: say right or wrong when the conversation ends. In the game the truth comes in the next morning's paper.")]
         public bool revealAtEnd = true;
         public CallerInfo caller = new CallerInfo();
-        [Tooltip("What the caller claims, listed in the notebook's Case tab as the call goes on.")]
+        [Tooltip("What the caller claims, in short (for reference and tools).")]
         public List<string> claims = new List<string>();
         public List<ConvNode> nodes = new List<ConvNode>();
         public List<ConvEnding> endings = new List<ConvEnding>();
@@ -49,12 +46,10 @@ namespace DontCallMe.Data
     [Serializable]
     public class CallerInfo
     {
-        public string displayName;    // shown when saved in contacts, or the chat profile name
+        public string displayName;    // who they say they are
         public string number;
         public bool inContacts;
         public string portrait = "pt_unknown";
-        public string chatId;         // Talk thread for chats
-        public string profileId;      // shown on the chat profile
         [Tooltip("TTS voice (macOS `say` voice name) for the caller's lines.")]
         public string voice;
     }
@@ -133,7 +128,7 @@ namespace DontCallMe.Data
         [Tooltip("What the voice says when it should differ from the text, e.g. an account number read digit by digit.")]
         [TextArea(1, 5)] public string spoken;
         public List<Fact> facts = new List<Fact>();
-        [Tooltip("Evidence that arrives as the line is spoken, e.g. an SMS or a deposit.")]
+        [Tooltip("Something that arrives as the line is spoken: a chat message or a deposit.")]
         public List<Delivery> deliver = new List<Delivery>();
         public float pauseAfter = 0.4f;
 
@@ -143,16 +138,17 @@ namespace DontCallMe.Data
             new ConvLine { speaker = Speaker.Caller, text = text, spoken = spoken, pauseAfter = pauseAfter };
     }
 
-    public enum DeliveryKind { Sms, BankNotice, BankDeposit, Mail, ChatMessage }
+    public enum DeliveryKind { ChatMessage, BankDeposit }
 
     [Serializable]
     public class Delivery
     {
         public DeliveryKind kind;
+        [Tooltip("ChatMessage: the thread id. BankDeposit: who paid.")]
         public string from;
+        [Tooltip("ChatMessage: the sender's name.")]
         public string title;
         [TextArea(1, 4)] public string text;
-        public string link;
         public long amount;
     }
 
@@ -199,12 +195,9 @@ namespace DontCallMe.Data
     public class ActionTrigger
     {
         public ActionKind kind;
-        public string target;         // account or phone number
+        public string target;         // the account
         public string endingId;
-        public string answeredBy;     // for Call: who picks up
-        public string portrait;
-        public string voice;          // for Call: the voice of whoever picks up
-        public string bank;           // for Transfer: the bank the caller named
-        public long amount;           // for Transfer: how much the caller asked for
+        public string bank;           // the bank the caller named
+        public long amount;           // how much the caller asked for
     }
 }

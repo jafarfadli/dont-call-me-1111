@@ -7,8 +7,8 @@ using UnityEngine.UIElements;
 namespace DontCallMe.UI
 {
     /// <summary>
-    /// Always-on HUD: day and clock tag, control hints, the notebook and phone buttons with the
-    /// notification badge, the interact prompt at the cursor and toast notifications.
+    /// Always-on HUD: day and clock tag, control hints, the phone button with the notification
+    /// badge, the interact prompt at the cursor and toast notifications.
     /// </summary>
     public class HudView
     {
@@ -25,8 +25,9 @@ namespace DontCallMe.UI
         readonly Label promptKey;
         readonly Label promptText;
         readonly VisualElement hints;
+        readonly VisualElement buttons;
 
-        public HudView(Action onPhone, Action onNotebook)
+        public HudView(Action onPhone)
         {
             Root = UIKit.Div();
             Root.style.position = Position.Absolute;
@@ -56,10 +57,6 @@ namespace DontCallMe.UI
             Root.Add(hints);
 
             var hud = UIKit.Div("hud");
-            var book = UIKit.IconBtn("ic_notebook", onNotebook, "hud-btn");
-            book.tooltip = Loc.T("Notebook");
-            book.Add(UIKit.Text("N", "hud-btn__key"));
-            hud.Add(book);
             var phone = UIKit.IconBtn("ic_phone", onPhone, "hud-btn");
             phone.tooltip = Loc.T("Phone (Tab)");
             phone.Add(UIKit.Text("Tab", "hud-btn__key"));
@@ -68,6 +65,7 @@ namespace DontCallMe.UI
             phone.Add(badge);
             hud.Add(phone);
             Root.Add(hud);
+            buttons = hud;
 
             prompt = UIKit.Div("prompt");
             prompt.pickingMode = PickingMode.Ignore;
@@ -97,6 +95,9 @@ namespace DontCallMe.UI
         }
 
         public void SetHintsVisible(bool on) => hints.Hide(!on);
+
+        /// <summary>The phone button steps aside while the phone is in Jiwoo's hand (Tab, Esc or a click on the room lowers it).</summary>
+        public void SetButtonsVisible(bool on) => buttons.Hide(!on);
 
         public void ShowPrompt(string text, Vector2 panelPosition)
         {
@@ -138,7 +139,49 @@ namespace DontCallMe.UI
         }
     }
 
-    /// <summary>A yes/no question on paper, e.g. "Hang up and call 1599-0000?"</summary>
+    /// <summary>
+    /// The first day's guide: one instruction at a time on a small card at the left edge, with the
+    /// step number. It never takes the pointer.
+    /// </summary>
+    public class TutorialCard
+    {
+        public VisualElement Root { get; }
+
+        readonly Label count;
+        readonly Label text;
+
+        public TutorialCard()
+        {
+            Root = UIKit.Div("tutorial");
+            var head = UIKit.Div("tutorial__head");
+            head.Add(UIKit.Icon("ic_star", "tutorial__icon"));
+            head.Add(UIKit.Text(Loc.T("HOW TO PLAY"), "tutorial__title"));
+            count = UIKit.Text("", "tutorial__count");
+            head.Add(count);
+            Root.Add(head);
+            text = UIKit.Text("", "tutorial__text");
+            Root.Add(text);
+            Root.pickingMode = PickingMode.Ignore;
+            Root.Query().ForEach(c => c.pickingMode = PickingMode.Ignore);
+        }
+
+        /// <summary>Shows a step; the card pops when the step changes.</summary>
+        public void Show(int step, int total, string instruction)
+        {
+            bool changed = text.text != instruction;
+            count.text = $"{step}/{total}";
+            text.text = instruction;
+            Root.AddToClassList("tutorial--on");
+            if (!changed)
+                return;
+            Root.AddToClassList("tutorial--pop");
+            Root.schedule.Execute(() => Root.RemoveFromClassList("tutorial--pop")).ExecuteLater(260);
+        }
+
+        public void Hide() => Root.RemoveFromClassList("tutorial--on");
+    }
+
+    /// <summary>A yes/no question on paper, e.g. "Restart today's case?"</summary>
     public class ModalView
     {
         public VisualElement Root { get; }

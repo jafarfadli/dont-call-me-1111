@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: Day2_Legit_Call
   m_EditorClassIdentifier: DontCallMe::DontCallMe.Data.ConversationData
   title: "Day 2 \xB7 The new rent account (M5, legit)"
-  channel: 0
   isScam: 0
   revealAtEnd: 0
   caller:
@@ -21,8 +20,6 @@ MonoBehaviour:
     number: 010-2280-6614
     inContacts: 0
     portrait: pt_hyunwoo
-    chatId: 
-    profileId: 
     voice: Reed (English (US))
   claims:
   - He is Choi Hyunwoo, the landlord's son.
@@ -173,7 +170,7 @@ MonoBehaviour:
     moneyDelta: 0
     lines: []
     consequence: You hung up on the real Choi Hyunwoo. His father had announced the
-      new account in the residents' chat and in a note on your board.
+      new account in the residents' chat that morning.
   - id: timeout
     verdict: 1
     timedOut: 1
@@ -200,15 +197,12 @@ MonoBehaviour:
       deliver: []
       pauseAfter: 0.4
     consequence: 'The rent reached Choi Hyunwoo''s account. The change was real:
-      the lease''s ''if absent'' number, the residents'' chat and the landlord''s
-      note all said so.'
+      the number in your lease, the name on the account and the landlord''s own message
+      all said so.'
   actions:
   - kind: 0
     target: 110-771-202358
     endingId: go_along
-    answeredBy: 
-    portrait: 
-    voice: 
     bank: Nuri Bank
     amount: 450000
   hangUpEndingId: refuse
@@ -237,8 +231,8 @@ MonoBehaviour:
     playerLine: Why isn't it going to your father's account like always?
     answer:
     - speaker: 0
-      text: Dad can't get into his banking app from the ward. He posted it in the
-        residents' chat this morning and left a note under every door.
+      text: Dad can't get into his banking app from the ward. He wrote it in the
+        residents' chat this morning, before he went in.
       spoken: 
       facts: []
       deliver: []
@@ -258,8 +252,8 @@ MonoBehaviour:
     playerLine: Can I talk to your father?
     answer:
     - speaker: 0
-      text: He's asleep after the operation. Call him tomorrow, or look in the residents'
-        chat. He posted there this morning.
+      text: 'He''s asleep after the operation. Look in the residents'' chat: he wrote
+        there this morning.'
       spoken: 
       facts: []
       deliver: []
@@ -277,17 +271,10 @@ MonoBehaviour:
   - at: 16:40
     line:
       speaker: 0
-      text: I've texted you the account number, so you have it in writing.
+      text: The nurse is asking me about the bill again. Any luck with the transfer?
       spoken: 
       facts: []
-      deliver:
-      - kind: 0
-        from: 010-2280-6614
-        title: 
-        text: '[Choi Hyunwoo, 1F] October rent account: Nuri Bank 110-771-202358
-          (Choi Hyunwoo). Dad''s note is under your door. Thank you!'
-        link: 
-        amount: 0
+      deliver: []
       pauseAfter: 0.4
   - at: 16:47
     line:

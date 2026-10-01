@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using DontCallMe.Data;
 using DontCallMe.Flow;
 using UnityEngine;
@@ -10,17 +8,14 @@ namespace DontCallMe.UI
     // ==================================================================== Nuri Bank
 
     /// <summary>
-    /// Balances, history, alerts and the transfer flow. The transfer shows the account holder's
-    /// name before anything is sent: the check that exposes most scams in the game.
+    /// Jiwoo's accounts and what went in and out. Money is only ever sent through the verdict on
+    /// the call, which records the transfer here.
     /// </summary>
     public class BankApp : PhoneApp
     {
         public override string Id => "bank";
         public override string Name => Loc.T("Nuri Bank");
         public override string Icon => "app_bank";
-        public override int Badge => unreadAlerts;
-
-        int unreadAlerts;
 
         public BankAccount Main => Data.bank.accounts.Count > 0 ? Data.bank.accounts[0] : null;
 
@@ -31,23 +26,11 @@ namespace DontCallMe.UI
             if (Main != null)
                 Main.balance += amount;
             Data.bank.transactions.Insert(0, new BankTransaction { when = Loc.Today + " " + GameClock.Now, counterparty = from, memo = memo, amount = amount });
-            Notify(Loc.F("Deposit {0}", FactText.Won(amount)), Loc.F("From {0}", from) + (string.IsNullOrEmpty(memo) ? "" : Loc.F(" · memo \"{0}\"", memo)), false);
-        }
-
-        /// <summary>Alerts that came in before the day started and haven't been read.</summary>
-        public void AddUnreadAlerts(int count) => unreadAlerts += Mathf.Max(0, count);
-
-        public void Notify(string title, string body, bool alert)
-        {
-            Data.bank.notices.Insert(0, new BankNotice { when = Loc.Today + " " + GameClock.Now, title = title, body = body, alert = alert });
-            unreadAlerts++;
             Sfx.Play(Sfx.Pop);
-            Phone.UI.Toast("app_bank", Loc.T("Nuri Bank"), title);
+            Phone.UI.Toast("app_bank", Loc.T("Nuri Bank"), Loc.F("Deposit {0}", FactText.Won(amount)) + " · " + from);
         }
 
-        public PhoneScreen CreateTransfer(string account = null, long amount = 0) => new TransferScreen(this, account, amount);
-
-        /// <summary>Takes the money from the main account and records it (after the PIN, or a verdict on the call).</summary>
+        /// <summary>Takes the money from the main account and records it (the verdict on the call sends it).</summary>
         public void RecordTransfer(string holder, string bank, string number, long won)
         {
             Data.bank.Change(-won);
@@ -56,8 +39,6 @@ namespace DontCallMe.UI
                 when = Loc.Today + " " + GameClock.Now, counterparty = holder, memo = $"{bank} {number}", amount = -won
             });
         }
-
-        // ---------------------------------------------------------------- screens
 
         class HomeScreenView : PhoneScreen
         {
@@ -70,6 +51,7 @@ namespace DontCallMe.UI
 
             public override void OnShow()
             {
+                ClueEvents.Raise(ClueEvent.BankOpened);
                 Content.Clear();
                 var data = app.Data.bank;
                 for (int i = 0; i < data.accounts.Count; i++)
@@ -81,23 +63,13 @@ namespace DontCallMe.UI
                     card.Add(UIKit.Text(FactText.Won(a.balance), "bank-card__balance"));
                     Content.Add(card);
                 }
-                var actions = UIKit.Div("bank-actions");
-                actions.Add(UIKit.Btn(Loc.T("Transfer"), () => app.Phone.Push(app.CreateTransfer()), "btn--green"));
-                actions.Add(UIKit.Btn(Loc.T("History"), () => app.Phone.Push(History()), null));
-                actions.Add(UIKit.Btn(app.unreadAlerts > 0 ? Loc.T("Alerts") + $" ({app.unreadAlerts})" : Loc.T("Alerts"), () => app.Phone.Push(Alerts()),
-                                      app.unreadAlerts > 0 ? "btn--amber" : null));
-                Content.Add(actions);
-                Section(Loc.T("Recent"));
-                int n = 0;
+                Section(Loc.T("History"));
                 foreach (var t in data.transactions)
-                {
-                    if (n++ >= 5)
-                        break;
                     TxRow(t, Content);
-                }
+                Content.Add(UIKit.Text(Loc.T("Transfers show the recipient's name before you confirm."), "t-muted", "t-center"));
             }
 
-            void TxRow(BankTransaction t, VisualElement parent)
+            static void TxRow(BankTransaction t, VisualElement parent)
             {
                 var row = UIKit.Div("list-row");
                 var text = UIKit.Div("list-row__text");
@@ -107,312 +79,6 @@ namespace DontCallMe.UI
                 var amount = UIKit.Text((t.amount > 0 ? "+" : "") + FactText.Won(t.amount), "list-row__title", t.amount > 0 ? "amount-in" : "amount-out");
                 row.Add(amount);
                 parent.Add(row);
-            }
-
-            PhoneScreen History()
-            {
-                var s = new PhoneScreen(app.Phone, Loc.T("History"), "#2F7A6A");
-                foreach (var t in app.Data.bank.transactions)
-                    TxRow(t, s.Content);
-                return s;
-            }
-
-            PhoneScreen Alerts()
-            {
-                app.unreadAlerts = 0;
-                ClueEvents.Raise(ClueEvent.BankAlerts);
-                var s = new PhoneScreen(app.Phone, Loc.T("Alerts"), "#2F7A6A");
-                foreach (var n in app.Data.bank.notices)
-                {
-                    var box = UIKit.Div(n.alert ? "web-warning" : "web-notice");
-                    box.Add(UIKit.Text($"<b>{n.title}</b>"));
-                    box.Add(UIKit.Text(n.body));
-                    box.Add(UIKit.Text(n.when, "msg__time"));
-                    s.Content.Add(box);
-                }
-                return s;
-            }
-        }
-
-        class TransferScreen : PhoneScreen
-        {
-            readonly BankApp app;
-            string bank;
-            readonly TextField account;
-            readonly TextField amount;
-            readonly Label error;
-            readonly List<VisualElement> bankChips = new List<VisualElement>();
-
-            public TransferScreen(BankApp app, string prefillAccount, long prefillAmount) : base(app.Phone, Loc.T("Transfer"), "#2F7A6A")
-            {
-                this.app = app;
-                var from = app.Main;
-                if (from != null)
-                    Content.Add(UIKit.Kv(Loc.T("From"), $"{from.name} · {FactText.Won(from.balance)}"));
-                Section(Loc.T("To bank"));
-                var choice = UIKit.Div("bank-choice");
-                foreach (string b in app.Data.bank.banks)
-                {
-                    var chip = UIKit.Div("chip");
-                    var label = UIKit.Text(b, "chip__label");
-                    label.pickingMode = PickingMode.Ignore;
-                    chip.Add(label);
-                    string captured = b;
-                    chip.RegisterCallback<ClickEvent>(e =>
-                    {
-                        SelectBank(captured);
-                        e.StopPropagation();
-                    });
-                    chip.userData = b;
-                    bankChips.Add(chip);
-                    choice.Add(chip);
-                }
-                Content.Add(choice);
-                Section(Loc.T("Account number"));
-                account = PasteField(Loc.T("e.g. 110-123-456789"), null, _ => { });
-                if (!string.IsNullOrEmpty(prefillAccount))
-                    account.value = prefillAccount;
-                Section(Loc.T("Amount (won)"));
-                amount = PasteField(Loc.T("e.g. 50000"), null, _ => { });
-                if (prefillAmount > 0)
-                    amount.value = prefillAmount.ToString();
-                error = UIKit.Text("", "recipient__note");
-                Content.Add(error);
-                Content.Add(UIKit.Btn(Loc.T("Next"), Next, "btn--green"));
-                Content.Add(UIKit.Text(Loc.T("You'll see the account holder's name before anything is sent."), "t-muted", "t-center"));
-            }
-
-            void SelectBank(string b)
-            {
-                bank = b;
-                foreach (var chip in bankChips)
-                    chip.EnableInClassList("chip--selected", (string)chip.userData == b);
-            }
-
-            void Next()
-            {
-                error.text = "";
-                string digits = FactText.Digits(account.value);
-                long won = 0;
-                long.TryParse(FactText.Digits(amount.value), out won);
-                if (string.IsNullOrEmpty(bank))
-                {
-                    Fail(Loc.T("Choose the recipient's bank first."));
-                    return;
-                }
-                if (digits.Length < 8)
-                {
-                    Fail(Loc.T("Enter the full account number."));
-                    return;
-                }
-                if (won <= 0)
-                {
-                    Fail(Loc.T("Enter an amount."));
-                    return;
-                }
-                // The savings cover what the everyday account can't (see BankData.Change).
-                long total = 0;
-                foreach (var a in app.Data.bank.accounts)
-                    total += a.balance;
-                if (won > total)
-                {
-                    Fail(Loc.T("Not enough money in your accounts."));
-                    return;
-                }
-                var target = app.Dir.FindAccount(bank, account.value);
-                if (target == null)
-                {
-                    var elsewhere = app.Dir.FindAccount(account.value);
-                    Fail(elsewhere != null ? Loc.F("No such account at {0}. Check the bank.", bank) : Loc.T("No such account. Check the number."));
-                    return;
-                }
-                app.Phone.Push(new ConfirmScreen(app, target, won));
-            }
-
-            void Fail(string message)
-            {
-                error.text = message;
-                Sfx.Play(Sfx.Error, 0.6f);
-            }
-        }
-
-        class ConfirmScreen : PhoneScreen
-        {
-            public ConfirmScreen(BankApp app, DirAccount target, long won) : base(app.Phone, Loc.T("Check the recipient"), "#2F7A6A")
-            {
-                ClueEvents.Raise(ClueEvent.RecipientShown, target.number);
-                var box = UIKit.Div("recipient");
-                box.Add(UIKit.Text(Loc.T("You are sending money to"), "recipient__label"));
-                box.Add(UIKit.Text(target.holder, "recipient__name"));
-                box.Add(UIKit.Text($"{target.bank} · {target.number}", "recipient__sub"));
-                box.Add(UIKit.Text(FactText.Won(won), "recipient__amount"));
-                box.Add(UIKit.Text(Loc.T("Is this the person you meant? Scammers use other people's accounts."), "recipient__note"));
-                var chips = UIKit.Div("chip-row");
-                chips.style.justifyContent = Justify.Center;
-                chips.Add(UIKit.Chip(target.holder, FactKind.Name));
-                chips.Add(UIKit.Chip(target.number, FactKind.Account));
-                box.Add(chips);
-                Content.Add(box);
-                var actions = UIKit.Div("bank-actions");
-                actions.Add(UIKit.Btn(Loc.T("Cancel"), () => app.Phone.Back(), null));
-                var send = UIKit.Btn(Loc.T("Send"), () => app.Phone.Push(new PinScreen(app, target, won)), "btn--red");
-                actions.Add(send);
-                Content.Add(actions);
-                // During a case the phone is for checking; the decision is made on the call.
-                if (app.Phone.UI.CaseCallActive)
-                {
-                    send.SetEnabled(false);
-                    Content.Add(UIKit.Text(Loc.T("You're on a call. To send this money, choose the gold verdict on the call."), "recipient__note"));
-                }
-            }
-        }
-
-        class PinScreen : PhoneScreen
-        {
-            readonly BankApp app;
-            readonly DirAccount target;
-            readonly long won;
-            readonly VisualElement[] dots = new VisualElement[6];
-            int entered;
-
-            public PinScreen(BankApp app, DirAccount target, long won) : base(app.Phone, Loc.T("Enter PIN"), "#2F7A6A")
-            {
-                this.app = app;
-                this.target = target;
-                this.won = won;
-                Content.Add(UIKit.Text(Loc.F("Send {0} to {1}", FactText.Won(won), target.holder), "detail__line", "t-center"));
-                var row = UIKit.Div("pin-dots");
-                for (int i = 0; i < 6; i++)
-                {
-                    dots[i] = UIKit.Div("pin-dot");
-                    row.Add(dots[i]);
-                }
-                Content.Add(row);
-                var pad = UIKit.Div("keypad");
-                foreach (string k in new[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "", "0", "" })
-                {
-                    if (k == "")
-                    {
-                        var spacer = UIKit.Div("key");
-                        spacer.style.opacity = 0;
-                        pad.Add(spacer);
-                        continue;
-                    }
-                    pad.Add(UIKit.Btn(k, Press, "key"));
-                }
-                Content.Add(pad);
-            }
-
-            void Press()
-            {
-                if (entered >= 6)
-                    return;
-                dots[entered++].AddToClassList("pin-dot--on");
-                Sfx.Play(Sfx.Tick, 0.4f);
-                if (entered == 6)
-                    Root.schedule.Execute(Send).ExecuteLater(350);
-            }
-
-            void Send()
-            {
-                app.RecordTransfer(target.holder, target.bank, target.number, won);
-                Sfx.Play(Sfx.Success);
-                var done = new PhoneScreen(app.Phone, Loc.T("Sent"), "#2F7A6A");
-                var box = UIKit.Div("recipient");
-                box.Add(UIKit.Text(Loc.T("Transfer complete"), "recipient__label"));
-                box.Add(UIKit.Text(FactText.Won(won), "recipient__amount"));
-                box.Add(UIKit.Text(Loc.F("to {0}", target.holder) + $"\n{target.bank} · {target.number}", "recipient__sub"));
-                done.Content.Add(box);
-                done.Content.Add(UIKit.Btn(Loc.T("Done"), () => app.Phone.OpenApp(app), "btn--green"));
-                app.Phone.Push(done);
-                PhoneEvents.RaiseTransfer(target.bank, target.number, won);
-            }
-        }
-    }
-
-    // ==================================================================== CheckFirst (fraud report lookup)
-
-    public class CheckFirstApp : PhoneApp
-    {
-        public override string Id => "checkfirst";
-        public override string Name => Loc.T("CheckFirst");
-        public override string Icon => "app_checkfirst";
-
-        public override PhoneScreen CreateHome() => new SearchScreen(this);
-
-        class SearchScreen : PhoneScreen
-        {
-            readonly CheckFirstApp app;
-            readonly TextField field;
-            readonly VisualElement suggestions;
-            readonly VisualElement result;
-
-            public SearchScreen(CheckFirstApp app) : base(app.Phone, Loc.T("CheckFirst"), "#B8453A")
-            {
-                this.app = app;
-                Content.Add(UIKit.Text(Loc.T("Look up reports on a phone or account number before you trust it."), "detail__line"));
-                field = PasteField(Loc.T("Phone or account number"), Loc.T("Check"), Check);
-                suggestions = UIKit.Div("chip-row");
-                Content.Add(suggestions);
-                result = UIKit.Div();
-                Content.Add(result);
-            }
-
-            public override void OnShow()
-            {
-                suggestions.Clear();
-                foreach (var f in app.Phone.UI.SuggestedFacts(FactKind.Phone, FactKind.Account))
-                {
-                    var fact = f;
-                    var chip = UIKit.Div("chip");
-                    var label = UIKit.Text(fact.value, "chip__label");
-                    label.pickingMode = PickingMode.Ignore;
-                    chip.Add(label);
-                    chip.RegisterCallback<ClickEvent>(e =>
-                    {
-                        field.value = fact.value;
-                        Check(fact.value);
-                        e.StopPropagation();
-                    });
-                    suggestions.Add(chip);
-                }
-            }
-
-            void Check(string query)
-            {
-                result.Clear();
-                string digits = FactText.Digits(query);
-                if (digits.Length < 3)
-                    return;
-                Sfx.Play(Sfx.Click);
-                ClueEvents.Raise(ClueEvent.NumberChecked, query);
-                List<string> reports = null;
-                string what = query;
-                var n = app.Dir.FindNumber(query);
-                var a = app.Dir.FindAccount(query);
-                if (n != null)
-                {
-                    reports = n.reports;
-                    what = n.number;
-                }
-                else if (a != null)
-                {
-                    reports = a.reports;
-                    what = $"{a.bank} {a.number}";
-                }
-                int count = reports?.Count ?? 0;
-                var box = UIKit.Div("detail");
-                box.Add(UIKit.Text(what, "detail__line", "t-center"));
-                box.Add(UIKit.Text(count > 1 ? Loc.F("{0} reports", count) : count == 1 ? Loc.T("1 report") : Loc.T("No reports"),
-                                   "report-count", count > 0 ? "report-count--bad" : "report-count--clean"));
-                box.Add(UIKit.Text(Loc.T("in the last 3 months"), "t-muted", "t-center"));
-                if (reports != null)
-                    foreach (var r in reports)
-                        box.Add(UIKit.Text(r, "report-item"));
-                var note = UIKit.Div("web-notice");
-                note.Add(UIKit.Text(Loc.T("<b>No reports doesn't mean safe.</b> New numbers and accounts start clean. Check who is behind them too.")));
-                box.Add(note);
-                result.Add(box);
             }
         }
     }

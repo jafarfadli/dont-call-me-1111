@@ -7,9 +7,10 @@ using UnityEngine.UIElements;
 namespace DontCallMe.UI
 {
     /// <summary>
-    /// The phone: frame, status bar, a stack of screens with slide transitions, the home screen and
-    /// the nine apps. Tab raises and lowers it; Esc goes back one screen, then lowers it.
-    /// While a call is ringing the phone is locked up: only the slide can be used.
+    /// The phone in Jiwoo's hand: frame, status bar, a stack of screens with slide transitions, the
+    /// home screen and the three apps (Contacts, Chats, Nuri Bank). Tab raises and lowers it; Esc
+    /// goes back one screen, then lowers it. While a call is ringing the phone is locked up: only
+    /// the slide can be used.
     /// </summary>
     public class PhoneController
     {
@@ -45,6 +46,10 @@ namespace DontCallMe.UI
             Directory = directory;
 
             Root = UIKit.Div("phone");
+            // The hand that holds it: palm and wrist behind the phone, fingers and thumb over its edges.
+            var palm = UIKit.Div("phone__hand", "phone__hand--back");
+            palm.pickingMode = PickingMode.Ignore;
+            Root.Add(palm);
             Body = UIKit.Div("phone__body");
             Root.Add(Body);
             screen = UIKit.Div("phone__screen");
@@ -96,15 +101,13 @@ namespace DontCallMe.UI
             frame.pickingMode = PickingMode.Ignore;
             Body.Add(frame);
 
-            Apps.Add(new CallsApp());
+            var fingers = UIKit.Div("phone__hand", "phone__hand--front");
+            fingers.pickingMode = PickingMode.Ignore;
+            Root.Add(fingers);
+
             Apps.Add(new ContactsApp());
-            Apps.Add(new MessagesApp());
-            Apps.Add(new TalkApp());
+            Apps.Add(new ChatsApp());
             Apps.Add(new BankApp());
-            Apps.Add(new CheckFirstApp());
-            Apps.Add(new BrowserApp());
-            Apps.Add(new ParcelsApp());
-            Apps.Add(new MailApp());
             foreach (var app in Apps)
                 app.Attach(this);
 
@@ -258,20 +261,6 @@ namespace DontCallMe.UI
 
         public void OpenApp<T>() where T : PhoneApp => OpenApp(App<T>());
 
-        // ---------------------------------------------------------------- actions other systems handle
-
-        public void Dial(string number) => UI.Dial(number);
-
-        public void OpenUrl(string url)
-        {
-            var browser = App<BrowserApp>();
-            if (Locked)
-                return;
-            GoHome();
-            Push(browser.CreateHome());
-            browser.OpenUrl(url);
-        }
-
         // ---------------------------------------------------------------- per frame
 
         public void Tick(float dt)
@@ -290,7 +279,7 @@ namespace DontCallMe.UI
         }
     }
 
-    /// <summary>Base for the nine apps. An app creates its first screen and pushes the rest itself.</summary>
+    /// <summary>Base for the apps. An app creates its first screen and pushes the rest itself.</summary>
     public abstract class PhoneApp
     {
         public PhoneController Phone { get; private set; }
@@ -313,7 +302,7 @@ namespace DontCallMe.UI
         protected WorldDirectory Dir => Phone.Directory;
     }
 
-    /// <summary>Wallpaper, big clock and the 3 × 3 app grid with notification badges.</summary>
+    /// <summary>Wallpaper, big clock and the row of apps with notification badges.</summary>
     public class HomeScreen : PhoneScreen
     {
         readonly Label clock;

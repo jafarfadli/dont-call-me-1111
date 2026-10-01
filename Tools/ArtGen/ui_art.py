@@ -222,12 +222,85 @@ def phone_frame():
         side = rrect(4, y0, 16, y1, 5)
         d.polygon(P(side), fill=shade(TAN, 0.85) + (255,))
         d.line(P(side + [side[0]]), fill=INK + (255,), width=int(2.5 * ss))
-    hl = rrect(22, 18, w - 30, 40, 16)
-    d.polygon(P(hl), fill=mix(TAN, (255, 255, 255), 0.25) + (255,))
+    # A thin highlight along the top of the tan ring, following its corners (it used to be a
+    # straight band that covered the dark bezel and stuck out past the outline).
+    hl = Image.new("L", img.size, 0)
+    hd = ImageDraw.Draw(hl)
+    hd.polygon(P(rrect(17, 15, w - 25, h - 27, 59, n=16)), fill=255)
+    hd.polygon(P(rrect(22, 20, w - 30, h - 32, 55, n=16)), fill=0)
+    hd.rectangle([0, 150 * ss, w * ss, h * ss], fill=0)
+    img.paste(Image.new("RGBA", img.size, mix(TAN, (255, 255, 255), 0.3) + (255,)), (0, 0), hl)
+    d = ImageDraw.Draw(img)
     pts = wobble(body, 0.8, rng, step=4)
     d.line(P(pts + [pts[0]]), fill=INK + (255,), width=int(5 * ss), joint="curve")
     d.line(P(screen + [screen[0]]), fill=hexc("121015") + (255,), width=int(3 * ss), joint="curve")
     save(img.resize((w, h), Image.LANCZOS), "phone_frame")
+
+
+SKIN = hexc("E5BD9C")
+SKIN_SHADE = hexc("CDA081")
+NAIL = hexc("F3DACB")
+SLEEVE = hexc("C79A45")
+
+
+def limb(cx, cy, length, thick, angle, n=12):
+    """Outline of a capsule: its centre, the distance between the cap centres, thickness, angle in degrees."""
+    a = math.radians(angle)
+    ux, uy = math.cos(a), math.sin(a)
+    r = thick / 2
+    pts = []
+    for i in range(n + 1):
+        t = a - math.pi / 2 + math.pi * i / n
+        pts.append((cx + ux * length / 2 + math.cos(t) * r, cy + uy * length / 2 + math.sin(t) * r))
+    for i in range(n + 1):
+        t = a + math.pi / 2 + math.pi * i / n
+        pts.append((cx - ux * length / 2 + math.cos(t) * r, cy - uy * length / 2 + math.sin(t) * r))
+    return pts
+
+
+def phone_hand():
+    """Jiwoo's right hand holding the phone, as two pictures in one 660 x 1180 box (the phone's
+    440 x 880 box starts 110 px in): hand_back goes behind the phone (palm, wrist, sweater
+    sleeve), hand_front over it (four fingertips round the left edge, the thumb on the right)."""
+    w, h, ox = 660, 1180, 110
+    K = INK + (255,)
+
+    def finger(cv, cx, cy, length, thick, angle, nail=True):
+        cv.poly(limb(cx, cy, length, thick, angle), fill=SKIN_SHADE + (255,))
+        cv.poly(limb(cx - 1, cy - 4, length - 4, thick - 9, angle), fill=SKIN + (255,))
+        cv.poly(limb(cx, cy, length, thick, angle), outline=K, width=5)
+        if nail:
+            a = math.radians(angle)
+            nx, ny = cx + math.cos(a) * (length / 2 + thick * 0.08), cy + math.sin(a) * (length / 2 + thick * 0.08)
+            cv.poly(limb(nx, ny - 2, thick * 0.16, thick * 0.5, angle), fill=NAIL + (255,), outline=K, width=3)
+
+    # ---- behind the phone
+    cv = Canvas(w, h, ss=2, mode="RGBA", bg=(0, 0, 0, 0))
+    arm = [(ox + 150, 930), (ox + 372, 915), (ox + 470, h + 20), (ox + 196, h + 20)]
+    cv.poly(arm, fill=SKIN + (255,), outline=K, width=5)
+    palm = rrect(ox + 44, 600, ox + 452, 1004, 118, n=14)
+    cv.poly(palm, fill=SKIN_SHADE + (255,))
+    cv.poly([(x - 2, y - 7) for x, y in rrect(ox + 50, 600, ox + 446, 1000, 114, n=14)], fill=SKIN + (255,))
+    cv.poly(palm, outline=K, width=5)
+    # The crease where the thumb's base folds over the palm.
+    cv.line([(ox + 300, 900), (ox + 352, 946), (ox + 398, 968)], SKIN_SHADE + (255,), 5)
+    sleeve = [(ox + 132, 1040), (ox + 398, 1014), (ox + 500, h + 20), (ox + 170, h + 20)]
+    cv.poly(sleeve, fill=SLEEVE + (255,), outline=K, width=5)
+    cuff = [(ox + 124, 1022), (ox + 402, 994), (ox + 414, 1040), (ox + 136, 1068)]
+    cv.poly(cuff, fill=shade(SLEEVE, 0.86) + (255,), outline=K, width=5)
+    for k in range(1, 9):
+        t = k / 9
+        x0, y0 = ox + 124 + (402 - 124) * t, 1022 + (994 - 1022) * t
+        cv.line([(x0, y0 + 3), (x0 + 11, y0 + 43)], shade(SLEEVE, 0.68) + (255,), 3)
+    save(cv.result(), "hand_back")
+
+    # ---- over the phone
+    cv = Canvas(w, h, ss=2, mode="RGBA", bg=(0, 0, 0, 0))
+    for y, length, thick in ((494, 34, 56), (562, 40, 58), (632, 36, 56), (698, 26, 50)):
+        finger(cv, ox - 14 + length / 2, y, length, thick, 4)
+    # The thumb lies along the right edge, its pad on the bezel.
+    finger(cv, ox + 432, 690, 112, 66, -104)
+    save(cv.result(), "hand_front")
 
 
 def call_buttons():
@@ -628,6 +701,17 @@ def portraits():
     d.polygon([(8, 48), (11, 36), (18, 31), (30, 31), (37, 36), (40, 48)], fill=hexc("2A2630"))
     d.text((21, 13), "?", fill=hexc("8C8698"))
     save(img.resize((s, s), Image.NEAREST), "pt_unknown")
+    # Notice channels in Chats: the courier (a parcel on navy) and the shop (a star on orange).
+    cv = Canvas(s, s, ss=3, bg=hexc("2F4A6E"))
+    cv.poly(rrect(48, 62, 144, 140, 8), fill=hexc("D9A766"), outline=INK, width=5)
+    cv.line([(48, 92), (144, 92)], INK, 4)
+    cv.rect(86, 62, 106, 104, fill=hexc("F4EAD2"), outline=INK, width=3)
+    save(cv.result(), "av_courier")
+    cv = Canvas(s, s, ss=3, bg=hexc("E0703A"))
+    star = [(96 + 58 * math.cos(-math.pi / 2 + k * math.pi / 5) * (1 if k % 2 == 0 else 0.45),
+             100 + 58 * math.sin(-math.pi / 2 + k * math.pi / 5) * (1 if k % 2 == 0 else 0.45)) for k in range(10)]
+    cv.poly(star, fill=hexc("FBF4E4"), outline=INK, width=5)
+    save(cv.result(), "av_shop")
 
 
 # ---------------------------------------------------------------- documents, cards, board close-ups
@@ -812,6 +896,7 @@ def run():
     buttons()
     bubbles()
     phone_frame()
+    phone_hand()
     call_buttons()
     vignette()
     icons()

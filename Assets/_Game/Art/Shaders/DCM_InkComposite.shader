@@ -3,7 +3,9 @@
 // pixels (bilinear, 2x2 average) so faces thinner than a pixel still give a
 // continuous crease line instead of dashes. The normals alpha holds each
 // material's ink id: every change of id is outlined, which inks parts that sit
-// almost flush (skirting on a wall, rug on a floor, picture in a frame).
+// almost flush (skirting on a wall, rug on a floor, picture in a frame). A negative
+// id marks an object the player can use: its silhouette gets a glowing outline that
+// pulses with the global _DCM_HighlightPulse.
 // Used by a Full Screen Pass Renderer Feature (requirements: Depth + Normal).
 Shader "Hidden/DontCallMe/InkComposite"
 {
@@ -21,6 +23,8 @@ Shader "Hidden/DontCallMe/InkComposite"
         _FadeStart ("Line Fade Start (m)", Float) = 14
         _FadeEnd ("Line Fade End (m)", Float) = 40
         _PaperTint ("Paper Tint", Color) = (1, 0.985, 0.955, 1)
+        _HighlightColor ("Highlight Outline (A = strength)", Color) = (1, 0.82, 0.25, 0.95)
+        _HighlightWidth ("Highlight Radius (px at 1080p)", Range(1, 8)) = 3
     }
 
     SubShader
@@ -57,6 +61,9 @@ Shader "Hidden/DontCallMe/InkComposite"
             float _FadeStart;
             float _FadeEnd;
             half4 _PaperTint;
+            half4 _HighlightColor;
+            float _HighlightWidth;
+            float _DCM_HighlightPulse;
 
             static const int2 Ring[8] = { int2(-1, -1), int2(0, -1), int2(1, -1), int2(-1, 0), int2(1, 0), int2(-1, 1), int2(0, 1), int2(1, 1) };
 
@@ -78,11 +85,14 @@ Shader "Hidden/DontCallMe/InkComposite"
                 return IsFar(raw) ? 0.0 : 1.0 / LinearEyeDepth(raw, _ZBufferParams);
             }
 
+            // Negative for a highlighted object; its magnitude is the material's ink id.
             float InkIdAt(int2 p, int2 size)
             {
                 p = clamp(p, int2(0, 0), size - 1);
                 return LOAD_TEXTURE2D_X(_CameraNormalsTexture, uint2(p)).a;
             }
+
+            bool Marked(float id) { return id < -0.004; }
 
             // Bilinear read centred on a pixel corner: averages the 2x2 block around it.
             float3 NormalBetween(float2 pixelCorner)
@@ -106,7 +116,8 @@ Shader "Hidden/DontCallMe/InkComposite"
                 float3 nC = NormalBetween(corner);
                 float w[8];
                 float normalDiff = 0.0;
-                float idC = InkIdAt(pix, size);
+                float rawC = InkIdAt(pix, size);
+                float idC = abs(rawC);
                 float idDiff = 0.0;
                 float wMax = wC;
                 [unroll] for (int i = 0; i < 8; i++)
@@ -117,7 +128,7 @@ Shader "Hidden/DontCallMe/InkComposite"
                     if (wC > 0.0 && w[i] > 0.0)
                     {
                         normalDiff = max(normalDiff, 1.0 - dot(nC, NormalBetween(corner + float2(Ring[i] * r))));
-                        idDiff = max(idDiff, abs(InkIdAt(q, size) - idC));
+                        idDiff = max(idDiff, abs(abs(InkIdAt(q, size)) - idC));
                     }
                 }
                 // Opposite pairs: (0,7) (1,6) (2,5) (3,4)
@@ -137,6 +148,19 @@ Shader "Hidden/DontCallMe/InkComposite"
                 half ink = saturate(max(max(depthEdge, creaseEdge), idEdge)) * fade * lerp(1.0h - _InkVariation, 1.0h, density);
 
                 color.rgb = lerp(color.rgb, _InkColor.rgb, ink * _InkColor.a);
+
+                // Things the player can use: a bright line along the silhouette and a softer one outside it.
+                bool markedC = Marked(rawC);
+                int r2 = max(1, (int)round(_HighlightWidth * _ScreenParams.y / 1080.0));
+                half glow = 0.0h;
+                [unroll] for (int j = 0; j < 8; j++)
+                {
+                    if (Marked(InkIdAt(pix + Ring[j] * r2, size)) != markedC)
+                        glow = 1.0h;
+                    else if (Marked(InkIdAt(pix + Ring[j] * r2 * 2, size)) != markedC)
+                        glow = max(glow, 0.4h);
+                }
+                color.rgb = lerp(color.rgb, _HighlightColor.rgb, glow * _HighlightColor.a * lerp(0.45h, 1.0h, saturate(_DCM_HighlightPulse)));
 
                 float2 grainUV = uv * _ScreenParams.xy * _GrainTex_TexelSize.xy;
                 half grain = SAMPLE_TEXTURE2D(_GrainTex, sampler_GrainTex, grainUV).r;

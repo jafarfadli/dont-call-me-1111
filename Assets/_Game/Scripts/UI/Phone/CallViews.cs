@@ -80,8 +80,8 @@ namespace DontCallMe.UI
     }
 
     /// <summary>
-    /// The call in progress: portrait, name, call timer, shortcuts to investigate (keypad, apps,
-    /// notebook) and the red hang-up button.
+    /// The call in progress: portrait, name, call timer, a shortcut to the apps and the red
+    /// hang-up button (off during a case: the verdict ends the call).
     /// </summary>
     public class InCallView : PhoneScreen
     {
@@ -110,9 +110,7 @@ namespace DontCallMe.UI
 
             var buttons = UIKit.Div("call__buttons");
             var grid = UIKit.Div("call__grid");
-            grid.Add(Small("ic_keypad", Loc.T("Keypad"), () => phone.Push(phone.App<CallsApp>().CreateKeypad())));
             grid.Add(Small("ic_apps", Loc.T("Apps"), phone.GoHome));
-            grid.Add(Small("ic_notebook", Loc.T("Notes"), () => phone.UI.OpenNotebook(true)));
             grid.Add(Small("ic_speaker", Loc.T("Speaker"), () => Sfx.Play(Sfx.Click)));
             buttons.Add(grid);
             var hang = UIKit.Div("call__hang");

@@ -9,18 +9,12 @@ namespace DontCallMe.Data
     /// <summary>Something the player does that can reveal a clue (see <see cref="ClueDef"/>).</summary>
     public enum ClueEvent
     {
-        PanelOpened,      // target: PanelId name, e.g. "Newspaper"
-        CardFlipped,      // target: wallet card title
-        BoardItemOpened,  // target: board item title
+        PanelOpened,      // target: PanelId name, e.g. "Newspaper" or "Calendar"
         DocumentViewed,   // target: drawer document title
-        RecipientShown,   // target: account number on the transfer check screen
-        NumberChecked,    // target: number or account looked up on CheckFirst
-        PageOpened,       // target: url
-        BankAlerts,       // target: ""
-        MessageRead,      // target: sender
-        MailRead,         // target: subject
-        ParcelOpened,     // target: tracking number
-        ChatRead,         // target: Talk thread id
+        NumberChecked,    // target: phone number or account looked up on the computer
+        RecipientShown,   // target: account number, when the verdict's send step shows who gets the money
+        ChatRead,         // target: chat thread id
+        BankOpened,       // target: ""
     }
 
     /// <summary>
@@ -76,7 +70,7 @@ namespace DontCallMe.Data
         public WorldDirectory directory;
         public List<ClueDef> clues = new List<ClueDef>();
         public List<EndPaper> papers = new List<EndPaper>();
-        [Tooltip("Short name for the rule in the notebook.")]
+        [Tooltip("Short name for the rule.")]
         public string ruleTitle;
         [TextArea(2, 3)] public string rule;
         public string ruleSource;
@@ -93,7 +87,7 @@ namespace DontCallMe.Data
         public string id;
         [Tooltip("What the clue shows, e.g. \"The 'protected account' belongs to JEONG MIRAN\".")]
         public string text;
-        [Tooltip("Where to find it, e.g. \"Bank app · transfer check\".")]
+        [Tooltip("Where to find it, e.g. \"Computer · check the account\".")]
         public string where;
         public List<ClueWhen> when = new List<ClueWhen>();
     }
@@ -140,12 +134,12 @@ namespace DontCallMe.Data
         Any = GoAlong | Refuse | Verify | Timeout,
     }
 
-    public enum EchoKind { Sms, Chat, Mail, BankNotice, BankTransaction, MissedCall, BoardNote, Contact, DayCard }
+    public enum EchoKind { Chat, BankTransaction, Contact, DayCard }
 
     /// <summary>
-    /// Something an earlier day left behind, shown only when that day went a certain way: a text
-    /// from the landlord, a note on the board, a line on the day card. It never holds a clue for
-    /// today's case, so how yesterday went never makes today easier or harder.
+    /// Something an earlier day left behind, shown only when that day went a certain way: a chat
+    /// message from the landlord, the rent paid again, a line on the day card. It never holds a
+    /// clue for today's case, so how yesterday went never makes today easier or harder.
     /// </summary>
     [Serializable]
     public class DayEcho
@@ -157,26 +151,21 @@ namespace DontCallMe.Data
         [Tooltip("Only for these verdicts on that day.")]
         public OutcomeMask outcomes = OutcomeMask.Any;
         public EchoKind kind;
-        [Tooltip("Sms: sender. Chat: thread id. Mail: sender's name. MissedCall, Contact: the number. BankTransaction: counterparty.")]
+        [Tooltip("Chat: thread id. Contact: the number. BankTransaction: counterparty.")]
         public string from;
-        [Tooltip("Chat: who wrote it (empty for Jiwoo). Contact: the saved name. Chat thread title when the thread is new.")]
+        [Tooltip("Chat: who wrote it (empty for Jiwoo). Contact: the saved name.")]
         public string sender;
         [Tooltip("Portrait id for chats and contacts.")]
         public string avatar;
         [Tooltip("As the phone shows it, e.g. \"Today 09:12\".")]
         public string when;
-        [Tooltip("Mail subject, notice title, transaction memo, board note title.")]
+        [Tooltip("Transaction memo; the chat thread's title when the thread is new.")]
         public string title;
         [TextArea(2, 5)] public string text;
-        public string link;
-        [Tooltip("BankTransaction: + in, − out (also changes the balance).")]
+        [Tooltip("BankTransaction: + in, - out (also changes the balance).")]
         public long amount;
         [Tooltip("Chat: Jiwoo wrote it.")]
         public bool outgoing;
-        [Tooltip("BoardNote: the note's picture, where it is pinned (0..1) and its tilt.")]
-        public Texture2D image;
-        public Vector2 position;
-        public float rotation;
         [Tooltip("Also pops up as a notification while Jiwoo sits at the desk, before the call.")]
         public bool notify;
     }

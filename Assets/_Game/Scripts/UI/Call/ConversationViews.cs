@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 
 namespace DontCallMe.UI
 {
-    /// <summary>What the notebook's Case tab shows: who is calling, their claims and every fact heard.</summary>
+    /// <summary>Today's case as the UI knows it: who is calling, their claims and every fact heard (offered as lookup chips on the computer).</summary>
     public class CaseFile
     {
         public CallerInfo caller;

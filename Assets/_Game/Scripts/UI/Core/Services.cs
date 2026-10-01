@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace DontCallMe.UI
 {
-    /// <summary>The last copied fact. Every input field has a Paste button that reads it.</summary>
+    /// <summary>The last copied fact. The computer's lookup field has a Paste button that reads it.</summary>
     public static class Clipboard
     {
         public static string Value { get; private set; }
@@ -25,18 +25,6 @@ namespace DontCallMe.UI
                 History.RemoveAt(History.Count - 1);
             Copied?.Invoke(fact);
         }
-    }
-
-    /// <summary>Things the player does on the phone that a conversation may care about.</summary>
-    public static class PhoneEvents
-    {
-        public static event Action<string, string, long> TransferSent;   // bank, account, amount
-        public static event Action<string> NumberDialed;
-        public static event Action<string> LinkOpened;
-
-        public static void RaiseTransfer(string bank, string account, long amount) => TransferSent?.Invoke(bank, account, amount);
-        public static void RaiseDial(string number) => NumberDialed?.Invoke(number);
-        public static void RaiseLink(string url) => LinkOpened?.Invoke(url);
     }
 
     /// <summary>

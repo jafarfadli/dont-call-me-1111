@@ -17,10 +17,7 @@ namespace DontCallMe.Flow
         public readonly List<string> dayCardLines = new List<string>();
         /// <summary>Echoes that pop up as notifications while Jiwoo sits at the desk.</summary>
         public readonly List<DayEcho> notifications = new List<DayEcho>();
-        public readonly List<string> unreadSms = new List<string>();
         public readonly List<string> unreadChats = new List<string>();
-        public int unreadBankAlerts;
-        public int missedCalls;
 
         public ConversationData Conversation => variant?.conversation;
     }
@@ -28,8 +25,7 @@ namespace DontCallMe.Flow
     /// <summary>
     /// Picks a day's truth and assembles its evidence: the variant's phone, room and directory
     /// (cloned, so play never edits the assets), then what the earlier days left: the money that
-    /// left the account, yesterday's call in the log, yesterday's paper on the desk, the rules
-    /// learned so far, and the day's echoes for how those days went.
+    /// left the account, yesterday's paper on the desk, and the day's echoes for how those days went.
     /// </summary>
     public static class DaySetup
     {
@@ -118,18 +114,9 @@ namespace DontCallMe.Flow
                     when = When(r.decidedAt), counterparty = r.transferTo, memo = $"{r.transferBank} {r.transferAccount}".Trim(), amount = r.moneyDelta,
                 }, t => t.when);
 
-            // The call itself, in the log.
-            if (!string.IsNullOrEmpty(r.callerNumber))
-                InsertByTime(plan.phone.recents, new CallRecord
-                {
-                    number = r.callerNumber, kind = CallKind.Incoming, when = When(r.callTime), duration = $"{r.callSeconds / 60}:{r.callSeconds % 60:00}",
-                }, c => c.when);
-
+            // Yesterday's case is on the front page of the paper on the desk.
             var variant = then?.Variant(r.variant);
-            if (variant == null)
-                return;
-            // Yesterday's case is on the front page of the paper on the desk, and its rule goes in the notebook.
-            if (ago == 1)
+            if (variant != null && ago == 1)
             {
                 var paper = variant.Paper(r.outcome);
                 if (paper != null)
@@ -143,13 +130,6 @@ namespace DontCallMe.Flow
                         n.body.Add(p.Trim());
                 }
             }
-            if (!string.IsNullOrEmpty(variant.rule) && !plan.room.rules.Exists(x => x.text == variant.rule))
-                plan.room.rules.Add(new RuleEntry
-                {
-                    title = string.IsNullOrEmpty(variant.ruleTitle) ? "Day " + r.day : variant.ruleTitle,
-                    text = variant.rule,
-                    learnedOn = variant.ruleSource,
-                });
         }
 
         // ---------------------------------------------------------------- echoes
@@ -159,19 +139,6 @@ namespace DontCallMe.Flow
             var phone = plan.phone;
             switch (e.kind)
             {
-                case EchoKind.Sms:
-                {
-                    var t = phone.sms.Find(x => x.sender == e.from);
-                    if (t == null)
-                        t = new SmsThread { sender = e.from };
-                    else
-                        phone.sms.Remove(t);
-                    phone.sms.Insert(0, t);
-                    InsertInOrder(t.messages, new SmsMessage { when = e.when, text = e.text, link = e.link }, m => m.when);
-                    if (!plan.unreadSms.Contains(e.from))
-                        plan.unreadSms.Add(e.from);
-                    break;
-                }
                 case EchoKind.Chat:
                 {
                     var t = phone.chats.Find(x => x.id == e.from);
@@ -185,27 +152,9 @@ namespace DontCallMe.Flow
                         plan.unreadChats.Add(e.from);
                     break;
                 }
-                case EchoKind.Mail:
-                    phone.mails.Insert(0, new MailItem { from = e.from, fromAddress = e.link, subject = e.title, when = e.when, body = e.text, unread = true });
-                    break;
-                case EchoKind.BankNotice:
-                    phone.bank.notices.Insert(0, new BankNotice { when = e.when, title = e.title, body = e.text, alert = true });
-                    plan.unreadBankAlerts++;
-                    break;
                 case EchoKind.BankTransaction:
                     phone.bank.Change(e.amount);
                     InsertByTime(phone.bank.transactions, new BankTransaction { when = e.when, counterparty = e.from, memo = e.title, amount = e.amount }, t => t.when);
-                    break;
-                case EchoKind.MissedCall:
-                    InsertByTime(phone.recents, new CallRecord { number = e.from, kind = CallKind.Missed, when = e.when }, c => c.when);
-                    plan.missedCalls++;
-                    break;
-                case EchoKind.BoardNote:
-                    plan.room.board.Add(new BoardItem
-                    {
-                        title = e.title, kind = BoardItemKind.Note, image = e.image, position = e.position, width = 0.13f, rotation = e.rotation,
-                        details = new List<DocField> { new DocField { label = "Note", value = e.text } }, handwriting = e.text,
-                    });
                     break;
                 case EchoKind.Contact:
                     if (phone.FindContact(e.from) == null)

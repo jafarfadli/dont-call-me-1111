@@ -22,7 +22,8 @@ namespace DontCallMe.Editor.UI
     /// <summary>
     /// Turns the generated 2D art (Tools/ArtGen/ui_art.py) and the OFL fonts into UI assets
     /// (9-slice sprites, font assets, panel settings, the skin) and puts the game UI into the Room
-    /// scene: UIDocument, event system, call and demo directors, interactor and interactables.
+    /// scene: UIDocument, event system, the call and day directors, the interactor and the four
+    /// things the player can use (newspaper, calendar, desk drawer, computer).
     /// </summary>
     public static class UIPipeline
     {
@@ -219,14 +220,18 @@ namespace DontCallMe.Editor.UI
 
         // ---------------------------------------------------------------- scene
 
-        static readonly (string obj, PanelId panel, string prompt)[] Interactables =
+        /// <summary>The things in the room the player can use, by the name of their object in the room model.</summary>
+        static readonly (string obj, PanelId panel, string prompt, string plain)[] Interactables =
         {
-            ("INT_Newspaper", PanelId.Newspaper, "Read the newspaper"),
-            ("INT_Wallet", PanelId.Wallet, "Open the wallet"),
-            ("INT_Drawer", PanelId.Drawer, "Open the drawer"),
-            ("INT_BulletinBoard", PanelId.Board, "Look at the cork board"),
-            ("INT_Rulebook", PanelId.Notebook, "Open the notebook"),
+            ("INT_Newspaper", PanelId.Newspaper, "Read the newspaper", ""),
+            ("Board_Calendar", PanelId.Calendar, "Look at the calendar", ""),
+            ("INT_Drawer", PanelId.Drawer, "Open the drawer", ""),
+            // The charger cable trails off the desk: it stays out of the highlight.
+            ("Laptop", PanelId.Computer, "Use the computer", "Charger"),
         };
+
+        /// <summary>Room objects that were interactable before; they are scenery now.</summary>
+        static readonly string[] Scenery = { "INT_Wallet", "INT_BulletinBoard", "INT_Rulebook" };
 
         [MenuItem("Tools/Don't Call Me/UI/4. Set Up Game UI in Room Scene")]
         public static void SetupScene()
@@ -259,7 +264,6 @@ namespace DontCallMe.Editor.UI
 
             var flow = new GameObject("Flow");
             var director = flow.AddComponent<CallDirector>();
-            var demo = flow.AddComponent<DemoDirector>();
             var dayDirector = flow.AddComponent<DayDirector>();
             var music = flow.AddComponent<DontCallMe.Audio.MusicPlayer>();
             var mso = new SerializedObject(music);
@@ -295,13 +299,6 @@ namespace DontCallMe.Editor.UI
             var dso = new SerializedObject(director);
             dso.FindProperty("ui").objectReferenceValue = ui;
             dso.ApplyModifiedPropertiesWithoutUndo();
-            var demoSo = new SerializedObject(demo);
-            demoSo.FindProperty("ui").objectReferenceValue = ui;
-            demoSo.FindProperty("director").objectReferenceValue = director;
-            demoSo.FindProperty("demoCall").objectReferenceValue = AssetDatabase.LoadAssetAtPath<ConversationData>(ContentBuilder.CallPath);
-            demoSo.FindProperty("demoChat").objectReferenceValue = AssetDatabase.LoadAssetAtPath<ConversationData>(ContentBuilder.ChatPath);
-            demoSo.ApplyModifiedPropertiesWithoutUndo();
-
             var dayDso = new SerializedObject(dayDirector);
             dayDso.FindProperty("day").objectReferenceValue = AssetDatabase.LoadAssetAtPath<DayData>(ContentBuilder.DayPath);
             dayDso.FindProperty("ui").objectReferenceValue = ui;
@@ -316,7 +313,11 @@ namespace DontCallMe.Editor.UI
 
             if (player != null)
             {
-                var interactor = player.GetComponent<Interactor>() ?? player.gameObject.AddComponent<Interactor>();
+                // An interactor saved before its script had a file of its own is a dead component: clear it out.
+                GameObjectUtility.RemoveMonoBehavioursWithMissingScript(player.gameObject);
+                var interactor = player.GetComponent<Interactor>();
+                if (interactor == null)
+                    interactor = player.gameObject.AddComponent<Interactor>();
                 var iso = new SerializedObject(interactor);
                 iso.FindProperty("view").objectReferenceValue = player.GetComponentInChildren<Camera>();
                 iso.FindProperty("ui").objectReferenceValue = ui;
@@ -328,28 +329,81 @@ namespace DontCallMe.Editor.UI
                 Debug.LogWarning("[UIPipeline] No player in the scene; the interactor was not added.");
             }
 
-            foreach (var (obj, panel, prompt) in Interactables)
+            foreach (string name in Scenery)
             {
-                var go = GameObject.Find(obj);
+                var go = FindInScene(name);
                 if (go == null)
+                    continue;
+                var old = go.GetComponent<Interactable>();
+                if (old != null)
+                    UnityEngine.Object.DestroyImmediate(old);
+                // Its box would swallow clicks meant for what hangs on it (the calendar on the board).
+                var box = go.GetComponent<BoxCollider>();
+                if (box != null)
                 {
-                    foreach (var t in UnityEngine.Object.FindObjectsByType<Transform>(FindObjectsInactive.Include))
-                        if (t.name == obj)
-                        {
-                            go = t.gameObject;
-                            break;
-                        }
+                    box.enabled = false;
+                    EditorUtility.SetDirty(box);
                 }
+            }
+            foreach (var (obj, panel, prompt, plain) in Interactables)
+            {
+                var go = FindInScene(obj);
                 if (go == null)
                 {
                     Debug.LogWarning($"[UIPipeline] {obj} not found in the scene");
                     continue;
                 }
-                var it = go.GetComponent<Interactable>() ?? go.AddComponent<Interactable>();
+                if (go.GetComponent<Collider>() == null)
+                    AddBox(go);
+                var it = go.GetComponent<Interactable>();
+                if (it == null)
+                    it = go.AddComponent<Interactable>();
                 it.panel = panel;
                 it.prompt = prompt;
+                it.plain = plain;
                 EditorUtility.SetDirty(it);
             }
+        }
+
+        static GameObject FindInScene(string name)
+        {
+            var go = GameObject.Find(name);
+            if (go != null)
+                return go;
+            foreach (var t in UnityEngine.Object.FindObjectsByType<Transform>(FindObjectsInactive.Include))
+                if (t.name == name)
+                    return t.gameObject;
+            return null;
+        }
+
+        /// <summary>A box around everything the object draws, a little thicker than paper so the cursor finds it.</summary>
+        static void AddBox(GameObject go)
+        {
+            var toLocal = go.transform.worldToLocalMatrix;
+            bool any = false;
+            var bounds = new Bounds();
+            foreach (var filter in go.GetComponentsInChildren<MeshFilter>())
+            {
+                if (filter.sharedMesh == null)
+                    continue;
+                var m = toLocal * filter.transform.localToWorldMatrix;
+                var b = filter.sharedMesh.bounds;
+                for (int i = 0; i < 8; i++)
+                {
+                    var corner = b.center + Vector3.Scale(b.extents, new Vector3((i & 1) == 0 ? -1 : 1, (i & 2) == 0 ? -1 : 1, (i & 4) == 0 ? -1 : 1));
+                    var p = m.MultiplyPoint3x4(corner);
+                    if (any)
+                        bounds.Encapsulate(p);
+                    else
+                        bounds = new Bounds(p, Vector3.zero);
+                    any = true;
+                }
+            }
+            if (!any)
+                return;
+            var box = go.AddComponent<BoxCollider>();
+            box.center = bounds.center;
+            box.size = Vector3.Max(bounds.size, new Vector3(0.02f, 0.02f, 0.02f));
         }
 
         static InputActionReference FindAction(string map, string action)

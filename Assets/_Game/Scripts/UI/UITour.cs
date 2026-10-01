@@ -9,10 +9,9 @@ using UnityEngine.UIElements;
 namespace DontCallMe.UI
 {
     /// <summary>
-    /// Development tool: walks through every panel and app, then plays the demo call three ways
-    /// (hang up, send the transfer, call the bank back), the demo chat and an ordinary outgoing call,
-    /// saving a screenshot of each step to Temp/UITour and logging every check that fails.
-    /// Start it from Tools → Don't Call Me → UI → Capture UI Tour.
+    /// Development tool: walks through every panel and app, then plays the day's call twice (hang
+    /// up, then send the money), saving a screenshot of each step to Temp/UITour and logging every
+    /// check that fails. Start it from Tools → Don't Call Me → UI → Capture UI Tour.
     /// </summary>
     public class UITour : MonoBehaviour
     {
@@ -23,7 +22,7 @@ namespace DontCallMe.UI
 
         UIManager ui;
         CallDirector director;
-        DemoDirector demo;
+        ConversationData call;
         PhoneController phone;
         VisualElement root;
         int step;
@@ -32,11 +31,10 @@ namespace DontCallMe.UI
         {
             ui = FindAnyObjectByType<UIManager>();
             director = FindAnyObjectByType<CallDirector>();
-            demo = FindAnyObjectByType<DemoDirector>();
-            // The tour drives calls itself: stop the day flow and the demo's own ring.
-            FindAnyObjectByType<DayDirector>()?.Cancel();
-            if (demo != null)
-                demo.enabled = false;
+            // The tour drives the call itself: stop the day flow, keep its conversation.
+            var day = FindAnyObjectByType<DayDirector>();
+            call = day != null && day.Plan != null ? day.Plan.Conversation : null;
+            day?.Cancel();
             Directory.CreateDirectory(outputDir);
             foreach (var f in Directory.GetFiles(outputDir, "*.png"))
                 File.Delete(f);
@@ -52,8 +50,6 @@ namespace DontCallMe.UI
             yield return PhoneApps();
             yield return CallHangUp();
             yield return CallTransfer();
-            yield return Chat();
-            yield return OutgoingCall();
             done = true;
             Debug.Log($"[UITour] {step} screenshots in {outputDir}, {failures} failed checks");
         }
@@ -68,16 +64,20 @@ namespace DontCallMe.UI
             yield return Shot("drawer_lease");
             ClickButton(ui.OpenPanelView.Root, "Next  ▶");
             yield return Shot("drawer_gasbill");
-            ui.OpenPanel(PanelId.Board);
-            yield return Shot("board");
-            ClickFirst(ui.OpenPanelView.Root, "board__item", 1);
-            yield return Shot("board_zoom");
-            ui.OpenPanel(PanelId.Wallet);
-            yield return Shot("wallet");
-            ClickFirst(ui.OpenPanelView.Root, "wallet__card", 0);
-            yield return Shot("wallet_back", 0.8f);
-            ui.OpenPanel(PanelId.Notebook);
-            yield return Shot("notebook_rules");
+            ui.OpenPanel(PanelId.Calendar);
+            yield return Shot("calendar");
+            ui.OpenPanel(PanelId.Computer);
+            yield return Shot("computer");
+            ClickButton(ui.OpenPanelView.Root, "Check a bank account");
+            SetField(ui.OpenPanelView.Root, "110-900-551207");
+            ClickButton(ui.OpenPanelView.Root, "Check");
+            yield return Shot("computer_account");
+            Check(HasText(ui.OpenPanelView.Root, "JEONG MIRAN"), "the account lookup shows the holder's name");
+            ClickButton(ui.OpenPanelView.Root, "Check a phone number");
+            SetField(ui.OpenPanelView.Root, "070-8844-2019");
+            ClickButton(ui.OpenPanelView.Root, "Check");
+            yield return Shot("computer_number");
+            Check(HasText(ui.OpenPanelView.Root, "7 reports"), "the number lookup shows its reports");
             ui.ClosePanel();
             Check(ui.OpenPanelView == null, "panel closes");
         }
@@ -88,45 +88,16 @@ namespace DontCallMe.UI
         {
             phone.Raise(true);
             yield return Shot("phone_home", 1.0f);
-            phone.OpenApp<TalkApp>();
-            yield return Shot("talk_list");
-            ClickFirst(phone.Top.Root, "list-row", 0);
-            yield return Shot("talk_family");
+            phone.OpenApp<ChatsApp>();
+            yield return Shot("chats_list");
+            phone.Push(phone.App<ChatsApp>().OpenThread("family"));
+            yield return Shot("chats_family");
             phone.OpenApp<ContactsApp>();
             yield return Shot("contacts");
-            phone.OpenApp<BankApp>();
-            yield return Shot("bank_home");
-            phone.Push(phone.App<BankApp>().CreateTransfer("110-900-551207", 1200000));
-            yield return new WaitForSeconds(0.4f);
-            ClickChip(phone.Top.Root, "Nuri Bank");
-            yield return Shot("bank_transfer");
-            ClickButton(phone.Top.Root, "Next");
-            yield return Shot("bank_recipient_check");
-            Check(HasText(phone.Top.Root, "JEONG MIRAN"), "the transfer shows the account holder's name");
-            phone.OpenApp<CheckFirstApp>();
-            yield return new WaitForSeconds(0.3f);
-            SetField(phone.Top.Root, "070-8844-2019");
-            ClickButton(phone.Top.Root, "Check");
-            yield return Shot("checkfirst_result");
-            phone.OpenApp<BrowserApp>();
-            yield return new WaitForSeconds(0.3f);
-            SetField(phone.Top.Root, "nuri bank");
-            ClickButton(phone.Top.Root, "Go");
-            yield return Shot("browser_results");
             ClickFirst(phone.Top.Root, "list-row", 0);
-            yield return Shot("browser_page");
-            phone.OpenApp<MessagesApp>();
-            yield return Shot("messages_list");
-            ClickFirst(phone.Top.Root, "list-row", 2);
-            yield return Shot("messages_smishing");
-            phone.OpenUrl("nuri-secure.kr/verify");
-            yield return Shot("browser_fake_site");
-            phone.Push(phone.App<CallsApp>().CreateKeypad("1599-0000"));
-            yield return Shot("keypad");
-            phone.OpenApp<ParcelsApp>();
-            yield return Shot("parcels");
-            phone.OpenApp<MailApp>();
-            yield return Shot("mail");
+            yield return Shot("contact_detail");
+            phone.OpenApp<BankApp>();
+            yield return Shot("bank");
             phone.GoHome();
             phone.Raise(false);
             yield return new WaitForSeconds(0.6f);
@@ -136,7 +107,7 @@ namespace DontCallMe.UI
 
         IEnumerator Ring()
         {
-            director.StartCall(demo != null ? demo.DemoCall : null);
+            director.StartCall(call);
             yield return new WaitForSeconds(1.2f);
             Check(phone.Top is IncomingCallView, "the call rings on the raised phone");
         }
@@ -152,14 +123,13 @@ namespace DontCallMe.UI
         {
             yield return WaitFor(EndingShown, 30f, "the ending card appears");
             Check(HasText(root, verdict), $"the ending says '{verdict}'");
-            // Both stamps have landed after about a second.
             yield return Shot(name, 1.4f);
             ClickButton(root, "Continue");
             yield return WaitFor(() => !director.IsBusy, 5f, "Continue closes the case");
             yield return new WaitForSeconds(0.5f);
         }
 
-        /// <summary>Answer, listen, choose, ask while he holds, look away, then hang up while he pushes.</summary>
+        /// <summary>Answer, listen, choose, ask while he holds, look things up, then hang up.</summary>
         IEnumerator CallHangUp()
         {
             yield return Ring();
@@ -169,21 +139,22 @@ namespace DontCallMe.UI
             yield return WaitFor(() => ui.Transcript.HasDecision, 25f, "the first decision appears");
             yield return Shot("call_first_decision", 0.5f);
             ui.Transcript.Pick(1);
-            yield return WaitFor(() => director.OnHold && ui.Transcript.HasQuestions, 40f, "the caller holds the line with questions");
+            yield return WaitFor(() => director.OnHold && ui.Transcript.HasQuestions, 90f, "the caller holds the line with questions");
             yield return Shot("call_hold", 0.5f);
             ui.Transcript.PickQuestion(1);
             yield return Shot("call_question", 1.5f);
             yield return WaitFor(() => ui.Transcript.HasQuestions, 30f, "the answer ends and the questions return");
-            yield return Shot("call_answered_question", 0.3f);
-            ui.OpenNotebook(true);
-            yield return Shot("notebook_case", 0.8f);
-            ui.ClosePanel();
             phone.Raise(false);
             yield return Shot("call_hud_phone_down", 1.0f);
+            // The computer offers the caller's number and the account he gave as chips.
+            ui.OpenPanel(PanelId.Computer);
+            yield return new WaitForSeconds(0.4f);
+            ClickFirst(ui.OpenPanelView.Root, "chip", 0);
+            yield return Shot("computer_during_call", 0.6f);
+            ui.ClosePanel();
             phone.Raise(true);
             director.Say(ConvLine.Caller("Miss Kim? Are you still there? Please don't put me on hold for long."));
             yield return Shot("call_pressure_line", 3f);
-            yield return Shot("verdict_choices", 0.1f);
             ClickFirst(root, "verdict-btn--red", 0);
             yield return Shot("verdict_hang_up_confirm", 0.5f);
             ClickFirst(root, "verdict__go", 0);
@@ -197,51 +168,13 @@ namespace DontCallMe.UI
             yield return Answer();
             yield return WaitFor(() => ui.Transcript.HasDecision, 25f, "the first decision appears");
             ui.Transcript.Pick(0);
-            yield return WaitFor(() => director.OnHold, 40f, "the caller holds the line");
-            // The bank app only checks during a case: its Send button is off.
-            phone.OpenApp<BankApp>();
-            yield return new WaitForSeconds(0.3f);
-            phone.Push(phone.App<BankApp>().CreateTransfer("110-900-551207", 1200000));
-            yield return new WaitForSeconds(0.4f);
-            ClickChip(phone.Top.Root, "Nuri Bank");
-            ClickButton(phone.Top.Root, "Next");
-            yield return Shot("bank_send_locked", 0.6f);
-            phone.GoHome();
+            yield return WaitFor(() => director.OnHold, 90f, "the caller holds the line");
             ClickFirst(root, "verdict-btn--gold", 0);
             yield return Shot("verdict_send_confirm", 0.6f);
+            Check(HasText(root, "JEONG MIRAN"), "the send step shows who gets the money");
             ClickFirst(root, "verdict__go", 0);
             yield return Shot("verdict_sent", 1.5f);
             yield return CloseEnding("call_ending_transfer", "You went along");
-        }
-
-        // ---------------------------------------------------------------- chat
-
-        IEnumerator Chat()
-        {
-            var chat = demo != null ? demo.DemoChat : null;
-            director.StartChat(chat);
-            Check(director.IsBusy, "the chat starts");
-            phone.Raise(true);
-            phone.OpenApp<TalkApp>();
-            yield return Shot("chat_list_new", 1.0f);
-            phone.Push(phone.App<TalkApp>().OpenThread(chat != null ? chat.caller.chatId : "mom_new"));
-            yield return WaitFor(() => HasClass(phone.Top.Root, "reply-bar__prompt"), 30f, "the chat asks for a reply");
-            yield return Shot("chat_decision", 0.6f);
-            ClickButtonStartingWith(phone.Top.Root, "1.");
-            yield return Shot("chat_after_reply", 3f);
-            // Call Mom's saved number instead of answering the new profile.
-            ui.Dial("010-2231-7745");
-            yield return Shot("chat_call_mom", 1.2f);
-            yield return CloseEnding("chat_ending_verify", "You checked first");
-            phone.GoHome();
-        }
-
-        IEnumerator OutgoingCall()
-        {
-            ui.Dial("1332");
-            yield return Shot("outgoing_call", 2.5f);
-            yield return WaitFor(() => !director.IsBusy, 30f, "the outgoing call ends");
-            yield return Shot("outgoing_done", 0.8f);
             phone.Raise(false);
         }
 
@@ -288,8 +221,6 @@ namespace DontCallMe.UI
             return found;
         }
 
-        static bool HasClass(VisualElement root, string cls) => root.Q(className: cls) != null;
-
         static void Click(VisualElement e)
         {
             if (e == null)
@@ -309,9 +240,6 @@ namespace DontCallMe.UI
 
         void ClickButton(VisualElement root, string text) => ClickButtonWhere(root, b => b.text == text, $"'{text}'");
 
-        void ClickButtonStartingWith(VisualElement root, string prefix) =>
-            ClickButtonWhere(root, b => b.text != null && b.text.StartsWith(prefix), $"'{prefix}…'");
-
         void ClickButtonWhere(VisualElement root, Func<Button, bool> match, string what)
         {
             Button found = null;
@@ -330,20 +258,6 @@ namespace DontCallMe.UI
             Check(index < list.Count, $".{cls} #{index} exists");
             if (index < list.Count)
                 Click(list[index]);
-        }
-
-        void ClickChip(VisualElement root, string text)
-        {
-            foreach (var chip in root.Query(className: "chip").ToList())
-            {
-                var label = chip.Q<Label>();
-                if (label != null && label.text == text)
-                {
-                    Click(chip);
-                    return;
-                }
-            }
-            Check(false, $"chip '{text}' exists");
         }
 
         static void SetField(VisualElement root, string value)

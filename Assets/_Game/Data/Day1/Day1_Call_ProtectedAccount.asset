@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: Day1_Call_ProtectedAccount
   m_EditorClassIdentifier: DontCallMe::DontCallMe.Data.ConversationData
   title: "Day 1 \xB7 The protected account (M6)"
-  channel: 0
   isScam: 1
   revealAtEnd: 0
   caller:
@@ -21,8 +20,6 @@ MonoBehaviour:
     number: 070-8844-2019
     inContacts: 0
     portrait: pt_jeon
-    chatId: 
-    profileId: 
     voice: Daniel
   claims:
   - He is Manager Jeon from Nuri Bank's "account protection team".
@@ -228,9 +225,6 @@ MonoBehaviour:
   - kind: 0
     target: 110-900-551207
     endingId: go_along
-    answeredBy: 
-    portrait: 
-    voice: 
     bank: Nuri Bank
     amount: 1200000
   hangUpEndingId: refuse
@@ -241,8 +235,9 @@ MonoBehaviour:
     ask: "Move \u20A91,200,000 to a \"protected account\": Nuri Bank 110-900-551207"
     deadline: 17:00
     deadlineReason: before the "security reset"
-    objective: 'Is he really from your bank? Investigate before 17:00, then give
-      your verdict on the call: send the money, or hang up.'
+    objective: 'Is he really from your bank? Look up his number and the account on
+      the computer before 17:00, then give your verdict on the call: send the money,
+      or hang up.'
   questions:
   - label: Ask why you can't just call the bank
     playerLine: Why can't I just call Nuri Bank's customer centre?
@@ -272,29 +267,12 @@ MonoBehaviour:
       deliver: []
       pauseAfter: 0.4
     endingId: 
-  - label: Ask for his employee number
-    playerLine: Can you give me your employee number?
+  - label: Ask why he calls from an 070 number
+    playerLine: Why are you calling from an 070 number?
     answer:
     - speaker: 0
-      text: Of course. Employee number 2019-114. Write it down if you like.
-      spoken: Of course. Employee number two zero one nine, one one four. Write it
-        down if you like.
-      facts: []
-      deliver: []
-      pauseAfter: 0.4
-    endingId: 
-  - label: Say you want to check with the bank first
-    playerLine: I'd like to check with Nuri Bank before I send anything.
-    answer:
-    - speaker: 0
-      text: Miss Kim, I AM Nuri Bank. Every minute you spend checking, they can take
-        more.
-      spoken: 
-      facts: []
-      deliver: []
-      pauseAfter: 0.4
-    - speaker: 0
-      text: Please. Just open the app and send it to the protected account.
+      text: It's our team's direct line, Miss Kim. Every bank uses internet lines
+        for calls like this.
       spoken: 
       facts: []
       deliver: []
@@ -312,17 +290,11 @@ MonoBehaviour:
   - at: 16:40
     line:
       speaker: 0
-      text: I've sent the case number to your phone, so you can see this is official.
+      text: I've opened a protection case for you, Miss Kim, so this is official.
+        Please finish the transfer.
       spoken: 
       facts: []
-      deliver:
-      - kind: 0
-        from: 010-8812-4471
-        title: 
-        text: "[Web\uBC1C\uC2E0] [Nuri Bank] Protection case 2019-114 opened. Finish
-          the transfer before 17:00: nuri-secure.kr/verify"
-        link: nuri-secure.kr/verify
-        amount: 0
+      deliver: []
       pauseAfter: 0.4
   - at: 16:47
     line:

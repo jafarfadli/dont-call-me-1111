@@ -1,4 +1,4 @@
-/* Room panels: newspaper, desk drawer, cork board, wallet, notebook. */
+/* Room panels: newspaper, desk drawer, wall calendar, computer. */
 
 .room-panel {
     position: absolute;
@@ -272,18 +272,6 @@
     color: var(--muted);
 }
 
-/* The side cards next to a zoomed item are narrow. */
-.wallet__side .doc__label,
-.board__zoom-side .doc__label {
-    width: 150px;
-    font-size: 16px;
-}
-
-.wallet__side .doc__value,
-.board__zoom-side .doc__value {
-    font-size: 18px;
-}
-
 .doc__value {
     flex-grow: 1;
     flex-shrink: 1;
@@ -320,227 +308,287 @@
     margin-top: 12px;
 }
 
-/* ---------------------------------------------------------------- cork board */
+/* ---------------------------------------------------------------- wall calendar */
 
-.board {
-    width: 1300px;
-    height: 900px;
-    background-image: url("project://database/Assets/_Game/UI/Sprites/tile_cork.png");
-    border-width: 14px;
-    border-color: #B88756;
-    border-radius: 10px;
-}
-
-.board__frame {
-    position: absolute;
-    left: -14px;
-    top: -14px;
-    right: -14px;
-    bottom: -14px;
-    border-width: 4px;
-    border-color: var(--ink);
-    border-radius: 12px;
-}
-
-.board__item {
-    position: absolute;
-    -unity-background-scale-mode: scale-to-fit;
-    transition-property: scale, rotate;
-    transition-duration: 0.12s;
-}
-
-.board__item:hover { scale: 1.06 1.06; }
-
-/* Handwriting on a blank note (position and size are set from the note's size in code). */
-.board__hand {
-    position: absolute;
-    color: #2B2430;
-    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/Gaegu-Bold.asset");
-    white-space: normal;
-    -unity-text-align: upper-left;
-    overflow: hidden;
-}
-
-.board__pin {
-    position: absolute;
-    top: -8px;
-    left: 48%;
-    width: 22px;
-    height: 22px;
-    border-radius: 11px;
-    border-width: 2px;
-    border-color: var(--ink);
-    background-color: #D2403A;
-}
-
-.board__zoom {
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(26, 18, 22, 0.6);
+.calendar {
     flex-direction: row;
     align-items: center;
-    justify-content: center;
 }
 
-.board__zoom-image {
-    width: 640px;
-    height: 820px;
+.calendar__image {
+    width: 540px;
+    height: 810px;
+    margin-right: 28px;
     -unity-background-scale-mode: scale-to-fit;
-    margin-right: 24px;
+    border-width: 4px;
+    border-color: var(--ink);
+    rotate: -1.5deg;
 }
 
-.board__zoom-side {
-    width: 440px;
+.calendar__side {
+    width: 560px;
+    height: 760px;
 }
 
-/* ---------------------------------------------------------------- wallet */
+.calendar__today {
+    font-size: 24px;
+    color: var(--red);
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+    margin-bottom: 14px;
+}
 
-.wallet {
-    width: 1200px;
-    height: 820px;
-    background-image: url("project://database/Assets/_Game/UI/Sprites/tile_leather.png");
+.calendar__row {
+    flex-direction: row;
+    align-items: center;
+    padding: 9px 8px;
+    border-bottom-width: 1px;
+    border-color: rgba(43, 36, 48, 0.25);
+}
+
+.calendar__row--past { opacity: 0.55; }
+
+.calendar__row--today {
+    background-color: rgba(227, 165, 60, 0.35);
+    border-left-width: 6px;
+    border-left-color: var(--amber);
+}
+
+.calendar__date {
+    width: 104px;
+    flex-shrink: 0;
+    font-size: 19px;
+    color: var(--muted);
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset");
+}
+
+.calendar__note {
+    flex-grow: 1;
+    flex-shrink: 1;
+    font-size: 27px;
+    color: #2C4A9A;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/Gaegu-Bold.asset");
+}
+
+/* ---------------------------------------------------------------- computer (the laptop, open on CheckFirst) */
+
+.computer {
+    width: 1240px;
+    height: 860px;
+    background-color: #2A2630;
     border-width: 5px;
     border-color: var(--ink);
     border-radius: 26px;
-    padding: 30px;
-    align-items: center;
+    padding: 22px 22px 34px 22px;
 }
 
-.wallet__stitch {
-    position: absolute;
-    left: 14px;
-    top: 14px;
-    right: 14px;
-    bottom: 14px;
+.browser {
+    flex-grow: 1;
+    background-color: #F8F4EA;
     border-width: 3px;
-    border-color: rgba(233, 214, 180, 0.55);
+    border-color: #121015;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.browser__bar {
+    flex-direction: row;
+    align-items: center;
+    flex-shrink: 0;
+    height: 58px;
+    padding: 0 16px;
+    background-color: #D9CFBB;
+    border-bottom-width: 3px;
+    border-color: var(--ink);
+}
+
+.browser__dot {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    border-radius: 8px;
+    border-width: 2px;
+    border-color: var(--ink);
+}
+
+.browser__dot--0 { background-color: var(--red); }
+.browser__dot--1 { background-color: var(--amber); }
+.browser__dot--2 { background-color: var(--green); }
+
+.browser__tab {
+    align-self: flex-end;
+    height: 42px;
+    margin-left: 14px;
+    padding: 8px 20px 0 20px;
+    background-color: #F8F4EA;
+    border-width: 2px;
+    border-bottom-width: 0;
+    border-color: var(--ink);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    font-size: 17px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+}
+
+.browser__address {
+    flex-grow: 1;
+    flex-direction: row;
+    align-items: center;
+    height: 36px;
+    margin-left: 16px;
+    padding: 0 14px;
+    background-color: #F8F4EA;
+    border-width: 2px;
+    border-color: var(--ink);
     border-radius: 18px;
 }
 
-.wallet__cards {
-    flex-direction: row;
-    margin-bottom: 20px;
+.browser__lock { width: 20px; height: 20px; margin-right: 8px; }
+
+.browser__url {
+    font-size: 17px;
+    color: #3E6B4A;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset");
 }
 
-.wallet__thumb {
-    width: 200px;
-    height: 126px;
-    margin: 0 10px;
-    -unity-background-scale-mode: scale-to-fit;
-    opacity: 0.8;
-    transition-property: translate, opacity;
-    transition-duration: 0.12s;
-}
+.browser__page { flex-grow: 1; }
 
-.wallet__thumb:hover { translate: 0 -8px; opacity: 1; }
-.wallet__thumb--on { opacity: 1; translate: 0 -12px; }
+.browser__page .unity-scroll-view__content-container { padding: 20px 44px 24px 44px; }
 
-.wallet__main {
-    flex-direction: row;
-    align-items: center;
-}
-
-.wallet__card {
-    width: 640px;
-    height: 402px;
-    -unity-background-scale-mode: scale-to-fit;
-    transition-property: scale;
-    transition-duration: 0.14s;
-}
-
-.wallet__card--flip { scale: 0.02 1; }
-
-.wallet__side {
-    width: 420px;
-    margin-left: 26px;
-}
-
-/* ---------------------------------------------------------------- notebook */
-
-.notebook {
-    width: 1080px;
-    height: 880px;
-    background-color: #F6EFDD;
-    border-width: 5px;
-    border-color: var(--ink);
-    border-radius: 14px;
-    padding: 30px 40px 30px 110px;
-}
-
-.notebook__lines {
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url("project://database/Assets/_Game/UI/Sprites/notebook_lines.png");
-    border-radius: 10px;
-}
-
-.notebook__rings {
-    position: absolute;
-    left: 26px;
-    top: 30px;
-    bottom: 30px;
-    width: 40px;
-    justify-content: space-around;
-}
-
-.notebook__ring {
-    width: 38px;
-    height: 16px;
-    border-radius: 8px;
-    border-width: 3px;
-    border-color: var(--ink);
-    background-color: #B9B3AE;
-}
-
-.notebook__tabs {
-    position: absolute;
-    right: -150px;
-    top: 60px;
-}
-
-.notebook__tab {
-    width: 150px;
-    min-height: 70px;
-    font-size: 20px;
-}
-
-.notebook__tab--on { background-image: url("project://database/Assets/_Game/UI/Sprites/button_amber.png"); }
-
-.hand-title {
-    font-size: 44px;
-    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/Gaegu-Bold.asset");
-    color: #2C4A9A;
-    margin-bottom: 10px;
-}
-
-.hand {
-    font-size: 26px;
-    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/Gaegu-Regular.asset");
-    color: #2C3A6A;
-}
-
-.hand--red { color: #B8453A; }
-
-.rule-entry {
-    margin-bottom: 16px;
-}
-
-.rule-entry__title {
-    font-size: 30px;
-    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/Gaegu-Bold.asset");
-    color: #B8453A;
-}
-
-.case-card {
+.check__head {
     flex-direction: row;
     align-items: center;
     margin-bottom: 14px;
 }
 
-.case-card .portrait { width: 96px; height: 96px; margin-right: 18px; }
+.check__logo { width: 76px; height: 76px; margin-right: 16px; }
+
+.check__brand {
+    font-size: 46px;
+    color: #B8453A;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DoHyeon-Regular.asset");
+}
+
+.check__tagline { font-size: 19px; color: var(--muted); }
+
+.check__tabs {
+    flex-direction: row;
+    margin: 0 -4px 10px -4px;
+}
+
+.check__tab {
+    flex-grow: 1;
+    flex-basis: 0;
+    min-height: 72px;
+    font-size: 23px;
+}
+
+.check__tab--on { background-image: url("project://database/Assets/_Game/UI/Sprites/button_amber.png"); }
+
+.check__form {
+    padding: 12px 18px 14px 18px;
+    margin-bottom: 14px;
+    background-color: rgba(220, 199, 160, 0.45);
+    border-width: 2px;
+    border-color: var(--ink);
+    border-radius: 10px;
+}
+
+.check__prompt {
+    font-size: 18px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+}
+
+.check__suggestions { align-items: center; margin-top: 4px; }
+
+.check__hint { font-size: 16px; color: var(--muted); margin-right: 10px; }
+
+.check-card {
+    padding: 16px 24px 18px 24px;
+    background-color: #FFFDF6;
+    border-width: 3px;
+    border-color: var(--ink);
+    border-radius: 12px;
+}
+
+.check-card__what {
+    font-size: 30px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+    margin-bottom: 6px;
+}
+
+.check-card__row {
+    flex-direction: row;
+    align-items: center;
+    padding: 8px 0;
+    border-top-width: 1px;
+    border-color: rgba(43, 36, 48, 0.25);
+}
+
+.check-card__label {
+    width: 190px;
+    flex-shrink: 0;
+    font-size: 18px;
+    color: var(--muted);
+}
+
+.check-card__owner {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    flex-grow: 1;
+    flex-shrink: 1;
+}
+
+.check-card__name {
+    font-size: 38px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DoHyeon-Regular.asset");
+}
+
+.check-card__official {
+    margin-left: 14px;
+    padding: 3px 10px 4px 10px;
+    font-size: 15px;
+    color: #FBF4E4;
+    background-color: var(--green);
+    border-width: 2px;
+    border-color: var(--ink);
+    border-radius: 6px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+}
+
+.check-card__note {
+    margin: -4px 0 8px 190px;
+    font-size: 18px;
+    color: var(--ink-soft);
+}
+
+.check-card__count {
+    padding: 2px 14px 4px 14px;
+    font-size: 24px;
+    border-width: 2px;
+    border-color: var(--ink);
+    border-radius: 8px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+}
+
+.check-card__count--bad { color: #FBF4E4; background-color: var(--red); }
+.check-card__count--clean { color: #2F5A3A; background-color: var(--sage); }
+
+.check-card__report {
+    padding: 4px 0 4px 190px;
+    font-size: 17px;
+}
+
+.check-card__tip {
+    margin-top: 10px;
+    padding-top: 8px;
+    font-size: 16px;
+    color: var(--muted);
+    border-top-width: 1px;
+    border-color: rgba(43, 36, 48, 0.25);
+}
+
+.check-card__none {
+    font-size: 20px;
+    color: var(--red);
+}

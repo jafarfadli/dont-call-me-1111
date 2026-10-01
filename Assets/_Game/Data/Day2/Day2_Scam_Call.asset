@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: Day2_Scam_Call
   m_EditorClassIdentifier: DontCallMe::DontCallMe.Data.ConversationData
   title: "Day 2 \xB7 The new rent account (H3, scam)"
-  channel: 0
   isScam: 1
   revealAtEnd: 0
   caller:
@@ -21,8 +20,6 @@ MonoBehaviour:
     number: 010-4127-8830
     inContacts: 0
     portrait: pt_hyunwoo
-    chatId: 
-    profileId: 
     voice: Reed (English (US))
   claims:
   - He is Choi Hyunwoo, the landlord's son.
@@ -172,7 +169,7 @@ MonoBehaviour:
     timedOut: 0
     moneyDelta: 0
     lines: []
-    consequence: 'You hung up. Mr. Choi wasn''t in hospital: he was posting in the
+    consequence: 'You hung up. Mr. Choi wasn''t in hospital: he was writing in the
       residents'' chat all afternoon, and his son''s real number is in your lease.'
   - id: timeout
     verdict: 1
@@ -204,9 +201,6 @@ MonoBehaviour:
   - kind: 0
     target: 620-118-449027
     endingId: go_along
-    answeredBy: 
-    portrait: 
-    voice: 
     bank: Hanbit Bank
     amount: 450000
   hangUpEndingId: refuse
@@ -274,17 +268,10 @@ MonoBehaviour:
   - at: 16:40
     line:
       speaker: 0
-      text: I've texted you the account number, so you have it in writing.
+      text: The nurse is asking me about the bill again. Any luck with the transfer?
       spoken: 
       facts: []
-      deliver:
-      - kind: 0
-        from: 010-4127-8830
-        title: 
-        text: '[Mangwon Heights 1F] October rent: Hanbit Bank 620-118-449027. Please
-          pay today by 17:00. Thank you.'
-        link: 
-        amount: 0
+      deliver: []
       pauseAfter: 0.4
   - at: 16:47
     line:

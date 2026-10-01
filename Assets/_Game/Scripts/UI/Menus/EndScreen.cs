@@ -110,7 +110,7 @@ namespace DontCallMe.UI
             if (variant == null || string.IsNullOrEmpty(variant.rule))
                 return null;
             var rule = UIKit.Div("end-rule");
-            rule.Add(UIKit.Text(Loc.T("RULE LEARNED  ·  written in your notebook"), "end-rule__title"));
+            rule.Add(UIKit.Text(Loc.T("RULE LEARNED"), "end-rule__title"));
             rule.Add(UIKit.Text(variant.rule, "end-rule__text"));
             if (!string.IsNullOrEmpty(variant.ruleSource))
                 rule.Add(UIKit.Text(variant.ruleSource, "end-rule__source"));
@@ -285,7 +285,7 @@ namespace DontCallMe.UI
             stamps.Add(Stamp(Loc.T(rating), rating != "AT RISK", -4f, 900 + 350 * days.Count + 400));
             card.Add(stamps);
 
-            card.Add(UIKit.Text(Loc.T("RULES IN YOUR NOTEBOOK"), "section"));
+            card.Add(UIKit.Text(Loc.T("RULES YOU LEARNED"), "section"));
             var rules = UIKit.Div("week-rules");
             foreach (var r in days)
             {

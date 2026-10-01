@@ -30,6 +30,20 @@
     bottom: 0;
 }
 
+/* Jiwoo's hand: the palm and sleeve behind the phone, the fingertips and thumb over its edges.
+   Both pictures share one box, wider and taller than the phone. */
+.phone__hand {
+    position: absolute;
+    left: -110px;
+    top: 0;
+    width: 660px;
+    height: 1180px;
+    -unity-background-scale-mode: stretch-to-fill;
+}
+
+.phone__hand--back { background-image: url("project://database/Assets/_Game/UI/Sprites/hand_back.png"); }
+.phone__hand--front { background-image: url("project://database/Assets/_Game/UI/Sprites/hand_front.png"); }
+
 .phone__screen {
     position: absolute;
     left: 34px;
@@ -191,6 +205,7 @@
 .app {
     width: 33%;
     align-items: center;
+    margin-top: 10px;
     margin-bottom: 16px;
     transition-property: scale;
     transition-duration: 0.1s;
@@ -199,13 +214,13 @@
 .app:hover { scale: 1.08 1.08; }
 
 .app__icon {
-    width: 80px;
-    height: 80px;
+    width: 92px;
+    height: 92px;
     -unity-background-scale-mode: scale-to-fit;
 }
 
 .app__label {
-    font-size: 15px;
+    font-size: 16px;
     color: #FBF4E4;
     -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset");
     margin-top: 4px;

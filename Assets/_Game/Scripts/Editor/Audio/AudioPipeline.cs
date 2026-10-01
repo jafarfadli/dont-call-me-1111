@@ -37,13 +37,6 @@ namespace DontCallMe.Editor.Audio
             var lines = new List<(string voice, string text)>();
             foreach (string guid in AssetDatabase.FindAssets("t:ConversationData"))
                 Collect(AssetDatabase.LoadAssetAtPath<ConversationData>(AssetDatabase.GUIDToAssetPath(guid)), lines);
-            foreach (string guid in AssetDatabase.FindAssets("t:WorldDirectory"))
-            {
-                var dir = AssetDatabase.LoadAssetAtPath<WorldDirectory>(AssetDatabase.GUIDToAssetPath(guid));
-                foreach (var cb in dir.callbacks)
-                    foreach (var line in cb.lines)
-                        Add(lines, cb.voice, line);
-            }
             var unique = lines.Where(l => !string.IsNullOrEmpty(l.voice) && !string.IsNullOrWhiteSpace(l.text))
                               .Select(l => (l.voice, text: VoiceBank.Normalize(l.text)))
                               .Distinct()
@@ -60,7 +53,7 @@ namespace DontCallMe.Editor.Audio
         {
             if (c == null)
                 return;
-            string voice = c.channel == Channel.Call ? c.caller.voice : null;
+            string voice = c.caller.voice;
             foreach (var node in c.nodes)
             {
                 foreach (var line in node.lines)
@@ -75,13 +68,8 @@ namespace DontCallMe.Editor.Audio
             foreach (var beat in c.beats)
                 Add(lines, voice, beat.line);
             foreach (var ending in c.endings)
-            {
-                // Endings reached by calling someone are spoken by whoever picks up.
-                var trigger = c.actions.Find(a => a.kind == ActionKind.Call && a.endingId == ending.id);
-                string v = trigger != null && !string.IsNullOrEmpty(trigger.voice) ? trigger.voice : voice;
                 foreach (var line in ending.lines)
-                    Add(lines, v, line);
-            }
+                    Add(lines, voice, line);
         }
 
         static void Add(List<(string, string)> lines, string voice, ConvLine line)

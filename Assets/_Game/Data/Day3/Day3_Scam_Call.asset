@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: Day3_Scam_Call
   m_EditorClassIdentifier: DontCallMe::DontCallMe.Data.ConversationData
   title: "Day 3 \xB7 The held parcel (M2, scam)"
-  channel: 0
   isScam: 1
   revealAtEnd: 0
   caller:
@@ -21,8 +20,6 @@ MonoBehaviour:
     number: 1588-5502
     inContacts: 0
     portrait: pt_hr
-    chatId: 
-    profileId: 
     voice: Shelley (English (UK))
   claims:
   - She is Yoon Seora from Hangang Express's customs clearance desk.
@@ -215,9 +212,6 @@ MonoBehaviour:
   - kind: 0
     target: 620-557-301144
     endingId: go_along
-    answeredBy: 
-    portrait: 
-    voice: 
     bank: Hanbit Bank
     amount: 56600
   hangUpEndingId: refuse
@@ -253,11 +247,12 @@ MonoBehaviour:
       deliver: []
       pauseAfter: 0.4
     endingId: 
-  - label: Ask if you can pay in the Parcels app
-    playerLine: Can I pay in the Parcels app instead?
+  - label: Ask about the notice Hangang Express sent you
+    playerLine: What about the notice you sent me this morning?
     answer:
     - speaker: 0
-      text: The app doesn't show customs payments, Miss Kim. It has to be a transfer.
+      text: Please ignore the automatic notice, Miss Kim. Customs changed your parcel's
+        status after it went out.
       spoken: 
       facts: []
       deliver: []
@@ -281,17 +276,10 @@ MonoBehaviour:
   - at: 16:39
     line:
       speaker: 0
-      text: I've texted you the payment details, so you have them in writing.
+      text: Miss Kim, the payment has to reach us before the desk closes.
       spoken: 
       facts: []
-      deliver:
-      - kind: 0
-        from: 1588-5502
-        title: 
-        text: "[Web\uBC1C\uC2E0] [Hangang Express] Customs duty \u20A956,600 unpaid
-          for HX-5520-1183-KR. Pay by 17:00: Hanbit Bank 620-557-301144 or hangang-customs.kr/pay"
-        link: hangang-customs.kr/pay
-        amount: 0
+      deliver: []
       pauseAfter: 0.4
   - at: 16:46
     line:
