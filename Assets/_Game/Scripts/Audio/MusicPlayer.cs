@@ -75,6 +75,25 @@ namespace DontCallMe.Audio
             tensionLevel = tensionTarget = 0f;
         }
 
+        /// <summary>Keeps the scene's loop silent until <see cref="PlayMain"/>: a reveal that needs quiet first.</summary>
+        public void Hold()
+        {
+            playOnStart = false;
+            fade = fadeTarget = 0f;
+            if (mainSource != null)
+            {
+                mainSource.Stop();
+                tensionSource.Stop();
+            }
+        }
+
+        /// <summary>Starts the scene's own loop, fading in.</summary>
+        public void PlayMain(float fadeSeconds)
+        {
+            if (main != null)
+                Play(main, tension, fadeSeconds);
+        }
+
         public void Stop(float fadeSeconds)
         {
             fadeTarget = 0f;

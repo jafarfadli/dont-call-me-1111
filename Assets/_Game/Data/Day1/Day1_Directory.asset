@@ -21,6 +21,14 @@ MonoBehaviour:
     - "4 Oct \xB7 \"Said he was from the Nuri Bank protection team. I sent 2,000,000
       won.\""
     - "29 Sep \xB7 \"Protected account story. The money was gone in minutes.\""
+  - bank: Hanbit Bank
+    number: 620-339-104772
+    holder: HAN SUNGMIN
+    note: Personal account, opened 5 days ago
+    reports:
+    - "5 Oct \xB7 \"Paid a 'gas bill' into this account. The gas company knew nothing
+      about it.\""
+    - "4 Oct \xB7 \"'Collection account' of a fake billing team.\""
   - bank: Nuri Bank
     number: 110-302-558814
     holder: KIM JIWOO
@@ -54,6 +62,20 @@ MonoBehaviour:
     - "2 Oct \xB7 \"Said someone logged in from Busan.\""
     - "1 Oct \xB7 \"Scam. Hung up.\""
     - "30 Sep \xB7 \"Bank impersonation.\""
+  - number: 010-7359-2046
+    owner: Not registered
+    note: Prepaid phone, opened 3 days ago
+    official: 0
+    reports:
+    - "5 Oct \xB7 \"Said my gas would be cut off today. Wanted a transfer.\""
+    - "5 Oct \xB7 \"'Mapo City Gas billing team'. The real company never calls.\""
+    - "4 Oct \xB7 \"Unpaid bill story, account in a man's name.\""
+    - "3 Oct \xB7 \"Scam. Hung up.\""
+  - number: 02-555-0181
+    owner: Mapo City Gas customer centre
+    note: The number printed on the gas bill
+    official: 1
+    reports: []
   - number: 1599-0000
     owner: Nuri Bank customer centre
     note: The bank's only customer number

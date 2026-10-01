@@ -28,6 +28,15 @@ namespace DontCallMe.UI
         public const string Error = "error";
         public const string Whoosh = "whoosh";
         public const string Stamp = "stamp";
+        public const string Suspense = "suspense";
+        public const string Reveal = "reveal";
+        public const string RevealGood = "reveal_good";
+        public const string RevealBad = "reveal_bad";
+
+        /// <summary>How long the suspense clip builds before the reveal lands on its last sample.</summary>
+        public const float SuspenseSeconds = 3.2f;
+        /// <summary>When the suspense clip's heartbeats fall (seconds): closer and closer together.</summary>
+        public static readonly float[] SuspenseBeats = { 0.1f, 0.9f, 1.58f, 2.14f, 2.58f, 2.9f };
 
         [Serializable]
         public struct Override
@@ -114,6 +123,7 @@ namespace DontCallMe.UI
             clips[Heart] = Make(0.95f, t => Thump(t) + Thump(t - 0.24f) * 0.8f);
             clips[Stamp] = Make(0.28f, t => Thump(t) * 0.8f + Noise() * Env(t, 0.001f, 0.06f) * 0.4f);
             clips[Buzz] = Make(0.8f, t => t < 0.45f ? Saw(t, 150) * (0.6f + 0.4f * Mathf.Sin(t * 190f)) * 0.16f : 0f);
+            BuildReveal();
             // A cheerful retro ringtone: square-ish melody, then a pause.
             float[] notes = { 659f, 784f, 880f, 784f, 659f, 587f, 659f, 0f };
             clips[Ring] = Make(2.2f, t =>
@@ -127,6 +137,66 @@ namespace DontCallMe.UI
                        + Saw(t, 150) * 0.03f;
             });
         }
+
+        /// <summary>
+        /// The next morning's reveal: a drone and trembling strings that swell over a quickening
+        /// heartbeat and cut off, the hit when the truth is stamped, and a bright or a sinking
+        /// phrase for a right or a wrong call.
+        /// </summary>
+        void BuildReveal()
+        {
+            const float len = SuspenseSeconds;
+            clips[Suspense] = Make(len, t =>
+            {
+                float rise = t / len;
+                // Two low voices a little apart, so the drone throbs; it swells to the end.
+                float drone = (Sine(t, 55f) + Sine(t, 58.3f) * 0.8f + Sine(t, 110.6f) * 0.35f) * (0.05f + 0.17f * rise * rise);
+                // Strings a semitone apart, trembling faster and climbing as they get louder.
+                float tremble = 0.55f + 0.45f * Mathf.Sin(2f * Mathf.PI * (6f + 7f * rise) * t);
+                float pitch = 1f + 0.06f * rise;
+                float strings = (Sine(t, 440f * pitch) + Sine(t, 466.2f * pitch) + Sine(t, 880f * pitch) * 0.3f) * tremble * 0.075f * rise * rise;
+                float heart = 0f;
+                foreach (float b in SuspenseBeats)
+                    heart += Beat(t - b) + Beat(t - b - 0.17f) * 0.7f;
+                // A clean cut just before the hit.
+                float cut = Mathf.Clamp01((len - t) / 0.05f);
+                return (drone + strings + heart * 0.62f) * cut;
+            });
+            clips[Reveal] = Make(1.5f, t =>
+                Mathf.Sin(2f * Mathf.PI * (38f + 64f * Mathf.Exp(-t * 18f)) * t) * Mathf.Exp(-t * 3.4f) * 0.58f
+                + Noise() * Env(t, 0.001f, 0.1f) * 0.28f
+                + (Sine(t, 110f) + Sine(t, 164.8f) * 0.6f + Sine(t, 220.9f) * 0.3f) * Mathf.Exp(-t * 2.4f) * 0.075f);
+            float[] bright = { 523.25f, 659.25f, 783.99f, 1046.5f };
+            clips[RevealGood] = Make(1.7f, t =>
+            {
+                float sum = 0f;
+                for (int i = 0; i < bright.Length; i++)
+                {
+                    float u = t - i * 0.08f;
+                    if (u >= 0f)
+                        sum += (Sine(u, bright[i]) + Sine(u, bright[i] * 2f) * 0.22f) * Mathf.Exp(-u * 3f) * Mathf.Min(1f, u / 0.004f);
+                }
+                return sum * 0.19f;
+            });
+            clips[RevealBad] = Make(1.9f, t =>
+            {
+                float u = t - 0.26f;
+                float first = Low(t, 174.6f) * Env(t, 0.006f, 0.3f);
+                float second = u >= 0f ? Low(u, 123.5f) * Mathf.Exp(-u * 1.9f) * Mathf.Min(1f, u / 0.006f) : 0f;
+                return (first * 0.8f + second) * 0.24f + Thump(t) * 0.45f + Thump(u) * 0.55f;
+            });
+        }
+
+        /// <summary>One half of a heartbeat: the low thump with a little body above it, so small speakers carry it.</summary>
+        static float Beat(float t)
+        {
+            if (t < 0f)
+                return 0f;
+            return Thump(t) + Mathf.Sin(2f * Mathf.PI * (104f + 70f * Mathf.Exp(-t * 30f)) * t) * Mathf.Exp(-t * 20f) * 0.32f;
+        }
+
+        /// <summary>A dull low voice with a second one slightly off, for the sinking phrase.</summary>
+        static float Low(float t, float hz) => Sine(t, hz) + Sine(t, hz * 1.008f) * 0.55f + Sine(t, hz * 3f) * 0.2f + Sine(t, hz * 5f) * 0.07f;
 
         AudioClip Make(float seconds, Func<float, float> f)
         {

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: DayCatalog_ko
   m_EditorClassIdentifier: DontCallMe::DontCallMe.Data.DayCatalog
   days:
+  - {fileID: 11400000, guid: c95ac6eb95ab8422e976beef4fe18a97, type: 2}
   - {fileID: 11400000, guid: 4fc934d6e62ee4c988405e63c13f389c, type: 2}
   - {fileID: 11400000, guid: bd4e2f64f6b0841078925c8da6cd7b68, type: 2}
   - {fileID: 11400000, guid: a61aac3ad7e524d10b0033ef9cad3270, type: 2}

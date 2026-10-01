@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Day1
   m_EditorClassIdentifier: DontCallMe::DontCallMe.Data.DayData
   day: 1
+  tutorial: 0
   dateLabel: Tuesday, 6 October
   weekday: Tue
   shortLabel: "Day 1 \xB7 Tue 6 Oct"
@@ -32,6 +33,7 @@ MonoBehaviour:
       text: The "protected account" belongs to a private person, JEONG MIRAN, and
         has two fraud reports.
       where: "Computer \u2192 Check a bank account"
+      guide: 
       when:
       - kind: 2
         target: 110-900-551207
@@ -41,6 +43,7 @@ MonoBehaviour:
       text: The caller's number, 070-8844-2019, is an unregistered internet phone
         with seven scam reports. It isn't Nuri Bank's.
       where: "Computer \u2192 Check a phone number"
+      guide: 
       when:
       - kind: 2
         target: 070-8844-2019
@@ -117,6 +120,99 @@ MonoBehaviour:
       up the account and the caller''s number first: a stranger''s name on an "official"
       account means stop.'
     ruleSource: Seoul Daily, 7 Oct
-  echoes: []
+  echoes:
+  - afterDay: 0
+    truth: 0
+    outcomes: 1
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: Yesterday you paid a "gas bill" that was already paid. 18,420 won, gone.
+    amount: 0
+    outgoing: 0
+    notify: 0
+  - afterDay: 0
+    truth: 0
+    outcomes: 1
+    kind: 0
+    from: villa
+    sender: 
+    avatar: 
+    when: Yesterday 17:20
+    title: 
+    text: I think I just paid that fake gas bill... 18,420 won.
+    amount: 0
+    outgoing: 1
+    notify: 0
+  - afterDay: 0
+    truth: 0
+    outcomes: 1
+    kind: 0
+    from: villa
+    sender: Landlord Choi
+    avatar: pt_landlord
+    when: Yesterday 17:31
+    title: 
+    text: Oh no. Report it to 1332 right away, and look things up before you pay
+      next time.
+    amount: 0
+    outgoing: 0
+    notify: 1
+  - afterDay: 0
+    truth: 0
+    outcomes: 2
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: Yesterday's "gas company" was a fake. You checked, and hung up.
+    amount: 0
+    outgoing: 0
+    notify: 0
+  - afterDay: 0
+    truth: 0
+    outcomes: 2
+    kind: 0
+    from: villa
+    sender: 
+    avatar: 
+    when: Yesterday 17:20
+    title: 
+    text: The "gas company" called me too. I checked my bill and hung up. It was
+      010-7359-2046.
+    amount: 0
+    outgoing: 1
+    notify: 0
+  - afterDay: 0
+    truth: 0
+    outcomes: 2
+    kind: 0
+    from: villa
+    sender: Landlord Choi
+    avatar: pt_landlord
+    when: Yesterday 17:31
+    title: 
+    text: Well done, 302! That is how to do it.
+    amount: 0
+    outgoing: 0
+    notify: 1
+  - afterDay: 0
+    truth: 0
+    outcomes: 8
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: Yesterday's "gas company" gave up at five. The gas is still on.
+    amount: 0
+    outgoing: 0
+    notify: 0
   nextDateLabel: Wednesday, 7 October
-  builtWith: 6
+  builtWith: 7

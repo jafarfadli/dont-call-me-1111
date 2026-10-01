@@ -1,0 +1,300 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfd03999caeea4a5788ed68a4194a80e, type: 3}
+  m_Name: Day0_Call
+  m_EditorClassIdentifier: DontCallMe::DontCallMe.Data.ConversationData
+  title: "Day 0 \xB7 The unpaid gas bill (tutorial)"
+  isScam: 1
+  revealAtEnd: 0
+  caller:
+    displayName: Team Leader Baek
+    number: 010-7359-2046
+    inContacts: 0
+    portrait: pt_billing
+    voice: Samantha
+  claims:
+  - She is Team Leader Baek from the billing team at Mapo City Gas.
+  - My September gas bill, 18,420 won, is unpaid.
+  - The gas goes off at 17:00 today unless I transfer it now.
+  - 'Collection account: Hanbit Bank 620-339-104772.'
+  nodes:
+  - id: start
+    lines:
+    - speaker: 0
+      text: Hello, is this Kim Jiwoo at Mangwon Heights 302? This is Team Leader
+        Baek from the billing team at Mapo City Gas.
+      spoken: Hello, is this Kim Jiwoo at Mangwon Heights three oh two? This is Team
+        Leader Baek from the billing team at Mapo City Gas.
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    - speaker: 0
+      text: Your September gas bill, 18,420 won, has not been paid. The gas to your
+        unit will be shut off at five o'clock today.
+      spoken: Your September gas bill, eighteen thousand, four hundred and twenty
+        won, has not been paid. The gas to your unit will be shut off at five o'clock
+        today.
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    hasDecision: 1
+    decision:
+      kind: 0
+      prompt: How do you answer?
+      patienceSeconds: 60
+      a:
+        label: Unpaid? I thought it was on auto-pay.
+        playerLine: Unpaid? I thought it was on auto-pay.
+        next: autopay
+      b:
+        label: Shut off today? But today is a holiday.
+        playerLine: Shut off today? But today is a holiday.
+        next: holiday
+      pressure:
+      - atPatience: 0.5
+        text: Ma'am? Can you hear me?
+        spoken: 
+    next: 
+    holds: 0
+  - id: autopay
+    lines:
+    - speaker: 0
+      text: The auto-payment failed, ma'am. It happens when a bank updates its system.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    hasDecision: 0
+    decision:
+      kind: 0
+      prompt: 
+      patienceSeconds: 60
+      a:
+        label: 
+        playerLine: 
+        next: 
+      b:
+        label: 
+        playerLine: 
+        next: 
+      pressure: []
+    next: ask
+    holds: 0
+  - id: holiday
+    lines:
+    - speaker: 0
+      text: The shut-off is automatic, ma'am. The system doesn't take holidays.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    hasDecision: 0
+    decision:
+      kind: 0
+      prompt: 
+      patienceSeconds: 60
+      a:
+        label: 
+        playerLine: 
+        next: 
+      b:
+        label: 
+        playerLine: 
+        next: 
+      pressure: []
+    next: ask
+    holds: 0
+  - id: ask
+    lines:
+    - speaker: 0
+      text: 'To stop it, please transfer 18,420 won to our collection account: Hanbit
+        Bank 620-339-104772.'
+      spoken: To stop it, please transfer eighteen thousand, four hundred and twenty
+        won to our collection account. Hanbit Bank, six two zero, three three nine,
+        one zero four seven seven two.
+      facts:
+      - kind: 1
+        value: 620-339-104772
+        label: 
+      - kind: 5
+        value: 18,420
+        label: 
+      deliver: []
+      pauseAfter: 0.4
+    - speaker: 0
+      text: As soon as it arrives, I'll cancel the shut-off. I'll stay on the line
+        while you send it.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    hasDecision: 0
+    decision:
+      kind: 0
+      prompt: 
+      patienceSeconds: 60
+      a:
+        label: 
+        playerLine: 
+        next: 
+      b:
+        label: 
+        playerLine: 
+        next: 
+      pressure: []
+    next: 
+    holds: 1
+  endings:
+  - id: refuse
+    verdict: 1
+    timedOut: 0
+    moneyDelta: 0
+    lines: []
+    consequence: You hung up. The gas bill had been paid on 28 September, and the
+      "collection account" belongs to Han Sungmin.
+  - id: timeout
+    verdict: 1
+    timedOut: 1
+    moneyDelta: 0
+    lines:
+    - speaker: 0
+      text: It's five o'clock, ma'am.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    - speaker: 0
+      text: Fine. Don't blame us when the gas goes off.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    consequence: She gave up at five. The gas stayed on, but you never gave her an
+      answer.
+  - id: go_along
+    verdict: 0
+    timedOut: 0
+    moneyDelta: -18420
+    lines:
+    - speaker: 0
+      text: Thank you, ma'am. I've cancelled the shut-off.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    - speaker: 0
+      text: Enjoy the rest of your holiday.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    consequence: The 18,420 won went to Han Sungmin's account. Your real bill had
+      been paid a week ago.
+  actions:
+  - kind: 0
+    target: 620-339-104772
+    endingId: go_along
+    bank: Hanbit Bank
+    amount: 18420
+  hangUpEndingId: refuse
+  timeoutEndingId: timeout
+  caseInfo:
+    caseTitle: The unpaid gas bill
+    claimedIdentity: Team Leader Baek, Mapo City Gas billing team
+    ask: "Transfer \u20A918,420 to a \"collection account\": Hanbit Bank 620-339-104772"
+    deadline: 17:00
+    deadlineReason: before the gas is shut off
+    objective: 'Is this really the gas company? Follow the yellow note: it shows
+      you every place to check. Then give your verdict on the call: send the money,
+      or hang up.'
+  questions:
+  - label: Ask whose name is on the account
+    playerLine: Whose name is on that account?
+    answer:
+    - speaker: 0
+      text: It's our collection officer's, Han Sungmin. On a holiday, payments go
+        through his account.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    endingId: 
+  - label: Ask why she isn't calling from the customer centre
+    playerLine: Why aren't you calling from the customer centre?
+    answer:
+    - speaker: 0
+      text: The centre is closed today, ma'am, so I'm calling from my work mobile.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    endingId: 
+  - label: Say you'll check your bill first
+    playerLine: Let me check my bill first.
+    answer:
+    - speaker: 0
+      text: Of course, ma'am, but please be quick. The shut-off order is already
+        in the system.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    endingId: 
+  beats:
+  - at: 14:35
+    line:
+      speaker: 0
+      text: Ma'am? Are you still there?
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+  - at: 15:10
+    line:
+      speaker: 0
+      text: I'm still holding, ma'am. The shut-off is set for five.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+  - at: 16:00
+    line:
+      speaker: 0
+      text: One hour left, ma'am. After that I can't stop it.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+  - at: 16:40
+    line:
+      speaker: 0
+      text: Twenty minutes. Please send it now.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+  - at: 16:55
+    line:
+      speaker: 0
+      text: Five minutes, ma'am!
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+  verdict:
+    goAlong: Pay the bill
+    goAlongDetail: 
+    goAlongEndingId: 
+    refuse: Hang up
+    refuseDetail: Say no and end the call
+    goAlongLine: All right, I'm sending it now.
+    refuseLine: My bill is already paid. Goodbye.

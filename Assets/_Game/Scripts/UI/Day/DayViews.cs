@@ -22,6 +22,8 @@ namespace DontCallMe.UI
             Root = UIKit.Div("daycard");
             var inner = UIKit.Div("daycard__inner");
             inner.Add(UIKit.Text($"DAY {day.day}", "daycard__day"));
+            if (day.tutorial)
+                inner.Add(UIKit.Text(Loc.T("TUTORIAL"), "daycard__tag"));
             inner.Add(UIKit.Div("daycard__rule"));
             inner.Add(UIKit.Text(day.dateLabel, "daycard__date"));
             inner.Add(UIKit.Text($"{day.startTime}  ·  {day.place}", "daycard__place"));

@@ -48,8 +48,11 @@ namespace DontCallMe.Flow
 
         static RunState state;
 
-        /// <summary>The day the Room scene should play; 0 when it was opened directly.</summary>
-        public static int PendingDay { get; set; }
+        /// <summary>The week opens with the tutorial, Day 0.</summary>
+        public const int FirstDay = 0;
+
+        /// <summary>The day the Room scene should play; negative when it was opened directly.</summary>
+        public static int PendingDay { get; set; } = -1;
 
         public static IReadOnlyList<DayRecord> Days => State.days;
 
@@ -60,7 +63,7 @@ namespace DontCallMe.Flow
         {
             get
             {
-                int n = 1;
+                int n = FirstDay;
                 while (Get(n) != null)
                     n++;
                 return n;
@@ -73,7 +76,7 @@ namespace DontCallMe.Flow
         public static List<DayRecord> Before(int day)
         {
             var list = new List<DayRecord>();
-            for (int n = 1; n < day; n++)
+            for (int n = FirstDay; n < day; n++)
             {
                 var r = Get(n);
                 if (r == null)

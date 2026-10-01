@@ -115,6 +115,10 @@ MonoBehaviour:
       value: 28 Sep (auto-pay)
       isFact: 0
       factKind: 6
+    - label: Customer centre
+      value: 02-555-0181
+      isFact: 1
+      factKind: 0
     body: 'Safety inspection this month: Wednesday 14 October. Our inspectors carry
       an ID card and never ask for money.'
     stamp: stamp_paid

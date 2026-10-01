@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Day3
   m_EditorClassIdentifier: DontCallMe::DontCallMe.Data.DayData
   day: 3
+  tutorial: 0
   dateLabel: Thursday, 8 October
   weekday: Thu
   shortLabel: "Day 3 \xB7 Thu 8 Oct"
@@ -32,6 +33,7 @@ MonoBehaviour:
       text: Hangang Express's own notice says the monitor cleared customs and arrives
         on Friday, with nothing to pay.
       where: "Chats \u2192 Hangang Express, or the calendar on the wall"
+      guide: 
       when:
       - kind: 4
         target: hangang
@@ -40,6 +42,7 @@ MonoBehaviour:
     - id: taxes
       text: AliStar's message says the import taxes were included at checkout.
       where: "Chats \u2192 AliStar"
+      guide: 
       when:
       - kind: 4
         target: alistar
@@ -48,6 +51,7 @@ MonoBehaviour:
         digit off and belongs to "KR Clearance Service".
       where: "Desk drawer \u2192 Delivery slip, or Computer \u2192 Check a phone
         number"
+      guide: 
       when:
       - kind: 1
         target: Delivery slip
@@ -56,6 +60,7 @@ MonoBehaviour:
     - id: account_owner
       text: The account belongs to "KR CUSTOMS CLEARANCE", not to Hangang Express.
       where: "Computer \u2192 Check a bank account"
+      guide: 
       when:
       - kind: 2
         target: 620-557-301144
@@ -141,6 +146,7 @@ MonoBehaviour:
       text: "Hangang Express's own notice says the monitor is held at customs, with
         \u20A956,600 due and the same account."
       where: "Chats \u2192 Hangang Express, or the calendar on the wall"
+      guide: 
       when:
       - kind: 4
         target: hangang
@@ -149,6 +155,7 @@ MonoBehaviour:
     - id: taxes
       text: AliStar's message says the import taxes were not included.
       where: "Chats \u2192 AliStar"
+      guide: 
       when:
       - kind: 4
         target: alistar
@@ -156,6 +163,7 @@ MonoBehaviour:
       text: 1588-5520, the number calling you, is Hangang Express's official number.
       where: "Desk drawer \u2192 Delivery slip, or Computer \u2192 Check a phone
         number"
+      guide: 
       when:
       - kind: 1
         target: Delivery slip
@@ -164,6 +172,7 @@ MonoBehaviour:
     - id: account_owner
       text: The account is a virtual account in the name HANGANG EXPRESS (CUSTOMS).
       where: "Computer \u2192 Check a bank account"
+      guide: 
       when:
       - kind: 2
         target: 5620-44-018830
@@ -443,4 +452,4 @@ MonoBehaviour:
     outgoing: 0
     notify: 0
   nextDateLabel: Friday, 9 October
-  builtWith: 6
+  builtWith: 7

@@ -13,6 +13,149 @@ MonoBehaviour:
   m_Name: VoiceBank
   m_EditorClassIdentifier: DontCallMe::DontCallMe.Data.VoiceBank
   entries:
+  - voice: Samantha
+    text: Hello, is this Kim Jiwoo at Mangwon Heights three oh two? This is Team
+      Leader Baek from the billing team at Mapo City Gas.
+    clip: {fileID: 8300000, guid: 113c2bd5c46794be389dade735e40f59, type: 3}
+  - voice: Samantha
+    text: Your September gas bill, eighteen thousand, four hundred and twenty won,
+      has not been paid. The gas to your unit will be shut off at five o'clock today.
+    clip: {fileID: 8300000, guid: c49af7378597b4447a5f40b4eb750191, type: 3}
+  - voice: Samantha
+    text: Ma'am? Can you hear me?
+    clip: {fileID: 8300000, guid: 0c3802ab58270432c8746d157beb00e5, type: 3}
+  - voice: Samantha
+    text: The auto-payment failed, ma'am. It happens when a bank updates its system.
+    clip: {fileID: 8300000, guid: 41b5d6b5c294648208e03d921fb9dd00, type: 3}
+  - voice: Samantha
+    text: The shut-off is automatic, ma'am. The system doesn't take holidays.
+    clip: {fileID: 8300000, guid: a320d0406b0fd4def80330dbdb798fab, type: 3}
+  - voice: Samantha
+    text: To stop it, please transfer eighteen thousand, four hundred and twenty
+      won to our collection account. Hanbit Bank, six two zero, three three nine,
+      one zero four seven seven two.
+    clip: {fileID: 8300000, guid: 8388a2b3821464a9592aa62fa21d44c2, type: 3}
+  - voice: Samantha
+    text: As soon as it arrives, I'll cancel the shut-off. I'll stay on the line
+      while you send it.
+    clip: {fileID: 8300000, guid: 4ea258cd92d754b459dd989e92e66937, type: 3}
+  - voice: Samantha
+    text: It's our collection officer's, Han Sungmin. On a holiday, payments go through
+      his account.
+    clip: {fileID: 8300000, guid: 7a6620192797f4fef96ce3dca4ac3875, type: 3}
+  - voice: Samantha
+    text: The centre is closed today, ma'am, so I'm calling from my work mobile.
+    clip: {fileID: 8300000, guid: e4b32753acb1e43ee9274aee3b0af12c, type: 3}
+  - voice: Samantha
+    text: Of course, ma'am, but please be quick. The shut-off order is already in
+      the system.
+    clip: {fileID: 8300000, guid: 43aaa51c39b6944ef983976a4b63619a, type: 3}
+  - voice: Samantha
+    text: Ma'am? Are you still there?
+    clip: {fileID: 8300000, guid: b48f255665e854157968ff3bd1384ffa, type: 3}
+  - voice: Samantha
+    text: I'm still holding, ma'am. The shut-off is set for five.
+    clip: {fileID: 8300000, guid: 06fe30358927e47bebfc6cfe9aa8ab8a, type: 3}
+  - voice: Samantha
+    text: One hour left, ma'am. After that I can't stop it.
+    clip: {fileID: 8300000, guid: 31ad30d241e5644bfa071a2650b2b02b, type: 3}
+  - voice: Samantha
+    text: Twenty minutes. Please send it now.
+    clip: {fileID: 8300000, guid: 3a4c3b2519ea24f96aaddabe5daed67e, type: 3}
+  - voice: Samantha
+    text: Five minutes, ma'am!
+    clip: {fileID: 8300000, guid: 5bdd5251c97fa4b66966966bbbc46cbf, type: 3}
+  - voice: Samantha
+    text: It's five o'clock, ma'am.
+    clip: {fileID: 8300000, guid: f83cfde847d224ee5a2eb6dac5d2f994, type: 3}
+  - voice: Samantha
+    text: Fine. Don't blame us when the gas goes off.
+    clip: {fileID: 8300000, guid: 687adf22512f941fdb1e58a1ba173474, type: 3}
+  - voice: Samantha
+    text: Thank you, ma'am. I've cancelled the shut-off.
+    clip: {fileID: 8300000, guid: 9f0ba2069a6744044b84cd3ee01b7da9, type: 3}
+  - voice: Samantha
+    text: Enjoy the rest of your holiday.
+    clip: {fileID: 8300000, guid: 60285298ab6fa4baab3d493b918b497f, type: 3}
+  - voice: Sandy (Korean (South Korea))
+    text: "\uC5EC\uBCF4\uC138\uC694, \uB9DD\uC6D0\uD558\uC774\uCE20 \uC0BC\uBC31\uC774
+      \uD638 \uAE40\uC9C0\uC6B0 \uACE0\uAC1D\uB2D8 \uB9DE\uC73C\uC2DC\uC8E0? \uB9C8\uD3EC\uB3C4\uC2DC\uAC00\uC2A4
+      \uC694\uAE08\uD300 \uBC31 \uD300\uC7A5\uC785\uB2C8\uB2E4."
+    clip: {fileID: 8300000, guid: 7893979b8b42e4ee7bf86e41d907f2f5, type: 3}
+  - voice: Sandy (Korean (South Korea))
+    text: "\uAD6C\uC6D4 \uAC00\uC2A4 \uC694\uAE08 \uB9CC \uD314\uCC9C\uC0AC\uBC31\uC774\uC2ED
+      \uC6D0\uC774 \uBBF8\uB0A9 \uC0C1\uD0DC\uC785\uB2C8\uB2E4. \uC624\uB298 \uC624\uD6C4
+      \uB2E4\uC12F \uC2DC\uC5D0 \uB301\uC758 \uAC00\uC2A4 \uACF5\uAE09\uC774 \uCC28\uB2E8\uB420
+      \uC608\uC815\uC774\uC5D0\uC694."
+    clip: {fileID: 8300000, guid: 2ae23b290ced34e72bfc394cc2b276af, type: 3}
+  - voice: Sandy (Korean (South Korea))
+    text: "\uACE0\uAC1D\uB2D8? \uB4E4\uB9AC\uC138\uC694?"
+    clip: {fileID: 8300000, guid: 926ba313e426949a5b823e789e1ec369, type: 3}
+  - voice: Sandy (Korean (South Korea))
+    text: "\uC790\uB3D9\uC774\uCCB4\uAC00 \uC2E4\uD328\uD588\uC2B5\uB2C8\uB2E4, \uACE0\uAC1D\uB2D8.
+      \uC740\uD589 \uC804\uC0B0 \uC810\uAC80 \uB54C \uC885\uC885 \uADF8\uB798\uC694."
+    clip: {fileID: 8300000, guid: 8b29aa57bd9c140ce877e7266c0e699e, type: 3}
+  - voice: Sandy (Korean (South Korea))
+    text: "\uCC28\uB2E8\uC740 \uC790\uB3D9\uC73C\uB85C \uC9C4\uD589\uB429\uB2C8\uB2E4,
+      \uACE0\uAC1D\uB2D8. \uC804\uC0B0\uC740 \uACF5\uD734\uC77C\uC5D0\uB3C4 \uB3CC\uC544\uAC00\uAC70\uB4E0\uC694."
+    clip: {fileID: 8300000, guid: 7ad5b2ca612e14dcf9e9966557495732, type: 3}
+  - voice: Sandy (Korean (South Korea))
+    text: "\uCC28\uB2E8\uC744 \uB9C9\uC73C\uB824\uBA74 \uC218\uB0A9 \uACC4\uC88C\uB85C
+      \uB9CC \uD314\uCC9C\uC0AC\uBC31\uC774\uC2ED \uC6D0\uC744 \uC774\uCCB4\uD574
+      \uC8FC\uC138\uC694. \uD55C\uBE5B\uC740\uD589, \uC721\uC774\uACF5, \uC0BC\uC0BC\uAD6C,
+      \uC77C\uACF5\uC0AC\uCE60\uCE60\uC774\uC785\uB2C8\uB2E4."
+    clip: {fileID: 8300000, guid: 77fd25d5d4c4048fd8f39a650e637b1f, type: 3}
+  - voice: Sandy (Korean (South Korea))
+    text: "\uC785\uAE08\uC774 \uD655\uC778\uB418\uB294 \uB300\uB85C \uCC28\uB2E8\uC744
+      \uCDE8\uC18C\uD574 \uB4DC\uB9B4\uAC8C\uC694. \uBCF4\uB0B4\uC2DC\uB294 \uB3D9\uC548
+      \uAE30\uB2E4\uB9AC\uACA0\uC2B5\uB2C8\uB2E4."
+    clip: {fileID: 8300000, guid: f44d72b3829d6494dbb5af2dd0a46dc6, type: 3}
+  - voice: Sandy (Korean (South Korea))
+    text: "\uC218\uB0A9 \uB2F4\uB2F9\uC790 \uD55C\uC131\uBBFC \uBA85\uC758\uC785\uB2C8\uB2E4.
+      \uACF5\uD734\uC77C\uC5D0\uB294 \uB2F4\uB2F9\uC790 \uACC4\uC88C\uB85C \uBC1B\uACE0
+      \uC788\uC5B4\uC694."
+    clip: {fileID: 8300000, guid: ec2afaaae0c8e4d4ea828ba792cf9d44, type: 3}
+  - voice: Sandy (Korean (South Korea))
+    text: "\uC624\uB298\uC740 \uACE0\uAC1D\uC13C\uD130\uAC00 \uC26C\uB294 \uB0A0\uC774\uB77C
+      \uC5C5\uBB34\uC6A9 \uD734\uB300\uD3F0\uC73C\uB85C \uC5F0\uB77D\uB4DC\uB838\uC5B4\uC694."
+    clip: {fileID: 8300000, guid: 9f3794a419e7441b6bba3d9f507aee40, type: 3}
+  - voice: Sandy (Korean (South Korea))
+    text: "\uB124, \uD655\uC778\uD558\uC138\uC694. \uD558\uC9C0\uB9CC \uC11C\uB458\uB7EC
+      \uC8FC\uC154\uC57C \uD574\uC694. \uCC28\uB2E8 \uC811\uC218\uAC00 \uC774\uBBF8
+      \uB4E4\uC5B4\uAC00 \uC788\uC5B4\uC11C\uC694."
+    clip: {fileID: 8300000, guid: db2467fb22b084524a6f47db9c2f450f, type: 3}
+  - voice: Sandy (Korean (South Korea))
+    text: "\uACE0\uAC1D\uB2D8? \uB4E3\uACE0 \uACC4\uC138\uC694?"
+    clip: {fileID: 8300000, guid: a1c89712804c741328c4ebfdcf662759, type: 3}
+  - voice: Sandy (Korean (South Korea))
+    text: "\uC544\uC9C1 \uAE30\uB2E4\uB9AC\uACE0 \uC788\uC2B5\uB2C8\uB2E4. \uCC28\uB2E8\uC740
+      \uB2E4\uC12F \uC2DC\uB85C \uC7A1\uD600 \uC788\uC5B4\uC694."
+    clip: {fileID: 8300000, guid: e6711734673ca4792b949bca665ade92, type: 3}
+  - voice: Sandy (Korean (South Korea))
+    text: "\uD55C \uC2DC\uAC04 \uB0A8\uC558\uC2B5\uB2C8\uB2E4. \uADF8 \uB4A4\uC5D4
+      \uC800\uB3C4 \uB9C9\uC744 \uC218 \uC5C6\uC5B4\uC694."
+    clip: {fileID: 8300000, guid: c5e66850e415249a097d84e1db80e3b9, type: 3}
+  - voice: Sandy (Korean (South Korea))
+    text: "\uC774\uC2ED \uBD84 \uB0A8\uC558\uC5B4\uC694. \uC9C0\uAE08 \uBCF4\uB0B4
+      \uC8FC\uC138\uC694."
+    clip: {fileID: 8300000, guid: fdd60d160975b4619977c2ee3fde96f7, type: 3}
+  - voice: Sandy (Korean (South Korea))
+    text: "\uC624 \uBD84 \uB0A8\uC558\uC2B5\uB2C8\uB2E4!"
+    clip: {fileID: 8300000, guid: 343254da0133c4dd78087a3a97a01621, type: 3}
+  - voice: Sandy (Korean (South Korea))
+    text: "\uB2E4\uC12F \uC2DC\uAC00 \uB410\uC2B5\uB2C8\uB2E4, \uACE0\uAC1D\uB2D8."
+    clip: {fileID: 8300000, guid: 1e8dc708e536b4a918eb51e6536ebe2a, type: 3}
+  - voice: Sandy (Korean (South Korea))
+    text: "\uC54C\uACA0\uC2B5\uB2C8\uB2E4. \uAC00\uC2A4\uAC00 \uB04A\uACA8\uB3C4
+      \uC800\uD76C \uD0D3\uC740 \uD558\uC9C0 \uB9C8\uC138\uC694."
+    clip: {fileID: 8300000, guid: 018566113969a445ba5186d322a3eead, type: 3}
+  - voice: Sandy (Korean (South Korea))
+    text: "\uAC10\uC0AC\uD569\uB2C8\uB2E4, \uACE0\uAC1D\uB2D8. \uCC28\uB2E8\uC740
+      \uCDE8\uC18C\uD574 \uB4DC\uB838\uC5B4\uC694."
+    clip: {fileID: 8300000, guid: 3dd280eebc3f54397bf123a7ca9de228, type: 3}
+  - voice: Sandy (Korean (South Korea))
+    text: "\uB0A8\uC740 \uC5F0\uD734 \uC798 \uBCF4\uB0B4\uC138\uC694."
+    clip: {fileID: 8300000, guid: 3bfb748ec3a174dd6be5f5c449d23f8f, type: 3}
   - voice: Daniel
     text: Hello, is this Kim Jiwoo? This is Manager Jeon from Nuri Bank's account
       protection team.

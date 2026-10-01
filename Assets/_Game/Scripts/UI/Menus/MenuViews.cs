@@ -1,6 +1,7 @@
 using System;
 using DontCallMe.Audio;
 using DontCallMe.Data;
+using DontCallMe.Flow;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -87,6 +88,84 @@ namespace DontCallMe.UI
             row.Add(readout);
             return row;
         }
+    }
+
+    /// <summary>
+    /// The title screen's Case Files: every day of the week as a line. A finished day shows who
+    /// really called, what the player did and the clues found, and can be played again; the next
+    /// day can be started; the days after it stay closed. New week clears them all.
+    /// </summary>
+    public class CaseFilesView
+    {
+        public VisualElement Root { get; }
+
+        public CaseFilesView(Action onBack, Action<int> onPlay, Action onNewWeek)
+        {
+            Root = UIKit.Div("menu-card", "paper", "case-files");
+            var head = UIKit.Div("pause__head");
+            head.Add(UIKit.Icon("ic_case", "pause__icon"));
+            head.Add(UIKit.Text(Loc.T("CASE FILES"), "menu-card__title"));
+            Root.Add(head);
+            Root.Add(UIKit.Div("rule"));
+
+            var catalog = DayCatalog.Load();
+            int next = GameRun.NextDay;
+            var table = UIKit.Div("week-table");
+            if (catalog != null)
+                foreach (var day in catalog.days)
+                    if (day != null)
+                        table.Add(Row(day, GameRun.Get(day.day), day.day == next, onPlay));
+            Root.Add(table);
+
+            var buttons = UIKit.Div("modal__buttons");
+            buttons.Add(UIKit.Btn(Loc.T("New week"), onNewWeek));
+            buttons.Add(UIKit.Btn(Loc.T("Back"), onBack, "btn--blue"));
+            Root.Add(buttons);
+        }
+
+        static VisualElement Row(DayData day, DayRecord record, bool isNext, Action<int> onPlay)
+        {
+            var variant = record != null ? day.Variant(record.variant) : null;
+            var conv = variant?.conversation;
+            var row = UIKit.Div("week-row", "week-row--in", record == null && !isNext ? "week-row--closed" : null);
+            row.Add(UIKit.Portrait(conv != null ? conv.caller.portrait : null, "week-row__portrait"));
+            var name = UIKit.Div("week-row__name");
+            name.Add(UIKit.Text(Loc.F("DAY {0}  ·  {1}", day.day, day.dateLabel), "week-row__day"));
+            name.Add(UIKit.Text(conv != null ? conv.caseInfo.caseTitle : isNext ? Loc.T("Not played yet") : Loc.T("Closed"), "week-row__title"));
+            row.Add(name);
+            if (record != null)
+            {
+                row.Add(UIKit.Text(Loc.T(record.scam ? "SCAM" : "REAL"), "week-row__truth", record.scam ? "week-row__truth--scam" : "week-row__truth--real"));
+                row.Add(UIKit.Text(DayRecordText.Did(record, conv), "week-row__did"));
+                row.Add(UIKit.Text($"{record.clues.Count}/{record.cluesTotal}", "week-row__clues"));
+                var mark = UIKit.Div("week-row__mark");
+                mark.Add(UIKit.Icon(record.Right ? "ic_check" : "ic_cross", "week-row__icon"));
+                row.Add(mark);
+            }
+            else
+            {
+                row.Add(UIKit.Div("grow"));
+            }
+            if (record != null || isNext)
+            {
+                int n = day.day;
+                row.Add(UIKit.Btn(record != null ? Loc.T("Play again") : Loc.T("Play"), () => onPlay(n), "week-row__btn", record != null ? null : "btn--green"));
+            }
+            return row;
+        }
+    }
+
+    /// <summary>How a finished day is put into words on the summaries.</summary>
+    public static class DayRecordText
+    {
+        /// <summary>What the player did, in a few words: "Sent ₩450,000", "Hung up", "Ran out of time".</summary>
+        public static string Did(DayRecord r, ConversationData conv) => r.outcome switch
+        {
+            Outcome.GoAlong => r.moneyDelta < 0 ? Loc.F("Sent {0}", FactText.Won(-r.moneyDelta)) : conv?.verdict?.goAlong ?? Loc.T("Went along"),
+            Outcome.Refuse => Loc.T("Hung up"),
+            Outcome.Timeout => Loc.T("Ran out of time"),
+            _ => Loc.T("Checked first"),
+        };
     }
 
     /// <summary>The pause menu: Resume, Settings, Main menu, over the frozen room.</summary>

@@ -11,10 +11,11 @@ using Object = UnityEngine.Object;
 namespace DontCallMe.Editor.UI
 {
     /// <summary>
-    /// Writes the game's content as assets: the three days of the run (Data/Day1..Day3) and the
+    /// Writes the game's content as assets: the four days of the run (Data/Day0..Day3) and the
     /// catalog that lists them.
     /// <list type="bullet">
-    /// <item>Day 1 (Easy, 2 clues): "Nuri Bank's protection team" wants the savings moved. Always a scam; the tutorial day.</item>
+    /// <item>Day 0 (tutorial): "the gas company's billing team" wants an unpaid bill. Always a scam; the guide walks through every place to check.</item>
+    /// <item>Day 1 (Easy, 2 clues): "Nuri Bank's protection team" wants the savings moved. Always a scam.</item>
     /// <item>Day 2 (Medium, 3 clues): the landlord's son asks for the rent on a new account. Scam or legit.</item>
     /// <item>Day 3 (Hard, 4 clues): a courier's customs desk asks for the duty on a parcel. Scam or legit.</item>
     /// </list>
@@ -43,13 +44,13 @@ namespace DontCallMe.Editor.UI
         const string PapersJson = "Tools/ArtGen/papers.json";
         const string PrintsDir = "Assets/_Game/Art/Textures/Papers";
 
-        // The voices (macOS `say`) of the three callers, per language.
+        // The voices (macOS `say`) of the callers, per language (Day 0's is in ContentBuilder.Day0.cs).
         static string VoiceJeon => L("Daniel", "Rocko (Korean (South Korea))");
         static string VoiceHyunwoo => L("Reed (English (US))", "Reed (Korean (South Korea))");
         static string VoiceCustoms => L("Shelley (English (UK))", "Yuna");
 
         /// <summary>Bump when the built content changes, so open projects rebuild it (and its voices) by themselves.</summary>
-        public const int Version = 6;
+        public const int Version = 7;
 
         /// <summary>The language being built.</summary>
         static Lang lang = Lang.En;
@@ -89,6 +90,7 @@ namespace DontCallMe.Editor.UI
         [MenuItem("Tools/Don't Call Me/Content/Build Days")]
         public static void Build()
         {
+            EnsureFolder(Day0Dir);
             EnsureFolder(Day1Dir);
             EnsureFolder(Day2Dir);
             EnsureFolder(Day3Dir);
@@ -99,10 +101,10 @@ namespace DontCallMe.Editor.UI
             {
                 lang = l;
                 if (l == Lang.Ko)
-                    foreach (string dir in new[] { Day1Dir, Day2Dir, Day3Dir })
+                    foreach (string dir in new[] { Day0Dir, Day1Dir, Day2Dir, Day3Dir })
                         EnsureFolder(dir + "/ko");
                 var catalog = ScriptableObject.CreateInstance<DayCatalog>();
-                catalog.days = new List<DayData> { BuildDay1(), BuildDay2(), BuildDay3() };
+                catalog.days = new List<DayData> { BuildDay0(), BuildDay1(), BuildDay2(), BuildDay3() };
                 Store(catalog, CatalogFor(l));
                 built.Add((l, catalog.days));
             }
@@ -110,7 +112,7 @@ namespace DontCallMe.Editor.UI
             ExportPapers(built);
             AssignPrints(built);
             AssetDatabase.SaveAssets();
-            Debug.Log($"[ContentBuilder] {built[0].Item2.Count} days written in English and Korean (Data/Day1..Day{built[0].Item2.Count}, ko folders) and listed in Resources/DayCatalog(_ko)");
+            Debug.Log($"[ContentBuilder] {built[0].Item2.Count} days written in English and Korean (Data/Day0..Day{built[0].Item2.Count - 1}, ko folders) and listed in Resources/DayCatalog(_ko)");
         }
 
         // ---------------------------------------------------------------- assets
@@ -192,8 +194,9 @@ namespace DontCallMe.Editor.UI
         static string PrintName(Lang l, int day, string what) => $"T_Paper_D{day}_{what}" + (l == Lang.Ko ? "_ko" : "");
 
         /// <summary>
-        /// The front pages that lie on the desk the next day, for tex_prints.py, plus Day 1's own issue in
-        /// Korean (the English one is the room's own texture).
+        /// The front pages that lie on the desk the next day, for tex_prints.py, plus the own issue of
+        /// the days that can open a week: Day 0 in both languages, and Day 1 in Korean (in English Day
+        /// 1's is the room's own texture).
         /// </summary>
         static void ExportPapers(List<(Lang, List<DayData>)> built)
         {
@@ -213,8 +216,8 @@ namespace DontCallMe.Editor.UI
                 foreach (var d in days)
                 {
                     var room = d.variants.Count > 0 ? d.variants[0].room : null;
-                    if (l == Lang.Ko && d.day == 1 && room != null)
-                        Add(l, PrintName(l, 1, "issue"), room.newspaper.headline, room.newspaper.subhead, 1);
+                    if (HasOwnIssue(l, d.day) && room != null)
+                        Add(l, PrintName(l, d.day, "issue"), room.newspaper.headline, room.newspaper.subhead, d.day);
                     if (!days.Exists(x => x != null && x.day == d.day + 1))
                         continue;
                     foreach (var v in d.variants)
@@ -224,6 +227,9 @@ namespace DontCallMe.Editor.UI
             json.Append("\n]\n");
             File.WriteAllText(PapersJson, json.ToString(), new UTF8Encoding(false));
         }
+
+        /// <summary>Does the day's own paper need a print (the desk prop shows English Day 1's by itself)?</summary>
+        static bool HasOwnIssue(Lang l, int day) => day == 0 || l == Lang.Ko && day == 1;
 
         static string Json(string s) => (s ?? "").Replace("\\", "\\\\").Replace("\"", "\\\"").Replace("\n", " ");
 
@@ -267,9 +273,9 @@ namespace DontCallMe.Editor.UI
                     if (changed)
                         EditorUtility.SetDirty(d);
                     var room = d.variants.Count > 0 ? d.variants[0].room : null;
-                    if (l == Lang.Ko && d.day == 1 && room != null)
+                    if (HasOwnIssue(l, d.day) && room != null)
                     {
-                        var issue = LoadPrint(PrintName(l, 1, "issue"));
+                        var issue = LoadPrint(PrintName(l, d.day, "issue"));
                         if (issue != null && room.newspaper.print != issue)
                         {
                             room.newspaper.print = issue;

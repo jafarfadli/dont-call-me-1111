@@ -30,6 +30,7 @@ namespace DontCallMe.Editor.UI
         static string Courier => L("Hangang Express", "한강익스프레스");
         static string LeaseTitle => L("Lease contract · Unit 302", "임대차 계약서 · 302호");
         static string SlipTitle => L("Delivery slip", "택배 송장");
+        static string GasBillTitle => L("Gas bill · September", "도시가스 고지서 · 9월");
         static string VillaTitle => L("Mangwon Heights residents", "망원하이츠 입주민");
         static string Office => L("Office", "관리사무소");
         static string Landlord => L("Landlord Choi", "집주인 최 사장님");
@@ -40,6 +41,10 @@ namespace DontCallMe.Editor.UI
         static string AtLease => L("Desk drawer → Lease contract", "책상 서랍 → 임대차 계약서");
         static string AtVillaChat => L("Chats → Mangwon Heights residents", "채팅 → 망원하이츠 입주민");
         static string AtCalendar => L("the calendar on the wall", "벽에 걸린 달력");
+        static string AtPaper => L("the newspaper on the desk", "책상 위 신문");
+        static string AtGasBill => L("Desk drawer → Gas bill", "책상 서랍 → 도시가스 고지서");
+        static string AtBank => L("Phone → Nuri Bank", "휴대폰 → 누리은행");
+        static string AtContacts => L("Phone → Contacts", "휴대폰 → 연락처");
 
         // Timestamps for sorting the phone's lists (newest first) once they are built.
         static readonly Dictionary<object, DateTime> stamps = new Dictionary<object, DateTime>();
@@ -97,6 +102,9 @@ namespace DontCallMe.Editor.UI
 
             string mom = L("Mom", "엄마"), dad = L("Dad", "아빠"), minjun = L("Minjun", "민준이");
             var family = Thread(FamilyChat, L("Our family", "우리 가족"), "photo_family", true);
+            Chat(family, 10, 3, "11:42", mom, "pt_mom", L("Sent you a little Chuseok pocket money. Eat something nice!", "추석 용돈 조금 보냈어. 맛있는 거 사 먹어!"));
+            Mine(family, 3, "11:50", L("Thank you Mom!! ♥", "엄마 고마워요!! ♥"));
+            Chat(family, 10, 4, "20:10", dad, "pt_dad", L("Tomorrow is a holiday. Get some rest, and lock your door.", "내일은 쉬는 날이다. 푹 쉬고 문단속 잘해라."));
             Chat(family, 10, 5, "19:10", mom, "pt_mom", L("Jiwoo-ya, did you eat dinner?", "지우야, 저녁은 먹었니?"));
             Mine(family, 5, "19:14", L("Yes! Kimchi stew after my shift", "응! 알바 끝나고 김치찌개 먹었어"));
             Chat(family, 10, 5, "22:30", minjun, "pt_minjun", L("I'm coming up to Seoul on Saturday for a concert. Noona, can I sleep over?", "누나 나 토요일에 콘서트 보러 서울 가는데 자고 가도 돼?"));
@@ -114,6 +122,11 @@ namespace DontCallMe.Editor.UI
                    "안내: 10월 14일(수) 10:00~17:00 가스 안전점검이 있습니다. 점검원은 절대 돈을 요구하지 않습니다."));
             Chat(villa, 10, 5, "10:31", L("201", "201호"), "pt_unknown",
                  L("Did anyone else get a call about a 'protected account'? Hung up on them.", "혹시 '보호계좌' 어쩌고 하는 전화 받으신 분 있나요? 바로 끊었어요."));
+            Chat(villa, 10, 5, "11:48", L("401", "401호"), "pt_unknown",
+                 L("Now someone \"from the gas company\" called me about an unpaid bill. They wanted a transfer today!", "이번엔 '가스 회사'라면서 요금이 미납됐다는 전화가 왔어요. 오늘 안에 이체하라던데요!"));
+            Chat(villa, 10, 5, "12:05", Landlord, "pt_landlord",
+                 L($"Don't send anything! Mapo City Gas never phones for money. The real number is on your bill: {GasOfficialNumber}. - Choi, 1F",
+                   $"절대 보내지 마세요! 마포도시가스는 전화로 돈을 요구하지 않아요. 진짜 번호는 고지서에 있는 {GasOfficialNumber}이에요. - 1층 최"));
             Chat(villa, 10, 6, "14:05", Office, "app_contacts",
                  L("Water tank cleaning on Thursday 10:00-12:00. Please keep some water aside.", "목요일 10:00~12:00 물탱크 청소가 있습니다. 미리 물을 받아 두세요."));
             Chat(villa, 10, 8, "12:15", Office, "app_contacts", L("The water is back on. Thank you for your patience!", "단수가 끝났습니다. 협조해 주셔서 감사합니다!"));
@@ -127,11 +140,14 @@ namespace DontCallMe.Editor.UI
 
             string han = L("Manager Han", "한 매니저");
             var cafe = Thread("cafe", L("Mangwon Roasters crew", "망원로스터스 크루"), "pt_cafe", true);
+            Chat(cafe, 10, 2, "18:00", han, "pt_cafe", L("Thanks for covering Chuseok week, everyone. We are closed on Monday the 5th.", "추석 주간 근무 다들 고생했어요. 5일 월요일은 휴무입니다."));
             Chat(cafe, 10, 5, "21:00", han, "pt_cafe", L("Wages go out on the 10th as usual. Can someone cover Saturday morning?", "급여는 평소처럼 10일에 나가요. 토요일 오전 대타 가능한 분?"));
             Chat(cafe, 10, 8, "10:30", han, "pt_cafe", L("Sunday opening shift still free, please! Double stamps for whoever takes it.", "일요일 오픈 근무 아직 비어 있어요ㅠㅠ 하시는 분 스탬프 두 배!"));
 
             // The courier's and the shop's notice channels. Day 3's variants add where the monitor is by then.
             var courier = Thread(CourierChat, Courier, "av_courier", false);
+            Chat(courier, 9, 21, "14:20", Courier, "av_courier",
+                 L("[Hangang Express] Delivered: phone case, left at the door of 302.", "[한강익스프레스] 배송 완료: 휴대폰 케이스, 302호 문 앞."));
             Chat(courier, 10, 6, "08:30", Courier, "av_courier",
                  L("[Hangang Express] Your parcel (desk lamp bulbs) arrives tomorrow, 16:00-18:00. Questions? Customer centre 1588-5520.",
                    "[한강익스프레스] 고객님의 택배(스탠드 전구)가 내일 16:00~18:00에 도착합니다. 문의: 고객센터 1588-5520"));
@@ -152,21 +168,29 @@ namespace DontCallMe.Editor.UI
 
             // ---- bank
             long everyday = EverydayAtDay1;
+            var day1 = Stamp(10, 6, "16:20");
             p.bank = new BankData { bankName = NuriBank };
             void Tx(int month, int dom, string time, string counterparty, string memo, long amount)
             {
+                var at = Stamp(month, dom, time);
                 if (!Seen(month, dom, time))
+                {
+                    // Not spent yet: the balance on Day 1 counts it, the balance of an earlier day does not.
+                    if (at <= day1)
+                        everyday -= amount;
                     return;
+                }
                 var t = new BankTransaction { when = At(month, dom, time), counterparty = counterparty, memo = memo, amount = amount };
-                stamps[t] = Stamp(month, dom, time);
+                stamps[t] = at;
                 p.bank.transactions.Add(t);
                 // The balance on Day 1 already counts everything before it.
-                if (Stamp(month, dom, time) > Stamp(10, 6, "16:20"))
+                if (at > day1)
                     everyday += amount;
             }
             string card = L("Card", "체크카드");
             Tx(9, 7, "10:12", L("CHOI YOUNGSIK", "최영식"), L("September rent · Nuri 110-771-209944", "9월 월세 · 누리 110-771-209944"), -450000);
             Tx(9, 20, "09:00", L("Hangul Telecom", "한글텔레콤"), L("Phone bill", "휴대폰 요금"), -43200);
+            Tx(9, 28, "09:00", GasCompany, L("September gas bill · auto-pay", "9월 가스 요금 · 자동이체"), -GasBill);
             Tx(9, 29, "22:10", L("AliStar", "알리스타"), L("27-inch monitor", "27인치 모니터"), -307000);
             Tx(10, 1, "09:00", L("MANGWON ROASTERS", "(주)망원로스터스"), L("September wages", "9월 급여"), 486000);
             Tx(10, 3, "11:40", L("PARK HYEJIN", "박혜진"), L("Chuseok pocket money", "추석 용돈"), 100000);
@@ -212,6 +236,15 @@ namespace DontCallMe.Editor.UI
                         L("29 Sep · \"Protected account story. The money was gone in minutes.\"", "9월 29일 · \"보호계좌 얘기. 몇 분 만에 돈이 빠져나갔어요.\""),
                     },
                 },
+                new DirAccount
+                {
+                    bank = HanbitBank, number = GasScamAccount, holder = L("HAN SUNGMIN", "한성민"), note = L("Personal account, opened 5 days ago", "개인 계좌 · 개설 5일"),
+                    reports = new List<string>
+                    {
+                        L("5 Oct · \"Paid a 'gas bill' into this account. The gas company knew nothing about it.\"", "10월 5일 · \"'가스 요금'이라고 해서 이 계좌로 보냈는데 가스 회사는 모르는 일이래요.\""),
+                        L("4 Oct · \"'Collection account' of a fake billing team.\"", "10월 4일 · \"가짜 요금팀의 '수납 계좌'\""),
+                    },
+                },
                 new DirAccount { bank = NuriBank, number = "110-302-558814", holder = L("KIM JIWOO", "김지우"), note = personal },
                 new DirAccount { bank = NuriBank, number = "110-302-558990", holder = L("KIM JIWOO", "김지우"), note = L("Savings account", "적금 계좌") },
                 new DirAccount { bank = NuriBank, number = "110-845-100233", holder = L("PARK HYEJIN", "박혜진"), note = personal },
@@ -234,6 +267,18 @@ namespace DontCallMe.Editor.UI
                         L("30 Sep · \"Bank impersonation.\"", "9월 30일 · \"은행 사칭\""),
                     },
                 },
+                new DirNumber
+                {
+                    number = GasScamNumber, owner = L("Not registered", "미등록"), note = L("Prepaid phone, opened 3 days ago", "선불폰 · 개통 3일"),
+                    reports = new List<string>
+                    {
+                        L("5 Oct · \"Said my gas would be cut off today. Wanted a transfer.\"", "10월 5일 · \"오늘 가스가 끊긴다며 이체하라고 함\""),
+                        L("5 Oct · \"'Mapo City Gas billing team'. The real company never calls.\"", "10월 5일 · \"'마포도시가스 요금팀'. 진짜 회사는 전화 안 함\""),
+                        L("4 Oct · \"Unpaid bill story, account in a man's name.\"", "10월 4일 · \"요금 미납 얘기, 계좌는 남자 이름\""),
+                        L("3 Oct · \"Scam. Hung up.\"", "10월 3일 · \"사기. 끊었음\""),
+                    },
+                },
+                new DirNumber { number = GasOfficialNumber, owner = L("Mapo City Gas customer centre", "마포도시가스 고객센터"), note = L("The number printed on the gas bill", "가스 고지서에 적힌 번호"), official = true },
                 new DirNumber { number = "1599-0000", owner = L("Nuri Bank customer centre", "누리은행 고객센터"), note = L("The bank's only customer number", "은행의 유일한 고객 상담 번호"), official = true },
                 new DirNumber { number = "1588-5520", owner = L("Hangang Express customer centre", "한강익스프레스 고객센터"), note = L("Customer centre and customs desk", "고객센터 · 통관팀"), official = true },
                 new DirNumber { number = "1332", owner = L("Financial Supervisory Service fraud hotline", "금융감독원 불법금융 신고센터"), official = true },
@@ -290,12 +335,13 @@ namespace DontCallMe.Editor.UI
                 },
                 new DocumentData
                 {
-                    title = L("Gas bill · September", "도시가스 고지서 · 9월"), kind = DocumentKind.Bill, issuer = L("Mapo City Gas", "마포도시가스"), stamp = "stamp_paid",
+                    title = GasBillTitle, kind = DocumentKind.Bill, issuer = GasCompany, stamp = L("stamp_paid", "stamp_paid_ko"),
                     fields = new List<DocField>
                     {
                         Field(L("Customer", "고객"), L("Kim Jiwoo · Mangwon Heights 302", "김지우 · 망원하이츠 302호")),
                         Field(L("Amount", "금액"), L("18,420 won", "18,420원")),
                         Field(L("Paid", "납부"), L("28 Sep (auto-pay)", "9월 28일 (자동이체)")),
+                        Field(L("Customer centre", "고객센터"), GasOfficialNumber, FactKind.Phone),
                     },
                     body = L("Safety inspection this month: Wednesday 14 October. Our inspectors carry an ID card and never ask for money.",
                              "이달 안전점검: 10월 14일(수). 점검원은 신분증을 지참하며 절대 돈을 요구하지 않습니다."),

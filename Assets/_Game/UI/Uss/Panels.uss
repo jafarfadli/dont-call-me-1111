@@ -1,11 +1,14 @@
 /* Room panels: newspaper, desk drawer, wall calendar, computer. */
 
+/* Panels sit a little right of centre, clear of the day tag and the deadline in the top left; on
+   the tutorial day further still, clear of the guide's note. */
 .room-panel {
     position: absolute;
     left: 0;
     top: 0;
     right: 0;
     bottom: 0;
+    padding-left: 90px;
     align-items: center;
     justify-content: center;
     opacity: 0;
@@ -20,10 +23,13 @@
     scale: 1 1;
 }
 
+.room-panel--guided { padding-left: 176px; }
+
+/* Beside the panel's top right corner, a small gap from its edge, so it never covers the page. */
 .close-btn {
     position: absolute;
-    right: -24px;
-    top: -24px;
+    right: -88px;
+    top: -4px;
     width: 76px;
     height: 76px;
 }
@@ -63,8 +69,8 @@
 }
 
 .news__issue {
-    font-size: 18px;
-    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/CrimsonText-Regular.asset");
+    font-size: 19px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/CrimsonText-SemiBold.asset");
     width: 180px;
     -unity-text-align: middle-right;
 }
@@ -80,7 +86,7 @@
 }
 
 .news__dateline Label {
-    font-size: 16px;
+    font-size: 17px;
     -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/CrimsonText-Bold.asset");
     letter-spacing: 1px;
 }
@@ -92,7 +98,7 @@
 }
 
 .news__subhead {
-    font-size: 27px;
+    font-size: 28px;
     -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/CrimsonText-Italic.asset");
     margin-bottom: 14px;
 }
@@ -122,14 +128,14 @@
 }
 
 .news__caption {
-    font-size: 16px;
+    font-size: 17px;
     -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/CrimsonText-Italic.asset");
     margin: 4px 0 10px 0;
 }
 
 .news__body {
-    font-size: 20px;
-    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/CrimsonText-Regular.asset");
+    font-size: 21px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/CrimsonText-SemiBold.asset");
     margin-bottom: 10px;
     -unity-paragraph-spacing: 6px;
 }
@@ -149,22 +155,22 @@
 }
 
 .news__box-text {
-    font-size: 19px;
-    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/CrimsonText-Regular.asset");
+    font-size: 20px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/CrimsonText-SemiBold.asset");
 }
 
 .news__item-title {
-    font-size: 20px;
+    font-size: 21px;
     -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/CrimsonText-Bold.asset");
     margin-top: 8px;
 }
 
 .news__item-text {
-    font-size: 18px;
-    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/CrimsonText-Regular.asset");
+    font-size: 19px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/CrimsonText-SemiBold.asset");
     padding-bottom: 8px;
     border-bottom-width: 1px;
-    border-color: rgba(43, 36, 48, 0.4);
+    border-color: rgba(26, 22, 32, 0.55);
 }
 
 .news__ads {
@@ -190,8 +196,8 @@
 }
 
 .news__ad-text {
-    font-size: 16px;
-    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/CrimsonText-Regular.asset");
+    font-size: 17px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/CrimsonText-SemiBold.asset");
 }
 
 /* ---------------------------------------------------------------- desk drawer */
@@ -226,7 +232,7 @@
     padding: 14px 16px 20px 16px;
     min-height: 58px;
     -unity-text-align: middle-left;
-    font-size: 17px;
+    font-size: 18px;
 }
 
 .drawer__tab--on {
@@ -244,7 +250,7 @@
 }
 
 .doc__issuer {
-    font-size: 16px;
+    font-size: 17px;
     color: var(--muted);
     -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset");
     letter-spacing: 1px;
@@ -268,7 +274,7 @@
 .doc__label {
     width: 240px;
     flex-shrink: 0;
-    font-size: 18px;
+    font-size: 19px;
     color: var(--muted);
 }
 
@@ -276,13 +282,13 @@
     flex-grow: 1;
     flex-shrink: 1;
     min-width: 120px;
-    font-size: 20px;
-    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset");
+    font-size: 21px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
 }
 
 .doc__body {
     margin-top: 16px;
-    font-size: 19px;
+    font-size: 20px;
 }
 
 .doc__stamp {
@@ -345,7 +351,7 @@
     border-color: rgba(43, 36, 48, 0.25);
 }
 
-.calendar__row--past { opacity: 0.55; }
+.calendar__row--past { opacity: 0.7; }
 
 .calendar__row--today {
     background-color: rgba(227, 165, 60, 0.35);
@@ -356,7 +362,7 @@
 .calendar__date {
     width: 104px;
     flex-shrink: 0;
-    font-size: 19px;
+    font-size: 20px;
     color: var(--muted);
     -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset");
 }
@@ -364,8 +370,8 @@
 .calendar__note {
     flex-grow: 1;
     flex-shrink: 1;
-    font-size: 27px;
-    color: #2C4A9A;
+    font-size: 28px;
+    color: #1C2F78;
     -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/Gaegu-Bold.asset");
 }
 
@@ -425,7 +431,7 @@
     border-color: var(--ink);
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-    font-size: 17px;
+    font-size: 18px;
     -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
 }
 
@@ -445,8 +451,8 @@
 .browser__lock { width: 20px; height: 20px; margin-right: 8px; }
 
 .browser__url {
-    font-size: 17px;
-    color: #3E6B4A;
+    font-size: 18px;
+    color: #234A2F;
     -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset");
 }
 
@@ -468,7 +474,7 @@
     -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DoHyeon-Regular.asset");
 }
 
-.check__tagline { font-size: 19px; color: var(--muted); }
+.check__tagline { font-size: 20px; color: var(--muted); }
 
 .check__tabs {
     flex-direction: row;
@@ -494,13 +500,13 @@
 }
 
 .check__prompt {
-    font-size: 18px;
+    font-size: 19px;
     -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
 }
 
 .check__suggestions { align-items: center; margin-top: 4px; }
 
-.check__hint { font-size: 16px; color: var(--muted); margin-right: 10px; }
+.check__hint { font-size: 17px; color: var(--muted); margin-right: 10px; }
 
 .check-card {
     padding: 16px 24px 18px 24px;
@@ -527,7 +533,7 @@
 .check-card__label {
     width: 190px;
     flex-shrink: 0;
-    font-size: 18px;
+    font-size: 19px;
     color: var(--muted);
 }
 
@@ -547,7 +553,7 @@
 .check-card__official {
     margin-left: 14px;
     padding: 3px 10px 4px 10px;
-    font-size: 15px;
+    font-size: 16px;
     color: #FBF4E4;
     background-color: var(--green);
     border-width: 2px;
@@ -558,7 +564,7 @@
 
 .check-card__note {
     margin: -4px 0 8px 190px;
-    font-size: 18px;
+    font-size: 19px;
     color: var(--ink-soft);
 }
 
@@ -572,17 +578,17 @@
 }
 
 .check-card__count--bad { color: #FBF4E4; background-color: var(--red); }
-.check-card__count--clean { color: #2F5A3A; background-color: var(--sage); }
+.check-card__count--clean { color: #1F4428; background-color: var(--sage); }
 
 .check-card__report {
     padding: 4px 0 4px 190px;
-    font-size: 17px;
+    font-size: 18px;
 }
 
 .check-card__tip {
     margin-top: 10px;
     padding-top: 8px;
-    font-size: 16px;
+    font-size: 17px;
     color: var(--muted);
     border-top-width: 1px;
     border-color: rgba(43, 36, 48, 0.25);

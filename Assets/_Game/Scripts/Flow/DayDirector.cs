@@ -14,8 +14,9 @@ namespace DontCallMe.Flow
     /// the desk while yesterday's aftermath buzzes in, the forced call, the CASE OPENED card once the
     /// caller has made the ask and starts holding the line, the investigation against the caller's
     /// deadline (pressure beats, music that tightens, red screen edges and a ticking clock), and
-    /// finally the record of the day and the fade to the next morning (End scene). The first day
-    /// runs with the <see cref="TutorialGuide"/>: its call waits until the newspaper has been read.
+    /// finally the record of the day and the fade to the next morning (End scene). A tutorial day
+    /// (Day 0) runs with the <see cref="TutorialGuide"/>: its call waits until the newspaper has
+    /// been read.
     /// </summary>
     public class DayDirector : MonoBehaviour
     {
@@ -40,6 +41,8 @@ namespace DontCallMe.Flow
         public Phase Current { get; private set; }
         public DayData Day => Plan != null ? Plan.day : day;
         public DayPlan Plan { get; private set; }
+        /// <summary>Which of today's clues the player has seen (set when the day starts).</summary>
+        public ClueTracker Clues => clues;
         ConversationData Conv => Plan?.Conversation;
 
         ClueTracker clues;
@@ -54,7 +57,7 @@ namespace DontCallMe.Flow
         TutorialGuide tutorial;
         DayCardView dayCard;
 
-        /// <summary>The longest the first day's call waits for the player to read the newspaper.</summary>
+        /// <summary>The longest the tutorial day's call waits for the player to read the newspaper.</summary>
         const float TutorialWait = 75f;
 
         void Awake()
@@ -90,7 +93,7 @@ namespace DontCallMe.Flow
             if (Plan != null)
                 return Plan;
             var catalog = DayCatalog.Load();
-            int number = GameRun.PendingDay > 0 ? GameRun.PendingDay : day != null ? day.day : 1;
+            int number = GameRun.PendingDay >= 0 ? GameRun.PendingDay : day != null ? day.day : GameRun.FirstDay;
             var data = (catalog != null ? catalog.Get(number) : null) ?? day;
             if (data == null)
                 return null;
@@ -159,7 +162,7 @@ namespace DontCallMe.Flow
             dayCard = null;
 
             Current = Phase.Seated;
-            if (today.day == 1)
+            if (today.tutorial)
             {
                 // The guide teaches looking and reading the paper first; the clock waits with the call.
                 tutorial = gameObject.AddComponent<TutorialGuide>();

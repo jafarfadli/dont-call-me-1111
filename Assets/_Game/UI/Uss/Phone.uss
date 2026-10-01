@@ -76,7 +76,7 @@
 }
 
 .status__time {
-    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DotGothic16-Regular.asset");
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
     font-size: 19px;
     color: #F4EAD2;
     flex-grow: 1;
@@ -175,7 +175,7 @@
 }
 
 .home__clock {
-    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DotGothic16-Regular.asset");
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DoHyeon-Regular.asset");
     font-size: 76px;
     color: #FBF4E4;
     -unity-text-align: middle-center;
@@ -275,17 +275,26 @@
     background-image: url("project://database/Assets/_Game/UI/Sprites/ic_back.png");
     -unity-background-scale-mode: scale-to-fit;
     margin-right: 6px;
+    flex-shrink: 0;
 }
 
 .screen__back:hover { scale: 1.12 1.12; }
 
+/* One line: a long chat name ends in an ellipsis and never squeezes the back arrow. */
 .screen__title {
     flex-grow: 1;
-    font-size: 24px;
+    flex-shrink: 1;
+    align-self: stretch;
+    -unity-text-align: middle-left;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 25px;
     -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DoHyeon-Regular.asset");
 }
 
 .screen__accent {
+    flex-shrink: 0;
     width: 10px;
     height: 34px;
     border-radius: 4px;
@@ -304,7 +313,7 @@
 
 .section {
     -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
-    font-size: 14px;
+    font-size: 15px;
     color: var(--muted);
     margin: 14px 4px 6px 4px;
     letter-spacing: 1px;
@@ -315,7 +324,7 @@
     align-items: center;
     padding: 10px 8px;
     border-bottom-width: 1px;
-    border-color: rgba(43, 36, 48, 0.25);
+    border-color: rgba(26, 22, 32, 0.4);
     border-radius: 8px;
 }
 
@@ -344,19 +353,35 @@
 
 .list-row__text { flex-grow: 1; flex-shrink: 1; }
 
+/* A chat's name with the time of its last message beside it. */
+.list-row__top {
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.list-row__top > .list-row__title { flex-grow: 1; flex-shrink: 1; }
+.list-row__top > .list-row__meta { margin-top: 3px; }
+
+.list-row__amount {
+    flex-shrink: 0;
+    margin-left: 8px;
+    font-size: 19px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+}
+
 .list-row__title {
-    font-size: 18px;
-    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset");
+    font-size: 19px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
 }
 
 .list-row__subtitle {
-    font-size: 15px;
+    font-size: 16px;
     color: var(--ink-soft);
     margin-top: 2px;
 }
 
 .list-row__meta {
-    font-size: 13px;
+    font-size: 15px;
     color: var(--muted);
     margin-left: 6px;
     -unity-text-align: upper-right;
@@ -382,7 +407,7 @@
 }
 
 .detail__line {
-    font-size: 17px;
+    font-size: 18px;
     margin: 4px 0;
 }
 
@@ -396,8 +421,8 @@
     border-color: rgba(43, 36, 48, 0.2);
 }
 
-.kv__key { font-size: 15px; color: var(--muted); margin-right: 10px; }
-.kv__value { font-size: 17px; -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset"); }
+.kv__key { font-size: 16px; color: var(--muted); margin-right: 10px; }
+.kv__value { font-size: 18px; -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset"); }
 
 /* ---------------------------------------------------------------- chat bubbles */
 
@@ -424,7 +449,7 @@
 .msg--out .msg__col { align-items: flex-end; }
 
 .msg__name {
-    font-size: 13px;
+    font-size: 15px;
     color: var(--ink-soft);
     margin: 0 0 2px 4px;
     -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset");
@@ -437,7 +462,7 @@
     border-radius: 14px;
     border-top-left-radius: 4px;
     padding: 8px 12px;
-    font-size: 16px;
+    font-size: 18px;
 }
 
 .msg--out .msg__bubble {
@@ -447,7 +472,7 @@
 }
 
 .msg__time {
-    font-size: 12px;
+    font-size: 14px;
     color: var(--muted);
     margin: 2px 6px;
 }
@@ -465,8 +490,8 @@
 }
 
 .msg__photo-caption {
-    font-size: 13px;
-    color: #3A2E22;
+    font-size: 15px;
+    color: #1A1620;
     -unity-text-align: middle-center;
 }
 
@@ -477,27 +502,22 @@
     border-width: 3px;
     border-color: var(--ink);
     border-radius: 16px;
-    padding: 16px 18px;
-    margin: 6px 2px 12px 2px;
+    padding: 10px 16px 12px 16px;
+    margin: 4px 2px 8px 2px;
 }
 
 .bank-card--savings { background-color: #4A5C79; }
 
-.bank-card__name { color: #E8F3EC; font-size: 16px; -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset"); }
-.bank-card__number { color: #C8E3D6; font-size: 14px; margin-top: 2px; }
-.bank-card__balance { color: #FFFFFF; font-size: 34px; margin-top: 8px; -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DotGothic16-Regular.asset"); }
+.bank-card__name { color: #FFFFFF; font-size: 17px; -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset"); }
+.bank-card__number { color: #E4F3EA; font-size: 16px; margin-top: 2px; }
+.bank-card__balance { color: #FFFFFF; font-size: 38px; margin-top: 2px; -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DoHyeon-Regular.asset"); }
 
-.amount-in { color: #2F7A6A; }
+.amount-in { color: #1F5C4E; }
 .amount-out { color: var(--red); }
-
-.recipient {
-    align-items: center;
-    padding: 20px 8px;
-}
 
 .recipient__amount {
     font-size: 30px;
-    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DotGothic16-Regular.asset");
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DoHyeon-Regular.asset");
     margin-top: 14px;
 }
 
@@ -519,6 +539,10 @@
 .call-btn:hover { scale: 1.08 1.08; }
 .call-btn--red { background-image: url("project://database/Assets/_Game/UI/Sprites/circle_red.png"); }
 .call-btn--dark { background-image: url("project://database/Assets/_Game/UI/Sprites/circle_dark.png"); }
+
+/* The phone's red button is off during a case: the verdict is given on the call. */
+.call-btn--off { opacity: 0.3; }
+.call-btn--off:hover { scale: 1 1; }
 .call-btn > .icon { width: 40px; height: 40px; }
 
 /* ---------------------------------------------------------------- call screens */
@@ -603,7 +627,7 @@
 .call__number {
     font-size: 24px;
     color: #E6DDEF;
-    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DotGothic16-Regular.asset");
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
 }
 
 .call__name--long { font-size: 34px; }
@@ -611,7 +635,7 @@
 .call__timer {
     font-size: 22px;
     color: #9ED28E;
-    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DotGothic16-Regular.asset");
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
     margin-top: 6px;
 }
 

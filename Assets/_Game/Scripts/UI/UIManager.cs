@@ -60,7 +60,7 @@ namespace DontCallMe.UI
         public CallHud CallHud { get; private set; }
         public PressureOverlay Pressure { get; private set; }
         public HudView Hud { get; private set; }
-        /// <summary>The first day's guide card (hidden until a step is shown).</summary>
+        /// <summary>The tutorial day's guide card (hidden until a step is shown).</summary>
         public TutorialCard Tutorial { get; private set; }
         public CaseFile CurrentCase { get; set; }
         public bool InputLocked { get; private set; }
@@ -363,7 +363,7 @@ namespace DontCallMe.UI
             Confirm(title, text, yes, no, () =>
             {
                 Loc.Current = lang;
-                int day = FindAnyObjectByType<DayDirector>()?.Day?.day ?? 1;
+                int day = FindAnyObjectByType<DayDirector>()?.Day?.day ?? GameRun.FirstDay;
                 MusicPlayer.Current?.Stop(0.8f);
                 Fade.FadeOut(0.8f, () => SceneFlow.PlayDay(day));
             });
@@ -395,6 +395,8 @@ namespace DontCallMe.UI
             });
             card = view.Root;
             overlayLayer.Add(view.Root);
+            // The guide's note explains the case file, so it stays in the light, over the file's shade.
+            Tutorial.Root.BringToFront();
         }
 
         public void TogglePhone()
@@ -430,6 +432,7 @@ namespace DontCallMe.UI
                 return;
             openPanel = p;
             ClueEvents.Raise(ClueEvent.PanelOpened, id.ToString());
+            p.Root.EnableInClassList("room-panel--guided", Tutorial.IsOn);
             panelLayer.Add(p.Root);
             dim.AddToClassList("dim--on");
             p.Root.schedule.Execute(() => p.Root.AddToClassList("room-panel--open")).ExecuteLater(20);

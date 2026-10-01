@@ -15,6 +15,7 @@ namespace DontCallMe.Data
         RecipientShown,   // target: account number, when the verdict's send step shows who gets the money
         ChatRead,         // target: chat thread id
         BankOpened,       // target: ""
+        ContactsOpened,   // target: ""
     }
 
     /// <summary>
@@ -27,6 +28,8 @@ namespace DontCallMe.Data
     public class DayData : ScriptableObject
     {
         public int day = 1;
+        [Tooltip("A guided day: the tutorial guide walks the player through its clues, in order.")]
+        public bool tutorial;
         [Tooltip("Day card, e.g. \"Tuesday, 6 October\".")]
         public string dateLabel;
         [Tooltip("The weekday as the phone writes it for earlier days, e.g. \"Tue\" or \"화요일\".")]
@@ -89,6 +92,8 @@ namespace DontCallMe.Data
         public string text;
         [Tooltip("Where to find it, e.g. \"Computer · check the account\".")]
         public string where;
+        [Tooltip("Tutorial days: what the guide tells the player to do to find it, and why that place is worth checking.")]
+        [TextArea(2, 4)] public string guide;
         public List<ClueWhen> when = new List<ClueWhen>();
     }
 

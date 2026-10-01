@@ -35,7 +35,7 @@ namespace DontCallMe.Flow
         /// <summary>Opens the Room scene on the given day of the run.</summary>
         public static void PlayDay(int day)
         {
-            GameRun.PendingDay = Mathf.Max(1, day);
+            GameRun.PendingDay = Mathf.Max(GameRun.FirstDay, day);
             Load(Room);
         }
 

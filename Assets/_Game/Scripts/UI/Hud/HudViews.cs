@@ -140,14 +140,16 @@ namespace DontCallMe.UI
     }
 
     /// <summary>
-    /// The first day's guide: one instruction at a time on a small card at the left edge, with the
-    /// step number. It never takes the pointer.
+    /// The tutorial day's guide: a yellow note at the left edge with the step number, what the last
+    /// thing checked showed (in green, with a tick) and one instruction. It never takes the pointer.
     /// </summary>
     public class TutorialCard
     {
         public VisualElement Root { get; }
 
         readonly Label count;
+        readonly VisualElement learnedRow;
+        readonly Label learned;
         readonly Label text;
 
         public TutorialCard()
@@ -159,18 +161,27 @@ namespace DontCallMe.UI
             count = UIKit.Text("", "tutorial__count");
             head.Add(count);
             Root.Add(head);
+            learnedRow = UIKit.Div("tutorial__learned");
+            learnedRow.Add(UIKit.Icon("ic_check", "tutorial__learned-icon"));
+            learned = UIKit.Text("", "tutorial__learned-text");
+            learnedRow.Add(learned);
+            learnedRow.Hide(true);
+            Root.Add(learnedRow);
             text = UIKit.Text("", "tutorial__text");
             Root.Add(text);
             Root.pickingMode = PickingMode.Ignore;
             Root.Query().ForEach(c => c.pickingMode = PickingMode.Ignore);
         }
 
-        /// <summary>Shows a step; the card pops when the step changes.</summary>
-        public void Show(int step, int total, string instruction)
+        /// <summary>Shows a step; the card pops when the instruction changes.</summary>
+        /// <param name="found">What the place just checked showed, or null.</param>
+        public void Show(int step, int total, string found, string instruction)
         {
             bool changed = text.text != instruction;
             count.text = $"{step}/{total}";
             text.text = instruction;
+            learned.text = found ?? "";
+            learnedRow.Hide(string.IsNullOrEmpty(found));
             Root.AddToClassList("tutorial--on");
             if (!changed)
                 return;
@@ -179,6 +190,9 @@ namespace DontCallMe.UI
         }
 
         public void Hide() => Root.RemoveFromClassList("tutorial--on");
+
+        /// <summary>The note is on screen: room panels open beside it, not under it.</summary>
+        public bool IsOn => Root.ClassListContains("tutorial--on");
     }
 
     /// <summary>A yes/no question on paper, e.g. "Restart today's case?"</summary>

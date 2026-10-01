@@ -46,7 +46,7 @@ namespace DontCallMe.Flow
             if (day.variants.Count == 1)
                 return day.variants[0];
             var legit = day.variants.Find(v => !v.IsScam);
-            if (legit != null && earlier.Count == day.day - 1 && earlier.TrueForAll(r => r.scam) && !LegitLater(day, catalog))
+            if (legit != null && earlier.Count == day.day - GameRun.FirstDay && earlier.TrueForAll(r => r.scam) && !LegitLater(day, catalog))
                 return legit;
             return day.variants[Random.Range(0, day.variants.Count)];
         }

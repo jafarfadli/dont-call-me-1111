@@ -1,0 +1,179 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ea1fbb0ab59d4c84a59e909f29a5c4f, type: 3}
+  m_Name: Day0
+  m_EditorClassIdentifier: DontCallMe::DontCallMe.Data.DayData
+  day: 0
+  tutorial: 1
+  dateLabel: Monday, 5 October
+  weekday: Mon
+  shortLabel: "Day 0 \xB7 Mon 5 Oct"
+  place: Mangwon-dong, Seoul
+  startTime: 14:10
+  intro: 'A holiday Monday, your first autumn living on your own. This first call
+    is practice: the yellow note shows you every place worth checking.'
+  ringDelay: 7
+  variants:
+  - id: scam
+    conversation: {fileID: 11400000, guid: a20345f45459944ebb5a73b0bccd2c80, type: 2}
+    phone: {fileID: 11400000, guid: 93e737c48ff9240929f0678987855624, type: 2}
+    room: {fileID: 11400000, guid: 412b533086ac0452d8c81010d6ff3218, type: 2}
+    directory: {fileID: 11400000, guid: 56217da0c23fa4c80943a778fa833a70, type: 2}
+    clues:
+    - id: paper
+      text: 'Today''s paper warns about exactly this: callers who say a bill is unpaid
+        and want a transfer.'
+      where: the newspaper on the desk
+      guide: Every morning's paper warns about the trick going round. Click the newspaper
+        on the desk.
+      when:
+      - kind: 0
+        target: Newspaper
+    - id: caller_number
+      text: Her number is a prepaid phone opened three days ago, with four scam reports.
+        It is not the gas company's.
+      where: "Computer \u2192 Check a phone number"
+      guide: The computer shows who really owns a number. Click the glowing laptop,
+        then click her number under Check a phone number.
+      when:
+      - kind: 2
+        target: 010-7359-2046
+    - id: account_owner
+      text: The "collection account" belongs to a private person, HAN SUNGMIN, not
+        to Mapo City Gas.
+      where: "Computer \u2192 Check a bank account"
+      guide: The computer shows whose account it is, too. Click the laptop, choose
+        Check a bank account, then click the account she gave you.
+      when:
+      - kind: 2
+        target: 620-339-104772
+      - kind: 3
+        target: 620-339-104772
+    - id: bill
+      text: The gas bill in your drawer is stamped PAID (auto-pay, 28 September),
+        and the company's real number on it is 02-555-0181.
+      where: "Desk drawer \u2192 Gas bill"
+      guide: Your own papers are in the desk drawer. Open it and find the gas bill.
+      when:
+      - kind: 1
+        target: "Gas bill \xB7 September"
+    - id: calendar
+      text: Your calendar says today is a public holiday. Offices are closed, yet
+        "the gas company" is calling.
+      where: the calendar on the wall
+      guide: The calendar on the wall shows what day it is and what you wrote down.
+        Click it.
+      when:
+      - kind: 0
+        target: Calendar
+    - id: bank
+      text: Your bank history shows 18,420 won went to Mapo City Gas on 28 September.
+        The bill is paid.
+      where: "Phone \u2192 Nuri Bank"
+      guide: Your bank app shows what really left your account. On the phone, press
+        Apps, then open Nuri Bank.
+      when:
+      - kind: 5
+        target: 
+    - id: chat
+      text: 'In the residents'' chat the landlord warns everyone: the gas company
+        never phones for money.'
+      where: "Chats \u2192 Mangwon Heights residents"
+      guide: People you know write to you themselves. Go back to Apps, open Chats
+        and read the residents' chat.
+      when:
+      - kind: 4
+        target: villa
+    - id: contacts
+      text: The caller is not in your contacts. A number you saved would show its
+        name when it rings.
+      where: "Phone \u2192 Contacts"
+      guide: 'A number you saved shows its name when it calls. Go back to Apps and
+        open Contacts: is she there?'
+      when:
+      - kind: 6
+        target: 
+    papers:
+    - outcome: 1
+      headline: Holiday "gas bill" calls were fake
+      subhead: Residents who checked their bill and their bank history hung up.
+      body: 'A woman calling herself "Team Leader Baek" of Mapo City Gas''s billing
+        team phoned residents of Mangwon-dong on Monday''s holiday. She said their
+        September gas bill was unpaid, and that the gas would be shut off at five
+        unless they transferred the money at once.
+
+
+        Most of those called
+        had already paid by automatic transfer. Police say the account she gave,
+        Hanbit Bank 620-339-104772, is in the name of a man in his twenties who sold
+        it to the ring. Anyone called by 010-7359-2046 can report it to 112 or the
+        fraud hotline 1332.
+
+
+        "We do not phone customers to collect bills,
+        and our offices were closed for the holiday," Mapo City Gas said. "Our only
+        number is 02-555-0181, the one printed on the bill."'
+      verdictNote: You hung up. The bill had been paid on 28 September, and the account
+        was a stranger's.
+      print: {fileID: 2800000, guid: 5e14e13c5324c4c1d83b539fa6a79ace, type: 3}
+    - outcome: 0
+      headline: 'Paid twice: a gas bill that was never due'
+      subhead: A Mangwon student transferred 18,420 won to a stranger on the holiday.
+      body: 'A woman calling herself "Team Leader Baek" of Mapo City Gas''s billing
+        team phoned residents of Mangwon-dong on Monday''s holiday. She said their
+        September gas bill was unpaid, and that the gas would be shut off at five
+        unless they transferred the money at once.
+
+
+        A 22-year-old student
+        sent the money. Her real bill had been paid by automatic transfer a week
+        earlier; the 18,420 won went to an account in the name of Han Sungmin and
+        was gone within minutes. "Small amounts are how they find out who will pay,"
+        a police officer said. "The next call asks for more."
+
+
+        "We do not
+        phone customers to collect bills, and our offices were closed for the holiday,"
+        Mapo City Gas said. "Our only number is 02-555-0181, the one printed on the
+        bill."'
+      verdictNote: The bill was already paid. The drawer, the bank app and the computer
+        each said so.
+      print: {fileID: 2800000, guid: e21d49e3f110649a09c4220a746c65e6, type: 3}
+    - outcome: 3
+      headline: Fake "gas bill" calls go on through the holiday
+      subhead: The gas stayed on. Few reported the number.
+      body: 'A woman calling herself "Team Leader Baek" of Mapo City Gas''s billing
+        team phoned residents of Mangwon-dong on Monday''s holiday. She said their
+        September gas bill was unpaid, and that the gas would be shut off at five
+        unless they transferred the money at once.
+
+
+        Five o''clock came and
+        went, and nobody''s gas was shut off. Police say the caller kept dialling
+        until the evening, and ask anyone called by 010-7359-2046 to report it to
+        112 or the fraud hotline 1332.
+
+
+        "We do not phone customers to collect
+        bills, and our offices were closed for the holiday," Mapo City Gas said.
+        "Our only number is 02-555-0181, the one printed on the bill."'
+      verdictNote: Nothing was sent, but you never gave an answer. Check, then hang
+        up yourself.
+      print: {fileID: 2800000, guid: 8f6fcd17512b24467ae721f194afb84e, type: 3}
+    ruleTitle: Check before you pay
+    rule: A caller's story is only a story. The number, the account, your own papers,
+      your calendar, your bank and your chats tell you what is true. Check them,
+      then decide.
+    ruleSource: Seoul Daily, 6 Oct
+  echoes: []
+  nextDateLabel: Tuesday, 6 October
+  builtWith: 7

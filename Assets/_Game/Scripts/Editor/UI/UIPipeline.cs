@@ -98,7 +98,21 @@ namespace DontCallMe.Editor.UI
 
         // ---------------------------------------------------------------- fonts
 
-        static readonly string[] SerifFonts = { "DMSerifDisplay-Regular", "CrimsonText-Regular", "CrimsonText-Bold", "CrimsonText-Italic" };
+        static readonly string[] SerifFonts = { "DMSerifDisplay-Regular", "CrimsonText-SemiBold", "CrimsonText-Bold", "CrimsonText-Italic" };
+
+        /// <summary>
+        /// What a font falls back to for the glyphs it lacks (Hangul, ₩, arrows). The newspaper's serifs
+        /// continue in Nanum Myeongjo Bold, everything ends in Nanum Gothic.
+        /// </summary>
+        static List<string> FallbacksFor(string font)
+        {
+            var list = new List<string>();
+            if (SerifFonts.Contains(font))
+                list.Add("NanumMyeongjo-Bold");
+            list.Add(font.StartsWith("NanumGothic") ? "NanumGothic-Regular" : "NanumGothic-Bold");
+            list.Remove(font);
+            return list;
+        }
 
         [MenuItem("Tools/Don't Call Me/UI/2. Build Font Assets")]
         public static void BuildFonts()
@@ -142,16 +156,12 @@ namespace DontCallMe.Editor.UI
                     }
                 created[name] = fa;
             }
-            // Fallbacks: Hangul, ₩ and symbols come from Nanum fonts.
-            created.TryGetValue("NanumGothic-Regular", out var gothic);
-            created.TryGetValue("NanumMyeongjo-Regular", out var myeongjo);
             foreach (var pair in created)
             {
                 var list = new List<FontAsset>();
-                if (SerifFonts.Contains(pair.Key) && myeongjo != null)
-                    list.Add(myeongjo);
-                if (gothic != null && pair.Value != gothic)
-                    list.Add(gothic);
+                foreach (string name in FallbacksFor(pair.Key))
+                    if (created.TryGetValue(name, out var fallback))
+                        list.Add(fallback);
                 pair.Value.fallbackFontAssetTable = list;
                 EditorUtility.SetDirty(pair.Value);
             }

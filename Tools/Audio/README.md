@@ -14,6 +14,7 @@ Every voiced line comes from the content assets, so the text never lives in two 
 
 | Character | English voice | wpm | Korean voice | wpm |
 | --- | --- | --- | --- | --- |
+| Team Leader Baek, "Mapo City Gas billing team" (Day 0, the tutorial) | Samantha | 178 | Sandy (Korean (South Korea)) | 232 |
 | Manager Jeon, "Nuri Bank's account protection team" (Day 1) | Daniel | 186 | Rocko (Korean (South Korea)) | 240 |
 | Choi Hyunwoo, "the landlord's son" (Day 2, both truths) | Reed (English (US)) | 178 | Reed (Korean (South Korea)) | 232 |
 | Yoon Seora, "Hangang Express customs desk" (Day 3, both truths) | Shelley (English (UK)) | 176 | Yuna | 185 |
@@ -22,9 +23,9 @@ A scam and its legit twin share the caller's voice, so the voice never gives the
 
 The Korean voices ship with macOS (`say -v '?' | grep ko_KR` lists them). The `Korean (South Korea)` variants speak slowly at their default rate, so they run faster. Korean lines write numbers the way they are read aloud in their `spoken` field (`일일공, 구공공…`), as the English ones do.
 
-A character's voice is set on the conversation's caller (`caller.voice`, from `VoiceJeon`, `VoiceHyunwoo` and `VoiceCustoms` in `ContentBuilder`). Speeds are in `RATES` in `tts.py`, which also keeps the speeds of the voices earlier versions used for call-backs (Samantha, Karen, Tessa, Moira, Rishi and the Korean Sandy, Shelley, Flo, Grandma, Grandpa), ready for a new character.
+A character's voice is set on the conversation's caller (`caller.voice`, from `VoiceBilling`, `VoiceJeon`, `VoiceHyunwoo` and `VoiceCustoms` in `ContentBuilder`). Speeds are in `RATES` in `tts.py`, which also keeps the speeds of the voices earlier versions used for call-backs (Karen, Tessa, Moira, Rishi and the Korean Shelley, Flo, Grandma, Grandpa), ready for a new character.
 
-The three days have 152 voiced lines: 23, 27 and 26 per language.
+The four days have 190 voiced lines: 19, 23, 27 and 26 per language.
 
 ## Music
 

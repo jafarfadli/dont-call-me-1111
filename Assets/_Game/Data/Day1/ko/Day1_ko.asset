@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Day1_ko
   m_EditorClassIdentifier: DontCallMe::DontCallMe.Data.DayData
   day: 1
+  tutorial: 0
   dateLabel: "10\uC6D4 6\uC77C \uD654\uC694\uC77C"
   weekday: "\uD654\uC694\uC77C"
   shortLabel: "1\uC77C\uCC28 \xB7 10\uC6D4 6\uC77C (\uD654)"
@@ -34,6 +35,7 @@ MonoBehaviour:
         '\uC815\uBBF8\uB780'\uC774\uACE0, \uC0AC\uAE30 \uC2E0\uACE0\uAC00 2\uAC74
         \uC788\uB2E4."
       where: "\uCEF4\uD4E8\uD130 \u2192 \uACC4\uC88C \uC870\uD68C"
+      guide: 
       when:
       - kind: 2
         target: 110-900-551207
@@ -44,6 +46,7 @@ MonoBehaviour:
         \uC0AC\uAE30 \uC2E0\uACE0\uAC00 7\uAC74 \uC788\uB2E4. \uB204\uB9AC\uC740\uD589
         \uBC88\uD638\uAC00 \uC544\uB2C8\uB2E4."
       where: "\uCEF4\uD4E8\uD130 \u2192 \uC804\uD654\uBC88\uD638 \uC870\uD68C"
+      guide: 
       when:
       - kind: 2
         target: 070-8844-2019
@@ -132,6 +135,104 @@ MonoBehaviour:
       \uBC1C\uC2E0 \uBC88\uD638\uB97C \uC870\uD68C\uD558\uB77C. '\uACF5\uC2DD' \uACC4\uC88C\uC778\uB370
       \uBAA8\uB974\uB294 \uAC1C\uC778 \uC774\uB984\uC774 \uB098\uC624\uBA74 \uBA48\uCDB0\uB77C."
     ruleSource: "\uC11C\uC6B8\uB370\uC77C\uB9AC, 10\uC6D4 7\uC77C"
-  echoes: []
+  echoes:
+  - afterDay: 0
+    truth: 0
+    outcomes: 1
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: "\uC5B4\uC81C\uB294 \uC774\uBBF8 \uB0B8 '\uAC00\uC2A4 \uC694\uAE08'\uC744
+      \uB610 \uB0C8\uB2E4. 18,420\uC6D0\uC774 \uC0AC\uB77C\uC84C\uB2E4."
+    amount: 0
+    outgoing: 0
+    notify: 0
+  - afterDay: 0
+    truth: 0
+    outcomes: 1
+    kind: 0
+    from: villa
+    sender: 
+    avatar: 
+    when: "\uC5B4\uC81C 17:20"
+    title: 
+    text: "\uC800 \uBC29\uAE08 \uADF8 \uAC00\uC9DC \uAC00\uC2A4 \uC694\uAE08 \uB0B8
+      \uAC83 \uAC19\uC544\uC694\u2026 18,420\uC6D0."
+    amount: 0
+    outgoing: 1
+    notify: 0
+  - afterDay: 0
+    truth: 0
+    outcomes: 1
+    kind: 0
+    from: villa
+    sender: "\uC9D1\uC8FC\uC778 \uCD5C \uC0AC\uC7A5\uB2D8"
+    avatar: pt_landlord
+    when: "\uC5B4\uC81C 17:31"
+    title: 
+    text: "\uC800\uB7F0. \uBC14\uB85C 1332\uC5D0 \uC2E0\uACE0\uD574\uC694. \uB2E4\uC74C\uBD80\uD130\uB294
+      \uBCF4\uB0B4\uAE30 \uC804\uC5D0 \uAF2D \uC870\uD68C\uD574 \uBCF4\uACE0\uC694."
+    amount: 0
+    outgoing: 0
+    notify: 1
+  - afterDay: 0
+    truth: 0
+    outcomes: 2
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: "\uC5B4\uC81C\uC758 '\uAC00\uC2A4 \uD68C\uC0AC'\uB294 \uAC00\uC9DC\uC600\uB2E4.
+      \uD655\uC778\uD558\uACE0 \uC804\uD654\uB97C \uB04A\uC5C8\uB2E4."
+    amount: 0
+    outgoing: 0
+    notify: 0
+  - afterDay: 0
+    truth: 0
+    outcomes: 2
+    kind: 0
+    from: villa
+    sender: 
+    avatar: 
+    when: "\uC5B4\uC81C 17:20"
+    title: 
+    text: "\uC800\uD55C\uD14C\uB3C4 '\uAC00\uC2A4 \uD68C\uC0AC' \uC804\uD654 \uC654\uC5B4\uC694.
+      \uACE0\uC9C0\uC11C \uD655\uC778\uD558\uACE0 \uB04A\uC5C8\uC2B5\uB2C8\uB2E4.
+      010-7359-2046\uC774\uC5D0\uC694."
+    amount: 0
+    outgoing: 1
+    notify: 0
+  - afterDay: 0
+    truth: 0
+    outcomes: 2
+    kind: 0
+    from: villa
+    sender: "\uC9D1\uC8FC\uC778 \uCD5C \uC0AC\uC7A5\uB2D8"
+    avatar: pt_landlord
+    when: "\uC5B4\uC81C 17:31"
+    title: 
+    text: "302\uD638 \uC798\uD588\uC5B4\uC694! \uADF8\uB807\uAC8C \uD558\uB294 \uAC81\uB2C8\uB2E4."
+    amount: 0
+    outgoing: 0
+    notify: 1
+  - afterDay: 0
+    truth: 0
+    outcomes: 8
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: "\uC5B4\uC81C\uC758 '\uAC00\uC2A4 \uD68C\uC0AC'\uB294 5\uC2DC\uC5D0 \uD3EC\uAE30\uD588\uB2E4.
+      \uAC00\uC2A4\uB294 \uBA40\uCA61\uD788 \uB098\uC628\uB2E4."
+    amount: 0
+    outgoing: 0
+    notify: 0
   nextDateLabel: "10\uC6D4 7\uC77C \uC218\uC694\uC77C"
-  builtWith: 6
+  builtWith: 7

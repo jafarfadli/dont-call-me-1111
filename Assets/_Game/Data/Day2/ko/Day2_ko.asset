@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Day2_ko
   m_EditorClassIdentifier: DontCallMe::DontCallMe.Data.DayData
   day: 2
+  tutorial: 0
   dateLabel: "10\uC6D4 7\uC77C \uC218\uC694\uC77C"
   weekday: "\uC218\uC694\uC77C"
   shortLabel: "2\uC77C\uCC28 \xB7 10\uC6D4 7\uC77C (\uC218)"
@@ -35,6 +36,7 @@ MonoBehaviour:
         6\uC77C \uC804 \uAC1C\uD1B5\uB41C \uC120\uBD88\uD3F0\uC73C\uB85C \uB098\uC628\uB2E4."
       where: "\uCC45\uC0C1 \uC11C\uB78D \u2192 \uC784\uB300\uCC28 \uACC4\uC57D\uC11C,
         \uB610\uB294 \uCEF4\uD4E8\uD130 \u2192 \uC804\uD654\uBC88\uD638 \uC870\uD68C"
+      guide: 
       when:
       - kind: 1
         target: "\uC784\uB300\uCC28 \uACC4\uC57D\uC11C \xB7 302\uD638"
@@ -44,6 +46,7 @@ MonoBehaviour:
       text: "'\uC0C8 \uC6D4\uC138 \uACC4\uC88C'\uB294 \uBAA8\uB974\uB294 \uC0AC\uB78C
         \uBA85\uC758\uB2E4: \uC11C\uC9C0\uC5F0."
       where: "\uCEF4\uD4E8\uD130 \u2192 \uACC4\uC88C \uC870\uD68C"
+      guide: 
       when:
       - kind: 2
         target: 620-118-449027
@@ -55,6 +58,7 @@ MonoBehaviour:
         \uACE0\uCE58\uACE0 \uC788\uC5C8\uACE0, \uC6D4\uC138\uB294 \uB298 \uBCF4\uB0B4\uB358
         \uACC4\uC88C\uB85C \uB2EC\uB77C\uACE0 \uD588\uB2E4."
       where: "\uCC44\uD305 \u2192 \uB9DD\uC6D0\uD558\uC774\uCE20 \uC785\uC8FC\uBBFC"
+      guide: 
       when:
       - kind: 4
         target: villa
@@ -155,6 +159,7 @@ MonoBehaviour:
         \uC801\uD78C \uC544\uB4E4 \uBC88\uD638\uC774\uACE0, \uCD5C\uD604\uC6B0 \uBA85\uC758\uB2E4."
       where: "\uCC45\uC0C1 \uC11C\uB78D \u2192 \uC784\uB300\uCC28 \uACC4\uC57D\uC11C,
         \uB610\uB294 \uCEF4\uD4E8\uD130 \u2192 \uC804\uD654\uBC88\uD638 \uC870\uD68C"
+      guide: 
       when:
       - kind: 1
         target: "\uC784\uB300\uCC28 \uACC4\uC57D\uC11C \xB7 302\uD638"
@@ -164,6 +169,7 @@ MonoBehaviour:
       text: "\uC0C8 \uACC4\uC88C\uB294 \uACC4\uC57D\uC11C\uC5D0 \uC801\uD78C \uC544\uB4E4
         \uCD5C\uD604\uC6B0 \uBA85\uC758\uB2E4."
       where: "\uCEF4\uD4E8\uD130 \u2192 \uACC4\uC88C \uC870\uD68C"
+      guide: 
       when:
       - kind: 2
         target: 110-771-202358
@@ -176,6 +182,7 @@ MonoBehaviour:
         \uAE00\uC744 \uC62C\uB838\uB2E4."
       where: "\uCC44\uD305 \u2192 \uB9DD\uC6D0\uD558\uC774\uCE20 \uC785\uC8FC\uBBFC,
         \uB610\uB294 \uBCBD\uC5D0 \uAC78\uB9B0 \uB2EC\uB825"
+      guide: 
       when:
       - kind: 4
         target: villa
@@ -409,4 +416,4 @@ MonoBehaviour:
     outgoing: 0
     notify: 1
   nextDateLabel: "10\uC6D4 8\uC77C \uBAA9\uC694\uC77C"
-  builtWith: 6
+  builtWith: 7

@@ -7,8 +7,9 @@ namespace DontCallMe.Editor.UI
 {
     /// <summary>
     /// Day 1, Tuesday 6 October (Easy): "Manager Jeon" of Nuri Bank's "account protection team" (M6).
-    /// Always a scam, and the tutorial day. Two clues, both on the computer: the "protected account"
-    /// is a private person's, and the caller's number is an internet phone with a pile of reports.
+    /// Always a scam, and the first day without the guide. Two clues, both on the computer: the
+    /// "protected account" is a private person's, and the caller's number is an internet phone with
+    /// a pile of reports.
     /// </summary>
     public static partial class ContentBuilder
     {
@@ -75,9 +76,30 @@ namespace DontCallMe.Editor.UI
                         "처음으로 혼자 사는 학기. 수업은 끝났고, 방은 조용하고, 휴대폰은 책상 위에 있다.");
             d.ringDelay = 7f;
             d.variants = new List<DayVariant> { v };
+            d.echoes = Day1Echoes();
             d.nextDateLabel = DateLabel(today.AddDays(1));
             d.builtWith = Version;
             return Store(d, Localized(DayPath));
+        }
+
+        /// <summary>What Monday's "gas bill" call (Day 0) left behind.</summary>
+        static List<DayEcho> Day1Echoes()
+        {
+            string mine = L("The \"gas company\" called me too. I checked my bill and hung up. It was 010-7359-2046.", "저한테도 '가스 회사' 전화 왔어요. 고지서 확인하고 끊었습니다. 010-7359-2046이에요.");
+            string paid = L("I think I just paid that fake gas bill... 18,420 won.", "저 방금 그 가짜 가스 요금 낸 것 같아요… 18,420원.");
+            return new List<DayEcho>
+            {
+                EchoCard(0, Truth.Any, Sent, L("Yesterday you paid a \"gas bill\" that was already paid. 18,420 won, gone.", "어제는 이미 낸 '가스 요금'을 또 냈다. 18,420원이 사라졌다.")),
+                EchoMine(0, Truth.Any, Sent, VillaChat, Oct(5, "17:20"), paid),
+                EchoChat(0, Truth.Any, Sent, VillaChat, Landlord, "pt_landlord", Oct(5, "17:31"),
+                         L("Oh no. Report it to 1332 right away, and look things up before you pay next time.", "저런. 바로 1332에 신고해요. 다음부터는 보내기 전에 꼭 조회해 보고요."), true),
+
+                EchoCard(0, Truth.Any, HungUp, L("Yesterday's \"gas company\" was a fake. You checked, and hung up.", "어제의 '가스 회사'는 가짜였다. 확인하고 전화를 끊었다.")),
+                EchoMine(0, Truth.Any, HungUp, VillaChat, Oct(5, "17:20"), mine),
+                EchoChat(0, Truth.Any, HungUp, VillaChat, Landlord, "pt_landlord", Oct(5, "17:31"), L("Well done, 302! That is how to do it.", "302호 잘했어요! 그렇게 하는 겁니다."), true),
+
+                EchoCard(0, Truth.Any, TooLate, L("Yesterday's \"gas company\" gave up at five. The gas is still on.", "어제의 '가스 회사'는 5시에 포기했다. 가스는 멀쩡히 나온다.")),
+            };
         }
 
         static List<EndPaper> Day1Papers()

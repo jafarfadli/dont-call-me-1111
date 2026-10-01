@@ -43,8 +43,8 @@
 }
 
 .transcript__number {
-    font-size: 17px;
-    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DotGothic16-Regular.asset");
+    font-size: 20px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
     color: var(--ink-soft);
 }
 
@@ -67,8 +67,8 @@
 }
 
 .rec__time {
-    font-size: 20px;
-    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DotGothic16-Regular.asset");
+    font-size: 21px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
 }
 
 .transcript__log {
@@ -138,13 +138,14 @@
 
 .bubble__text {
     font-size: 22px;
+    color: var(--ink);
 }
 
 .bubble .chip-row { margin-top: 6px; }
 
 .line__time {
-    font-size: 14px;
-    color: #E6E0EA;
+    font-size: 16px;
+    color: #FFFFFF;
     margin: 2px 14px 0 30px;
     -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset");
 }
@@ -155,7 +156,7 @@
     border-color: var(--ink);
     border-radius: 12px;
     padding: 4px 14px;
-    font-size: 15px;
+    font-size: 16px;
     -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset");
     -unity-text-align: middle-center;
 }
@@ -197,7 +198,7 @@
 .decide__options { flex-grow: 1; }
 
 .decide__prompt {
-    font-size: 16px;
+    font-size: 17px;
     color: var(--ink-soft);
     margin: 0 0 4px 6px;
     -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset");
@@ -220,14 +221,14 @@
     border-radius: 6px;
     background-color: #F8EFDA;
     -unity-text-align: middle-center;
-    font-size: 18px;
-    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DotGothic16-Regular.asset");
+    font-size: 19px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
     margin-right: 12px;
     flex-shrink: 0;
 }
 
 .option__text {
-    font-size: 19px;
+    font-size: 20px;
     flex-shrink: 1;
     -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset");
 }
@@ -264,13 +265,13 @@
 }
 
 .timer__label {
-    font-size: 30px;
-    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DotGothic16-Regular.asset");
+    font-size: 32px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
     -unity-text-align: middle-center;
 }
 
 .timer--small { width: 64px; height: 64px; margin-left: 10px; }
-.timer--small .timer__label { font-size: 20px; }
+.timer--small .timer__label { font-size: 22px; }
 
 /* ---------------------------------------------------------------- call HUD (phone down) */
 
@@ -306,12 +307,12 @@
 }
 
 .call-hud__line {
-    font-size: 18px;
+    font-size: 19px;
     margin-top: 2px;
 }
 
 .call-hud__hint {
-    font-size: 15px;
+    font-size: 16px;
     color: var(--red);
     margin-top: 4px;
     -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
@@ -367,11 +368,11 @@
 }
 
 .toast__title {
-    font-size: 16px;
+    font-size: 17px;
     -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
 }
 
-.toast__text { font-size: 16px; }
+.toast__text { font-size: 17px; }
 
 .hud {
     position: absolute;
@@ -403,7 +404,7 @@
     border-color: var(--ink);
     border-radius: 6px;
     background-color: #F8EFDA;
-    font-size: 13px;
+    font-size: 14px;
     -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
     -unity-text-align: middle-center;
     padding: 0 4px;
@@ -433,8 +434,8 @@
 }
 
 .daytag__time {
-    font-size: 22px;
-    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DotGothic16-Regular.asset");
+    font-size: 24px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
 }
 
 .prompt {
@@ -456,13 +457,13 @@
     border-radius: 5px;
     background-color: #F8EFDA;
     padding: 0 6px;
-    font-size: 15px;
+    font-size: 16px;
     margin-right: 8px;
     -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
 }
 
 .prompt__text {
-    font-size: 18px;
+    font-size: 19px;
     -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset");
 }
 
@@ -471,15 +472,15 @@
     left: 28px;
     bottom: 26px;
     flex-direction: row;
-    opacity: 0.85;
+    padding: 7px 2px 8px 16px;
+    background-color: rgba(21, 23, 43, 0.86);
+    border-radius: 6px;
 }
 
 .controls-hint Label {
-    font-size: 15px;
-    color: #FBF4E4;
-    -unity-text-outline-width: 1px;
-    -unity-text-outline-color: rgba(43, 36, 48, 0.9);
-    margin-right: 18px;
+    font-size: 16px;
+    color: #FFF8EA;
+    margin-right: 14px;
     -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset");
 }
 
@@ -666,9 +667,9 @@
 }
 
 .verdict-btn__detail {
-    font-size: 13px;
+    font-size: 15px;
     -unity-text-align: middle-left;
-    opacity: 0.85;
+    opacity: 1;
 }
 
 .verdict-btn--gold .verdict-btn__label,
@@ -685,8 +686,8 @@
 }
 
 .verdict__sub {
-    font-size: 15px;
-    color: #CFC6D8;
+    font-size: 16px;
+    color: #EDE6F4;
     margin: 0 6px 8px 6px;
 }
 
@@ -704,26 +705,19 @@
 
 .verdict__go { min-width: 220px; }
 
-/* The phone's red button is off during a case: the verdict is given on the call. */
-.call-btn--off {
-    opacity: 0.3;
-}
-
-.call-btn--off:hover { scale: 1 1; }
-
-/* ---------------------------------------------------------------- the first day's guide */
+/* ---------------------------------------------------------------- the tutorial day's guide */
 
 .tutorial {
     position: absolute;
     left: 28px;
     top: 196px;
-    width: 296px;
-    padding: 12px 16px 16px 16px;
+    width: 380px;
+    padding: 12px 18px 16px 18px;
     background-color: #F7E27A;
     border-width: 3px;
     border-color: var(--ink);
     border-radius: 6px;
-    rotate: -1.2deg;
+    rotate: -1deg;
     opacity: 0;
     translate: -40px 0;
     transition-property: opacity, translate, scale;
@@ -731,7 +725,7 @@
 }
 
 .tutorial--on { opacity: 1; translate: 0 0; }
-.tutorial--pop { scale: 1.07 1.07; }
+.tutorial--pop { scale: 1.06 1.06; }
 
 .tutorial__head {
     flex-direction: row;
@@ -743,19 +737,40 @@
 
 .tutorial__title {
     flex-grow: 1;
-    font-size: 15px;
+    font-size: 16px;
     letter-spacing: 1px;
     color: var(--ink-soft);
     -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
 }
 
 .tutorial__count {
-    font-size: 18px;
+    font-size: 21px;
     color: var(--red);
-    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DotGothic16-Regular.asset");
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+}
+
+/* What the place just checked showed. */
+.tutorial__learned {
+    flex-direction: row;
+    align-items: flex-start;
+    margin: 2px 0 10px 0;
+    padding: 8px 10px 9px 8px;
+    background-color: #E4F0D2;
+    border-width: 2px;
+    border-color: #2C6628;
+    border-radius: 6px;
+}
+
+.tutorial__learned-icon { width: 22px; height: 22px; margin: 1px 8px 0 0; }
+
+.tutorial__learned-text {
+    flex-shrink: 1;
+    flex-grow: 1;
+    font-size: 18px;
+    color: #143A13;
 }
 
 .tutorial__text {
     font-size: 21px;
-    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset");
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
 }

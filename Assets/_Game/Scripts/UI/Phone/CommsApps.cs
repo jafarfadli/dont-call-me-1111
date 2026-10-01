@@ -18,6 +18,7 @@ namespace DontCallMe.UI
         public override PhoneScreen CreateHome()
         {
             var s = new PhoneScreen(Phone, Loc.T("Contacts"), "#D9853B");
+            ClueEvents.Raise(ClueEvent.ContactsOpened);
             foreach (var c in Data.contacts.OrderBy(c => c.name))
             {
                 var contact = c;
@@ -146,19 +147,23 @@ namespace DontCallMe.UI
                 var thread = t;
                 var last = t.messages.Count > 0 ? t.messages[t.messages.Count - 1] : null;
                 string snippet = last == null ? "" : !string.IsNullOrEmpty(last.photoCaption) && string.IsNullOrEmpty(last.text) ? Loc.T("[Photo]") : last.text;
-                if (snippet != null && snippet.Length > 42)
-                    snippet = snippet.Substring(0, 42) + "…";
+                // Two lines of preview: Hangul is about twice as wide as Latin letters.
+                int max = Loc.Ko ? 30 : 54;
+                if (snippet != null && snippet.Length > max)
+                    snippet = snippet.Substring(0, max).TrimEnd() + "…";
                 unread.TryGetValue(t.id, out int n);
                 var row = UIKit.Div("list-row");
                 var av = UIKit.Div("list-row__avatar");
                 UIKit.SetImage(av, UISkin.Tex(t.avatar) ?? UISkin.Tex("pt_unknown"));
                 row.Add(av);
                 var text = UIKit.Div("list-row__text");
-                text.Add(UIKit.Text(t.title + (t.group ? $"  <color=#8A7C74>{Members(t)}</color>" : ""), "list-row__title"));
+                var top = UIKit.Div("list-row__top");
+                top.Add(UIKit.Text(t.title + (t.group ? $"  <color=#453C42>{Members(t)}</color>" : ""), "list-row__title"));
+                if (last != null)
+                    top.Add(UIKit.Text(last.when, "list-row__meta"));
+                text.Add(top);
                 text.Add(UIKit.Text(snippet, "list-row__subtitle"));
                 row.Add(text);
-                if (last != null)
-                    row.Add(UIKit.Text(last.when, "list-row__meta"));
                 if (n > 0)
                 {
                     var badge = UIKit.Text(n.ToString(), "badge");

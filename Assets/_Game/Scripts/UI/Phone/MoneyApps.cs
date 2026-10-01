@@ -71,13 +71,15 @@ namespace DontCallMe.UI
 
             static void TxRow(BankTransaction t, VisualElement parent)
             {
+                // Who and how much on one line, when and what for on the line under it.
                 var row = UIKit.Div("list-row");
                 var text = UIKit.Div("list-row__text");
-                text.Add(UIKit.Text(t.counterparty, "list-row__title"));
+                var top = UIKit.Div("list-row__top");
+                top.Add(UIKit.Text(t.counterparty, "list-row__title"));
+                top.Add(UIKit.Text((t.amount > 0 ? "+" : "") + FactText.Won(t.amount), "list-row__amount", t.amount > 0 ? "amount-in" : "amount-out"));
+                text.Add(top);
                 text.Add(UIKit.Text(t.when + (string.IsNullOrEmpty(t.memo) ? "" : $" · {t.memo}"), "list-row__subtitle"));
                 row.Add(text);
-                var amount = UIKit.Text((t.amount > 0 ? "+" : "") + FactText.Won(t.amount), "list-row__title", t.amount > 0 ? "amount-in" : "amount-out");
-                row.Add(amount);
                 parent.Add(row);
             }
         }

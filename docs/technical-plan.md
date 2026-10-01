@@ -8,6 +8,8 @@ Game concept and research: `references/idea.md`. This document describes what we
 
 > **Scope cut, 2026-10-01.** The prototype was reduced to what one investigation needs: three phone apps (Contacts, Chats, Nuri Bank), four things to use in the room (newspaper, wall calendar, desk drawer, and a computer with two lookups), calls only, a guided first day, and two, three and four clues on Days 1, 2 and 3. What was cut is listed in section 15.
 
+> **Day 0 and the title, 2026-10-01.** The guide moved from Day 1 to a practice day before it, Day 0, whose case needs every tool once, so the player learns what each one is for before the week starts. The title got a new layout (a big Start button with Case Files, Settings and Quit under it). Text everywhere is near-black on paper in bold weights, so it stays readable in a small window. The phone was redrawn twice that day (pixel art, then a navy screen with answer and decline buttons) and put back as it was: the caller's portrait over the night skyline, slide to answer, no decline.
+
 ## 1. Decisions
 
 | Topic | Decision |
@@ -20,14 +22,14 @@ Game concept and research: `references/idea.md`. This document describes what we
 | Interactions | Four things in the room open a 2D panel: the newspaper, the wall calendar, the desk drawer and the computer. While the room can be used they wear a pulsing yellow outline, and the one under the cursor lights up |
 | Phone | Carried (Tab raises and lowers it), held in a hand, with three apps: Contacts, Chats, Nuri Bank. An incoming call raises the phone by itself and can only be answered: slide to answer, no decline button, it rings until the player slides |
 | Day structure | Seated at the desk → the phone rings → the caller introduces himself and makes the ask (**CASE OPENED**) → he holds the line while the player investigates against his deadline, with pressure building → the player acts → the next morning's paper reveals the truth |
-| Tutorial | Day 1 is guided: a card walks the player through looking around, reading the paper, answering, replying, the two lookups on the computer and the verdict (2.1) |
+| Tutorial | Day 0 is a guided practice call: a yellow note walks the player through looking around, the newspaper, answering and replying, then every tool in turn (the two lookups on the computer, the drawer, the calendar, the bank app, the chats, the contacts), saying what each is for and what it just showed, and last the verdict (2.1) |
 | Conversations | Calls only. The transcript sits next to the phone. At key moments the player picks one of **two** responses, with a visible decision timer; while the caller holds, the player can put questions to him (each costs time) |
 | Investigation | Callers never ask for a code or password. They ask for things legit callers also ask for (a transfer), so the verdict comes from checking evidence: who owns the account and the number (looked up on the computer), what the lease or the delivery slip says, what the landlord or the courier wrote in the chats, what Jiwoo noted on the calendar |
 | Verdict | Given only on the call, in the **verdict panel** under the transcript while the caller holds: go along (send the money) or refuse (hang up). Each kind has a fixed colour (gold, red) so the colours never hint at the answer. The rest of the UI is for investigating: during a case the phone's hang-up button is off, and the bank app only shows balances and history |
 | Voices | Callers are voiced with pre-generated TTS in the player's language (macOS `say` voices through a phone-line filter), one voice per character and language; the transcript reveals each line as it is spoken. The player's lines are text only |
-| Menus | Title screen (Start, Settings, Quit, and a ringing phone whose slide also starts the game); pause on Esc (Resume, Settings, Main menu); Settings: language (English or 한국어), music, sound effects, voices, look sensitivity |
-| Scenarios | Three cases, one per day, each harder than the one before: Day 1 "the protected account" (always a scam, 2 clues), Day 2 "the new rent account" (3 clues) and Day 3 "the held parcel" (4 clues), the last two a scam or its legit twin at random (see 6) |
-| Run | 3 days (Tue 6 – Thu 8 October), saved as the player goes (Continue on the title screen), ending with a week summary. Each day's truth is revealed in the next morning's newspaper |
+| Menus | Title screen (the sticker logo, the green Start button, which reads Continue once a week is under way, Case Files, Settings, Quit, and a ringing phone whose slide also starts the game); pause on Esc (Resume, Settings, Main menu); Settings: language (English or 한국어), music, sound effects, voices, look sensitivity |
+| Scenarios | Four cases, one per day: Day 0 "the unpaid gas bill" (the tutorial: always a scam, eight checks, one per tool), then three that get harder: Day 1 "the protected account" (always a scam, 2 clues), Day 2 "the new rent account" (3 clues) and Day 3 "the held parcel" (4 clues), the last two a scam or its legit twin at random (see 6) |
+| Run | 4 days (Mon 5 – Thu 8 October: the tutorial, then three cases), saved as the player goes (Continue on the title screen, any day again from Case Files), ending with a week summary. Each day's truth is revealed in the next morning's newspaper |
 | Continuity | A day remembers the earlier ones without changing its case: the money that left stays gone, yesterday's case is on the desk newspaper, and **echoes** (chat messages, bank transactions, a saved contact, a line on the day card) react to how each day went |
 | Content data | ScriptableObjects, written by an editor tool (`ContentBuilder`) from code |
 | Language | English or Korean, chosen in Settings (title screen or pause menu; the first launch follows the system language). Everything exists in both: UI, dialogue and voices, documents, chats, lookup results and the desk newspaper prints. Korean names, places and won amounts in both. Banks, couriers, shops, companies, people and their numbers are fictional; the public numbers 112 (police), 119 (fire and ambulance) and 1332 (financial fraud hotline) are real |
@@ -36,10 +38,10 @@ Game concept and research: `references/idea.md`. This document describes what we
 
 ```
 Title screen (Home scene) → Start
-  → DAY card over black: "DAY 1 · Tuesday, 6 October · 16:20 · Mangwon-dong, Seoul" and a line of intro
+  → DAY card over black: "DAY 0 · TUTORIAL · Monday, 5 October · 14:10 · Mangwon-dong, Seoul" and a line of intro
   → Jiwoo sits at the desk (the view is lower and turns within a range; no walking yet)
-  → Day 1: the guide asks the player to look around and read the newspaper; the phone rings once it is closed.
-    Days 2 and 3: yesterday's aftermath buzzes in (chat and bank notifications), then the phone rings
+  → Day 0: the guide asks the player to look around and read the newspaper; the phone rings once it is closed.
+    Days 1 to 3: yesterday's aftermath buzzes in (chat and bank notifications), then the phone rings
   → The phone jumps up and rings. Slide to answer (no decline)
   → Opening: the caller introduces himself and makes the ask (voiced, transcript beside the phone),
     with one two-choice decision on the way
@@ -51,32 +53,43 @@ Title screen (Home scene) → Start
   → The player gives the verdict on the call: send the money (go along) or hang up (refuse).
     If the deadline passes first, the caller hangs up (timeout)
   → "Call ended", fade to black
-  → The next morning (End scene): the Seoul Daily reveals who really called, beside the case summary
-    (verdict stamp, money, time taken, clues found and where the missed ones were, the rule learned)
+  → The next morning (End scene): the Seoul Daily reveals who really called, beside the case summary.
+    The truth is held back for a few seconds: the paper lands with its headline hidden, a heartbeat
+    quickens in silence, then SCAM or REAL is stamped, then RIGHT or WRONG CALL, then the rest
+    (money, time taken, clues found and where the missed ones were, the rule learned)
   → The next day, the same day again, or the main menu. After the last day: the week's summary
 ```
 
 - A ringing call cannot be declined or ignored: the phone stays up and rings until the player slides.
-- The game clock runs at 8 real seconds per minute and stops on the DAY and CASE OPENED cards and while paused. Every caller's deadline is 17:00, about four real minutes of investigation.
+- The game clock runs at 8 real seconds per minute and stops on the DAY and CASE OPENED cards and while paused. Every caller's deadline is 17:00. From Day 1 on that is about four real minutes of investigation; Day 0's call comes at 14:10, so the practice has more than twenty minutes and the deadline never presses.
 
-### 2.1 The first day's guide
+### 2.1 Day 0: the guided day
 
-Day 1 runs with `TutorialGuide`: a yellow note on the left of the screen, "HOW TO PLAY · n/7", one instruction at a time.
+Day 0 (`DayData.tutorial`) runs with `TutorialGuide`: a yellow note on the left of the screen, "HOW TO PLAY · n/13", one instruction at a time. Its case, "the unpaid gas bill", is written so that each tool gives one piece of the answer (6.2), and the guide takes the tools in the order the day's clues are listed.
 
-| Step | The card says |
+| Step | The note says |
 | --- | --- |
 | 1 | Hold the mouse button and drag to look around |
-| 2 | Things you can use glow: click the newspaper, read today's warning, close it |
-| 3 | The phone is ringing: drag the green button to answer |
+| 2 | Every morning's paper warns about the trick going round. Things you can use glow: click the newspaper, read today's warning, close it |
+| 3 | The phone is ringing: drag the green button to the right to answer |
 | 4 | Pick a reply (click, or 1 or 2), then listen |
-| 5 | This is the case: read what he wants, then Start investigating |
-| 6 | Walk to the glowing laptop; check the account he gave, then his number |
-| 7 | Raise the phone (Tab) and give the verdict: send the money, or hang up |
+| 5 | This is the case: who the caller says they are and what they want. Click Start investigating |
+| 6 | The computer shows who really owns a number: click the laptop, then her number under Check a phone number |
+| 7 | The computer shows whose account it is, too: choose Check a bank account and click the account she gave |
+| 8 | Your own papers are in the desk drawer: open it and find the gas bill |
+| 9 | The calendar on the wall shows what day it is and what you wrote down |
+| 10 | Your bank app shows what really left your account: on the phone, press Apps, then open Nuri Bank |
+| 11 | People you know write to you themselves: open Chats and read the residents' chat |
+| 12 | A number you saved shows its name when it calls: open Contacts. Is she there? |
+| 13 | You have checked everything: give your verdict under the conversation |
 
-- The step shown follows what is happening in the game, not a script, so a player who skips ahead or does things in another order is never stuck.
-- The object a step is about blinks (the newspaper in step 2, the laptop in step 6).
+- Steps 6 to 12 are data, not code: each clue of the day carries a `guide` line, and the guide shows the first clue not found yet. The seven clues after the newspaper may be found in any order; the note then moves to the next one still open, so nobody is stuck.
+- Above the instruction, a green line with a tick repeats what the last place showed ("Her number is a prepaid phone opened three days ago, with four scam reports. It is not the gas company's."). That is the lesson of the day: what each tool is for.
+- The note says how to get there from where the player is: "Close this first (Esc).", "Lower the phone first (Tab).", "Press Tab to raise your phone."
+- The object a step is about blinks (the newspaper, the laptop, the drawer, the calendar). Room panels open further right while the note is on screen, so it never covers them.
 - The call waits until the newspaper has been opened and closed (at most 75 seconds), and the game clock stays stopped until then, so reading costs no time.
-- Days 2 and 3 run without the guide; a toast ("Investigate: the caller is holding the line…") opens the investigation instead.
+- The next morning lists the eight checks under WHAT YOU CHECKED, and the rule is the game in one line: "Check before you pay".
+- Days 1 to 3 run without the guide; a toast ("Investigate: the caller is holding the line…") opens the investigation instead.
 
 ## 3. The room
 
@@ -84,9 +97,9 @@ Day 1 runs with `TutorialGuide`: a yellow note on the left of the screen, "HOW T
 
 | Interactable | Where | 2D panel | Evidence it holds |
 | --- | --- | --- | --- |
-| Newspaper (`INT_Newspaper`) | Desk, folded | Full-page *Seoul Daily*, changes daily | The front page (Day 1: the warning story; later: yesterday's case), the warning box with the day's advice, local news, ads (one for checkfirst.kr) |
-| Wall calendar (`Board_Calendar`) | Cork board over the desk | The pharmacy calendar and a list of what Jiwoo wrote on it, with today marked | Rent day and the amount, the dentist, the gas check; on the day it matters, the note she made from a real notice ("Mr. Choi in hospital this week. His son Hyunwoo collects the rent", "Monitor arrives! Hangang Express", "Monitor held at customs: duty 56,600 won") |
-| Desk drawer (`INT_Drawer`) | Desk, top drawer | Documents as paper, one tab each, previous and next | Lease contract (the landlord, his number, the rent account and its holder, the son's name and number, "the account changes only in writing"), gas bill, delivery slip (Hangang Express's one number, 1588-5520), a receipt |
+| Newspaper (`INT_Newspaper`) | Desk, folded | Full-page *Seoul Daily*, changes daily | The front page (Day 0: the warning story; later: yesterday's case), the warning box with the day's advice, local news, ads (one for checkfirst.kr) |
+| Wall calendar (`Board_Calendar`) | Cork board over the desk | The pharmacy calendar and a list of what Jiwoo wrote on it, with today marked | Today's date (Monday 5 October is a substitute holiday), rent day and the amount, the dentist, the gas check; on the day it matters, the note she made from a real notice ("Mr. Choi in hospital this week. His son Hyunwoo collects the rent", "Monitor arrives! Hangang Express", "Monitor held at customs: duty 56,600 won") |
+| Desk drawer (`INT_Drawer`) | Desk, top drawer | Documents as paper, one tab each, previous and next | Lease contract (the landlord, his number, the rent account and its holder, the son's name and number, "the account changes only in writing"), the September gas bill (18,420 won, stamped PAID by auto-pay on 28 September, with Mapo City Gas's one number, 02-555-0181), delivery slip (Hangang Express's one number, 1588-5520), a receipt |
 | Computer (`Laptop`) | Desk | A browser open on CheckFirst (`checkfirst.kr`, fictional) with two tabs | **Check a phone number** and **Check a bank account**. Each answers with the owner or account holder, a line about the registration ("Prepaid phone, opened 6 days ago", "Personal account, opened 3 weeks ago", OFFICIAL NUMBER), the number of fraud reports and what they say, and the reminder that no reports does not mean safe |
 | Phone | Carried (Tab) | Phone + transcript | See section 4 |
 
@@ -98,19 +111,19 @@ The wallet, the notebook and the notes on the cork board are still in the room a
 
 Raised with **Tab** (or the phone button in the corner), shown on the right of the screen in Jiwoo's hand, with the transcript to its left during a call. While the phone is up, the player cannot walk.
 
-The home screen shows the clock, the date and three apps, with a status bar (clock, signal, battery) and a home bar. **Back** (arrow, Esc or right-click) goes one screen back; **Home** returns to the home screen.
+The phone is drawn in the game's inked style: a copper rim round a dark bezel with a notch, held in a hand (fingers round the left edge, the thumb on the right). The home screen shows the clock, the date and three apps over a night skyline, with a status bar (clock, signal, battery) and a home bar. **Back** (arrow, Esc or right-click) goes one screen back; **Home** returns to the home screen.
 
 | App | What it shows | What it is for |
 | --- | --- | --- |
 | Contacts | Names, numbers, memos ("Choi Youngsik · 1F · rent due on the 7th"); a contact's page with the number as a chip | Is the caller's number one Jiwoo saved? |
 | Chats | Messenger threads: family, Mangwon Heights residents, Yuna, the café crew, Hangang Express (delivery notices), AliStar (order messages); on later days, direct messages from the landlord or his son | What did the landlord or the courier write themselves, and when? Unread threads carry a badge |
-| Nuri Bank | Accounts and balances, recent transactions | What is there to lose. Money that left on an earlier day stays gone |
+| Nuri Bank | Accounts and balances, recent transactions | What is there to lose, and what was already paid (Day 0: the gas bill left by auto-pay a week ago). Money that left on an earlier day stays gone |
 
 **Copy chips.** Every number, account or amount a caller says or a document shows appears as a chip. Clicking a chip copies it ("Copied · paste it on the computer"). The computer's lookup field has a **Paste** button, and it offers the call's own number and account as one-click chips, so the player never has to type a 14-digit account number.
 
 ### 4.1 Calls
 
-1. **Incoming.** The phone raises itself, rings and shakes. The screen shows the caller's pixel portrait (a silhouette for unknown numbers), the name if saved in contacts, otherwise "Unknown" and the number, and one control: **slide to answer**. There is no decline button and Tab does nothing until the player answers.
+1. **Incoming.** The phone raises itself, rings and shakes. Over the dimmed night skyline the screen shows the caller's round portrait with a pulsing ring, "INCOMING CALL", the name if saved in contacts, otherwise "Unknown" and the number, and one control: **slide to answer** (a green knob on a dark track). There is no decline button and Tab does nothing until the player answers.
 2. **In call.** The call screen (name or number, call timer, Apps, Speaker, hang-up) sits on the phone. The **transcript panel** sits to its left: the caller's lines with their portrait and time, the player's lines on the right. Lines type in; a "…" bubble shows while the caller is speaking. When a decision comes up, two response buttons and the **decision timer** appear at the bottom of the transcript.
 3. **Investigating during a call.** The player can open any app (a green "Return to call · 01:42" bar stays on top) or lower the phone and walk to the computer or the drawer. With the phone down, a compact call HUD stays at the top of the screen: caller, the latest line as a subtitle and "Holding the line · Tab to ask or decide".
 4. **Hanging up** is a verdict (refuse), and so is sending the money the caller asked for (go along). Both are given in the verdict panel (5.3); the phone's own hang-up button is off during a case ("Verdict on the call").
@@ -199,12 +212,12 @@ An ending also carries its consequence: a won amount and a line for the next mor
 
 ### 6.1 Difficulty and design rules
 
-A **clue** is a piece of evidence that points at the truth. Each day needs one more than the day before, and takes away one crutch.
+A **clue** is a piece of evidence that points at the truth. Day 0 is practice: eight clues, one in every tool, each enough on its own, with the guide leading to them. From Day 1 each day needs one clue more than the day before and takes away one crutch.
 
 | | Day 1 (Easy) | Day 2 (Medium) | Day 3 (Hard) |
 | --- | --- | --- | --- |
 | Clues | 2 | 3 | 4 |
-| Where the clues are | Both on the computer; the guide walks through them | The lease in the drawer (or the number lookup), the account lookup, the residents' chat (legit: or the calendar note) | The courier's chat (or the calendar note), the shop's chat, the delivery slip (or the number lookup), the account lookup |
+| Where the clues are | Both on the computer, the first tool Day 0 taught | The lease in the drawer (or the number lookup), the account lookup, the residents' chat (legit: or the calendar note) | The courier's chat (or the calendar note), the shop's chat, the delivery slip (or the number lookup), the account lookup |
 | What the computer says | Fraud reports on the account and the number: a lookup alone settles it | No reports on either. The names have to be compared with the lease | No reports, and the fake names sound official: the number is one digit off, the account holder a look-alike company |
 | Truth | Always a scam | Scam or legit | Scam or legit |
 | The day's newspaper | The matching warning ("there is no safe account") | A warning about new rent accounts: check whose name it is | A warning about parcel calls: compare the number and the account with the courier's own |
@@ -216,11 +229,12 @@ Rules for writing scenarios:
 - Every clue exists before the call starts, in a place the player can reach from the room or the phone.
 - From Day 2 on, a single check can mislead: a clean lookup result, a caller who knows personal data, a real name on a fake account.
 
-### 6.2 The three cases
+### 6.2 The four cases
 
 | Day | Date | Case | Truth |
 | --- | --- | --- | --- |
-| 1 | Tue 6 Oct | The protected account: "Manager Jeon" of Nuri Bank's "account protection team" wants ₩1,200,000 moved to a protected account | Scam (the guided day) |
+| 0 | Mon 5 Oct, a substitute holiday | The unpaid gas bill: "Team Leader Baek" of Mapo City Gas's billing team says September's bill (₩18,420) is unpaid and the gas goes off at five unless it is transferred now | Scam (the guided day) |
+| 1 | Tue 6 Oct | The protected account: "Manager Jeon" of Nuri Bank's "account protection team" wants ₩1,200,000 moved to a protected account | Scam |
 | 2 | Wed 7 Oct, rent day | The new rent account: "Choi Hyunwoo, the landlord's son", father in hospital, this month's rent (₩450,000) to his account today | Scam or legit |
 | 3 | Thu 8 Oct | The held parcel: "Yoon Seora, Hangang Express customs desk", the AliStar monitor is held for ₩56,600 duty and VAT | Scam or legit |
 
@@ -237,8 +251,22 @@ The twins share the caller, the voice, the opening and the ask; only the evidenc
 | Day 3 shop chat | AliStar: import taxes **included** at checkout | AliStar: import taxes **not included** |
 | Day 3 calendar | Friday 9: "Monitor arrives! Hangang Express" | Thursday 8: "Monitor held at customs: duty 56,600 won, pay Hangang Express by 17:00" |
 
+Day 0 is small on purpose (18,420 won, a far deadline) and every tool answers it:
+
+| Tool | What it shows on Day 0 |
+| --- | --- |
+| Newspaper | Today's warning: nobody collects a bill by phone |
+| Computer, phone number | 010-7359-2046: not registered, a prepaid phone opened three days ago, four scam reports |
+| Computer, bank account | Hanbit Bank 620-339-104772: HAN SUNGMIN, a personal account, not Mapo City Gas |
+| Drawer | The September gas bill, stamped PAID (auto-pay, 28 September), with the company's real number, 02-555-0181 |
+| Calendar | Today is a substitute holiday: offices are closed |
+| Nuri Bank | 28 September: Mapo City Gas, 18,420 won out. The bill is paid |
+| Chats | The residents' chat: unit 401 got the same call, and the landlord warns that the gas company never phones for money |
+| Contacts | The caller is not there; a saved number shows its name when it rings |
+
 Clues per variant (`DayVariant.clues`; each lists the events that count as finding it, see 7.5):
 
+- **Day 0**: `paper`, `caller_number`, `account_owner` (the account lookup, or the name on the send step), `bill`, `calendar`, `bank`, `chat`, `contacts`, each with its `guide` line.
 - **Day 1**: `account_owner` (the account lookup, or the name on the send step), `caller_number` (the number lookup).
 - **Day 2**: `number` (the lease in the drawer, or the number lookup), `account_owner`, `landlord` (the residents' chat; on the legit day also the calendar).
 - **Day 3**: `courier_notice` (the Hangang Express chat, or the calendar), `taxes` (the AliStar chat), `number` (the delivery slip, or the number lookup), `account_owner`.
@@ -249,7 +277,7 @@ Clues per variant (`DayVariant.clues`; each lists the events that count as findi
 - **Family**: Mom (Park Hyejin) and Dad (Kim Dongsu) in Suwon, brother **Minjun** (19, first year in Daejeon), Grandma in Jeonju.
 - **Building**: landlord **Choi Youngsik** (1F) and his son **Choi Hyunwoo**; the residents' chat.
 - **Friends**: Seo Yuna (concert), café manager Han.
-- **Baseline evidence** (`ContentBuilder.Household`): eight contacts; six chat threads with a week of history; Nuri Bank everyday account 110-302-558814 (about ₩1.28 million) and tuition savings (₩3,000,000) with a month of transactions; the lease, a gas bill, a delivery slip and a receipt in the drawer; the calendar with six notes; a directory of accounts and numbers the computer can look up (the family's, the landlord's, the bank's 1599-0000, Hangang Express's 1588-5520, 112, 1332).
+- **Baseline evidence** (`ContentBuilder.Household`): eight contacts; six chat threads with a week of history; Nuri Bank everyday account 110-302-558814 (about ₩1.28 million) and tuition savings (₩3,000,000) with a month of transactions; the lease, the paid gas bill, a delivery slip and a receipt in the drawer; the calendar with six notes; a directory of accounts and numbers the computer can look up (the family's, the landlord's, the bank's 1599-0000, Mapo City Gas's 02-555-0181, Hangang Express's 1588-5520, 112, 1332).
 
 ## 7. The run
 
@@ -267,6 +295,9 @@ Clues per variant (`DayVariant.clues`; each lists the events that count as findi
 
 | After | Echoes |
 | --- | --- |
+| Day 0, sent the money | Jiwoo telling the residents' chat she paid the fake bill, and the landlord's "report it to 1332"; the day card line "18,420 won, gone"; the transfer in the bank history |
+| Day 0, hung up | Jiwoo posting the caller's number in the residents' chat, and the landlord's "well done, 302" |
+| Day 0, ran out of time | The day card line: the "gas company" gave up at five and the gas is still on |
 | Day 1, sent the money | Mom in the family chat and Jiwoo's reply; the day card line "probably gone for good" |
 | Day 1, hung up | Yuna's reaction; Jiwoo warning the residents' chat with the number, and a neighbour's thanks |
 | Day 1, ran out of time | A neighbour's warning about the same number in the residents' chat |
@@ -275,18 +306,19 @@ Clues per variant (`DayVariant.clues`; each lists the events that count as findi
 
 ### 7.3 Saving
 
-`GameRun` keeps a `DayRecord` per finished day in PlayerPrefs (`DCM.Run`): variant, outcome, money, clues, times, the caller and any transfer. The title screen offers Continue (the first unplayed day) and New week; the morning after offers the next day, the same day again (later days are dropped when it ends) or the menu.
+`GameRun` keeps a `DayRecord` per finished day in PlayerPrefs (`DCM.Run`): variant, outcome, money, clues, times, the caller and any transfer. The title screen's Start button is Start on a new week (Day 0) and Continue once a day is recorded (the first unplayed day). **Case Files** lists the four days with what happened on each: a recorded day can be played again (a confirmation warns that the days after it are cleared when it ends), the next day can be played, later days are closed, and New week clears everything. The morning after offers the next day, the same day again or the menu.
 
 ### 7.4 Newspaper
 
 Each variant authors its own *Seoul Daily* (`RoomContent.newspaper`) and one front page per outcome for the next morning (`DayVariant.papers`):
 
-- **Today's paper** (the desk panel). Day 1: the story behind today's scam. Days 2 and 3: yesterday's case as it turned out, taken from the saved day. Beside it the warning box, local news and ads.
+- **Today's paper** (the desk panel). Day 0: the story behind today's scam. Days 1 to 3: yesterday's case as it turned out, taken from the saved day (Day 1 keeps its own warning story when no Day 0 was played, as when the Room scene is opened directly). Beside it the warning box, local news and ads.
 - **The next morning** (End scene): the headline and story for what the player did, beside the case summary.
-- **The desk prop.** The folded paper on the desk is a printed texture. `Content → Print Desk Newspapers` exports every front page that lies on the desk the next day to `Tools/ArtGen/papers.json`, `tex_prints.py papers` prints them in the Day 1 paper's style to `Art/Textures/Papers` (`*_ko` in Korean), and each `EndPaper.print` points at its print; `DayDirector` puts it on the prop.
+- **The desk prop.** The folded paper on the desk is a printed texture. `Content → Print Desk Newspapers` exports every front page that lies on the desk the next day to `Tools/ArtGen/papers.json`, `tex_prints.py papers` prints them in the same style as the first day's paper to `Art/Textures/Papers` (`*_ko` in Korean), and each `EndPaper.print` points at its print; `DayDirector` puts it on the prop.
 
 | Rule (shown the next morning and in the week summary) | Taught by |
 | --- | --- |
+| Check before you pay. A caller's story is only a story. The number, the account, your own papers, your calendar, your bank and your chats tell you what is true. Check them, then decide | Day 0 |
 | Banks never "protect" your money. A bank never moves it to a "safe" or "protected" account. Look up the account and the caller's number first: a stranger's name on an "official" account means stop | Day 1 |
 | A new rent account? Check the lease. No reports doesn't mean safe: check the caller's number and the account holder's name against your lease, and ask the landlord's own chat | Day 2 scam |
 | Checking works both ways. When the number in your lease, the landlord's own message and the name on the account all match, the change is real. Check, then act | Day 2 legit |
@@ -307,12 +339,13 @@ The wording follows the public warnings of Korea's Financial Supervisory Service
 | `RecipientShown` | The verdict's send step shows who gets the money | The account |
 | `ChatRead` | A chat thread opens | The thread's id |
 | `BankOpened` | The bank app opens | — |
+| `ContactsOpened` | The contacts app opens | — |
 
 Each `ClueDef` lists the events that count. Finding clues does not change the outcome and the player is not told during the day; the next morning's case summary lists every clue, found (✓) or missed (with where it was).
 
 ### 7.6 Summary
 
-After Day 3, **Your week** lists each day's case and truth, what the player did, right or wrong and clues found, then right calls, money lost to scams, the savings before and after, a rating (Scam-proof, Careful, At risk) and the rules learned. Buttons: New week, Main menu.
+After Day 3, **Your week** lists each day's case and truth (Day 0 included), what the player did, right or wrong and clues found, then right calls, money lost to scams, the savings before and after, a rating (Scam-proof, Careful, At risk) and the rules learned. Buttons: New week, Main menu.
 
 ## 8. Architecture
 
@@ -336,16 +369,17 @@ Assets/_Game/
     Editor/     Art pipeline, UI pipeline, content builder, audio pipeline, scene pipeline, GameCapture
   UI/
     Fonts/      OFL fonts with their licences, generated font assets
-    Sprites/    Generated 9-slice frames, icons, portraits, the hand, document images
-    Uss/        Theme.uss plus Phone, Panels and Call style sheets
+    Sprites/    Generated 9-slice frames, icons, portraits, document images, the phone and the hand,
+                call buttons, status icons, app tiles, the title logo and the menu icons
+    Uss/        Theme.uss plus Phone, Panels, Call and Menus style sheets
     Settings/   Panel settings, text settings, theme style sheet, UISkin (every UI texture by name)
   Audio/
     Music/      Generated loops (Tools/Audio/music.py)
     Voices/     Generated voice clips per voice + manifest.json (Tools/Audio/tts.py)
   Data/
-    Day1/       Day 1: phone, directory, room, the call, the day (clues, next-morning papers, rule)
+    Day0/ Day1/ One truth each: phone, directory, room, the call, the day (clues, next-morning papers, rule)
     Day2/ Day3/ Each day's asset plus a call, phone, room and directory per variant (Day2_Scam_*, Day2_Legit_*)
-    Day*/ko/    The same in Korean (Day1_ko, Day2_Scam_Call_ko, …)
+    Day*/ko/    The same in Korean (Day0_ko, Day2_Scam_Call_ko, …)
     VoiceBank   Every voice clip by voice and text
   Resources/DayCatalog  The days of the run, in order (found without scene references); DayCatalog_ko in Korean
   Art/          The room model, textures, materials, shaders; Textures/Papers holds the desk newspaper prints
@@ -363,7 +397,7 @@ Three scenes; `SceneFlow` loads them and hands the day's result from Room to End
 Home (TitleScreen) → Room (DayDirector + CallDirector) → End (EndScreen) → Room again or Home
 ```
 
-`DayDirector` runs a day. `Prepare` (called by `UIManager` as it wakes up, so the phone and room show the day's content from the first frame) takes the day from `GameRun.PendingDay` (or its own field when the Room scene is opened directly), picks the truth and composes the evidence (7.1, 7.2). Then: the DAY card with the echoes' lines, the seated start (Day 1: the guide; later days: the echoes buzz in), the forced call, the CASE OPENED card when `CallDirector` reports the hold, the investigation against the deadline (beats, music tension, screen-edge pressure, ticking), and the fade to the End scene with a `DayResult` (outcome, ending, money, time taken, clues found), recorded in `GameRun`. `CallDirector` plays the call: voiced lines, decisions, the hold and its questions, the verdict and the endings.
+`DayDirector` runs a day. `Prepare` (called by `UIManager` as it wakes up, so the phone and room show the day's content from the first frame) takes the day from `GameRun.PendingDay` (or its own field, Day 1, when the Room scene is opened directly; a run starts at `GameRun.FirstDay`, 0), picks the truth and composes the evidence (7.1, 7.2). Then: the DAY card with the echoes' lines, the seated start (a tutorial day: the guide; other days: the echoes buzz in), the forced call, the CASE OPENED card when `CallDirector` reports the hold, the investigation against the deadline (beats, music tension, screen-edge pressure, ticking), and the fade to the End scene with a `DayResult` (outcome, ending, money, time taken, clues found), recorded in `GameRun`. `CallDirector` plays the call: voiced lines, decisions, the hold and its questions, the verdict and the endings.
 
 ### 8.3 Main classes
 
@@ -374,7 +408,7 @@ Home (TitleScreen) → Room (DayDirector + CallDirector) → End (EndScreen) →
 | `GameRun` | The saved run: one `DayRecord` per finished day |
 | `CallDirector` | Plays a `ConversationData`: ring, lines with voice, decisions and patience, the hold, questions, the verdict's actions, endings |
 | `ClueTracker` | Which of today's clues the player has seen (7.5) |
-| `TutorialGuide` | Day 1's guide: the step for the current state, the spotlight, when the call may start (2.1) |
+| `TutorialGuide` | The tutorial day's guide: the step for the current state (before the hold from the phase, during it from the first clue not found), what the last place showed, the spotlight, when the call may start (2.1) |
 | `UIManager` | The UI document: panels, the phone, the transcript, HUD, cards, pause and confirmations; locks the player's input while a panel is open |
 | `Interactor`, `Interactable` | What is under the cursor, the prompt, opening its panel; the outline and light on usable objects |
 | `Loc` | The language and the UI's Korean strings (10) |
@@ -391,9 +425,9 @@ Home (TitleScreen) → Room (DayDirector + CallDirector) → End (EndScreen) →
 
 ```
 DayCatalog (SO)        days[]   in Resources, loaded by name (DayCatalog_ko in Korean)
-DayData (SO)           day, dateLabel, shortLabel, place, startTime, intro, ringDelay, nextDateLabel, builtWith
+DayData (SO)           day, tutorial, dateLabel, shortLabel, place, startTime, intro, ringDelay, nextDateLabel, builtWith
                        variants[]   DayVariant { id (scam | legit), conversation, phone, room, directory,
-                                    clues[] { id, text, where, when[] { ClueEvent, target } },
+                                    clues[] { id, text, where, guide (tutorial day), when[] { ClueEvent, target } },
                                     papers[] { outcome, headline, subhead, body, verdictNote, print },
                                     ruleTitle, rule, ruleSource }
                        echoes[]     DayEcho { afterDay, truth (Any | Scam | Legit), outcomes (flags),
@@ -443,28 +477,31 @@ All panels are UI Toolkit: one `UIDocument` with a panel settings asset scaled f
 | Panel | Notes |
 | --- | --- |
 | Newspaper | Paper sheet, *Seoul Daily* masthead, front page with a halftone photo, warning box, local news, ads |
-| Drawer | Documents as paper on a wooden tray: a tab per document, previous and next; numbers and accounts as chips; a PAID stamp as an image |
+| Drawer | Documents as paper on a wooden tray: a tab per document, previous and next; numbers and accounts as chips; a PAID stamp as an image (납부완료 in Korean) |
 | Calendar | The pharmacy calendar's picture beside a paper list: today's date, then each handwritten note with its day (past days greyed, today highlighted) |
 | Computer | A laptop screen with a browser window (tab, address bar `https://checkfirst.kr`): two tabs, a field with Paste and Check, chips "from the call and your notes", and a result card (owner or holder, registration note, OFFICIAL NUMBER badge, report count in red or green, the reports, the "no reports doesn't mean safe" tip). A number pasted into the wrong tab switches tabs by itself |
-| Phone | Frame + status bar + home screen + three apps, held by a hand (fingers behind the phone, thumb in front). Screens share list and detail templates |
-| Incoming call | Round pixel portrait with a pulsing ring, name or "Unknown", number, a shaking phone and slide to answer (no decline) |
-| In call | Call screen with call timer, Apps, Speaker and hang-up (off during a case: "Verdict on the call"); "Return to call" bar in the apps |
+| Phone | Inked frame (copper rim, dark bezel, notch) + status bar (clock, signal, battery) + home screen + three apps, held by a hand (palm behind the phone, fingers and thumb in front). Screens share list and detail templates; a long title ends in an ellipsis |
+| Incoming call | The caller's round portrait with a pulsing ring over the dimmed night skyline, "INCOMING CALL", name or "Unknown", number, a shaking phone and slide to answer (no decline) |
+| In call | The portrait, "ON CALL", the name, number and call timer, Apps, Speaker and hang-up (off during a case: "Verdict on the call"); a green "Return to call" bar in the apps |
 | Transcript | Chat log left of the phone: portraits, bubbles with times, typing indicator, fact chips, two decision buttons, decision timer |
 | Call HUD | Top centre while the phone is down: caller, latest line, "Holding the line · Tab to ask or decide" |
 | Decision timer | Ring with seconds; amber at 50%, red and pulsing at 25%; pressure overlay at the screen edges |
 | HUD | Top left: day, date and clock, with the deadline under it. Bottom right: the phone button with a notification badge (hidden while the phone is up). Bottom left: the control hints. The interact prompt at the cursor |
-| Tutorial card | Day 1: a yellow note on the left, HOW TO PLAY, the step number and one instruction |
-| DAY card | Black card: DAY 1, the date, time and place, a line of intro and the echoes' lines; click or wait |
+| Tutorial card | Day 0: a yellow note on the left, HOW TO PLAY, the step number, a green line with what the last place showed, and one instruction. It sits over the case file's shade and beside the room panels |
+| DAY card | Black card: DAY 0 (with a yellow TUTORIAL tag) or DAY 1…, the date, time and place, a line of intro and the echoes' lines; click or wait |
 | CASE OPENED | Paper case file with a tab (CASE #01), the caller's portrait, "Says they are", "Wants you to", "Deadline", "Your job" and Start investigating |
 | Deadline | Under the clock: deadline time, minutes left and a bar; amber at half, red and pulsing in the last quarter |
 | Hold | The transcript footer while the caller holds: the questions still open (1–4) and the verdict panel |
 | Verdict | Dark strip, YOUR VERDICT, gold / red buttons with an icon, a label and a detail line; a coloured confirmation step (send: amount and recipient's name; hang up) |
-| Title screen | The DON'T CALL ME! sticker logo over the room at dusk (slow camera drift), the menu, a ringing phone whose slide starts the game, lo-fi music |
+| Title screen | Over the room at dusk (slow camera drift): the DON'T CALL ME! sticker logo (cream letters, red halftone shadow, a ringing red telephone), the green Start button (Continue once a week is under way), Case Files, Settings and Quit with sticker icons, and a ringing phone whose slide also starts the game; lo-fi music |
+| Case Files | Paper card on the title screen: one row per day (portrait, day and date, case title, SCAM or REAL, what the player did, clues, right or wrong) with Play or Play again, then New week and Back |
 | Pause and Settings | Paper card over the frozen room: Resume, Settings, Main menu; the language (English or 한국어; during a day the switch asks first, then restarts the day in the new language) and sliders for music, sound effects, voices and look sensitivity (saved) |
-| Next morning | The Seoul Daily front page for the outcome beside the case summary: SCAM or REAL and RIGHT / WRONG CALL or TOO LATE stamps, money kept or lost, decided at, time taken, clues with ✓ or where they were, the rule learned, the next day, Play again and Main menu |
+| Next morning | The Seoul Daily front page for the outcome beside the case summary: SCAM or REAL and RIGHT / WRONG CALL or TOO LATE stamps, money kept or lost, decided at, time taken, clues with ✓ or where they were, the rule learned, the next day, Play again and Main menu. Staged for suspense (`EndScreen`): paper and case card arrive with the headline, the stamps and everything under them hidden and the buttons off; from 2.3 s a suspense clip plays (a drone and trembling strings over a heartbeat that quickens for 3.2 s) while the screen's red edges pulse with each beat; at 5.5 s the truth stamp comes down with a low hit and the headline appears; 1.25 s later the verdict stamp with a bright phrase for a right call or a sinking one for a wrong call; then the story, the numbers, the clues one by one, the rule and the buttons. The morning's music only starts after the verdict |
 | Toasts | Top right, informative ones never catch the pointer |
 
-Fonts (all OFL, in `Assets/_Game/UI/Fonts` with their licences): Nanum Gothic for the UI, Do Hyeon for headings, Gaegu for handwriting, DM Serif Display and Crimson Text with Nanum Myeongjo for the newspaper, DotGothic16 for the clock and timers. Nanum Gothic, Do Hyeon, Gaegu and Nanum Myeongjo have Hangul; the Latin-only fonts fall back to Nanum Myeongjo or Nanum Gothic for Korean text.
+Fonts (all OFL, in `Assets/_Game/UI/Fonts` with their licences): Nanum Gothic for the UI (Bold is the base weight; ExtraBold for clocks, timers and counters, its digits all have one width), Do Hyeon for headings, names and the title menu, Gaegu Bold for handwriting, DM Serif Display and Crimson Text (SemiBold for body text) with Nanum Myeongjo Bold for the newspaper. Nanum Gothic, Do Hyeon, Gaegu and Nanum Myeongjo have Hangul; the Latin-only serifs fall back to Nanum Myeongjo for Korean text.
+
+**Readable text.** The game is often played in a small window, where thin strokes break up and grey ink fades into the paper. So: body text is near-black (`--ink` #1A1620, `--ink-soft`, `--muted` #453C42, no mid-greys on paper) or cream on the dark screens; no Regular weights for running text (Nanum Gothic Bold, Crimson Text SemiBold, Nanum Myeongjo Bold, Gaegu Bold); numbers that must be read exactly (phone numbers, accounts, amounts) are in Nanum Gothic; instructions the player acts on (the case file's "Your job", the rule learned) use the same plain font as the rows around them, handwriting is kept for Jiwoo's own notes; the control hints sit on a dark strip. Room panels open a little right of centre, clear of the day tag, the deadline and (on Day 0) the guide's note; their close button sits beside the top right corner, a small gap from the edge, so it never covers the page.
 
 **Language.** `Loc` (Data) holds the language (PlayerPrefs `DCM.Language`) and translates the UI's own strings: code passes the English text, `Loc.T("…")` or `Loc.F("… {0}", …)`, and gets it back in Korean from the table in `LocKo.cs` (a missing entry falls back to English and warns in the editor). The content is not translated at run time: `ContentBuilder` writes every day twice, the Korean assets in a `ko` folder next to the English ones, and `DayCatalog.Load()` picks `Resources/DayCatalog_ko` when the language is Korean. Pictures with writing on them (the calendar, the receipt) have Korean versions (`*_ko` sprites), and the desk newspaper has Korean prints. Korean wraps between words (the panel's text settings use the modern Hangul line-breaking rules). Changing the language reloads the title screen, or restarts the current day after a confirmation. Chat text avoids emoji: the UI fonts have none.
 
@@ -474,17 +511,18 @@ Fonts (all OFL, in `Assets/_Game/UI/Fonts` with their licences): Nanum Gothic fo
 
 **3D and textures.** The bedroom, its props and textures are generated from code in `Tools/ArtGen` (Python for textures, Blender for the model, a Unity editor pipeline for materials, prefab and scene). See `Tools/ArtGen/README.md`. Hand-made Blender models can still replace a generated part: keep the object name, and the pipeline remaps its materials.
 
-**2D.** UI frames, icons, caller portraits, the hand that holds the phone, menu glyphs and the title logo are generated by `Tools/ArtGen/ui_art.py`; the UI pipeline imports them as sprites.
+**2D.** UI frames, icons, caller portraits, document images, the phone and the hand that holds it, the round call buttons and the slider's track, app tiles, the title logo and the title menu's sticker icons are generated by `Tools/ArtGen/ui_art.py` in one style: flat colour, a wobbly ink line, a soft offset shadow, halftone and paper grain for the retro print feel. People (portraits and the room's photos) and the phone's wallpaper are pixel art. The UI pipeline imports the sprites.
 
 **Audio.** See `Tools/Audio/README.md`.
-- Voices: every voiced line is exported from the content in both languages (`Tools/Audio/voice_lines.json`, 152 lines), spoken by a macOS `say` voice per caller and language (English: Daniel, Reed, Shelley; Korean: Rocko, Reed and Yuna), shaped like a phone line (band-pass, compression, line hiss) and imported into the `VoiceBank`. The files go in `Audio/Voices/<voice>/<hash>.wav`. A scam and its legit twin share the voice.
-- Music: generated loops (`Tools/Audio/music.py`): lo-fi keys for the title, a calm bed and a tension layer of the same length for the investigation (crossfaded by the time left), and a bright morning loop for the next morning.
-- SFX: ringtone, vibration, slide-to-answer, hang-up tone, message sound, typing, paper rustle, click, heartbeat, timer tick.
+- Voices: every voiced line is exported from the content in both languages (`Tools/Audio/voice_lines.json`, 190 lines), spoken by a macOS `say` voice per caller and language (English: Samantha, Daniel, Reed, Shelley; Korean: Sandy, Rocko, Reed and Yuna, for Days 0 to 3), shaped like a phone line (band-pass, compression, line hiss) and imported into the `VoiceBank`. The files go in `Audio/Voices/<voice>/<hash>.wav`. A scam and its legit twin share the voice.
+- Music: generated loops (`Tools/Audio/music.py`): lo-fi keys for the title, a calm bed and a tension layer of the same length for the investigation (crossfaded by the time left), and a bright morning loop for the next morning, which waits for the verdict to be stamped.
+- SFX (synthesised in `Sfx`, replaceable by clips of the same name): ringtone, vibration, slide-to-answer, hang-up tone, message sound, typing, paper rustle, click, heartbeat, timer tick, stamp, and the reveal's four: `suspense` (the build-up), `reveal` (the hit), `reveal_good` and `reveal_bad` (the verdict).
 
 ## 12. Testing
 
-- **UI tour** (`Tools > Don't Call Me > UI > Capture UI Tour`): enters Play mode, screenshots every room panel and phone app into `Temp/UITour`, makes both lookups on the computer, then plays Day 1's call twice (questions and hang up; send the money) and checks each step (the lookups show the right names and reports, the call rings, the hold starts, the endings say what was done). Failed checks are logged as `[UITour] FAILED`. It runs in English (it finds buttons by their English labels) and puts the chosen language back afterwards.
+- **UI tour** (`Tools > Don't Call Me > UI > Capture UI Tour`): enters Play mode, screenshots every room panel and phone app into `Temp/UITour`, makes both lookups on the computer, then plays Day 1's call twice (the Room scene opens on Day 1) (questions and hang up; send the money) and checks each step (the lookups show the right names and reports, the call rings, the hold starts, the endings say what was done). Failed checks are logged as `[UITour] FAILED`. It runs in English (it finds buttons by their English labels) and puts the chosen language back afterwards.
 - **Offline compile**: both assemblies compile outside the editor with Unity's own compiler settings (the snippet is in `CLAUDE.md`), so a change can be checked while Unity is busy.
+- **Play-through** (Day 0, played with a call screen that had answer and decline buttons, since replaced by the original slide to answer): Day 0 played end to end in English and in Korean at 1920 × 1080 and 1280 × 720: the guide's thirteen steps, declining the call and its ringing again, each of the eight checks, both verdicts, the next morning, and Day 1 with Day 0's echoes; then Day 3 into the week summary with four days, Case Files (Play, Play again, New week), and the UI tour (27 screenshots, no failed checks).
 - **Play-through** (after the scope cut): Days 1–3 played end to end in English and in Korean, covering both truths of Days 2 and 3, all three outcomes (send the money, hang up, out of time), the week summary, Day 1's call starting by itself when the newspaper is never read, and a saved week from before the cut continuing into Day 3.
 - **Playtests with the target audience** (young adults living alone, at least five people), measuring: right verdicts on Day 1 vs Day 3; whether they look up the account and the number without being told on Days 2 and 3; whether they can name the rules after one run; where they get stuck on controls or UI.
 - Later: a content validator (every clue's target exists in that day's content, every option leads somewhere, both truths of a twin share the ask) and EditMode tests for `DaySetup` and `ClueTracker`.
@@ -494,30 +532,31 @@ Fonts (all OFL, in `Assets/_Game/UI/Fonts` with their licences): Nanum Gothic fo
 | Phase | Work | State |
 | --- | --- | --- |
 | 1. Room and movement | Generated bedroom, first-person controller, colliders | Done |
-| 2. UI templates | UI Toolkit theme and assets, interactor, room panels, phone, incoming call with slide to answer, transcript, decision timer, call HUD | Done |
+| 2. UI templates | UI Toolkit theme and assets, interactor, room panels, phone, incoming call, transcript, decision timer, call HUD | Done |
 | 3. Conversations | Day flow (seated start, CASE OPENED, the hold with questions, beats and the deadline), voiced lines, title / pause / settings / next-morning scenes | Done |
 | 4. Day loop | `GameRun` (save), `DaySetup` (truth, history, echoes), clue tracking, reveal, the week summary; Days 2 and 3 with scam and legit twins | Done |
 | 5. Korean | Language option, Korean content, voices, prints and line breaking | Done |
 | 6. Scope cut | Three apps, four room objects, the computer's two lookups, the calendar, 2 / 3 / 4 clues, the guide, highlights, the hand | Done (2026-10-01) |
-| 7. Polish and playtest | Target-audience playtests, timing and difficulty tuning, ambience | Next |
+| 7. Day 0 and the title | The guided practice day that uses every tool, Case Files, the title's Start button and menu rows, readable text. A pixel-art phone and title, then a navy call screen with answer and decline buttons, were tried and dropped the same day: the phone is the original one (portrait, night skyline, slide to answer) | Done (2026-10-01) |
+| 8. Polish and playtest | Target-audience playtests, timing and difficulty tuning, ambience | Next |
 
 ### 13.1 How to build and try it
 
-- **Content**: `Tools > Don't Call Me > Content > Build Days` writes `Assets/_Game/Data/Day1..Day3` with their Korean copies in each day's `ko` folder, `Resources/DayCatalog` and `Resources/DayCatalog_ko`; `Print Desk Newspapers` prints the desk paper for each front page in both languages (Python, see `Tools/ArtGen/README.md`). When `ContentBuilder.Version` is newer than the one recorded in `Day1.asset`, the editor rebuilds the content, the prints and the voices by itself after the next compile.
+- **Content**: `Tools > Don't Call Me > Content > Build Days` writes `Assets/_Game/Data/Day0..Day3` with their Korean copies in each day's `ko` folder, `Resources/DayCatalog` and `Resources/DayCatalog_ko`; `Print Desk Newspapers` prints the desk paper for each front page in both languages (Python, see `Tools/ArtGen/README.md`). When `ContentBuilder.Version` is newer than the one recorded in `Day1.asset` (`builtWith`), the editor rebuilds the content, the prints and the voices by itself after the next compile.
 - **Audio**: `Tools > Don't Call Me > Audio > Run Voice Pipeline` (export lines, TTS, import) and `Generate Music`.
 - **Scenes**: `Tools > Don't Call Me > Scenes > Build Home and End Scenes` (also sets the build order Home, Room, End); the Room scene's UI, directors and interactables come from `UI > 4. Set Up Game UI in Room Scene`.
-- **Play**: open Home and press Play (Continue picks up the saved week; New week starts at the guided Day 1), or open Room to start straight at the day set on `Flow/DayDirector` (Day 1; set `forceVariant` to `scam` or `legit` to test a truth). To test a later day with echoes, write earlier `DayRecord`s into PlayerPrefs `DCM.Run`. To play in Korean, pick 한국어 in Settings or set PlayerPrefs `DCM.Language` to 1 (0 is English).
+- **Play**: open Home and press Play (Start begins a week at the guided Day 0, Continue picks up the saved week, Case Files plays any day that is open), or open Room to start straight at the day set on `Flow/DayDirector` (Day 1; set `forceVariant` to `scam` or `legit` to test a truth). To test a later day with echoes, write earlier `DayRecord`s into PlayerPrefs `DCM.Run`. To play in Korean, pick 한국어 in Settings or set PlayerPrefs `DCM.Language` to 1 (0 is English).
 - **Check**: the UI tour (12). `DontCallMe.Editor.Tools.GameCapture.Capture(path)` renders a 1920 × 1080 screenshot of the paused game even when the Game view is hidden.
 
 ## 14. Risks
 
 | Risk | Mitigation |
 | --- | --- |
-| Players can't find the investigation tools | The Day 1 guide walks through one full check; usable objects glow; the computer offers the call's number and account as one-click chips |
+| Players can't find the investigation tools, or don't know what they are for | Day 0 uses every tool once on a real case and says what each one showed; usable objects glow; the computer offers the call's number and account as one-click chips |
 | The lookup gives the answer away every day | Only Day 1 has fraud reports. From Day 2 the lookup returns a clean result and a name, which only means something next to the lease, the slip or the chats |
 | Checking everything is always right, so there's no tension | The caller's deadline, his pressure lines, and questions that cost time |
 | Players refuse every call | A run always has one legit caller, and refusing a legit call has a visible cost in the next paper and the next day's echoes |
-| Three days are few | Each day has two truths, so a second week plays differently; more cases can reuse the same four tools (15) |
+| Three cases after the tutorial are few | Each day has two truths, so a second week plays differently; more cases can reuse the same four tools (15) |
 
 ## 15. Cut from the prototype
 

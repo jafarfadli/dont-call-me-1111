@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Day2
   m_EditorClassIdentifier: DontCallMe::DontCallMe.Data.DayData
   day: 2
+  tutorial: 0
   dateLabel: Wednesday, 7 October
   weekday: Wed
   shortLabel: "Day 2 \xB7 Wed 7 Oct"
@@ -32,6 +33,7 @@ MonoBehaviour:
         and CheckFirst shows the caller''s as a prepaid phone opened six days ago.'
       where: "Desk drawer \u2192 Lease contract, or Computer \u2192 Check a phone
         number"
+      guide: 
       when:
       - kind: 1
         target: "Lease contract \xB7 Unit 302"
@@ -40,6 +42,7 @@ MonoBehaviour:
     - id: account_owner
       text: 'The "new rent account" is in a stranger''s name: SEO JIYEON.'
       where: "Computer \u2192 Check a bank account"
+      guide: 
       when:
       - kind: 2
         target: 620-118-449027
@@ -49,6 +52,7 @@ MonoBehaviour:
       text: 'Mr. Choi was writing in the residents'' chat this afternoon: at home,
         fixing a light, asking for the rent on the usual account.'
       where: "Chats \u2192 Mangwon Heights residents"
+      guide: 
       when:
       - kind: 4
         target: villa
@@ -135,6 +139,7 @@ MonoBehaviour:
         registered to Choi Hyunwoo.
       where: "Desk drawer \u2192 Lease contract, or Computer \u2192 Check a phone
         number"
+      guide: 
       when:
       - kind: 1
         target: "Lease contract \xB7 Unit 302"
@@ -143,6 +148,7 @@ MonoBehaviour:
     - id: account_owner
       text: The new account is in Choi Hyunwoo's name, the son your lease names.
       where: "Computer \u2192 Check a bank account"
+      guide: 
       when:
       - kind: 2
         target: 110-771-202358
@@ -152,6 +158,7 @@ MonoBehaviour:
       text: Mr. Choi wrote in the residents' chat this morning that he is in hospital
         and that Hyunwoo collects this month's rent on this account.
       where: "Chats \u2192 Mangwon Heights residents, or the calendar on the wall"
+      guide: 
       when:
       - kind: 4
         target: villa
@@ -360,4 +367,4 @@ MonoBehaviour:
     outgoing: 0
     notify: 1
   nextDateLabel: Thursday, 8 October
-  builtWith: 6
+  builtWith: 7

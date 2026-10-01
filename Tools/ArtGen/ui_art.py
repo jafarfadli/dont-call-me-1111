@@ -514,6 +514,46 @@ def menu_glyphs():
         glyph(name, fn)
 
 
+def title_icons():
+    """The title menu's icons (start, case files, settings, quit): cream with a thick ink line and
+    an offset ink shadow, like the logo's letters."""
+    K = INK + (255,)
+    C = (248, 239, 218, 255)
+
+    def sticker(name, draw, s=112):
+        cv = Canvas(s, s, ss=4, mode="RGBA", bg=(0, 0, 0, 0))
+        draw(cv, s / 2 + 2, s / 2 + 3, K, K)      # the shadow
+        draw(cv, s / 2 - 3, s / 2 - 3, C, K)
+        save(cv.result(), name)
+
+    def play(cv, x, y, fill, ink):
+        cv.poly([(x - 22, y - 32), (x + 32, y), (x - 22, y + 32)], fill=fill, outline=ink, width=6)
+
+    def folder(cv, x, y, fill, ink):
+        cv.poly([(x - 36, y - 26), (x - 12, y - 26), (x - 4, y - 16), (x + 36, y - 16), (x + 36, y + 28), (x - 36, y + 28)],
+                fill=fill, outline=ink, width=8)
+        cv.line([(x - 36, y - 4), (x + 36, y - 4)], ink, 6)
+
+    def gear(cv, x, y, fill, ink):
+        teeth = []
+        for i in range(16):
+            a = i * math.pi / 8
+            r = 37 if i % 2 == 0 else 27
+            teeth.append((x + r * math.cos(a - 0.13), y + r * math.sin(a - 0.13)))
+            teeth.append((x + r * math.cos(a + 0.13), y + r * math.sin(a + 0.13)))
+        cv.poly(teeth, fill=fill, outline=ink, width=7)
+        cv.ellipse(x, y, 11, 11, fill=ink)
+
+    def door(cv, x, y, fill, ink):
+        for col, wd in ((ink, 17), (fill, 7)):
+            cv.line([(x - 2, y - 30), (x - 30, y - 30), (x - 30, y + 30), (x - 2, y + 30)], col, wd)
+            cv.line([(x - 14, y), (x + 30, y)], col, wd)
+            cv.line([(x + 16, y - 15), (x + 31, y), (x + 16, y + 15)], col, wd)
+
+    for name, fn in (("mi_play", play), ("mi_folder", folder), ("mi_gear", gear), ("mi_exit", door)):
+        sticker(name, fn)
+
+
 def gradients():
     """Left-to-right shade behind the title menu, so text stays readable over the room."""
     w, h = 512, 8
@@ -567,22 +607,20 @@ def title_logo():
         return img.rotate(angle, resample=Image.BICUBIC, expand=True)
 
     top = word("DON'T", 205, 4)
-    call = word("CALL", 300, -3)
-    me = word("ME!", 300, -5)
-    gap = -95 * ss
-    bottom_w = call.width + gap + me.width
+    # One piece, so CALL and ME! share a baseline and a tilt.
+    bottom = word("CALL ME!", 300, -3)
+    bottom_w = bottom.width
     # A retro desk telephone (the ☎ dingbat) ringing off the corner; a drawn handset if the font is missing.
     phone_face = next((f for f in ("/System/Library/Fonts/Supplemental/ZapfDingbats.ttf", "/System/Library/Fonts/Apple Symbols.ttf")
                        if os.path.exists(f)), None)
     phone = word("\u260E", 150, 14, face=phone_face, fill=red, shadow_fill=INK + (255,)) if phone_face else None
     W = max(top.width + (phone.width if phone else 0) + 40 * ss, bottom_w + 60 * ss)
-    H = top.height + max(call.height, me.height) - 95 * ss
+    H = top.height + bottom.height - 95 * ss
     out = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     out.alpha_composite(top, (20 * ss, 30 * ss))
     y = top.height - 75 * ss
     x = (W - bottom_w) // 2 + 30 * ss
-    out.alpha_composite(call, (x, y))
-    out.alpha_composite(me, (x + call.width + gap, y - 18 * ss))
+    out.alpha_composite(bottom, (x, y))
     cv = Canvas(W // ss, H // ss, ss=ss, mode="RGBA", bg=(0, 0, 0, 0))
     if phone is not None:
         px, py = top.width + 10 * ss, 0
@@ -620,6 +658,8 @@ PORTRAITS = {
     "pt_jeon": (dict(sex="m", skin="D6A47E", hair="1F1A18", style="short", outfit="blazer", cloth="2F3A52", expression="neutral",
                      glasses=True), "dusk"),
     "pt_hr": (dict(sex="f", skin="E6BE9E", hair="3A2A22", style="long", outfit="blazer", cloth="B89A72", expression="smile"), "teal"),
+    # Day 0: "Team Leader Baek" of the gas company's billing team.
+    "pt_billing": (dict(sex="f", skin="E3B998", hair="2B1E19", style="bob", outfit="blazer", cloth="3E5476", expression="smile"), "olive"),
 }
 
 
@@ -677,15 +717,19 @@ def documents():
     crop_image(tex_prints.notes_image("ko"), "receipt", "notes", "doc_receipt_ko")
     save(tex_prints.calendar_image(lang="ko"), "board_calendar_ko")
 
-    # Stamps.
-    for name, text, col in (("stamp_paid", "PAID", hexc("B8453A")), ("stamp_overdue", "OVERDUE", hexc("B8453A"))):
+    # Stamps (the Korean one is for the Korean days' bill).
+    for name, text, col in (("stamp_paid", "PAID", hexc("B8453A")), ("stamp_paid_ko", "납부완료", hexc("B8453A")),
+                            ("stamp_overdue", "OVERDUE", hexc("B8453A"))):
         cv = Canvas(300, 130, ss=3, mode="RGBA", bg=(0, 0, 0, 0))
-        cv.poly(rrect(8, 8, 292, 122, 16), outline=col + (230,), width=7)
-        cv.poly(rrect(20, 20, 280, 110, 10), outline=col + (200,), width=3)
-        cv.text((150, 66), text, cv.font("Arial Black.ttf", 52 if len(text) < 6 else 40), col + (230,), anchor="mm")
+        cv.poly(rrect(8, 8, 292, 122, 16), outline=col + (255,), width=8)
+        cv.poly(rrect(20, 20, 280, 110, 10), outline=col + (255,), width=3)
+        if name.endswith("_ko"):
+            cv.text((150, 64), text, cv.font("NanumGothic-ExtraBold.ttf", 54), col + (255,), anchor="mm")
+        else:
+            cv.text((150, 66), text, cv.font("Arial Black.ttf", 52 if len(text) < 6 else 40), col + (255,), anchor="mm")
         img = cv.result()
         arr = np.asarray(img).astype(np.float32)
-        arr[..., 3] *= 0.75 + 0.25 * np.random.default_rng(3).random(arr.shape[:2])
+        arr[..., 3] *= 0.88 + 0.12 * np.random.default_rng(3).random(arr.shape[:2])
         save(Image.fromarray(arr.astype(np.uint8), "RGBA").rotate(-8, expand=True, resample=Image.BICUBIC), name)
 
     # Newspaper photo, the same one printed on the desk's paper.
@@ -760,6 +804,7 @@ def run():
     tiles()
     wallpaper()
     menu_glyphs()
+    title_icons()
     gradients()
     title_logo()
     with open(os.path.join(UI_OUT, "slices.json"), "w") as f:

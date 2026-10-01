@@ -12,6 +12,8 @@ namespace DontCallMe.UI
     /// summary: the verdict stamp, money kept, paid or lost, when the player decided, which clues
     /// they found and where the missed ones were, and the rule learned. Then the next day, the same
     /// day again or the menu; after the last day, the week's summary.
+    /// The truth is held back for a few seconds: the paper lands with its headline hidden and a
+    /// heartbeat builds in silence before SCAM or REAL is stamped, then the verdict, then the rest.
     /// </summary>
     [RequireComponent(typeof(UIDocument))]
     public class EndScreen : MonoBehaviour
@@ -21,11 +23,30 @@ namespace DontCallMe.UI
         [SerializeField] DayData previewDay;
         [SerializeField] Outcome previewOutcome = Outcome.Refuse;
 
+        // The reveal, in milliseconds after the scene opens.
+        const long PaperAt = 1100;
+        const long CardAt = 1700;
+        const long SuspenseAt = 2300;
+        /// <summary>The pause between the truth (SCAM or REAL) and the verdict on the player's call.</summary>
+        const long VerdictAfter = 1250;
+        const long RestAfter = 650;
+
         VisualElement root;
         VisualElement screen;
         Fader fade;
         bool built;
         bool leaving;
+
+        // What waits for the reveal: the headline, then everything in "late", then the clues one by one.
+        readonly List<VisualElement> late = new List<VisualElement>();
+        readonly List<(VisualElement line, bool got)> clueLines = new List<(VisualElement line, bool got)>();
+        VisualElement headline;
+        VisualElement truthStamp;
+        VisualElement verdictStamp;
+        VisualElement buttons;
+        VisualElement dread;
+        bool goodCall;
+        float suspenseStart = -1f;
 
         void Awake()
         {
@@ -93,16 +114,81 @@ namespace DontCallMe.UI
             row.Add(left);
             row.Add(summary);
             screen.Add(row);
+            dread = UIKit.Div("end-dread");
+            dread.pickingMode = PickingMode.Ignore;
+            screen.Add(dread);
+
+            // Quiet until the truth is out: the morning's music waits for the verdict.
+            var music = FindAnyObjectByType<MusicPlayer>();
+            if (music != null)
+                music.Hold();
+
+            long truthAt = SuspenseAt + (long)(Sfx.SuspenseSeconds * 1000f);
+            long verdictAt = truthAt + VerdictAfter;
+            long restAt = verdictAt + RestAfter;
 
             caption.schedule.Execute(() => caption.AddToClassList("end--in")).ExecuteLater(500);
             news.schedule.Execute(() =>
             {
                 news.AddToClassList("end--in");
                 Sfx.Play(Sfx.Paper);
-            }).ExecuteLater(1100);
-            summary.schedule.Execute(() => summary.AddToClassList("end--in")).ExecuteLater(1700);
+            }).ExecuteLater(PaperAt);
+            summary.schedule.Execute(() => summary.AddToClassList("end--in")).ExecuteLater(CardAt);
+            // The wait: a heartbeat, quicker and quicker, and the screen's edges closing in with it.
+            dread.schedule.Execute(() =>
+            {
+                suspenseStart = Time.unscaledTime;
+                Sfx.Play(Sfx.Suspense);
+            }).ExecuteLater(SuspenseAt);
+            dread.schedule.Execute(Pulse).Every(16);
+            // Who really called: the stamp comes down and the headline appears with it.
+            screen.schedule.Execute(() =>
+            {
+                suspenseStart = -1f;
+                dread.style.opacity = 0f;
+                Slam(truthStamp);
+                Sfx.Play(Sfx.Reveal);
+                headline?.AddToClassList("end-late--in");
+            }).ExecuteLater(truthAt);
+            // Was the player right.
+            screen.schedule.Execute(() =>
+            {
+                Slam(verdictStamp);
+                Sfx.Play(goodCall ? Sfx.RevealGood : Sfx.RevealBad);
+            }).ExecuteLater(verdictAt);
+            // The story, the numbers and the buttons, and the morning's music.
+            screen.schedule.Execute(() =>
+            {
+                foreach (var e in late)
+                    e.AddToClassList("end-late--in");
+                buttons.SetEnabled(true);
+                if (music != null)
+                    music.PlayMain(3f);
+            }).ExecuteLater(restAt);
+            for (int i = 0; i < clueLines.Count; i++)
+            {
+                var (line, got) = clueLines[i];
+                line.schedule.Execute(() =>
+                {
+                    line.AddToClassList("end-clue--in");
+                    Sfx.Play(got ? Sfx.Pop : Sfx.Tick, 0.5f);
+                }).ExecuteLater(restAt + 450 + 180 * i);
+            }
             if (rule != null)
-                rule.schedule.Execute(() => rule.AddToClassList("end--in")).ExecuteLater(4600);
+                rule.schedule.Execute(() => rule.AddToClassList("end--in")).ExecuteLater(restAt + 450 + 180 * clueLines.Count + 500);
+        }
+
+        /// <summary>The red edges of the screen breathe with the suspense clip's heartbeats.</summary>
+        void Pulse()
+        {
+            if (suspenseStart < 0f)
+                return;
+            float t = Time.unscaledTime - suspenseStart;
+            float beat = 0f;
+            foreach (float b in Sfx.SuspenseBeats)
+                if (t >= b)
+                    beat = Mathf.Max(beat, Mathf.Exp(-(t - b) * 7f));
+            dread.style.opacity = Mathf.Clamp01(0.1f + 0.32f * t / Sfx.SuspenseSeconds + 0.42f * beat);
         }
 
         static VisualElement BuildRule(DayVariant variant)
@@ -121,6 +207,7 @@ namespace DontCallMe.UI
         {
             var sheet = UIKit.Div("news", "end-paper");
             var scroll = new ScrollView(ScrollViewMode.Vertical);
+            scroll.horizontalScrollerVisibility = ScrollerVisibility.Hidden;
             scroll.AddToClassList("news__scroll");
             var c = scroll.contentContainer;
             var top = UIKit.Div("news__top");
@@ -135,10 +222,12 @@ namespace DontCallMe.UI
             c.Add(date);
             if (paper != null)
             {
-                c.Add(UIKit.Text(paper.headline, "news__headline", "end-paper__headline"));
-                c.Add(UIKit.Text(paper.subhead, "news__subhead"));
+                // The headline gives the truth away: it appears with the stamp, the story after the verdict.
+                headline = UIKit.Text(paper.headline, "news__headline", "end-paper__headline", "end-late");
+                c.Add(headline);
+                c.Add(Late(UIKit.Text(paper.subhead, "news__subhead")));
                 foreach (string p in (paper.body ?? "").Split(new[] { "\n\n" }, System.StringSplitOptions.RemoveEmptyEntries))
-                    c.Add(UIKit.Text(p.Trim(), "news__body"));
+                    c.Add(Late(UIKit.Text(p.Trim(), "news__body")));
             }
             sheet.Add(scroll);
             return sheet;
@@ -159,12 +248,15 @@ namespace DontCallMe.UI
 
             bool scam = variant == null || variant.IsScam;
             var (verdict, good) = Judge(scam, result.outcome);
+            goodCall = good;
             var stamps = UIKit.Div("end-card__stamps");
-            stamps.Add(Stamp(Loc.T(scam ? "SCAM" : "REAL"), !scam, -6f, 2300));
-            stamps.Add(Stamp(verdict, good, 5f, 2800));
+            truthStamp = Stamp(Loc.T(scam ? "SCAM" : "REAL"), !scam, -6f);
+            verdictStamp = Stamp(verdict, good, 5f);
+            stamps.Add(truthStamp);
+            stamps.Add(verdictStamp);
             card.Add(stamps);
             if (paper != null && !string.IsNullOrEmpty(paper.verdictNote))
-                card.Add(UIKit.Text(paper.verdictNote, "end-card__note"));
+                card.Add(Late(UIKit.Text(paper.verdictNote, "end-card__note")));
 
             var stats = UIKit.Div("end-card__stats");
             if (result.moneyDelta < 0)
@@ -173,13 +265,12 @@ namespace DontCallMe.UI
                 stats.Add(Stat(Loc.T("Savings kept"), FactText.Won(result.savingsAfter), "amount-in"));
             stats.Add(Stat(Loc.T("Decided at"), result.decidedAt ?? "--:--", null));
             stats.Add(Stat(Loc.T("Time taken"), Loc.F("{0} min", Mathf.Max(1, result.minutesTaken)), null));
-            card.Add(stats);
+            card.Add(Late(stats));
 
             var clues = variant != null ? variant.clues : new List<ClueDef>();
             var found = new HashSet<string>(result.cluesFound);
-            card.Add(UIKit.Text(Loc.F("CLUES YOU FOUND  ·  {0}/{1}", found.Count, clues.Count), "section"));
+            card.Add(Late(UIKit.Text(Loc.F(day.tutorial ? "WHAT YOU CHECKED  ·  {0}/{1}" : "CLUES YOU FOUND  ·  {0}/{1}", found.Count, clues.Count), "section")));
             var list = UIKit.Div("end-card__clues");
-            int i = 0;
             foreach (var clue in clues)
             {
                 bool got = found.Contains(clue.id);
@@ -192,18 +283,15 @@ namespace DontCallMe.UI
                     text.Add(UIKit.Text(Loc.T("Where: ") + clue.where, "end-clue__where"));
                 line.Add(text);
                 list.Add(line);
-                var l = line;
-                l.schedule.Execute(() =>
-                {
-                    l.AddToClassList("end-clue--in");
-                    Sfx.Play(got ? Sfx.Pop : Sfx.Tick, 0.5f);
-                }).ExecuteLater(3300 + 180 * i++);
+                clueLines.Add((line, got));
             }
             card.Add(list);
 
             var catalog = DayCatalog.Load();
             bool hasNext = catalog != null && catalog.Get(day.day + 1) != null;
-            var buttons = UIKit.Div("end-card__buttons");
+            // Nothing to press until the truth is out.
+            buttons = Late(UIKit.Div("end-card__buttons"));
+            buttons.SetEnabled(false);
             if (hasNext)
                 buttons.Add(PauseMenuView.MenuButton("ic_play", Loc.F("Day {0}", day.day + 1), () => Leave(SceneFlow.Room, day.day + 1), "btn--green"));
             else
@@ -257,7 +345,7 @@ namespace DontCallMe.UI
                 name.Add(UIKit.Text(conv != null ? conv.caseInfo.caseTitle : "", "week-row__title"));
                 row.Add(name);
                 row.Add(UIKit.Text(Loc.T(r.scam ? "SCAM" : "REAL"), "week-row__truth", r.scam ? "week-row__truth--scam" : "week-row__truth--real"));
-                row.Add(UIKit.Text(Did(r, conv), "week-row__did"));
+                row.Add(UIKit.Text(DayRecordText.Did(r, conv), "week-row__did"));
                 row.Add(UIKit.Text($"{r.clues.Count}/{r.cluesTotal}", "week-row__clues"));
                 var mark = UIKit.Div("week-row__mark");
                 mark.Add(UIKit.Icon(r.Right ? "ic_check" : "ic_cross", "week-row__icon"));
@@ -295,32 +383,23 @@ namespace DontCallMe.UI
             }
             card.Add(rules);
 
-            var buttons = UIKit.Div("end-card__buttons");
-            buttons.Add(PauseMenuView.MenuButton("ic_play", Loc.T("New week"), () =>
+            var weekButtons = UIKit.Div("end-card__buttons");
+            weekButtons.Add(PauseMenuView.MenuButton("ic_play", Loc.T("New week"), () =>
             {
                 GameRun.NewRun();
-                Leave(SceneFlow.Room, 1);
+                Leave(SceneFlow.Room, GameRun.FirstDay);
             }, "btn--green"));
-            buttons.Add(PauseMenuView.MenuButton("ic_exit", Loc.T("Main menu"), () => Leave(SceneFlow.Home), "btn--blue"));
-            card.Add(buttons);
+            weekButtons.Add(PauseMenuView.MenuButton("ic_exit", Loc.T("Main menu"), () => Leave(SceneFlow.Home), "btn--blue"));
+            card.Add(weekButtons);
             screen.Add(card);
 
             caption.schedule.Execute(() => caption.AddToClassList("end--in")).ExecuteLater(100);
             card.schedule.Execute(() => card.AddToClassList("end--in")).ExecuteLater(350);
         }
 
-        /// <summary>What the player did, in a few words: "Sent ₩450,000", "Hung up", "Ran out of time".</summary>
-        static string Did(DayRecord r, ConversationData conv) => r.outcome switch
-        {
-            Outcome.GoAlong => r.moneyDelta < 0 ? Loc.F("Sent {0}", FactText.Won(-r.moneyDelta)) : conv?.verdict?.goAlong ?? Loc.T("Went along"),
-            Outcome.Refuse => Loc.T("Hung up"),
-            Outcome.Timeout => Loc.T("Ran out of time"),
-            _ => Loc.T("Checked first"),
-        };
-
         static long StartingSavings(DayCatalog catalog)
         {
-            var first = catalog != null ? catalog.Get(1) : null;
+            var first = catalog != null ? catalog.Get(GameRun.FirstDay) ?? catalog.Get(GameRun.FirstDay + 1) : null;
             var phone = first != null && first.variants.Count > 0 ? first.variants[0].phone : null;
             long total = 0;
             if (phone != null)
@@ -339,20 +418,37 @@ namespace DontCallMe.UI
             return s;
         }
 
-        static VisualElement Stamp(string text, bool good, float angle, long delayMs)
+        /// <summary>Marks an element as held back until the verdict is out.</summary>
+        T Late<T>(T element) where T : VisualElement
+        {
+            element.AddToClassList("end-late");
+            late.Add(element);
+            return element;
+        }
+
+        static VisualElement Stamp(string text, bool good, float angle)
         {
             var stamp = UIKit.Text(text, "stamp", good ? "stamp--green" : "stamp--red");
             stamp.style.whiteSpace = WhiteSpace.NoWrap;
             stamp.style.rotate = new Rotate(angle);
-            stamp.schedule.Execute(() =>
-            {
-                stamp.AddToClassList("stamp--down");
-                Sfx.Play(Sfx.Stamp);
-            }).ExecuteLater(delayMs);
             return stamp;
         }
 
-        void Leave(string scene, int day = 0)
+        /// <summary>A stamp that comes down by itself after a delay (the week's rating).</summary>
+        static VisualElement Stamp(string text, bool good, float angle, long delayMs)
+        {
+            var stamp = Stamp(text, good, angle);
+            stamp.schedule.Execute(() => Slam(stamp)).ExecuteLater(delayMs);
+            return stamp;
+        }
+
+        static void Slam(VisualElement stamp)
+        {
+            stamp.AddToClassList("stamp--down");
+            Sfx.Play(Sfx.Stamp);
+        }
+
+        void Leave(string scene, int day = -1)
         {
             if (leaving)
                 return;

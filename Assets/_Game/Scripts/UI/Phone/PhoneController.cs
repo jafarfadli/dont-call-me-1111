@@ -165,6 +165,8 @@ namespace DontCallMe.UI
             var previous = Top;
             stack.Add(s);
             content.Add(s.Root);
+            // The call screen comes back after it slid away (Apps, then Return to call).
+            s.Root.RemoveFromClassList("screen--leave");
             s.Root.AddToClassList("screen--enter");
             s.Root.schedule.Execute(() => s.Root.RemoveFromClassList("screen--enter")).ExecuteLater(30);
             previous?.OnHide();
@@ -187,8 +189,7 @@ namespace DontCallMe.UI
             var top = Top;
             stack.RemoveAt(stack.Count - 1);
             top.OnHide();
-            top.Root.AddToClassList("screen--leave");
-            top.Root.schedule.Execute(() => top.Root.RemoveFromHierarchy()).ExecuteLater(260);
+            Leave(top);
             Top.OnShow();
             UpdateChrome();
         }
@@ -202,8 +203,7 @@ namespace DontCallMe.UI
                 s.OnHide();
                 if (stack.Count == 1)
                 {
-                    s.Root.AddToClassList("screen--leave");
-                    s.Root.schedule.Execute(() => s.Root.RemoveFromHierarchy()).ExecuteLater(260);
+                    Leave(s);
                 }
                 else
                 {
@@ -212,6 +212,17 @@ namespace DontCallMe.UI
             }
             Home.OnShow();
             UpdateChrome();
+        }
+
+        /// <summary>Slides a screen out, then removes it, unless it was pushed again meanwhile.</summary>
+        void Leave(PhoneScreen s)
+        {
+            s.Root.AddToClassList("screen--leave");
+            s.Root.schedule.Execute(() =>
+            {
+                if (!stack.Contains(s))
+                    s.Root.RemoveFromHierarchy();
+            }).ExecuteLater(260);
         }
 
         /// <summary>Clear the stack down to the home screen and show one screen on top (calls).</summary>

@@ -426,7 +426,7 @@ namespace DontCallMe.UI
 
         public void Set(string title, string number, string portraitId)
         {
-            name.text = $"{title}  <color=#5A4E54>{number}</color>";
+            name.text = $"{title}  <color=#2E2731>{number}</color>";
             UIKit.SetImage(portrait, UISkin.Tex(portraitId));
             line.text = "";
             idleHint = "";

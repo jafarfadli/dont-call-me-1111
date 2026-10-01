@@ -57,6 +57,13 @@ MonoBehaviour:
     messages:
     - sender: Hangang Express
       avatar: av_courier
+      when: Mon 21 Sep 14:20
+      text: '[Hangang Express] Delivered: phone case, left at the door of 302.'
+      outgoing: 0
+      photoCaption: 
+      facts: []
+    - sender: Hangang Express
+      avatar: av_courier
       when: Tue 08:30
       text: '[Hangang Express] Your parcel (desk lamp bulbs) arrives tomorrow, 16:00-18:00.
         Questions? Customer centre 1588-5520.'
@@ -132,6 +139,22 @@ MonoBehaviour:
       outgoing: 0
       photoCaption: 
       facts: []
+    - sender: 401
+      avatar: pt_unknown
+      when: Mon 11:48
+      text: Now someone "from the gas company" called me about an unpaid bill. They
+        wanted a transfer today!
+      outgoing: 0
+      photoCaption: 
+      facts: []
+    - sender: Landlord Choi
+      avatar: pt_landlord
+      when: Mon 12:05
+      text: 'Don''t send anything! Mapo City Gas never phones for money. The real
+        number is on your bill: 02-555-0181. - Choi, 1F'
+      outgoing: 0
+      photoCaption: 
+      facts: []
     - sender: Office
       avatar: app_contacts
       when: Tue 14:05
@@ -151,6 +174,27 @@ MonoBehaviour:
     avatar: photo_family
     group: 1
     messages:
+    - sender: Mom
+      avatar: pt_mom
+      when: Sat 11:42
+      text: Sent you a little Chuseok pocket money. Eat something nice!
+      outgoing: 0
+      photoCaption: 
+      facts: []
+    - sender: 
+      avatar: 
+      when: Sat 11:50
+      text: "Thank you Mom!! \u2665"
+      outgoing: 1
+      photoCaption: 
+      facts: []
+    - sender: Dad
+      avatar: pt_dad
+      when: Sun 20:10
+      text: Tomorrow is a holiday. Get some rest, and lock your door.
+      outgoing: 0
+      photoCaption: 
+      facts: []
     - sender: Mom
       avatar: pt_mom
       when: Mon 19:10
@@ -227,6 +271,14 @@ MonoBehaviour:
     avatar: pt_cafe
     group: 1
     messages:
+    - sender: Manager Han
+      avatar: pt_cafe
+      when: Fri 18:00
+      text: Thanks for covering Chuseok week, everyone. We are closed on Monday the
+        5th.
+      outgoing: 0
+      photoCaption: 
+      facts: []
     - sender: Manager Han
       avatar: pt_cafe
       when: Mon 21:00
@@ -317,6 +369,10 @@ MonoBehaviour:
       counterparty: AliStar
       memo: 27-inch monitor
       amount: -307000
+    - when: Mon 28 Sep 09:00
+      counterparty: Mapo City Gas
+      memo: "September gas bill \xB7 auto-pay"
+      amount: -18420
     - when: Sun 20 Sep 09:00
       counterparty: Hangul Telecom
       memo: Phone bill

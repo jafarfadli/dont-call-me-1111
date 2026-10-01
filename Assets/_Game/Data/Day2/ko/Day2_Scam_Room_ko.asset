@@ -129,10 +129,14 @@ MonoBehaviour:
       value: "9\uC6D4 28\uC77C (\uC790\uB3D9\uC774\uCCB4)"
       isFact: 0
       factKind: 6
+    - label: "\uACE0\uAC1D\uC13C\uD130"
+      value: 02-555-0181
+      isFact: 1
+      factKind: 0
     body: "\uC774\uB2EC \uC548\uC804\uC810\uAC80: 10\uC6D4 14\uC77C(\uC218). \uC810\uAC80\uC6D0\uC740
       \uC2E0\uBD84\uC99D\uC744 \uC9C0\uCC38\uD558\uBA70 \uC808\uB300 \uB3C8\uC744
       \uC694\uAD6C\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
-    stamp: stamp_paid
+    stamp: stamp_paid_ko
     image: {fileID: 0}
   - title: "\uD0DD\uBC30 \uC1A1\uC7A5"
     kind: 4

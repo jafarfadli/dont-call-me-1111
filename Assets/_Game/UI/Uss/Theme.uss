@@ -2,8 +2,8 @@
    Cream paper, hand-inked outlines, dusty blue insets, chunky buttons with a hard shadow. */
 
 :root {
-    --ink: #2B2430;
-    --ink-soft: #5A4E54;
+    --ink: #1A1620;
+    --ink-soft: #2E2731;
     --paper: #F2E4C4;
     --paper-light: #F8EFDA;
     --paper-dark: #DCC7A0;
@@ -15,9 +15,9 @@
     --amber: #E3A53C;
     --tan: #C79D6B;
     --screen: #F4EAD2;
-    --muted: #76685F;
+    --muted: #453C42;
 
-    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Regular.asset");
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset");
     font-size: 20px;
     color: var(--ink);
 }
@@ -28,11 +28,10 @@
 .t-bold { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset"); }
 .t-heavy { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset"); }
 .t-display { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DoHyeon-Regular.asset"); }
-.t-hand { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/Gaegu-Regular.asset"); }
+.t-hand { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/Gaegu-Bold.asset"); }
 .t-hand-bold { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/Gaegu-Bold.asset"); }
-.t-pixel { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DotGothic16-Regular.asset"); }
 .t-serif-display { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DMSerifDisplay-Regular.asset"); }
-.t-serif { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/CrimsonText-Regular.asset"); }
+.t-serif { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/CrimsonText-SemiBold.asset"); }
 .t-serif-bold { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/CrimsonText-Bold.asset"); }
 .t-serif-italic { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/CrimsonText-Italic.asset"); }
 .t-muted { color: var(--muted); }
@@ -186,7 +185,7 @@
 .chip--warn { background-image: url("project://database/Assets/_Game/UI/Sprites/chip_red.png"); }
 
 .chip__label {
-    font-size: 17px;
+    font-size: 18px;
     -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset");
     white-space: nowrap;
 }
@@ -236,7 +235,7 @@
 .field .btn {
     min-height: 52px;
     padding: 6px 12px 14px 12px;
-    font-size: 16px;
+    font-size: 17px;
 }
 
 /* ---------------------------------------------------------------- scrollbars
@@ -287,7 +286,7 @@
 .grow { flex-grow: 1; }
 .hidden { display: none; }
 .rule { height: 2px; background-color: var(--ink); margin: 8px 0; opacity: 0.8; }
-.rule-thin { height: 1px; background-color: var(--ink); margin: 6px 0; opacity: 0.35; }
+.rule-thin { height: 1px; background-color: var(--ink); margin: 6px 0; opacity: 0.5; }
 
 .dim {
     position: absolute;

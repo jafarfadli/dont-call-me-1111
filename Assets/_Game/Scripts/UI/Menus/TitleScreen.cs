@@ -8,9 +8,9 @@ using UnityEngine.UIElements;
 namespace DontCallMe.UI
 {
     /// <summary>
-    /// The title screen (Home scene): the DON'T CALL ME! logo over the room at dusk, the menu
-    /// (Continue or Start, New week, Settings, Quit) and a ringing phone whose slide-to-answer
-    /// also starts (or continues) the game.
+    /// The title screen (Home scene), over the room at dusk: the DON'T CALL ME! sticker logo,
+    /// the green Start button (Continue once a week is under way), Case Files, Settings and Quit,
+    /// and a ringing phone whose slide-to-answer also starts (or continues) the game.
     /// </summary>
     [RequireComponent(typeof(UIDocument))]
     public class TitleScreen : MonoBehaviour
@@ -18,10 +18,12 @@ namespace DontCallMe.UI
         [SerializeField] UISkin skin;
 
         VisualElement root;
+        VisualElement screen;
         VisualElement main;
         VisualElement logo;
         VisualElement phone;
         SettingsView settings;
+        CaseFilesView files;
         ModalView confirm;
         Fader fade;
         bool leaving;
@@ -38,6 +40,15 @@ namespace DontCallMe.UI
 
         void OnEnable() => Build();
 
+        /// <summary>The day Start (or the phone) opens: the first unplayed day, or the tutorial of a new week.</summary>
+        static int NextDay(out bool resume)
+        {
+            var catalog = DayCatalog.Load();
+            int next = GameRun.NextDay;
+            resume = GameRun.HasProgress && catalog != null && catalog.Get(next) != null;
+            return resume ? next : GameRun.FirstDay;
+        }
+
         void Build()
         {
             root = GetComponent<UIDocument>().rootVisualElement;
@@ -46,42 +57,33 @@ namespace DontCallMe.UI
             root.AddToClassList("dcm-root");
             root.pickingMode = PickingMode.Ignore;
 
-            var screen = UIKit.Div("title-screen");
+            screen = UIKit.Div("title-screen");
             screen.Add(UIKit.Div("title-screen__shade"));
 
             main = UIKit.Div("title-screen__left");
             logo = UIKit.Div("title-logo");
             UIKit.SetImage(logo, UISkin.Tex("title_logo"));
             main.Add(logo);
-            var tag = UIKit.Div("title-tagline", "paper");
-            tag.Add(UIKit.Text(Loc.T("A scam-call detective game"), "title-tagline__text"));
-            tag.Add(UIKit.Text(Loc.Ko ? "Don't Call Me!" : "전화하지 마세요!", "title-tagline__ko"));
-            main.Add(tag);
             var menu = UIKit.Div("title-menu");
-            var catalog = DayCatalog.Load();
-            int days = catalog != null ? catalog.Count : 1;
-            int next = GameRun.NextDay;
-            if (GameRun.HasProgress && next <= days)
+            NextDay(out bool resume);
+            var start = new Button(Begin) { focusable = false };
+            start.AddToClassList("start-btn");
+            start.Add(UIKit.Icon("mi_play", "start-btn__icon"));
+            start.Add(UIKit.Text(resume ? Loc.T("Continue") : Loc.T("Start"), "start-btn__text"));
+            start.Query().ForEach(e =>
             {
-                menu.Add(PauseMenuView.MenuButton("ic_play", Loc.F("Continue  ·  Day {0}", next), () => StartGame(next), "btn--green"));
-                menu.Add(PauseMenuView.MenuButton("ic_star", Loc.T("New week"), ConfirmNewWeek, null));
-            }
-            else
-            {
-                string label = GameRun.HasProgress ? Loc.T("New week  ·  Day 1") : Loc.T("Start  ·  Day 1");
-                menu.Add(PauseMenuView.MenuButton("ic_play", label, NewWeek, "btn--green"));
-            }
-            menu.Add(PauseMenuView.MenuButton("ic_gear", Loc.T("Settings"), OpenSettings, null));
-            menu.Add(PauseMenuView.MenuButton("ic_exit", Loc.T("Quit"), Quit, "btn--red"));
+                if (e != start)
+                    e.pickingMode = PickingMode.Ignore;
+            });
+            menu.Add(start);
+            menu.Add(Row("mi_folder", Loc.T("Case Files"), OpenFiles));
+            menu.Add(Row("mi_gear", Loc.T("Settings"), OpenSettings));
+            menu.Add(Row("mi_exit", Loc.T("Quit"), Quit));
             main.Add(menu);
             screen.Add(main);
 
             phone = BuildPhone();
             screen.Add(phone);
-
-            var foot = UIKit.Div("title-footer");
-            foot.Add(UIKit.Text(Loc.T("Headphones on  ·  Drag to look  ·  Esc pauses"), "title-footer__text"));
-            screen.Add(foot);
             root.Add(screen);
 
             fade = new Fader(true);
@@ -92,9 +94,25 @@ namespace DontCallMe.UI
                 logo.AddToClassList("title-logo--in");
                 Sfx.Play(Sfx.Stamp, 0.9f);
             }).ExecuteLater(500);
-            tag.schedule.Execute(() => tag.AddToClassList("title-tagline--in")).ExecuteLater(900);
-            menu.schedule.Execute(() => menu.AddToClassList("title-menu--in")).ExecuteLater(1150);
+            menu.schedule.Execute(() => menu.AddToClassList("title-menu--in")).ExecuteLater(1000);
             phone.schedule.Execute(() => phone.AddToClassList("title-phone--in")).ExecuteLater(1400);
+        }
+
+        /// <summary>A menu line: a sticker icon and its label, lighting up under the pointer.</summary>
+        static VisualElement Row(string icon, string label, System.Action onClick)
+        {
+            var row = UIKit.Div("title-row");
+            row.Add(UIKit.Icon(icon, "title-row__icon"));
+            var text = UIKit.Text(label, "title-row__text");
+            text.pickingMode = PickingMode.Ignore;
+            row.Add(text);
+            row.RegisterCallback<ClickEvent>(e =>
+            {
+                Sfx.Play(Sfx.Click, 0.5f);
+                onClick();
+                e.StopPropagation();
+            });
+            return row;
         }
 
         /// <summary>A small phone with an incoming call from an unknown number; answering starts the game.</summary>
@@ -102,7 +120,7 @@ namespace DontCallMe.UI
         {
             // Same structure and classes as the in-game phone and its incoming-call screen, scaled down by USS.
             var box = UIKit.Div("title-phone");
-            var screen = UIKit.Div("phone__screen");
+            var view = UIKit.Div("phone__screen");
             var content = UIKit.Div("phone__content");
             var call = UIKit.Div("call");
             call.Add(UIKit.Div("call__bg"));
@@ -119,11 +137,11 @@ namespace DontCallMe.UI
             info.Add(UIKit.Text("070-8844-2019", "call__number"));
             call.Add(info);
             var slider = new SlideToAnswer();
-            slider.Answered += Answer;
+            slider.Answered += Begin;
             call.Add(slider);
             content.Add(call);
-            screen.Add(content);
-            box.Add(screen);
+            view.Add(content);
+            box.Add(view);
             var frame = UIKit.Div("phone__frame");
             frame.pickingMode = PickingMode.Ignore;
             box.Add(frame);
@@ -133,7 +151,7 @@ namespace DontCallMe.UI
             {
                 k = (k + 0.03f) % 1.4f;
                 float f = k / 1.4f;
-                ring.style.scale = new Scale(Vector2.one * (1f + f * 0.5f));
+                ring.style.scale = new Scale(new Vector2(1f + f * 0.5f, 1f + f * 0.5f));
                 ring.style.opacity = 1f - f;
             }).Every(30);
             return box;
@@ -142,8 +160,6 @@ namespace DontCallMe.UI
         void Update()
         {
             t += Time.unscaledDeltaTime;
-            if (logo != null)
-                logo.style.rotate = new Rotate(Mathf.Sin(t * 1.1f) * 1.2f);
             // The phone buzzes in short bursts, like a call you are trying to ignore.
             if (phone != null)
             {
@@ -160,18 +176,18 @@ namespace DontCallMe.UI
                     CloseConfirm();
                 else if (settings != null)
                     CloseSettings();
+                else if (files != null)
+                    CloseFiles();
             }
         }
 
-        /// <summary>The phone's slide picks up where the run left off, or starts one.</summary>
-        void Answer()
+        /// <summary>Start, and the phone's slider: pick up where the week left off, or start one.</summary>
+        void Begin()
         {
-            var catalog = DayCatalog.Load();
-            int next = GameRun.NextDay;
-            if (GameRun.HasProgress && next <= (catalog != null ? catalog.Count : 1))
-                StartGame(next);
-            else
-                NewWeek();
+            int day = NextDay(out bool resume);
+            if (!resume)
+                GameRun.NewRun();
+            StartGame(day);
         }
 
         void NewWeek()
@@ -179,19 +195,18 @@ namespace DontCallMe.UI
             if (leaving)
                 return;
             GameRun.NewRun();
-            StartGame(1);
+            StartGame(GameRun.FirstDay);
         }
 
-        void ConfirmNewWeek()
+        void Ask(string title, string text, string yes, System.Action onYes)
         {
             if (confirm != null)
                 return;
-            confirm = new ModalView(Loc.T("Start a new week?"), Loc.F("Your week so far (up to Day {0}) will be forgotten.", GameRun.NextDay - 1),
-                                    Loc.T("New week"), Loc.T("Cancel"), () =>
-                                    {
-                                        CloseConfirm();
-                                        NewWeek();
-                                    }, CloseConfirm);
+            confirm = new ModalView(title, text, yes, Loc.T("Cancel"), () =>
+            {
+                CloseConfirm();
+                onYes();
+            }, CloseConfirm);
             root.Add(confirm.Root);
         }
 
@@ -211,15 +226,52 @@ namespace DontCallMe.UI
             fade.FadeOut(1.1f, () => SceneFlow.PlayDay(day));
         }
 
+        // ---------------------------------------------------------------- case files
+
+        void OpenFiles()
+        {
+            if (files != null || settings != null)
+                return;
+            main.Hide(true);
+            files = new CaseFilesView(CloseFiles, PlayDay, () =>
+            {
+                if (!GameRun.HasProgress)
+                    NewWeek();
+                else
+                    Ask(Loc.T("Start a new week?"), Loc.T("Every case file of this week will be cleared."), Loc.T("New week"), NewWeek);
+            });
+            files.Root.AddToClassList("title-settings");
+            files.Root.AddToClassList("menu-card--in");
+            screen.Add(files.Root);
+        }
+
+        /// <summary>A day picked in the case files. Finishing an earlier day again drops the days after it.</summary>
+        void PlayDay(int day)
+        {
+            if (GameRun.Get(day + 1) != null)
+                Ask(Loc.F("Play Day {0} again?", day), Loc.T("When you finish it, the days after it are cleared and played again."), Loc.T("Play again"), () => StartGame(day));
+            else
+                StartGame(day);
+        }
+
+        void CloseFiles()
+        {
+            files?.Root.RemoveFromHierarchy();
+            files = null;
+            main.Hide(false);
+        }
+
+        // ---------------------------------------------------------------- settings
+
         void OpenSettings()
         {
-            if (settings != null)
+            if (settings != null || files != null)
                 return;
             main.Hide(true);
             settings = new SettingsView(CloseSettings, ChangeLanguage);
             settings.Root.AddToClassList("title-settings");
             settings.Root.AddToClassList("menu-card--in");
-            root.Q(className: "title-screen").Add(settings.Root);
+            screen.Add(settings.Root);
         }
 
         /// <summary>The title screen comes back in the new language.</summary>
