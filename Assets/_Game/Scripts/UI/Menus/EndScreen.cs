@@ -72,15 +72,15 @@ namespace DontCallMe.UI
             fade.FadeIn(1.6f);
             if (result == null || result.day == null)
             {
-                screen.Add(UIKit.Text("No day was played.", "end-caption", "end--in"));
-                screen.Add(PauseMenuView.MenuButton("ic_exit", "Main menu", () => Leave(SceneFlow.Home), "btn--blue"));
+                screen.Add(UIKit.Text(Loc.T("No day was played."), "end-caption", "end--in"));
+                screen.Add(PauseMenuView.MenuButton("ic_exit", Loc.T("Main menu"), () => Leave(SceneFlow.Home), "btn--blue"));
                 return;
             }
 
             var day = result.day;
             var variant = result.variant ?? (day.variants.Count > 0 ? day.variants[0] : null);
             var paper = variant?.Paper(result.outcome);
-            var caption = UIKit.Text($"The next morning  ·  {day.nextDateLabel}", "end-caption");
+            var caption = UIKit.Text(Loc.F("The next morning  ·  {0}", day.nextDateLabel), "end-caption");
             screen.Add(caption);
             var row = UIKit.Div("end-row");
             var left = UIKit.Div("end-left");
@@ -110,7 +110,7 @@ namespace DontCallMe.UI
             if (variant == null || string.IsNullOrEmpty(variant.rule))
                 return null;
             var rule = UIKit.Div("end-rule");
-            rule.Add(UIKit.Text("RULE LEARNED  ·  written in your notebook", "end-rule__title"));
+            rule.Add(UIKit.Text(Loc.T("RULE LEARNED  ·  written in your notebook"), "end-rule__title"));
             rule.Add(UIKit.Text(variant.rule, "end-rule__text"));
             if (!string.IsNullOrEmpty(variant.ruleSource))
                 rule.Add(UIKit.Text(variant.ruleSource, "end-rule__source"));
@@ -124,14 +124,14 @@ namespace DontCallMe.UI
             scroll.AddToClassList("news__scroll");
             var c = scroll.contentContainer;
             var top = UIKit.Div("news__top");
-            top.Add(UIKit.Text("서울데일리", "news__kor"));
-            top.Add(UIKit.Text("SEOUL DAILY", "news__masthead"));
-            top.Add(UIKit.Text($"No. {12408 + day.day:N0}", "news__issue"));
+            top.Add(UIKit.Text(Loc.Ko ? "SEOUL DAILY" : "서울데일리", "news__kor"));
+            top.Add(UIKit.Text(Loc.T("SEOUL DAILY"), "news__masthead"));
+            top.Add(UIKit.Text(Loc.F("No. {0:N0}", 12408 + day.day), "news__issue"));
             c.Add(top);
             var date = UIKit.Div("news__dateline");
             date.Add(UIKit.Text((day.nextDateLabel ?? "").ToUpperInvariant()));
-            date.Add(UIKit.Text("MANGWON · MAPO · SEOUL"));
-            date.Add(UIKit.Text("1,000 won"));
+            date.Add(UIKit.Text(Loc.T("MANGWON · MAPO · SEOUL")));
+            date.Add(UIKit.Text(Loc.T("1,000 won")));
             c.Add(date);
             if (paper != null)
             {
@@ -152,7 +152,7 @@ namespace DontCallMe.UI
             var head = UIKit.Div("end-card__head");
             head.Add(UIKit.Portrait(conv != null ? conv.caller.portrait : null, "end-card__portrait"));
             var who = UIKit.Div("grow");
-            who.Add(UIKit.Text($"CASE #{day.day:00}  ·  CLOSED", "section"));
+            who.Add(UIKit.Text(Loc.F("CASE #{0:00}  ·  CLOSED", day.day), "section"));
             who.Add(UIKit.Text(conv != null ? conv.caseInfo.caseTitle : day.name, "end-card__title"));
             head.Add(who);
             card.Add(head);
@@ -160,7 +160,7 @@ namespace DontCallMe.UI
             bool scam = variant == null || variant.IsScam;
             var (verdict, good) = Judge(scam, result.outcome);
             var stamps = UIKit.Div("end-card__stamps");
-            stamps.Add(Stamp(scam ? "SCAM" : "REAL", !scam, -6f, 2300));
+            stamps.Add(Stamp(Loc.T(scam ? "SCAM" : "REAL"), !scam, -6f, 2300));
             stamps.Add(Stamp(verdict, good, 5f, 2800));
             card.Add(stamps);
             if (paper != null && !string.IsNullOrEmpty(paper.verdictNote))
@@ -168,16 +168,16 @@ namespace DontCallMe.UI
 
             var stats = UIKit.Div("end-card__stats");
             if (result.moneyDelta < 0)
-                stats.Add(Stat(scam ? "Lost" : "Paid", FactText.Won(result.moneyDelta), scam ? "amount-out" : null));
+                stats.Add(Stat(Loc.T(scam ? "Lost" : "Paid"), FactText.Won(result.moneyDelta), scam ? "amount-out" : null));
             else
-                stats.Add(Stat("Savings kept", FactText.Won(result.savingsAfter), "amount-in"));
-            stats.Add(Stat("Decided at", result.decidedAt ?? "--:--", null));
-            stats.Add(Stat("Time taken", $"{Mathf.Max(1, result.minutesTaken)} min", null));
+                stats.Add(Stat(Loc.T("Savings kept"), FactText.Won(result.savingsAfter), "amount-in"));
+            stats.Add(Stat(Loc.T("Decided at"), result.decidedAt ?? "--:--", null));
+            stats.Add(Stat(Loc.T("Time taken"), Loc.F("{0} min", Mathf.Max(1, result.minutesTaken)), null));
             card.Add(stats);
 
             var clues = variant != null ? variant.clues : new List<ClueDef>();
             var found = new HashSet<string>(result.cluesFound);
-            card.Add(UIKit.Text($"CLUES YOU FOUND  ·  {found.Count}/{clues.Count}", "section"));
+            card.Add(UIKit.Text(Loc.F("CLUES YOU FOUND  ·  {0}/{1}", found.Count, clues.Count), "section"));
             var list = UIKit.Div("end-card__clues");
             int i = 0;
             foreach (var clue in clues)
@@ -189,7 +189,7 @@ namespace DontCallMe.UI
                 text.style.flexShrink = 1;
                 text.Add(UIKit.Text(clue.text, "end-clue__text"));
                 if (!got)
-                    text.Add(UIKit.Text("Where: " + clue.where, "end-clue__where"));
+                    text.Add(UIKit.Text(Loc.T("Where: ") + clue.where, "end-clue__where"));
                 line.Add(text);
                 list.Add(line);
                 var l = line;
@@ -205,21 +205,21 @@ namespace DontCallMe.UI
             bool hasNext = catalog != null && catalog.Get(day.day + 1) != null;
             var buttons = UIKit.Div("end-card__buttons");
             if (hasNext)
-                buttons.Add(PauseMenuView.MenuButton("ic_play", $"Day {day.day + 1}", () => Leave(SceneFlow.Room, day.day + 1), "btn--green"));
+                buttons.Add(PauseMenuView.MenuButton("ic_play", Loc.F("Day {0}", day.day + 1), () => Leave(SceneFlow.Room, day.day + 1), "btn--green"));
             else
-                buttons.Add(PauseMenuView.MenuButton("ic_star", "Your week", ShowWeek, "btn--green"));
-            buttons.Add(PauseMenuView.MenuButton("ic_back", "Play again", () => Leave(SceneFlow.Room, day.day), null));
-            buttons.Add(PauseMenuView.MenuButton("ic_exit", "Main menu", () => Leave(SceneFlow.Home), "btn--blue"));
+                buttons.Add(PauseMenuView.MenuButton("ic_star", Loc.T("Your week"), ShowWeek, "btn--green"));
+            buttons.Add(PauseMenuView.MenuButton("ic_back", Loc.T("Play again"), () => Leave(SceneFlow.Room, day.day), null));
+            buttons.Add(PauseMenuView.MenuButton("ic_exit", Loc.T("Main menu"), () => Leave(SceneFlow.Home), "btn--blue"));
             card.Add(buttons);
             return card;
         }
 
         static (string text, bool good) Judge(bool scam, Outcome outcome) => outcome switch
         {
-            Outcome.Timeout => ("TOO LATE", false),
-            Outcome.GoAlong => (scam ? "WRONG CALL" : "RIGHT CALL", !scam),
-            Outcome.Refuse => (scam ? "RIGHT CALL" : "WRONG CALL", scam),
-            _ => ("BEST CALL", true),
+            Outcome.Timeout => (Loc.T("TOO LATE"), false),
+            Outcome.GoAlong => (Loc.T(scam ? "WRONG CALL" : "RIGHT CALL"), !scam),
+            Outcome.Refuse => (Loc.T(scam ? "RIGHT CALL" : "WRONG CALL"), scam),
+            _ => (Loc.T("BEST CALL"), true),
         };
 
         // ---------------------------------------------------------------- the week
@@ -232,7 +232,7 @@ namespace DontCallMe.UI
             screen.Clear();
             Sfx.Play(Sfx.Paper);
 
-            var caption = UIKit.Text("YOUR WEEK  ·  WHO REALLY CALLED", "end-caption");
+            var caption = UIKit.Text(Loc.T("YOUR WEEK  ·  WHO REALLY CALLED"), "end-caption");
             screen.Add(caption);
             var card = UIKit.Div("week-card", "paper");
 
@@ -253,10 +253,10 @@ namespace DontCallMe.UI
                 var row = UIKit.Div("week-row");
                 row.Add(UIKit.Portrait(conv != null ? conv.caller.portrait : null, "week-row__portrait"));
                 var name = UIKit.Div("week-row__name");
-                name.Add(UIKit.Text($"DAY {r.day}  ·  {(data != null ? data.dateLabel : "")}", "week-row__day"));
+                name.Add(UIKit.Text(Loc.F("DAY {0}  ·  {1}", r.day, data != null ? data.dateLabel : ""), "week-row__day"));
                 name.Add(UIKit.Text(conv != null ? conv.caseInfo.caseTitle : "", "week-row__title"));
                 row.Add(name);
-                row.Add(UIKit.Text(r.scam ? "SCAM" : "REAL", "week-row__truth", r.scam ? "week-row__truth--scam" : "week-row__truth--real"));
+                row.Add(UIKit.Text(Loc.T(r.scam ? "SCAM" : "REAL"), "week-row__truth", r.scam ? "week-row__truth--scam" : "week-row__truth--real"));
                 row.Add(UIKit.Text(Did(r, conv), "week-row__did"));
                 row.Add(UIKit.Text($"{r.clues.Count}/{r.cluesTotal}", "week-row__clues"));
                 var mark = UIKit.Div("week-row__mark");
@@ -275,17 +275,17 @@ namespace DontCallMe.UI
             long start = StartingSavings(catalog);
             long end = days.Count > 0 ? days[days.Count - 1].savingsAfter : start;
             var stats = UIKit.Div("end-card__stats", "week-stats");
-            stats.Add(Stat("Right calls", $"{right}/{days.Count}", null));
-            stats.Add(Stat("Lost to scams", lost > 0 ? FactText.Won(-lost) : "₩0", lost > 0 ? "amount-out" : "amount-in"));
-            stats.Add(Stat("Savings", $"{FactText.Won(start)} → {FactText.Won(end)}", null));
+            stats.Add(Stat(Loc.T("Right calls"), $"{right}/{days.Count}", null));
+            stats.Add(Stat(Loc.T("Lost to scams"), lost > 0 ? FactText.Won(-lost) : "₩0", lost > 0 ? "amount-out" : "amount-in"));
+            stats.Add(Stat(Loc.T("Savings"), $"{FactText.Won(start)} → {FactText.Won(end)}", null));
             card.Add(stats);
 
             string rating = right == days.Count && days.Count > 0 ? "SCAM-PROOF" : right >= days.Count - 1 && days.Count > 1 ? "CAREFUL" : "AT RISK";
             var stamps = UIKit.Div("end-card__stamps");
-            stamps.Add(Stamp(rating, rating != "AT RISK", -4f, 900 + 350 * days.Count + 400));
+            stamps.Add(Stamp(Loc.T(rating), rating != "AT RISK", -4f, 900 + 350 * days.Count + 400));
             card.Add(stamps);
 
-            card.Add(UIKit.Text("RULES IN YOUR NOTEBOOK", "section"));
+            card.Add(UIKit.Text(Loc.T("RULES IN YOUR NOTEBOOK"), "section"));
             var rules = UIKit.Div("week-rules");
             foreach (var r in days)
             {
@@ -296,12 +296,12 @@ namespace DontCallMe.UI
             card.Add(rules);
 
             var buttons = UIKit.Div("end-card__buttons");
-            buttons.Add(PauseMenuView.MenuButton("ic_play", "New week", () =>
+            buttons.Add(PauseMenuView.MenuButton("ic_play", Loc.T("New week"), () =>
             {
                 GameRun.NewRun();
                 Leave(SceneFlow.Room, 1);
             }, "btn--green"));
-            buttons.Add(PauseMenuView.MenuButton("ic_exit", "Main menu", () => Leave(SceneFlow.Home), "btn--blue"));
+            buttons.Add(PauseMenuView.MenuButton("ic_exit", Loc.T("Main menu"), () => Leave(SceneFlow.Home), "btn--blue"));
             card.Add(buttons);
             screen.Add(card);
 
@@ -312,10 +312,10 @@ namespace DontCallMe.UI
         /// <summary>What the player did, in a few words: "Sent ₩450,000", "Hung up", "Ran out of time".</summary>
         static string Did(DayRecord r, ConversationData conv) => r.outcome switch
         {
-            Outcome.GoAlong => r.moneyDelta < 0 ? "Sent " + FactText.Won(-r.moneyDelta) : conv?.verdict?.goAlong ?? "Went along",
-            Outcome.Refuse => "Hung up",
-            Outcome.Timeout => "Ran out of time",
-            _ => "Checked first",
+            Outcome.GoAlong => r.moneyDelta < 0 ? Loc.F("Sent {0}", FactText.Won(-r.moneyDelta)) : conv?.verdict?.goAlong ?? Loc.T("Went along"),
+            Outcome.Refuse => Loc.T("Hung up"),
+            Outcome.Timeout => Loc.T("Ran out of time"),
+            _ => Loc.T("Checked first"),
         };
 
         static long StartingSavings(DayCatalog catalog)

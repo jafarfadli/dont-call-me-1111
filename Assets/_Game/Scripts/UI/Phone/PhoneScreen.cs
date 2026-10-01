@@ -1,4 +1,5 @@
 using System;
+using DontCallMe.Data;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -25,7 +26,7 @@ namespace DontCallMe.UI
             {
                 var bar = UIKit.Div("screen__header");
                 var back = UIKit.Div("screen__back");
-                back.tooltip = "Back (Esc)";
+                back.tooltip = Loc.T("Back (Esc)");
                 back.RegisterCallback<ClickEvent>(e =>
                 {
                     Sfx.Play(Sfx.Click, 0.5f);
@@ -117,7 +118,7 @@ namespace DontCallMe.UI
             var field = new TextField();
             field.textEdition.placeholder = placeholder;
             row.Add(field);
-            row.Add(UIKit.Btn("Paste", () =>
+            row.Add(UIKit.Btn(Loc.T("Paste"), () =>
             {
                 if (!string.IsNullOrEmpty(Clipboard.Value))
                     field.value = Clipboard.Value;

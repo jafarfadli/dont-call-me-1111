@@ -21,13 +21,13 @@ Game concept and research: `references/idea.md`. This document describes what we
 | Conversations | Calls and chats. The transcript sits next to the phone. At key moments the player picks one of **two** responses, with a visible decision timer; while the caller holds, the player can put questions to him (each costs time) |
 | Investigation | Callers never ask for a code or password. They ask for things legit callers also ask for (a transfer, a visit, a confirmation), so the verdict comes from checking evidence: the name on the account, the official number, the family chat, the paper trail |
 | Verdict | Given only on the call, in the **verdict panel** under the transcript while the caller holds: go along (send the money, agree) or refuse (hang up). Each kind has a fixed colour (gold, red) so the colours never hint at the answer. The rest of the UI (room panels, phone apps) is for investigating: during a case the phone's hang-up button is off, the bank app can check a recipient but not send, and Call buttons can't call out |
-| Voices | Callers are voiced with pre-generated English TTS (macOS `say` voices through a phone-line filter), one voice per character; the transcript reveals each line as it is spoken. The player's lines are text only; chats have no voice |
-| Menus | Title screen (Start, Settings, Quit, and a ringing phone whose slide also starts the game); pause on Esc (Resume, Settings, Main menu); Settings: music, sound effects, voices, look sensitivity |
+| Voices | Callers are voiced with pre-generated TTS in the player's language (macOS `say` voices through a phone-line filter), one voice per character and language; the transcript reveals each line as it is spoken. The player's lines are text only; chats have no voice |
+| Menus | Title screen (Start, Settings, Quit, and a ringing phone whose slide also starts the game); pause on Esc (Resume, Settings, Main menu); Settings: language (English or 한국어), music, sound effects, voices, look sensitivity |
 | Scenarios | A pool of scenarios in twin pairs (one legit, one scam, same ask), each tagged Easy, Medium or Hard by the number of clues needed. Built so far: Day 1 "the protected account" (always a scam), Day 2 "the new rent account" and Day 3 "the held parcel", each a scam or its legit twin at random (see 7.0) |
 | Prototype run | Built: 3 days (Tue 6 – Thu 8 October), saved as the player goes (Continue on the title screen), ending with a week summary. Planned: 5 days, one random scenario per day: Easy, Medium, Medium, Hard, Hard. Each day's truth is revealed in the next morning's newspaper |
 | Continuity | A day remembers the earlier ones without changing its case: the money that left stays gone, yesterday's call is in the log, yesterday's case is on the desk newspaper, the rules pile up in the notebook, and **echoes** (texts, chats, notes on the board, a line on the day card) react to how each day went |
 | Content data | ScriptableObjects, validated by an editor tool |
-| Language | English UI and dialogue; Korean names, places and won amounts. Banks, couriers, shops, companies, people and their numbers are fictional; the public numbers 112 (police), 119 (fire and ambulance) and 1332 (financial fraud hotline) are real |
+| Language | English or Korean, chosen in Settings (title screen or pause menu; the first launch follows the system language). Everything exists in both: UI, dialogue and voices, documents, chats, web pages and the desk newspaper prints. Korean names, places and won amounts in both. Banks, couriers, shops, companies, people and their numbers are fictional; the public numbers 112 (police), 119 (fire and ambulance) and 1332 (financial fraud hotline) are real |
 
 ## 2. A day in the game
 
@@ -442,7 +442,7 @@ Opened after the final morning's newspaper:
 Assets/_Game/
   Scripts/
     Core/       Plain C# rules, no MonoBehaviour, unit-tested
-    Data/       ScriptableObject definitions (content, phone content, conversations)
+    Data/       ScriptableObject definitions (content, phone content, conversations), Loc (language, Korean UI strings)
     Flow/       GameFlow, DayDirector, DebugMenu
     Player/     FirstPersonController
     Gameplay/   Interactor, Interactable
@@ -463,11 +463,12 @@ Assets/_Game/
   Data/
     Day1/       Day 1: phone, directory, room, the call, the day (clues, next-morning papers, rule)
     Day2/ Day3/ Each day's asset plus a call, phone, room and directory per variant (Day2_Scam_*, Day2_Legit_*)
+    Day*/ko/    The same in Korean (Day1_ko, Day2_Scam_Call_ko, …)
     Samples/    A sample chat for testing (F2/F3 in development builds)
     VoiceBank   Every voice clip by voice and text
     Run/  Baseline/  Ambient/  Rules/  Scenarios/<id>/
-  Resources/DayCatalog  The days of the run, in order (found without scene references)
-  Art/Textures/Papers/  The desk newspaper printed for each front page
+  Resources/DayCatalog  The days of the run, in order (found without scene references); DayCatalog_ko in Korean
+  Art/Textures/Papers/  The desk newspaper printed for each front page (*_ko in Korean)
   Prefabs/ Art/ Audio/
   Scenes/Home.unity, Room.unity, End.unity
   Tests/EditMode/
@@ -607,11 +608,13 @@ All panels are UI Toolkit: one `UIDocument` with a panel settings asset scaled f
 | Hold | The transcript footer while the caller holds: the questions still open (1–4) and the verdict panel |
 | Verdict | Dark strip, YOUR VERDICT, gold / red buttons with an icon, a label and a detail line; a coloured confirmation step (send: amount and recipient's name; hang up) |
 | Title screen | The DON'T CALL ME! sticker logo over the room at dusk (slow camera drift), the menu, a ringing phone whose slide starts the game, lo-fi music |
-| Pause and Settings | Paper card over the frozen room: Resume, Settings, Main menu; sliders for music, sound effects, voices and look sensitivity (saved) |
+| Pause and Settings | Paper card over the frozen room: Resume, Settings, Main menu; the language (English or 한국어; during a day the switch asks first, then restarts the day in the new language) and sliders for music, sound effects, voices and look sensitivity (saved) |
 | Next morning | The Seoul Daily front page for the outcome beside the case summary: SCAM or REAL and RIGHT / BEST / WRONG CALL or TOO LATE stamps, money kept or lost, decided at, time taken, clues ✓/✗ with where, the rule learned, Play again and Main menu |
 | Toasts | Top right, informative ones never catch the pointer |
 
-Fonts (all OFL, in `Assets/_Game/UI/Fonts` with their licences): Nanum Gothic for the UI, Do Hyeon for headings, Gaegu for handwriting, DM Serif Display and Crimson Text with Nanum Myeongjo for the newspaper, DotGothic16 for the clock and timers.
+Fonts (all OFL, in `Assets/_Game/UI/Fonts` with their licences): Nanum Gothic for the UI, Do Hyeon for headings, Gaegu for handwriting, DM Serif Display and Crimson Text with Nanum Myeongjo for the newspaper, DotGothic16 for the clock and timers. Nanum Gothic, Do Hyeon, Gaegu and Nanum Myeongjo have Hangul; the Latin-only fonts fall back to Nanum Myeongjo or Nanum Gothic for Korean text.
+
+**Language.** `Loc` (Data) holds the language (PlayerPrefs `DCM.Language`) and translates the UI's own strings: code passes the English text, `Loc.T("…")` or `Loc.F("… {0}", …)`, and gets it back in Korean from the table in `LocKo.cs` (a missing entry falls back to English and warns in the editor). The content is not translated at run time: `ContentBuilder` writes every day twice, the Korean assets in a `ko` folder next to the English ones, and `DayCatalog.Load()` picks `Resources/DayCatalog_ko` when the language is Korean. Pictures with writing on them (the notes on the board, the receipt, the card's signature) have Korean versions (`*_ko` sprites), and the desk newspaper has Korean prints. Korean wraps between words (the panel's text settings use the modern Hangul line-breaking rules). Changing the language reloads the title screen, or restarts the current day after a confirmation. Chat text avoids emoji: the UI fonts have none.
 
 Options in the pause menu: mouse sensitivity, text size (100% / 125% / 150%), text speed, master, voice and SFX volume.
 
@@ -624,7 +627,7 @@ Options in the pause menu: mouse sensitivity, text size (100% / 125% / 150%), te
 **2D.** UI frames, icons, caller portraits, menu glyphs and the title logo are generated by `Tools/ArtGen/ui_art.py`; the UI pipeline imports them as 9-slice sprites.
 
 **Audio.** See `Tools/Audio/README.md`.
-- Voices: every voiced line is exported from the content (`Tools/Audio/voice_lines.json`), spoken by a macOS `say` voice per character (the caller Daniel, the bank Samantha, the fraud hotline Karen, police Tessa, Mom Moira, Dad Rishi), shaped like a phone line (band-pass, compression, line hiss) and imported into the `VoiceBank`. The files go in `Audio/Voices/<voice>/<hash>.wav`.
+- Voices: every voiced line is exported from the content in both languages (`Tools/Audio/voice_lines.json`), spoken by a macOS `say` voice per character and language (in English the caller Daniel, the bank Samantha, the fraud hotline Karen, police Tessa, Mom Moira, Dad Rishi; in Korean the Korean variants of Rocko, Sandy, Shelley, Flo, Grandma and Grandpa), shaped like a phone line (band-pass, compression, line hiss) and imported into the `VoiceBank`. The files go in `Audio/Voices/<voice>/<hash>.wav`.
 - Music: generated loops (`Tools/Audio/music.py`): lo-fi keys for the title, a calm bed and a tension layer of the same length for the investigation (crossfaded by the time left), and a bright morning loop for the next morning.
 - SFX: ringtone, vibration, slide-to-answer, hang-up tone, message sound, typing, paper rustle, drawer, heartbeat, timer tick.
 - Ambience: alley sounds through the window (delivery scooters, cicadas, a vendor truck's loudspeaker), the air conditioner and the dehumidifier.
@@ -673,11 +676,11 @@ Each phase ends with something playable.
 
 ### 13.1 How to build and try it
 
-- **Content**: `Tools > Don't Call Me > Content > Build Days` writes `Assets/_Game/Data/Day1..Day3`, the sample chat in `Data/Samples` and `Resources/DayCatalog`; `Print Desk Newspapers` prints the desk paper for each front page (Python, see `Tools/ArtGen/README.md`). When `ContentBuilder.Version` is newer than the one recorded in `Day1.asset`, the editor rebuilds the content, the prints and the voices by itself after the next compile.
+- **Content**: `Tools > Don't Call Me > Content > Build Days` writes `Assets/_Game/Data/Day1..Day3` with their Korean copies in each day's `ko` folder, the sample chat in `Data/Samples` (English only), `Resources/DayCatalog` and `Resources/DayCatalog_ko`; `Print Desk Newspapers` prints the desk paper for each front page in both languages (Python, see `Tools/ArtGen/README.md`). When `ContentBuilder.Version` is newer than the one recorded in `Day1.asset`, the editor rebuilds the content, the prints and the voices by itself after the next compile.
 - **Audio**: `Tools > Don't Call Me > Audio > Run Voice Pipeline` (export lines, TTS, import) and `Generate Music`.
 - **Scenes**: `Tools > Don't Call Me > Scenes > Build Home and End Scenes` (also sets the build order Home, Room, End); the Room scene's UI and directors come from `UI > 4. Set Up Game UI in Room Scene`.
-- **Play**: open Home and press Play (Continue picks up the saved week), or open Room to start straight at the day set on `Flow/DayDirector` (Day 1; set `forceVariant` to `scam` or `legit` to test a truth). To test a later day with echoes, write earlier `DayRecord`s into PlayerPrefs `DCM.Run`. `F2` (demo call) and `F3` (sample chat) work in development builds when no day is running.
-- **Check**: `Tools > Don't Call Me > UI > Capture UI Tour` screenshots every panel and app and plays calls to each ending. `DontCallMe.Editor.Tools.GameCapture.Capture(path)` renders a 1920 × 1080 screenshot of the paused game even when the Game view is hidden.
+- **Play**: open Home and press Play (Continue picks up the saved week), or open Room to start straight at the day set on `Flow/DayDirector` (Day 1; set `forceVariant` to `scam` or `legit` to test a truth). To test a later day with echoes, write earlier `DayRecord`s into PlayerPrefs `DCM.Run`. `F2` (demo call) and `F3` (sample chat) work in development builds when no day is running. To play in Korean, pick 한국어 in Settings or set PlayerPrefs `DCM.Language` to 1 (0 is English).
+- **Check**: `Tools > Don't Call Me > UI > Capture UI Tour` screenshots every panel and app and plays calls to each ending. It runs in English (it finds buttons by their English labels) and puts the chosen language back afterwards. `DontCallMe.Editor.Tools.GameCapture.Capture(path)` renders a 1920 × 1080 screenshot of the paused game even when the Game view is hidden.
 
 ## 14. Debug menu
 

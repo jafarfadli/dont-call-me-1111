@@ -329,7 +329,7 @@ namespace DontCallMe.UI
                 return;
             if (on)
             {
-                pauseMenu = new PauseMenuView($"{GameClock.DayLabel}  ·  {GameClock.Now}", () => SetPaused(false), ConfirmMainMenu);
+                pauseMenu = new PauseMenuView($"{GameClock.DayLabel}  ·  {GameClock.Now}", () => SetPaused(false), ConfirmMainMenu, ConfirmLanguage);
                 overlayLayer.Add(pauseMenu.Root);
                 Time.timeScale = 0f;
                 AudioListener.pause = true;
@@ -349,12 +349,33 @@ namespace DontCallMe.UI
 
         void ConfirmMainMenu()
         {
-            Confirm("Back to the main menu?", "Today's case ends here. You can start the day again from the title screen.",
-                    "Main menu", "Stay", () =>
+            Confirm(Loc.T("Back to the main menu?"), Loc.T("Today's case ends here. You can start the day again from the title screen."),
+                    Loc.T("Main menu"), Loc.T("Stay"), () =>
                     {
                         MusicPlayer.Current?.Stop(0.8f);
                         Fade.FadeOut(0.8f, () => SceneFlow.Load(SceneFlow.Home));
                     });
+        }
+
+        /// <summary>
+        /// A new language from the pause menu: today's case starts again in that language (the call
+        /// and the evidence are built per language).
+        /// </summary>
+        void ConfirmLanguage(Lang lang)
+        {
+            // Asked in the language the player picked.
+            var previous = Loc.Current;
+            Loc.Use(lang);
+            string title = Loc.T("Restart today's case?"), text = Loc.F("The case starts again from the beginning, in {0}.", Loc.Name(lang)),
+                   yes = Loc.T("Restart"), no = Loc.T("Stay");
+            Loc.Use(previous);
+            Confirm(title, text, yes, no, () =>
+            {
+                Loc.Current = lang;
+                int day = FindAnyObjectByType<DayDirector>()?.Day?.day ?? 1;
+                MusicPlayer.Current?.Stop(0.8f);
+                Fade.FadeOut(0.8f, () => SceneFlow.PlayDay(day));
+            });
         }
 
         // ---------------------------------------------------------------- day and case cards
@@ -488,7 +509,7 @@ namespace DontCallMe.UI
             var head = UIKit.Div("ending__head");
             head.Add(UIKit.Portrait(info.portrait, "ending__portrait"));
             var who = UIKit.Div("grow");
-            who.Add(UIKit.Text("CASE CLOSED", "section"));
+            who.Add(UIKit.Text(Loc.T("CASE CLOSED"), "section"));
             who.Add(UIKit.Text(info.caller, "ending__caller"));
             head.Add(who);
             card.Add(head);
@@ -507,7 +528,7 @@ namespace DontCallMe.UI
             if (!string.IsNullOrEmpty(info.consequence))
                 card.Add(UIKit.Text(info.consequence, "ending__line"));
             var buttons = UIKit.Div("modal__buttons");
-            buttons.Add(UIKit.Btn("Continue", () =>
+            buttons.Add(UIKit.Btn(Loc.T("Continue"), () =>
             {
                 endingCard?.RemoveFromHierarchy();
                 endingCard = null;
@@ -535,7 +556,7 @@ namespace DontCallMe.UI
 
         public void Toast(string icon, string title, string text) => Hud?.Toast(icon, title, text);
 
-        void OnCopied(Fact f) => Hud?.Toast("ic_copy", "Copied", f.value + "  ·  paste it in any app");
+        void OnCopied(Fact f) => Hud?.Toast("ic_copy", Loc.T("Copied"), f.value + Loc.T("  ·  paste it in any app"));
 
         // ---------------------------------------------------------------- phone hooks
 
@@ -602,7 +623,7 @@ namespace DontCallMe.UI
             if (root?.panel == null || InputLocked)
                 return;
             var panelPos = RuntimePanelUtils.ScreenToPanel(root.panel, new Vector2(screenPosition.x, Screen.height - screenPosition.y));
-            Hud.ShowPrompt(text, panelPos);
+            Hud.ShowPrompt(Loc.T(text), panelPos);
         }
 
         public void HidePrompt() => Hud?.HidePrompt();

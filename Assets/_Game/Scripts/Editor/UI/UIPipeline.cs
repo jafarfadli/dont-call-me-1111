@@ -32,6 +32,7 @@ namespace DontCallMe.Editor.UI
         const string FontOut = FontDir + "/Generated";
         const string SettingsDir = UIRoot + "/Settings";
         const string PanelSettingsPath = SettingsDir + "/PS_Game.asset";
+        const string TextSettingsPath = SettingsDir + "/PTS_Game.asset";
         const string ThemePath = SettingsDir + "/DCM_Theme.tss";
         const string SkinPath = SettingsDir + "/UISkin.asset";
         const string ScenePath = "Assets/_Game/Scenes/Room.unity";
@@ -180,6 +181,7 @@ namespace DontCallMe.Editor.UI
             ps.match = 0.5f;
             ps.sortingOrder = 10;
             ps.clearColor = false;
+            ps.textSettings = BuildTextSettings();
             EditorUtility.SetDirty(ps);
 
             var skin = AssetDatabase.LoadAssetAtPath<UISkin>(SkinPath);
@@ -195,6 +197,24 @@ namespace DontCallMe.Editor.UI
                 .ToList();
             EditorUtility.SetDirty(skin);
             AssetDatabase.SaveAssets();
+        }
+
+        /// <summary>
+        /// The default text settings, except that Korean wraps between words (어절) as Korean text
+        /// should, not between any two syllables.
+        /// </summary>
+        static PanelTextSettings BuildTextSettings()
+        {
+            var text = AssetDatabase.LoadAssetAtPath<PanelTextSettings>(TextSettingsPath);
+            if (text == null)
+            {
+                text = ScriptableObject.CreateInstance<PanelTextSettings>();
+                AssetDatabase.CreateAsset(text, TextSettingsPath);
+            }
+            var so = new SerializedObject(text);
+            so.FindProperty("m_UnicodeLineBreakingRules.m_UseModernHangulLineBreakingRules").boolValue = true;
+            so.ApplyModifiedPropertiesWithoutUndo();
+            return text;
         }
 
         // ---------------------------------------------------------------- scene

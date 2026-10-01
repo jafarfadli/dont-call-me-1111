@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: DontCallMe::DontCallMe.Data.DayData
   day: 2
   dateLabel: Wednesday, 7 October
+  weekday: Wed
   shortLabel: "Day 2 \xB7 Wed 7 Oct"
   place: Mangwon-dong, Seoul
   startTime: 16:20
@@ -298,7 +299,7 @@ MonoBehaviour:
     when: Yesterday 21:30
     title: 
     text: "Jiwoo-ya, Dad told me. Don't blame yourself, these people are professionals.
-      We'll help with tuition \u2764\uFE0F"
+      We'll help with tuition \u2665"
     link: 
     amount: 0
     outgoing: 0
@@ -367,7 +368,7 @@ MonoBehaviour:
     avatar: pt_yuna
     when: Yesterday 17:31
     title: 
-    text: "WHAT. Good thing you hung up \U0001F631 Report the number!"
+    text: WHAT. Good thing you hung up!! Report the number!
     link: 
     amount: 0
     outgoing: 0
@@ -504,7 +505,7 @@ MonoBehaviour:
     avatar: 
     when: 
     title: Sticky note
-    text: "070-8844-2019 = fake bank. Hung up \u2713"
+    text: 070-8844-2019 = fake bank. Hung up!
     link: 
     amount: 0
     outgoing: 0
@@ -530,4 +531,4 @@ MonoBehaviour:
     rotation: -3
     notify: 0
   nextDateLabel: Thursday, 8 October
-  builtWith: 4
+  builtWith: 5

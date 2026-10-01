@@ -54,7 +54,8 @@ namespace DontCallMe.Data
 
         public static string Won(long amount)
         {
-            string sign = amount < 0 ? "−" : "";
+            // A plain hyphen: the UI fonts have no minus sign (U+2212).
+            string sign = amount < 0 ? "-" : "";
             return $"{sign}₩{Math.Abs(amount):N0}";
         }
     }

@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: DontCallMe::DontCallMe.Data.DayData
   day: 1
   dateLabel: Tuesday, 6 October
+  weekday: Tue
   shortLabel: "Day 1 \xB7 Tue 6 Oct"
   place: Mangwon-dong, Seoul
   startTime: 16:20
@@ -149,4 +150,4 @@ MonoBehaviour:
     ruleSource: Seoul Daily, 7 Oct
   echoes: []
   nextDateLabel: Wednesday, 7 October
-  builtWith: 4
+  builtWith: 5

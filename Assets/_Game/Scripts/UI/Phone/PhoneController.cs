@@ -70,7 +70,7 @@ namespace DontCallMe.UI
             screen.Add(status);
 
             returnBar = UIKit.Div("return-bar");
-            returnLabel = UIKit.Text("Return to call", "return-bar__label");
+            returnLabel = UIKit.Text(Loc.T("Return to call"), "return-bar__label");
             returnLabel.pickingMode = PickingMode.Ignore;
             returnBar.Add(returnLabel);
             returnBar.RegisterCallback<ClickEvent>(e =>
@@ -83,7 +83,7 @@ namespace DontCallMe.UI
 
             var homeBar = UIKit.Div("home-bar");
             homeBar.Add(UIKit.Div("home-bar__pill"));
-            homeBar.tooltip = "Home";
+            homeBar.tooltip = Loc.T("Home");
             homeBar.RegisterCallback<ClickEvent>(e =>
             {
                 if (!Locked)
@@ -281,7 +281,7 @@ namespace DontCallMe.UI
             returnBar.Hide(!showReturn);
             content.EnableInClassList("phone__content--return", showReturn);
             if (showReturn)
-                returnLabel.text = $"Return to call  ·  {CallTimerText}";
+                returnLabel.text = Loc.T("Return to call") + $"  ·  {CallTimerText}";
         }
 
         void UpdateChrome()

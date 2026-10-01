@@ -127,12 +127,18 @@ MonoBehaviour:
     aliases:
     - nuri bank
     - "\uB204\uB9AC\uC740\uD589"
+    - "\uB204\uB9AC"
     - nuri
     - bank
+    - "\uC740\uD589"
     - customer centre
+    - "\uACE0\uAC1D\uC13C\uD130"
     - protection team
+    - "\uBCF4\uD638\uD300"
     - protected account
+    - "\uBCF4\uD638\uACC4\uC88C"
     - safe account
+    - "\uC548\uC804\uACC4\uC88C"
     blocks:
     - kind: 1
       text: Need help with your account or card? We're here 24 hours a day.
@@ -199,10 +205,14 @@ MonoBehaviour:
     - fss
     - financial supervisory service
     - "\uAE08\uC735\uAC10\uB3C5\uC6D0"
+    - "\uAE08\uAC10\uC6D0"
     - 1332
     - voice phishing
+    - "\uBCF4\uC774\uC2A4\uD53C\uC2F1"
     - safe account
+    - "\uC548\uC804\uACC4\uC88C"
     - fraud
+    - "\uC0AC\uAE30"
     blocks:
     - kind: 2
       text: Fraud hotline
@@ -225,6 +235,7 @@ MonoBehaviour:
     - police
     - "\uACBD\uCC30"
     - mapo police station
+    - "\uB9C8\uD3EC\uACBD\uCC30\uC11C"
     blocks:
     - kind: 2
       text: Main number
@@ -243,9 +254,13 @@ MonoBehaviour:
     official: 1
     aliases:
     - gas
+    - "\uAC00\uC2A4"
     - mapo city gas
+    - "\uB9C8\uD3EC\uB3C4\uC2DC\uAC00\uC2A4"
     - inspection
+    - "\uC810\uAC80"
     - boiler
+    - "\uBCF4\uC77C\uB7EC"
     blocks:
     - kind: 2
       text: Customer centre
@@ -261,12 +276,18 @@ MonoBehaviour:
     official: 1
     aliases:
     - rent
-    - landlord
-    - housing
-    - lease
-    - rent account
-    - tenant
     - "\uC6D4\uC138"
+    - landlord
+    - "\uC9D1\uC8FC\uC778"
+    - "\uC784\uB300\uC778"
+    - housing
+    - "\uC8FC\uAC70"
+    - lease
+    - "\uACC4\uC57D\uC11C"
+    - rent account
+    - "\uC6D4\uC138 \uACC4\uC88C"
+    - tenant
+    - "\uC138\uC785\uC790"
     blocks:
     - kind: 1
       text: Most leases say how the rent account can change. If yours says 'in writing',
@@ -288,11 +309,16 @@ MonoBehaviour:
     aliases:
     - customs
     - "\uAD00\uC138\uCCAD"
+    - "\uC138\uAD00"
     - duty
+    - "\uAD00\uC138"
     - import
+    - "\uC9C1\uAD6C"
     - vat
+    - "\uBD80\uAC00\uC138"
     - korea customs
     - overseas
+    - "\uD574\uC678"
     blocks:
     - kind: 1
       text: Personal orders up to US$150 are free of duty. Above that you pay duty
@@ -313,10 +339,14 @@ MonoBehaviour:
     official: 1
     aliases:
     - seoul daily
+    - "\uC11C\uC6B8\uB370\uC77C\uB9AC"
     - news
+    - "\uB274\uC2A4"
     - read the name
     - protected account
+    - "\uBCF4\uD638\uACC4\uC88C"
     - voice phishing
+    - "\uBCF4\uC774\uC2A4\uD53C\uC2F1"
     blocks:
     - kind: 1
       text: Callers claiming to be bank 'protection teams' are asking customers to
@@ -335,12 +365,17 @@ MonoBehaviour:
     - hangang express
     - hangang
     - "\uD55C\uAC15\uC775\uC2A4\uD504\uB808\uC2A4"
+    - "\uD55C\uAC15"
     - courier
+    - "\uD0DD\uBC30"
     - customs
+    - "\uD1B5\uAD00"
+    - "\uAD00\uC138"
     - duty
     - parcel
     - tracking
     - track
+    - "\uC6B4\uC1A1\uC7A5"
     blocks:
     - kind: 2
       text: Customer centre and customs desk

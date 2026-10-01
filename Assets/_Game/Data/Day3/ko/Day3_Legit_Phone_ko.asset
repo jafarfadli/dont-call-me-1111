@@ -1,0 +1,556 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 041cf89f7e55d4287be44650d070a6f8, type: 3}
+  m_Name: Day3_Legit_Phone_ko
+  m_EditorClassIdentifier: DontCallMe::DontCallMe.Data.PhoneContent
+  ownerName: "\uAE40\uC9C0\uC6B0"
+  ownerNumber: 010-6620-0921
+  dateLabel: "10\uC6D4 8\uC77C \uBAA9\uC694\uC77C"
+  startTime: 16:25
+  contacts:
+  - name: "\uC5C4\uB9C8"
+    number: 010-2231-7745
+    memo: "\uBC15\uD61C\uC9C4"
+    portrait: pt_mom
+  - name: "\uC544\uBE60"
+    number: 010-4418-0902
+    memo: "\uAE40\uB3D9\uC218"
+    portrait: pt_dad
+  - name: "\uBBFC\uC900\uC774"
+    number: 010-3321-5580
+    memo: "\uB0A8\uB3D9\uC0DD \xB7 \uB300\uC804"
+    portrait: pt_minjun
+  - name: "\uC720\uB098"
+    number: 010-7780-1123
+    memo: "11\uC6D4 7\uC77C \uCF58\uC11C\uD2B8!"
+    portrait: pt_yuna
+  - name: "\uC9D1\uC8FC\uC778 \uCD5C \uC0AC\uC7A5\uB2D8"
+    number: 010-5512-3380
+    memo: "1\uCE35 \xB7 \uC6D4\uC138 \uB9E4\uB2EC 7\uC77C"
+    portrait: pt_landlord
+  - name: "\uD0DC\uD638 (\uBBFC\uC900\uC774 \uCE5C\uAD6C)"
+    number: 010-9043-2217
+    memo: "\uCD94\uC11D \uB54C \uB9CC\uB0A8"
+    portrait: pt_taeho
+  - name: "\uD55C \uB9E4\uB2C8\uC800 (\uCE74\uD398)"
+    number: 010-5530-8812
+    memo: "\uB9DD\uC6D0\uB85C\uC2A4\uD130\uC2A4"
+    portrait: pt_cafe
+  - name: "\uB204\uB9AC\uC740\uD589"
+    number: 1599-0000
+    memo: "\uACE0\uAC1D\uC13C\uD130, \uCE74\uB4DC \uB4B7\uBA74 \uBC88\uD638"
+    portrait: app_bank
+  - name: "\uB9DD\uC6D0\uD558\uC774\uCE20 \uAD00\uB9AC\uC0AC\uBB34\uC18C"
+    number: 02-555-0192
+    memo: "\uAC74\uBB3C \uAD00\uB9AC"
+    portrait: app_contacts
+  recents:
+  - number: 010-3321-5580
+    kind: 0
+    when: "\uC5B4\uC81C 20:45"
+    duration: 4:12
+  - number: 010-7780-1123
+    kind: 0
+    when: "\uC5B4\uC81C 12:10"
+    duration: 2:05
+  - number: 010-2231-7745
+    kind: 1
+    when: "\uC6D4\uC694\uC77C 21:40"
+    duration: 12:04
+  - number: 010-5530-8812
+    kind: 0
+    when: "\uC6D4\uC694\uC77C 11:02"
+    duration: 1:48
+  - number: 010-7780-1123
+    kind: 1
+    when: "\uC77C\uC694\uC77C 19:20"
+    duration: 8:31
+  - number: 070-4852-1170
+    kind: 2
+    when: "\uAE08\uC694\uC77C 14:12"
+    duration: 
+  - number: 02-555-0181
+    kind: 0
+    when: "10\uC6D4 1\uC77C 10:15"
+    duration: 0:52
+  sms:
+  - sender: "\uD55C\uAC15\uC775\uC2A4\uD504\uB808\uC2A4"
+    messages:
+    - when: "\uD654\uC694\uC77C 08:30"
+      text: "[\uD55C\uAC15\uC775\uC2A4\uD504\uB808\uC2A4] \uACE0\uAC1D\uB2D8\uC758
+        \uD0DD\uBC30(\uC2A4\uD0E0\uB4DC \uC804\uAD6C)\uAC00 \uB0B4\uC77C 16:00~18:00\uC5D0
+        \uB3C4\uCC29\uD569\uB2C8\uB2E4. \uBC30\uC1A1\uAE30\uC0AC \uAE40\uD0DC\uC2DD
+        010-7715-5521"
+      outgoing: 0
+      link: 
+    - when: "\uC5B4\uC81C 17:32"
+      text: "[\uD55C\uAC15\uC775\uC2A4\uD504\uB808\uC2A4] \uBC30\uC1A1 \uC644\uB8CC:
+        \uC2A4\uD0E0\uB4DC \uC804\uAD6C, 302\uD638 \uBB38 \uC55E. \uC0AC\uC9C4\uC740
+        \uC571\uC5D0\uC11C \uD655\uC778\uD558\uC138\uC694."
+      outgoing: 0
+      link: 
+    - when: "\uC624\uB298 10:02"
+      text: "[\uD55C\uAC15\uC775\uC2A4\uD504\uB808\uC2A4] \uD574\uC678 \uD0DD\uBC30
+        HX-5520-1183-KR\uC774 \uC138\uAD00\uC5D0 \uBCF4\uB958\uB418\uC5C8\uC2B5\uB2C8\uB2E4:
+        \uAD00\uC138\xB7\uBD80\uAC00\uC138 56,600\uC6D0. \uC790\uC138\uD55C \uB0B4\uC6A9\uC740
+        \uD0DD\uBC30 \uC571\uC5D0\uC11C \uD655\uC778\uD558\uC138\uC694. \uD1B5\uAD00\uD300\uC774
+        1588-5520\uC73C\uB85C \uC5F0\uB77D\uB4DC\uB9B4 \uC218 \uC788\uC2B5\uB2C8\uB2E4."
+      outgoing: 0
+      link: 
+  - sender: 1599-0000
+    messages:
+    - when: "\uC6D4\uC694\uC77C 22:47"
+      text: "[Web\uBC1C\uC2E0] [\uB204\uB9AC\uC740\uD589] \uC0C8 \uAE30\uAE30 \uB4F1\uB85D:
+        MacBook Air (\uC11C\uC6B8). \uBCF8\uC778\uC774 \uC544\uB2C8\uBA74 1599-0000\uC73C\uB85C
+        \uC5F0\uB77D \uC8FC\uC138\uC694."
+      outgoing: 0
+      link: 
+    - when: "\uD654\uC694\uC77C 09:03"
+      text: "[Web\uBC1C\uC2E0] [\uB204\uB9AC\uC740\uD589] \uCCB4\uD06C\uCE74\uB4DC
+        \uC2B9\uC778 4,500\uC6D0 \xB7 \uB9DD\uC6D0\uB85C\uC2A4\uD130\uC2A4"
+      outgoing: 0
+      link: 
+    - when: "\uC5B4\uC81C 12:40"
+      text: "[Web\uBC1C\uC2E0] [\uB204\uB9AC\uC740\uD589] \uCCB4\uD06C\uCE74\uB4DC
+        \uC2B9\uC778 8,900\uC6D0 \xB7 \uD55C\uBE5B\uB300 \uD559\uC0DD\uC2DD\uB2F9"
+      outgoing: 0
+      link: 
+    - when: "\uC624\uB298 09:10"
+      text: "[Web\uBC1C\uC2E0] [\uB204\uB9AC\uC740\uD589] \uCCB4\uD06C\uCE74\uB4DC
+        \uC2B9\uC778 4,500\uC6D0 \xB7 \uB9DD\uC6D0\uB85C\uC2A4\uD130\uC2A4"
+      outgoing: 0
+      link: 
+  - sender: 010-7240-1182
+    messages:
+    - when: "\uD654\uC694\uC77C 11:20"
+      text: "[Web\uBC1C\uC2E0] [\uAD6D\uC81C\uBC30\uC1A1] \uACE0\uAC1D\uB2D8 \uD0DD\uBC30\uC758
+        \uAD00\uC138\uAC00 \uBBF8\uB0A9\uB418\uC5C8\uC2B5\uB2C8\uB2E4. \uC9C0\uAE08
+        \uB0A9\uBD80\uD558\uC9C0 \uC54A\uC73C\uBA74 \uBC18\uC1A1\uB429\uB2C8\uB2E4:
+        kr-customs.help/pay"
+      outgoing: 0
+      link: kr-customs.help/pay
+  - sender: 010-8812-4471
+    messages:
+    - when: "\uC77C\uC694\uC77C 23:12"
+      text: "[Web\uBC1C\uC2E0] [\uB204\uB9AC] \uACE0\uAC1D\uB2D8\uC758 \uACC4\uC88C\uAC00
+        \uBCF4\uC548\uC0C1\uC758 \uC774\uC720\uB85C \uC81C\uD55C\uB418\uC5C8\uC2B5\uB2C8\uB2E4.
+        24\uC2DC\uAC04 \uC548\uC5D0 \uC778\uC99D\uD558\uC138\uC694:"
+      outgoing: 0
+      link: nuri-secure.kr/verify
+  - sender: "\uD55C\uAE00\uD154\uB808\uCF64"
+    messages:
+    - when: "10\uC6D4 1\uC77C 09:00"
+      text: "[\uD55C\uAE00\uD154\uB808\uCF64] 9\uC6D4 \uC774\uC6A9\uC694\uAE08\uC740
+        43,200\uC6D0\uC785\uB2C8\uB2E4. 10\uC6D4 20\uC77C\uAE4C\uC9C0 \uB0A9\uBD80\uD574
+        \uC8FC\uC138\uC694."
+      outgoing: 0
+      link: 
+  - sender: 010-5903-2271
+    messages:
+    - when: "9\uC6D4 30\uC77C 18:22"
+      text: "[Web\uBC1C\uC2E0] [\uC784\uB300\uC778 \uC548\uB0B4] \uC6D4\uC138 \uC785\uAE08
+        \uACC4\uC88C\uAC00 \uBCC0\uACBD\uB418\uC5C8\uC2B5\uB2C8\uB2E4. \uC785\uAE08
+        \uC804 \uC0C8 \uACC4\uC88C\uB97C \uD655\uC778\uD558\uC138\uC694: rent-notice.kr"
+      outgoing: 0
+      link: rent-notice.kr
+  chats:
+  - id: villa
+    title: "\uB9DD\uC6D0\uD558\uC774\uCE20 \uC785\uC8FC\uBBFC"
+    avatar: app_contacts
+    group: 1
+    notFriend: 0
+    profileId: 
+    profileNote: 
+    messages:
+    - sender: "\uAD00\uB9AC\uC0AC\uBB34\uC18C"
+      avatar: app_contacts
+      when: "\uC6D4\uC694\uC77C 09:00"
+      text: "\uC548\uB0B4: 10\uC6D4 14\uC77C(\uC218) 10:00~17:00 \uAC00\uC2A4 \uC548\uC804\uC810\uAC80\uC774
+        \uC788\uC2B5\uB2C8\uB2E4. \uC810\uAC80\uC6D0\uC740 \uC808\uB300 \uB3C8\uC744
+        \uC694\uAD6C\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+      outgoing: 0
+      photoCaption: 
+      facts: []
+    - sender: "201\uD638"
+      avatar: pt_unknown
+      when: "\uC6D4\uC694\uC77C 10:31"
+      text: "\uD639\uC2DC '\uBCF4\uD638\uACC4\uC88C' \uC5B4\uCA4C\uACE0 \uD558\uB294
+        \uC804\uD654 \uBC1B\uC73C\uC2E0 \uBD84 \uC788\uB098\uC694? \uBC14\uB85C \uB04A\uC5C8\uC5B4\uC694."
+      outgoing: 0
+      photoCaption: 
+      facts: []
+    - sender: "\uAD00\uB9AC\uC0AC\uBB34\uC18C"
+      avatar: app_contacts
+      when: "\uD654\uC694\uC77C 14:05"
+      text: "\uBAA9\uC694\uC77C 10:00~12:00 \uBB3C\uD0F1\uD06C \uCCAD\uC18C\uAC00
+        \uC788\uC2B5\uB2C8\uB2E4. \uBBF8\uB9AC \uBB3C\uC744 \uBC1B\uC544 \uB450\uC138\uC694."
+      outgoing: 0
+      photoCaption: 
+      facts: []
+    - sender: "\uAD00\uB9AC\uC0AC\uBB34\uC18C"
+      avatar: app_contacts
+      when: "\uC624\uB298 12:15"
+      text: "\uB2E8\uC218\uAC00 \uB05D\uB0AC\uC2B5\uB2C8\uB2E4. \uD611\uC870\uD574
+        \uC8FC\uC154\uC11C \uAC10\uC0AC\uD569\uB2C8\uB2E4!"
+      outgoing: 0
+      photoCaption: 
+      facts: []
+  - id: family
+    title: "\uC6B0\uB9AC \uAC00\uC871"
+    avatar: photo_family
+    group: 1
+    notFriend: 0
+    profileId: 
+    profileNote: 
+    messages:
+    - sender: "\uC5C4\uB9C8"
+      avatar: pt_mom
+      when: "\uC6D4\uC694\uC77C 19:10"
+      text: "\uC9C0\uC6B0\uC57C, \uC800\uB141\uC740 \uBA39\uC5C8\uB2C8?"
+      outgoing: 0
+      photoCaption: 
+      facts: []
+    - sender: 
+      avatar: 
+      when: "\uC6D4\uC694\uC77C 19:14"
+      text: "\uC751! \uC54C\uBC14 \uB05D\uB098\uACE0 \uAE40\uCE58\uCC0C\uAC1C \uBA39\uC5C8\uC5B4"
+      outgoing: 1
+      photoCaption: 
+      facts: []
+    - sender: "\uC544\uBE60"
+      avatar: pt_dad
+      when: "\uC6D4\uC694\uC77C 20:02"
+      text: 
+      outgoing: 0
+      photoCaption: "\uC804\uC8FC \uD560\uBA38\uB2C8 \uB301 \uAC10"
+      facts: []
+    - sender: "\uBBFC\uC900\uC774"
+      avatar: pt_minjun
+      when: "\uC6D4\uC694\uC77C 22:30"
+      text: "\uB204\uB098 \uB098 \uD1A0\uC694\uC77C\uC5D0 \uCF58\uC11C\uD2B8 \uBCF4\uB7EC
+        \uC11C\uC6B8 \uAC00\uB294\uB370 \uC790\uACE0 \uAC00\uB3C4 \uB3FC?"
+      outgoing: 0
+      photoCaption: 
+      facts: []
+    - sender: 
+      avatar: 
+      when: "\uC6D4\uC694\uC77C 22:41"
+      text: "\uAC04\uC2DD \uC0AC \uC624\uBA74 \u3147\u314B"
+      outgoing: 1
+      photoCaption: 
+      facts: []
+    - sender: "\uC5C4\uB9C8"
+      avatar: pt_mom
+      when: "\uD654\uC694\uC77C 16:12"
+      text: 
+      outgoing: 0
+      photoCaption: "\uBCF4\uAE00\uBCF4\uAE00 \uB41C\uC7A5\uCC0C\uAC1C"
+      facts: []
+    - sender: "\uC5C4\uB9C8"
+      avatar: pt_mom
+      when: "\uD654\uC694\uC77C 16:12"
+      text: "\uC624\uB298\uC740 \uC544\uBE60\uAC00 \uC694\uB9AC\uD588\uC5B4! 17\uC77C
+        \uC5C4\uB9C8 \uC0DD\uC77C\uC5D0\uB294 \uC9D1\uC5D0 \uC62C \uAC70\uC9C0?"
+      outgoing: 0
+      photoCaption: 
+      facts: []
+    - sender: "\uC5C4\uB9C8"
+      avatar: pt_mom
+      when: "\uC5B4\uC81C 08:05"
+      text: "\uC88B\uC740 \uC544\uCE68! \uC624\uB298 \uC6D4\uC138 \uB0B4\uB294 \uB0A0\uC774\uC57C,
+        \uC78A\uC9C0 \uB9C8^^"
+      outgoing: 0
+      photoCaption: 
+      facts: []
+    - sender: 
+      avatar: 
+      when: "\uC5B4\uC81C 08:20"
+      text: "\uC54C\uC544 \uC5C4\uB9C8~"
+      outgoing: 1
+      photoCaption: 
+      facts: []
+    - sender: "\uBBFC\uC900\uC774"
+      avatar: pt_minjun
+      when: "\uC5B4\uC81C 21:15"
+      text: "\uC6D4\uC694\uC77C\uBD80\uD130 \uC911\uAC04\uACE0\uC0AC\u2026 \uC0B4\uB824\uC918
+        (\uAC04\uC2DD\uB3C4)"
+      outgoing: 0
+      photoCaption: 
+      facts: []
+    - sender: "\uC544\uBE60"
+      avatar: pt_dad
+      when: "\uC624\uB298 12:02"
+      text: 
+      outgoing: 0
+      photoCaption: "\uD560\uBA38\uB2C8 \uAE40\uCE58 \uB3C4\uCC29"
+      facts: []
+    - sender: "\uC544\uBE60"
+      avatar: pt_dad
+      when: "\uC624\uB298 12:03"
+      text: "\uD560\uBA38\uB2C8\uAC00 \uB124 \uAC83\uB3C4 \uB530\uB85C \uB2F4\uADF8\uC168\uB2E4.
+        17\uC77C\uC5D0 \uC640\uC11C \uAC00\uC838\uAC00\uB77C."
+      outgoing: 0
+      photoCaption: 
+      facts: []
+  - id: cafe
+    title: "\uB9DD\uC6D0\uB85C\uC2A4\uD130\uC2A4 \uD06C\uB8E8"
+    avatar: pt_cafe
+    group: 1
+    notFriend: 0
+    profileId: 
+    profileNote: 
+    messages:
+    - sender: "\uD55C \uB9E4\uB2C8\uC800"
+      avatar: pt_cafe
+      when: "\uC6D4\uC694\uC77C 21:00"
+      text: "\uAE09\uC5EC\uB294 \uD3C9\uC18C\uCC98\uB7FC 10\uC77C\uC5D0 \uB098\uAC00\uC694.
+        \uD1A0\uC694\uC77C \uC624\uC804 \uB300\uD0C0 \uAC00\uB2A5\uD55C \uBD84?"
+      outgoing: 0
+      photoCaption: 
+      facts: []
+    - sender: "\uD55C \uB9E4\uB2C8\uC800"
+      avatar: pt_cafe
+      when: "\uC624\uB298 10:30"
+      text: "\uC77C\uC694\uC77C \uC624\uD508 \uADFC\uBB34 \uC544\uC9C1 \uBE44\uC5B4
+        \uC788\uC5B4\uC694\u3160\u3160 \uD558\uC2DC\uB294 \uBD84 \uC2A4\uD0EC\uD504
+        \uB450 \uBC30!"
+      outgoing: 0
+      photoCaption: 
+      facts: []
+  - id: yuna
+    title: "\uC720\uB098"
+    avatar: pt_yuna
+    group: 0
+    notFriend: 0
+    profileId: 
+    profileNote: 
+    messages:
+    - sender: "\uC720\uB098"
+      avatar: pt_yuna
+      when: "\uC77C\uC694\uC77C 18:55"
+      text: "\uD2F0\uCF13\uD305 \uC131\uACF5!! 11\uC6D4 7\uC77C \uC2A4\uD0E0\uB529
+        A-128, A-129"
+      outgoing: 0
+      photoCaption: 
+      facts: []
+    - sender: 
+      avatar: 
+      when: "\uC77C\uC694\uC77C 19:01"
+      text: "5\uB9CC 5\uCC9C \uC6D0 \uC6D4\uAE09\uB0A0 \uBCF4\uB0BC\uAC8C"
+      outgoing: 1
+      photoCaption: 
+      facts: []
+    - sender: "\uC720\uB098"
+      avatar: pt_yuna
+      when: "\uC77C\uC694\uC77C 19:02"
+      text: "\uCC9C\uCC9C\uD788 \uC918 :)"
+      outgoing: 0
+      photoCaption: 
+      facts: []
+    - sender: "\uC720\uB098"
+      avatar: pt_yuna
+      when: "\uC5B4\uC81C 12:14"
+      text: "\uB0B4\uC77C \uC218\uC5C5 \uB05D\uB098\uACE0 \uB5A1\uBCF6\uC774 \u3131?"
+      outgoing: 0
+      photoCaption: 
+      facts: []
+    - sender: 
+      avatar: 
+      when: "\uC5B4\uC81C 12:20"
+      text: "\uCF5C!! 5\uC2DC?"
+      outgoing: 1
+      photoCaption: 
+      facts: []
+  bank:
+    bankName: "\uB204\uB9AC\uC740\uD589"
+    accounts:
+    - name: "\uB204\uB9AC \uC785\uCD9C\uAE08\uD1B5\uC7A5"
+      number: 110-302-558814
+      balance: 1270900
+    - name: "\uB4F1\uB85D\uAE08 \uC801\uAE08"
+      number: 110-302-558990
+      balance: 3000000
+    transactions:
+    - when: "\uC624\uB298 09:10"
+      counterparty: "\uB9DD\uC6D0\uB85C\uC2A4\uD130\uC2A4"
+      memo: "\uCCB4\uD06C\uCE74\uB4DC"
+      amount: -4500
+    - when: "\uC5B4\uC81C 12:40"
+      counterparty: "\uD55C\uBE5B\uB300 \uD559\uC0DD\uC2DD\uB2F9"
+      memo: "\uCCB4\uD06C\uCE74\uB4DC"
+      amount: -8900
+    - when: "\uD654\uC694\uC77C 09:03"
+      counterparty: "\uB9DD\uC6D0\uB85C\uC2A4\uD130\uC2A4"
+      memo: "\uCCB4\uD06C\uCE74\uB4DC"
+      amount: -4500
+    - when: "\uC6D4\uC694\uC77C 22:41"
+      counterparty: "\uB370\uC77C\uB9AC24 \uB9DD\uC6D0\uC810"
+      memo: "\uCCB4\uD06C\uCE74\uB4DC"
+      amount: -5850
+    - when: "\uC6D4\uC694\uC77C 10:05"
+      counterparty: "\uD55C\uAC15\uBAB0"
+      memo: "\uC2A4\uD0E0\uB4DC \uC804\uAD6C"
+      amount: -12900
+    - when: "\uD1A0\uC694\uC77C 11:40"
+      counterparty: "\uBC15\uD61C\uC9C4"
+      memo: "\uCD94\uC11D \uC6A9\uB3C8"
+      amount: 100000
+    - when: "10\uC6D4 1\uC77C 09:00"
+      counterparty: "(\uC8FC)\uB9DD\uC6D0\uB85C\uC2A4\uD130\uC2A4"
+      memo: "9\uC6D4 \uAE09\uC5EC"
+      amount: 486000
+    - when: "9\uC6D4 20\uC77C 09:00"
+      counterparty: "\uD55C\uAE00\uD154\uB808\uCF64"
+      memo: "\uD734\uB300\uD3F0 \uC694\uAE08"
+      amount: -43200
+    - when: "9\uC6D4 7\uC77C 10:12"
+      counterparty: "\uCD5C\uC601\uC2DD"
+      memo: "9\uC6D4 \uC6D4\uC138"
+      amount: -450000
+    notices:
+    - when: "\uC624\uB298 09:10"
+      title: "\uCCB4\uD06C\uCE74\uB4DC \uC2B9\uC778 4,500\uC6D0"
+      body: "\uB9DD\uC6D0\uB85C\uC2A4\uD130\uC2A4 \xB7 \uC2B9\uC778"
+      alert: 0
+    - when: "\uC5B4\uC81C 12:40"
+      title: "\uCCB4\uD06C\uCE74\uB4DC \uC2B9\uC778 8,900\uC6D0"
+      body: "\uD55C\uBE5B\uB300 \uD559\uC0DD\uC2DD\uB2F9 \xB7 \uC2B9\uC778"
+      alert: 0
+    - when: "\uD654\uC694\uC77C 16:02"
+      title: "\uB85C\uADF8\uC778"
+      body: "\uC774 \uD734\uB300\uD3F0 \xB7 \uC11C\uC6B8. \uC624\uB298 \uB2E4\uB978
+        \uB85C\uADF8\uC778 \uAE30\uB85D\uC740 \uC5C6\uC2B5\uB2C8\uB2E4."
+      alert: 0
+    - when: "\uD654\uC694\uC77C 09:03"
+      title: "\uCCB4\uD06C\uCE74\uB4DC \uC2B9\uC778 4,500\uC6D0"
+      body: "\uB9DD\uC6D0\uB85C\uC2A4\uD130\uC2A4 \xB7 \uC2B9\uC778"
+      alert: 0
+    - when: "\uC6D4\uC694\uC77C 22:47"
+      title: "\uC0C8 \uAE30\uAE30 \uB4F1\uB85D"
+      body: "MacBook Air \xB7 \uC11C\uC6B8. \uBCF8\uC778\uC774 \uC544\uB2C8\uBA74
+        1599-0000\uC73C\uB85C \uC5F0\uB77D \uC8FC\uC138\uC694."
+      alert: 0
+    banks:
+    - "\uB204\uB9AC\uC740\uD589"
+    - "\uD55C\uBE5B\uC740\uD589"
+    - "\uB300\uD55C\uC740\uD589"
+    - "\uBBF8\uB798\uC800\uCD95\uC740\uD589"
+    - "\uC6B0\uCCB4\uAD6D"
+  parcels:
+  - item: "\uC2A4\uD0E0\uB4DC \uC804\uAD6C (2\uAC1C)"
+    seller: "\uD55C\uAC15\uBAB0"
+    status: "10\uC6D4 7\uC77C(\uC218) 17:32 \uBC30\uC1A1 \uC644\uB8CC"
+    tracking: 4410 2287 1934
+    courier: "\uD55C\uAC15\uC775\uC2A4\uD504\uB808\uC2A4"
+    driver: "\uAE40\uD0DC\uC2DD"
+    driverPhone: 010-7715-5521
+    window: 
+    overseas: 0
+    note: 
+    account: 
+  - item: "27\uC778\uCE58 \uBAA8\uB2C8\uD130"
+    seller: "\uC54C\uB9AC\uC2A4\uD0C0 (\uD574\uC678)"
+    status: "\uC778\uCC9C\uC138\uAD00 \uBCF4\uB958 \xB7 \uAD00\uC138 \uBBF8\uB0A9"
+    tracking: HX-5520-1183-KR
+    courier: "\uD55C\uAC15\uC775\uC2A4\uD504\uB808\uC2A4 (\uC778\uCC9C \uD1B5\uAD00)"
+    driver: 
+    driverPhone: 
+    window: 
+    overseas: 1
+    note: "\uAD00\uC138\xB7\uBD80\uAC00\uC138: 56,600\uC6D0. \uD310\uB9E4\uC790\uAC00
+      \uC218\uC785 \uC138\uAE08\uC744 \uBC1B\uC9C0 \uC54A\uC558\uC2B5\uB2C8\uB2E4.
+      \uC624\uB298 17:00\uAE4C\uC9C0 \uAC00\uC0C1\uACC4\uC88C(\uD55C\uAC15\uC775\uC2A4\uD504\uB808\uC2A4(\uAD00\uC138))\uB85C
+      \uB0A9\uBD80\uD558\uC9C0 \uC54A\uC73C\uBA74 \uD310\uB9E4\uC790\uC5D0\uAC8C
+      \uBC18\uC1A1\uB429\uB2C8\uB2E4."
+    account: 5620-44-018830
+  - item: "\uD734\uB300\uD3F0 \uCF00\uC774\uC2A4"
+    seller: "\uC54C\uB9AC\uC2A4\uD0C0 (\uD574\uC678)"
+    status: "9\uC6D4 21\uC77C \uBC30\uC1A1 \uC644\uB8CC"
+    tracking: KR4410983312
+    courier: "\uC6B0\uCCB4\uAD6D\uD0DD\uBC30"
+    driver: 
+    driverPhone: 
+    window: 
+    overseas: 1
+    note: 
+    account: 
+  mails:
+  - from: "\uC54C\uB9AC\uC2A4\uD0C0"
+    fromAddress: orders@alistar.com
+    subject: "\uC8FC\uBB38\uD558\uC2E0 \uC0C1\uD488\uC774 \uBC1C\uC1A1\uB418\uC5C8\uC2B5\uB2C8\uB2E4:
+      27\uC778\uCE58 \uBAA8\uB2C8\uD130"
+    when: "\uC5B4\uC81C 21:05"
+    body: "27\uC778\uCE58 IPS \uBAA8\uB2C8\uD130\uAC00 \uD55C\uAC15\uC775\uC2A4\uD504\uB808\uC2A4(HX-5520-1183-KR)\uB85C
+      \uBC1C\uC1A1\uB418\uC5C8\uC2B5\uB2C8\uB2E4.\n\n\uC218\uC785 \uC138\uAE08: \uBBF8\uD3EC\uD568.
+      \uBBF8\uD654 150\uB2EC\uB7EC\uAC00 \uB118\uB294 \uC8FC\uBB38\uC740 \uD55C\uAD6D
+      \uB3C4\uCC29 \uC2DC \uD0DD\uBC30\uC0AC\uB97C \uD1B5\uD574 \uAD00\uC138\uC640
+      \uBD80\uAC00\uC138\uAC00 \uBD80\uACFC\uB420 \uC218 \uC788\uC2B5\uB2C8\uB2E4."
+    attachments: []
+    unread: 0
+  - from: "\uD55C\uBE5B\uB300\uD559\uAD50"
+    fromAddress: notice@hanbit.ac.kr
+    subject: "\uC911\uAC04\uACE0\uC0AC \uC2DC\uAC04\uD45C"
+    when: "\uC5B4\uC81C 09:30"
+    body: "\uC911\uAC04\uACE0\uC0AC\uB294 10\uC6D4 13\uC77C(\uC6D4)\uBD80\uD130 \uC2DC\uC791\uB429\uB2C8\uB2E4.
+      \uD559\uC0DD \uD3EC\uD138\uC5D0\uC11C \uC2DC\uAC04\uD45C\uB97C \uD655\uC778\uD558\uC138\uC694."
+    attachments: []
+    unread: 0
+  - from: "\uB204\uB9AC\uC740\uD589"
+    fromAddress: notice@nuribank.co.kr
+    subject: "\uC0C8 \uAE30\uAE30\uAC00 \uB4F1\uB85D\uB418\uC5C8\uC2B5\uB2C8\uB2E4"
+    when: "\uC6D4\uC694\uC77C 22:47"
+    body: "\uACE0\uAC1D\uB2D8\uC758 \uB204\uB9AC\uC740\uD589 \uACC4\uC815\uC5D0 \uC11C\uC6B8\uC5D0\uC11C
+      \uC0C8 \uAE30\uAE30(MacBook Air)\uAC00 \uB4F1\uB85D\uB418\uC5C8\uC2B5\uB2C8\uB2E4.\n\n\uBCF8\uC778\uC774\uB77C\uBA74
+      \uB530\uB85C \uD558\uC2E4 \uC77C\uC740 \uC5C6\uC2B5\uB2C8\uB2E4. \uBCF8\uC778\uC774
+      \uC544\uB2C8\uB77C\uBA74 1599-0000\uC73C\uB85C \uC5F0\uB77D \uC8FC\uC138\uC694.\n\n\uB204\uB9AC\uC740\uD589\uC740
+      '\uBCF4\uD638'\uB97C \uC774\uC720\uB85C \uB3C8\uC744 \uC62E\uAE30\uB77C\uACE0
+      \uC808\uB300 \uC694\uAD6C\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    attachments: []
+    unread: 0
+  - from: "\uD55C\uBE5B\uB300\uD559\uAD50 IT\uC9C0\uC6D0\uC13C\uD130"
+    fromAddress: it-help@hanbit.ac.kr
+    subject: "\uC0C8 \uB178\uD2B8\uBD81 \uB4F1\uB85D \uC644\uB8CC"
+    when: "\uC6D4\uC694\uC77C 20:15"
+    body: "\uAE40\uC9C0\uC6B0 \uB2D8,\n\nMacBook Air\uAC00 \uAD50\uB0B4 \uC640\uC774\uD30C\uC774\uC5D0
+      \uB4F1\uB85D\uB418\uC5C8\uC2B5\uB2C8\uB2E4. \uC0C8 \uAE30\uAE30\uC5D0\uC11C
+      \uC740\uD589 \uC571 \uB4F1\uC5D0 \uB2E4\uC2DC \uB85C\uADF8\uC778\uD574 \uC8FC\uC138\uC694.\n\n\uD55C\uBE5B\uB300\uD559\uAD50
+      IT\uC9C0\uC6D0\uC13C\uD130"
+    attachments: []
+    unread: 0
+  - from: "\uB300\uC591\uBB3C\uB958 \uCC44\uC6A9\uD300"
+    fromAddress: careers@daeyang-logistics.co.kr
+    subject: "\uB3D9\uACC4 \uC778\uD134\uC2ED \uC9C0\uC6D0 \uC811\uC218 \uC644\uB8CC"
+    when: "\uAE08\uC694\uC77C 15:30"
+    body: "\uB300\uC591\uBB3C\uB958 \uB3D9\uACC4 \uC778\uD134\uC2ED\uC5D0 \uC9C0\uC6D0\uD574
+      \uC8FC\uC154\uC11C \uAC10\uC0AC\uD569\uB2C8\uB2E4. \uBA74\uC811 \uB300\uC0C1\uC790\uC5D0\uAC8C\uB294
+      \uC778\uC0AC\uD300(02-555-0240)\uC5D0\uC11C \uC5F0\uB77D\uB4DC\uB9BD\uB2C8\uB2E4."
+    attachments: []
+    unread: 0
+  - from: "\uD55C\uBE5B\uB300\uD559\uAD50"
+    fromAddress: scholarship@hanbit.ac.kr
+    subject: "10\uC6D4 16\uC77C \uC7A5\uD559\uAE08 \uBA74\uC811 \uC548\uB0B4"
+    when: "9\uC6D4 30\uC77C 10:00"
+    body: "\uC7A5\uD559\uAE08 \uBA74\uC811\uC740 10\uC6D4 16\uC77C(\uAE08) 14:00,
+      \uD559\uC0DD\uD68C\uAD00 204\uD638\uC5D0\uC11C \uC9C4\uD589\uB429\uB2C8\uB2E4.
+      \uD559\uC0DD\uC99D\uC744 \uC9C0\uCC38\uD574 \uC8FC\uC138\uC694.\n\n\uC7A5\uD559\uD300\uC740
+      \uC5B4\uB5A0\uD55C \uC218\uC218\uB8CC\uB3C4 \uBC1B\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    attachments: []
+    unread: 1
+  - from: "\uC54C\uB9AC\uC2A4\uD0C0"
+    fromAddress: orders@alistar.com
+    subject: "\uC8FC\uBB38 \uC644\uB8CC: 27\uC778\uCE58 \uBAA8\uB2C8\uD130"
+    when: "9\uC6D4 29\uC77C 22:10"
+    body: "\uAE40\uC9C0\uC6B0 \uB2D8, \uC8FC\uBB38\uD574 \uC8FC\uC154\uC11C \uAC10\uC0AC\uD569\uB2C8\uB2E4!\n\n27\uC778\uCE58
+      IPS \uBAA8\uB2C8\uD130 \xD7 1 \xB7 US$ 214.00\n\uD55C\uAD6D \uBC30\uC1A1\uBE44
+      \xB7 US$ 9.00\n\n\uBC1C\uC1A1\uB418\uBA74 \uBA54\uC77C\uB85C \uC54C\uB824 \uB4DC\uB9B4\uAC8C\uC694."
+    attachments: []
+    unread: 0

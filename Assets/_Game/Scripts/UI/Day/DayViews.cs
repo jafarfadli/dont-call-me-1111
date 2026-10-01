@@ -30,7 +30,7 @@ namespace DontCallMe.UI
             if (extraLines != null)
                 foreach (string line in extraLines)
                     inner.Add(UIKit.Text(line, "daycard__echo"));
-            inner.Add(UIKit.Text("click to continue", "daycard__hint"));
+            inner.Add(UIKit.Text(Loc.T("click to continue"), "daycard__hint"));
             Root.Add(inner);
             Root.RegisterCallback<ClickEvent>(_ => Close());
             int k = 0;
@@ -70,28 +70,28 @@ namespace DontCallMe.UI
             var card = UIKit.Div("case-file", "paper");
             var tab = UIKit.Div("case-file__tab");
             tab.Add(UIKit.Icon("ic_case", "case-file__tab-icon"));
-            tab.Add(UIKit.Text($"CASE #{day:00}", "case-file__tab-text"));
+            tab.Add(UIKit.Text(Loc.F("CASE #{0:00}", day), "case-file__tab-text"));
             card.Add(tab);
 
             var head = UIKit.Div("case-file__head");
             head.Add(UIKit.Portrait(caller.portrait, "case-file__portrait"));
             var who = UIKit.Div("grow");
-            who.Add(UIKit.Text("CASE OPENED", "section"));
+            who.Add(UIKit.Text(Loc.T("CASE OPENED"), "section"));
             who.Add(UIKit.Text(info.caseTitle, "case-file__title"));
             who.Add(UIKit.Text($"{callerTitle} · {caller.number}", "case-file__caller"));
             head.Add(who);
             card.Add(head);
 
-            card.Add(Row("Says they are", info.claimedIdentity));
-            card.Add(Row("Wants you to", info.ask));
-            card.Add(Row("Deadline", string.IsNullOrEmpty(info.deadlineReason) ? info.deadline : $"{info.deadline} · {info.deadlineReason}", "case-file__value--red"));
+            card.Add(Row(Loc.T("Says they are"), info.claimedIdentity));
+            card.Add(Row(Loc.T("Wants you to"), info.ask));
+            card.Add(Row(Loc.T("Deadline"), string.IsNullOrEmpty(info.deadlineReason) ? info.deadline : $"{info.deadline} · {info.deadlineReason}", "case-file__value--red"));
 
             var job = UIKit.Div("case-file__job");
-            job.Add(UIKit.Text("YOUR JOB", "case-file__job-title"));
+            job.Add(UIKit.Text(Loc.T("YOUR JOB"), "case-file__job-title"));
             job.Add(UIKit.Text(info.objective, "case-file__job-text"));
             card.Add(job);
 
-            var stamp = UIKit.Text("OPEN", "stamp", "stamp--red", "case-file__stamp");
+            var stamp = UIKit.Text(Loc.T("OPEN"), "stamp", "stamp--red", "case-file__stamp");
             stamp.style.whiteSpace = WhiteSpace.NoWrap;
             stamp.style.rotate = new Rotate(-9f);
             stamp.schedule.Execute(() =>
@@ -102,7 +102,7 @@ namespace DontCallMe.UI
             card.Add(stamp);
 
             var buttons = UIKit.Div("modal__buttons");
-            buttons.Add(UIKit.Btn("Start investigating", () =>
+            buttons.Add(UIKit.Btn(Loc.T("Start investigating"), () =>
             {
                 Root.RemoveFromHierarchy();
                 onStart?.Invoke();
@@ -159,9 +159,9 @@ namespace DontCallMe.UI
         public void Set(string deadline, float minutesLeft, float fraction)
         {
             fraction = Mathf.Clamp01(fraction);
-            label.text = $"Deadline {deadline}";
+            label.text = Loc.F("Deadline {0}", deadline);
             int m = Mathf.CeilToInt(Mathf.Max(0f, minutesLeft));
-            left.text = m <= 1 ? "1 min left!" : $"{m} min left";
+            left.text = m <= 1 ? Loc.T("1 min left!") : Loc.F("{0} min left", m);
             fill.style.width = Length.Percent(fraction * 100f);
             Root.EnableInClassList("deadline--amber", fraction < 0.5f && fraction >= 0.25f);
             Root.EnableInClassList("deadline--red", fraction < 0.25f);

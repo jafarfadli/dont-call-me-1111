@@ -379,7 +379,7 @@ MonoBehaviour:
       value: 2024-10573
       isFact: 0
       factKind: 6
-  - title: "Caf\xE9 stamp card"
+  - title: Cafe stamp card
     front: {fileID: 2800000, guid: 3cf4e96a2e56d4677899c79a47317388, type: 3}
     back: {fileID: 0}
     details:

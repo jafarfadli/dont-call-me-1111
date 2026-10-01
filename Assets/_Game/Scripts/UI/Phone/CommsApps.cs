@@ -13,7 +13,7 @@ namespace DontCallMe.UI
     public class CallsApp : PhoneApp
     {
         public override string Id => "phone";
-        public override string Name => "Phone";
+        public override string Name => Loc.T("Phone");
         public override string Icon => "app_phone";
         public override int Badge => unseenMissed;
 
@@ -32,7 +32,7 @@ namespace DontCallMe.UI
 
         public void AddRecord(string number, CallKind kind, string duration = "")
         {
-            Data.recents.Insert(0, new CallRecord { number = number, kind = kind, when = "Today " + GameClock.Now, duration = duration });
+            Data.recents.Insert(0, new CallRecord { number = number, kind = kind, when = Loc.Today + " " + GameClock.Now, duration = duration });
             if (kind == CallKind.Missed)
                 unseenMissed++;
         }
@@ -47,12 +47,12 @@ namespace DontCallMe.UI
             Label nameLabel;
             string typed = "";
 
-            public CallsScreen(CallsApp app, bool keypad, string prefill) : base(app.Phone, "Phone", "#5E9E55")
+            public CallsScreen(CallsApp app, bool keypad, string prefill) : base(app.Phone, Loc.T("Phone"), "#5E9E55")
             {
                 this.app = app;
                 var tabs = UIKit.Div("row");
-                recentsTab = UIKit.Btn("Recents", () => Show(false), "grow");
-                keypadTab = UIKit.Btn("Keypad", () => Show(true), "grow");
+                recentsTab = UIKit.Btn(Loc.T("Recents"), () => Show(false), "grow");
+                keypadTab = UIKit.Btn(Loc.T("Keypad"), () => Show(true), "grow");
                 tabs.Add(recentsTab);
                 tabs.Add(keypadTab);
                 Content.Add(tabs);
@@ -79,7 +79,7 @@ namespace DontCallMe.UI
                 {
                     var contact = app.Data.FindContact(r.number);
                     string title = contact != null ? contact.name : r.number;
-                    string kind = r.kind == CallKind.Missed ? "Missed" : r.kind == CallKind.Incoming ? "Incoming" : "Outgoing";
+                    string kind = Loc.T(r.kind == CallKind.Missed ? "Missed" : r.kind == CallKind.Incoming ? "Incoming" : "Outgoing");
                     string sub = contact != null ? $"{kind} · {r.number}" : kind + (string.IsNullOrEmpty(r.duration) ? "" : $" · {r.duration}");
                     var number = r.number;
                     Row(contact?.portrait ?? "pt_unknown", true, title, sub, r.when, () => app.Phone.Dial(number),
@@ -102,7 +102,7 @@ namespace DontCallMe.UI
                 list.Add(pad);
                 var actions = UIKit.Div("row");
                 actions.style.justifyContent = Justify.SpaceAround;
-                actions.Add(UIKit.Btn("Paste", () =>
+                actions.Add(UIKit.Btn(Loc.T("Paste"), () =>
                 {
                     if (!string.IsNullOrEmpty(Clipboard.Value))
                     {
@@ -112,7 +112,7 @@ namespace DontCallMe.UI
                 }));
                 var call = UIKit.Div("call-btn");
                 call.Add(UIKit.Icon("ic_answer"));
-                call.tooltip = "Call";
+                call.tooltip = Loc.T("Call");
                 call.RegisterCallback<ClickEvent>(e =>
                 {
                     if (FactText.Digits(typed).Length >= 3)
@@ -120,7 +120,7 @@ namespace DontCallMe.UI
                     e.StopPropagation();
                 });
                 actions.Add(call);
-                actions.Add(UIKit.Btn("Del", () =>
+                actions.Add(UIKit.Btn(Loc.T("Del"), () =>
                 {
                     if (typed.Length > 0)
                         typed = typed.Substring(0, typed.Length - 1);
@@ -155,12 +155,12 @@ namespace DontCallMe.UI
     public class ContactsApp : PhoneApp
     {
         public override string Id => "contacts";
-        public override string Name => "Contacts";
+        public override string Name => Loc.T("Contacts");
         public override string Icon => "app_contacts";
 
         public override PhoneScreen CreateHome()
         {
-            var s = new PhoneScreen(Phone, "Contacts", "#D9853B");
+            var s = new PhoneScreen(Phone, Loc.T("Contacts"), "#D9853B");
             foreach (var c in Data.contacts.OrderBy(c => c.name))
             {
                 var contact = c;
@@ -206,10 +206,10 @@ namespace DontCallMe.UI
                 d.Add(UIKit.Text(c.memo, "detail__line", "t-center"));
             var actions = UIKit.Div("row");
             actions.style.justifyContent = Justify.Center;
-            actions.Add(UIKit.Btn("Call", () => Phone.Dial(c.number), "btn--green"));
+            actions.Add(UIKit.Btn(Loc.T("Call"), () => Phone.Dial(c.number), "btn--green"));
             var chat = Data.chats.Find(t => t.title == c.name);
             if (chat != null)
-                actions.Add(UIKit.Btn("Message", () => Phone.Push(Phone.App<TalkApp>().OpenThread(chat.id)), "btn--blue"));
+                actions.Add(UIKit.Btn(Loc.T("Message"), () => Phone.Push(Phone.App<TalkApp>().OpenThread(chat.id)), "btn--blue"));
             d.Add(actions);
             s.Content.Add(d);
             return s;
@@ -235,7 +235,7 @@ namespace DontCallMe.UI
             if (!string.IsNullOrEmpty(photoCaption))
             {
                 var photo = UIKit.Div("msg__photo");
-                photo.Add(UIKit.Text("[Photo]  " + photoCaption, "msg__photo-caption"));
+                photo.Add(UIKit.Text(Loc.T("[Photo]") + "  " + photoCaption, "msg__photo-caption"));
                 col.Add(photo);
             }
             if (!string.IsNullOrEmpty(text))
@@ -247,7 +247,7 @@ namespace DontCallMe.UI
                     var l = UIKit.Text($"<u>{link}</u>", "t-bold");
                     l.style.color = new Color(0.17f, 0.29f, 0.6f);
                     l.style.marginTop = 4;
-                    l.tooltip = "Open in Browser";
+                    l.tooltip = Loc.T("Open in Browser");
                     l.RegisterCallback<ClickEvent>(e =>
                     {
                         phone.OpenUrl(link);
@@ -279,7 +279,7 @@ namespace DontCallMe.UI
     public class MessagesApp : PhoneApp
     {
         public override string Id => "messages";
-        public override string Name => "Messages";
+        public override string Name => Loc.T("Messages");
         public override string Icon => "app_messages";
         public override int Badge => unread.Count;
 
@@ -289,7 +289,7 @@ namespace DontCallMe.UI
 
         public override PhoneScreen CreateHome()
         {
-            var s = new PhoneScreen(Phone, "Messages", "#4F79B8");
+            var s = new PhoneScreen(Phone, Loc.T("Messages"), "#4F79B8");
             foreach (var t in Data.sms)
             {
                 var thread = t;
@@ -385,7 +385,7 @@ namespace DontCallMe.UI
                 unread.Add(sender);
             }
             Sfx.Play(Sfx.Pop);
-            Phone.UI.Toast("app_messages", "Messages · " + sender, text);
+            Phone.UI.Toast("app_messages", Loc.T("Messages") + " · " + (Data.FindContact(sender)?.name ?? sender), text);
         }
     }
 
@@ -394,7 +394,7 @@ namespace DontCallMe.UI
     public class TalkApp : PhoneApp
     {
         public override string Id => "talk";
-        public override string Name => "Talk";
+        public override string Name => Loc.T("Talk");
         public override string Icon => "app_talk";
 
         public override int Badge
@@ -423,12 +423,12 @@ namespace DontCallMe.UI
 
         public override PhoneScreen CreateHome()
         {
-            var s = new PhoneScreen(Phone, "Talk", "#F2CB3A");
+            var s = new PhoneScreen(Phone, Loc.T("Talk"), "#F2CB3A");
             foreach (var t in Data.chats)
             {
                 var thread = t;
                 var last = t.messages.Count > 0 ? t.messages[t.messages.Count - 1] : null;
-                string snippet = last == null ? "" : !string.IsNullOrEmpty(last.photoCaption) && string.IsNullOrEmpty(last.text) ? "[Photo]" : last.text;
+                string snippet = last == null ? "" : !string.IsNullOrEmpty(last.photoCaption) && string.IsNullOrEmpty(last.text) ? Loc.T("[Photo]") : last.text;
                 if (snippet != null && snippet.Length > 42)
                     snippet = snippet.Substring(0, 42) + "…";
                 unread.TryGetValue(t.id, out int n);
@@ -510,7 +510,7 @@ namespace DontCallMe.UI
             {
                 unread.TryGetValue(chatId, out int n);
                 unread[chatId] = n + 1;
-                Phone.UI.Toast("app_talk", $"Talk · {t.title}", string.IsNullOrEmpty(m.text) ? "[Photo]" : m.text);
+                Phone.UI.Toast("app_talk", Loc.T("Talk") + $" · {t.title}", string.IsNullOrEmpty(m.text) ? Loc.T("[Photo]") : m.text);
             }
             if (!m.outgoing)
                 Sfx.Play(Sfx.Pop);
@@ -563,12 +563,12 @@ namespace DontCallMe.UI
                 this.app = app;
                 this.thread = thread;
                 Header.RegisterCallback<ClickEvent>(_ => app.Phone.Push(Profile(thread)));
-                Header.tooltip = "Profile";
+                Header.tooltip = Loc.T("Profile");
                 if (thread.notFriend)
                 {
                     var warn = UIKit.Div("banner-warn");
                     warn.Add(UIKit.Icon("ic_warning", "list-row__icon"));
-                    warn.Add(UIKit.Text("<b>Not in your friends list.</b> Be careful if this profile asks for money."));
+                    warn.Add(UIKit.Text(Loc.T("<b>Not in your friends list.</b> Be careful if this profile asks for money.")));
                     Content.Add(warn);
                 }
                 foreach (var m in thread.messages)
@@ -620,7 +620,7 @@ namespace DontCallMe.UI
             {
                 replyBar.Clear();
                 var top = UIKit.Div("reply-bar__prompt");
-                top.Add(UIKit.Text(string.IsNullOrEmpty(d.prompt) ? "Reply" : d.prompt, "decide__prompt"));
+                top.Add(UIKit.Text(string.IsNullOrEmpty(d.prompt) ? Loc.T("Reply") : d.prompt, "decide__prompt"));
                 timer = new DecisionTimer(true);
                 top.Add(timer);
                 replyBar.Add(top);
@@ -651,7 +651,7 @@ namespace DontCallMe.UI
 
             PhoneScreen Profile(ChatThread t)
             {
-                var s = new PhoneScreen(app.Phone, "Profile", "#F2CB3A");
+                var s = new PhoneScreen(app.Phone, Loc.T("Profile"), "#F2CB3A");
                 var d = UIKit.Div("detail");
                 var p = UIKit.Portrait(t.avatar, "portrait--round");
                 p.style.width = 160;
@@ -671,7 +671,7 @@ namespace DontCallMe.UI
                 if (t.notFriend)
                 {
                     var warn = UIKit.Div("banner-warn");
-                    warn.Add(UIKit.Text("Not in your friends list. No friends in common."));
+                    warn.Add(UIKit.Text(Loc.T("Not in your friends list. No friends in common.")));
                     d.Add(warn);
                 }
                 s.Content.Add(d);

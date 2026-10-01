@@ -15,7 +15,7 @@ namespace DontCallMe.UI
     public class BrowserApp : PhoneApp
     {
         public override string Id => "browser";
-        public override string Name => "Browser";
+        public override string Name => Loc.T("Browser");
         public override string Icon => "app_browser";
 
         public override PhoneScreen CreateHome() => new SearchHome(this);
@@ -29,10 +29,10 @@ namespace DontCallMe.UI
 
         PhoneScreen NotFound(string url)
         {
-            var s = new PhoneScreen(Phone, "Browser", "#5A6FB0");
+            var s = new PhoneScreen(Phone, Loc.T("Browser"), "#5A6FB0");
             s.Content.Add(UIKit.Text(url, "url", "url--suspect"));
-            s.Content.Add(UIKit.Text("This site can't be reached.", "web-title"));
-            s.Content.Add(UIKit.Text("Check the address. It may have been taken down.", "web-p"));
+            s.Content.Add(UIKit.Text(Loc.T("This site can't be reached."), "web-title"));
+            s.Content.Add(UIKit.Text(Loc.T("Check the address. It may have been taken down."), "web-p"));
             return s;
         }
 
@@ -42,13 +42,13 @@ namespace DontCallMe.UI
             readonly TextField field;
             readonly VisualElement suggestions;
 
-            public SearchHome(BrowserApp app) : base(app.Phone, "Browser", "#5A6FB0")
+            public SearchHome(BrowserApp app) : base(app.Phone, Loc.T("Browser"), "#5A6FB0")
             {
                 this.app = app;
-                field = PasteField("Search or type an address", "Go", Go);
+                field = PasteField(Loc.T("Search or type an address"), Loc.T("Go"), Go);
                 suggestions = UIKit.Div("chip-row");
                 Content.Add(suggestions);
-                Section("Bookmarks");
+                Section(Loc.T("Bookmarks"));
                 foreach (var p in app.Dir.pages.Where(p => p.official).Take(4))
                 {
                     var page = p;
@@ -92,13 +92,13 @@ namespace DontCallMe.UI
 
         class ResultsScreen : PhoneScreen
         {
-            public ResultsScreen(BrowserApp app, string query) : base(app.Phone, "Results", "#5A6FB0")
+            public ResultsScreen(BrowserApp app, string query) : base(app.Phone, Loc.T("Results"), "#5A6FB0")
             {
-                Content.Add(UIKit.Text($"Results for \"{query}\"", "t-muted"));
+                Content.Add(UIKit.Text(Loc.F("Results for \"{0}\"", query), "t-muted"));
                 var results = app.Dir.Search(query);
                 if (results.Count == 0)
                 {
-                    Content.Add(UIKit.Text("No results. Try the organisation's name.", "web-p"));
+                    Content.Add(UIKit.Text(Loc.T("No results. Try the organisation's name."), "web-p"));
                     return;
                 }
                 foreach (var p in results)
@@ -109,7 +109,7 @@ namespace DontCallMe.UI
                     var title = UIKit.Div("row");
                     title.Add(UIKit.Text(p.title, "list-row__title"));
                     if (p.official)
-                        title.Add(UIKit.Text("OFFICIAL", "badge-official"));
+                        title.Add(UIKit.Text(Loc.T("OFFICIAL"), "badge-official"));
                     text.Add(title);
                     text.Add(UIKit.Text(p.url, "url", p.official ? "url--official" : null));
                     var first = p.blocks.FirstOrDefault(b => b.kind == WebBlockKind.Paragraph);
@@ -155,7 +155,7 @@ namespace DontCallMe.UI
                         row.Add(UIKit.Text(b.text, "kv__key"));
                         var right = UIKit.Div("row");
                         right.Add(UIKit.Chip(b.value, FactKind.Phone));
-                        var call = UIKit.Btn("Call", () => app.Phone.Dial(b.value), "btn--green");
+                        var call = UIKit.Btn(Loc.T("Call"), () => app.Phone.Dial(b.value), "btn--green");
                         call.style.minHeight = 44;
                         right.Add(call);
                         row.Add(right);
@@ -180,10 +180,10 @@ namespace DontCallMe.UI
                         var result = UIKit.Div();
                         var row = UIKit.Div("field");
                         var field = new TextField();
-                        field.textEdition.placeholder = "Enter a number";
+                        field.textEdition.placeholder = Loc.T("Enter a number");
                         row.Add(field);
-                        row.Add(UIKit.Btn("Paste", () => field.value = Clipboard.Value ?? ""));
-                        row.Add(UIKit.Btn("Look up", () => Lookup(page, field.value, result), "btn--blue"));
+                        row.Add(UIKit.Btn(Loc.T("Paste"), () => field.value = Clipboard.Value ?? ""));
+                        row.Add(UIKit.Btn(Loc.T("Look up"), () => Lookup(page, field.value, result), "btn--blue"));
                         box.Add(row);
                         box.Add(result);
                         return box;
@@ -194,13 +194,13 @@ namespace DontCallMe.UI
                         box.Add(UIKit.Text($"<b>{b.text}</b>"));
                         var row = UIKit.Div("field");
                         var field = new TextField();
-                        field.textEdition.placeholder = "Card number";
+                        field.textEdition.placeholder = Loc.T("Card number");
                         row.Add(field);
                         box.Add(row);
-                        box.Add(UIKit.Btn(string.IsNullOrEmpty(b.value) ? "Pay" : b.value, () =>
+                        box.Add(UIKit.Btn(string.IsNullOrEmpty(b.value) ? Loc.T("Pay") : b.value, () =>
                         {
                             Sfx.Play(Sfx.Error);
-                            app.Phone.UI.Toast("app_browser", "Browser", "Payment submitted.");
+                            app.Phone.UI.Toast("app_browser", Loc.T("Browser"), Loc.T("Payment submitted."));
                             PhoneEvents.RaiseLink(page.url + "#submitted");
                         }, "btn--red"));
                         return box;
@@ -219,7 +219,7 @@ namespace DontCallMe.UI
                 string qText = query.Trim().ToLowerInvariant();
                 var hit = page.lookup.FirstOrDefault(l =>
                     (q.Length >= 4 && FactText.Digits(l.key) == q) || l.key.ToLowerInvariant() == qText);
-                result.Add(UIKit.Text(hit != null ? hit.result : "No record found for this number.", "lookup-result"));
+                result.Add(UIKit.Text(hit != null ? hit.result : Loc.T("No record found for this number."), "lookup-result"));
                 Sfx.Play(Sfx.Click);
             }
         }
@@ -230,24 +230,24 @@ namespace DontCallMe.UI
     public class ParcelsApp : PhoneApp
     {
         public override string Id => "parcels";
-        public override string Name => "Parcels";
+        public override string Name => Loc.T("Parcels");
         public override string Icon => "app_parcels";
 
         public override PhoneScreen CreateHome()
         {
-            var s = new PhoneScreen(Phone, "Parcels", "#9A6A42");
+            var s = new PhoneScreen(Phone, Loc.T("Parcels"), "#9A6A42");
             var result = UIKit.Div();
-            PasteFieldOn(s, "Tracking number", "Track", q =>
+            PasteFieldOn(s, Loc.T("Tracking number"), Loc.T("Track"), q =>
             {
                 result.Clear();
                 var hit = Data.parcels.Find(p => FactText.SameNumber(p.tracking, q));
                 if (hit != null)
                     Phone.Push(Detail(hit));
                 else if (FactText.Digits(q).Length > 0)
-                    result.Add(UIKit.Text("Not found. No parcel with this tracking number is on its way to you.", "lookup-result"));
+                    result.Add(UIKit.Text(Loc.T("Not found. No parcel with this tracking number is on its way to you."), "lookup-result"));
             });
             s.Content.Add(result);
-            s.Content.Add(UIKit.Text("MY ORDERS", "section"));
+            s.Content.Add(UIKit.Text(Loc.T("MY ORDERS"), "section"));
             foreach (var p in Data.parcels)
             {
                 var parcel = p;
@@ -273,7 +273,7 @@ namespace DontCallMe.UI
             var field = new TextField();
             field.textEdition.placeholder = placeholder;
             row.Add(field);
-            row.Add(UIKit.Btn("Paste", () => field.value = Clipboard.Value ?? ""));
+            row.Add(UIKit.Btn(Loc.T("Paste"), () => field.value = Clipboard.Value ?? ""));
             row.Add(UIKit.Btn(button, () => submit(field.value), "btn--blue"));
             s.Content.Add(row);
             return field;
@@ -283,7 +283,7 @@ namespace DontCallMe.UI
         {
             ClueEvents.Raise(ClueEvent.ParcelOpened, p.tracking);
             var s = new PhoneScreen(Phone, p.item, "#9A6A42");
-            s.Content.Add(UIKit.Kv("Status", p.status));
+            s.Content.Add(UIKit.Kv(Loc.T("Status"), p.status));
             if (!string.IsNullOrEmpty(p.note))
             {
                 var box = UIKit.Div("web-notice");
@@ -291,17 +291,17 @@ namespace DontCallMe.UI
                 s.Content.Add(box);
             }
             if (!string.IsNullOrEmpty(p.account))
-                s.Content.Add(UIKit.Kv("Pay to", p.account, FactKind.Account));
-            s.Content.Add(UIKit.Kv("Seller", p.seller));
-            s.Content.Add(UIKit.Kv("Tracking", p.tracking, FactKind.Case));
-            s.Content.Add(UIKit.Kv("Courier", p.courier));
+                s.Content.Add(UIKit.Kv(Loc.T("Pay to"), p.account, FactKind.Account));
+            s.Content.Add(UIKit.Kv(Loc.T("Seller"), p.seller));
+            s.Content.Add(UIKit.Kv(Loc.T("Tracking"), p.tracking, FactKind.Case));
+            s.Content.Add(UIKit.Kv(Loc.T("Courier"), p.courier));
             if (!string.IsNullOrEmpty(p.driver))
-                s.Content.Add(UIKit.Kv("Driver", p.driver));
+                s.Content.Add(UIKit.Kv(Loc.T("Driver"), p.driver));
             if (!string.IsNullOrEmpty(p.driverPhone))
-                s.Content.Add(UIKit.Kv("Driver phone", p.driverPhone, FactKind.Phone));
+                s.Content.Add(UIKit.Kv(Loc.T("Driver phone"), p.driverPhone, FactKind.Phone));
             if (!string.IsNullOrEmpty(p.window))
-                s.Content.Add(UIKit.Kv("Delivery", p.window));
-            s.Content.Add(UIKit.Kv("From", p.overseas ? "Overseas" : "Korea"));
+                s.Content.Add(UIKit.Kv(Loc.T("Delivery"), p.window));
+            s.Content.Add(UIKit.Kv(Loc.T("Ships from"), Loc.T(p.overseas ? "Overseas" : "Korea")));
             return s;
         }
     }
@@ -311,13 +311,13 @@ namespace DontCallMe.UI
     public class MailApp : PhoneApp
     {
         public override string Id => "mail";
-        public override string Name => "Mail";
+        public override string Name => Loc.T("Mail");
         public override string Icon => "app_mail";
         public override int Badge => Data.mails.Count(m => m.unread);
 
         public override PhoneScreen CreateHome()
         {
-            var s = new PhoneScreen(Phone, "Inbox", "#C9A873");
+            var s = new PhoneScreen(Phone, Loc.T("Inbox"), "#C9A873");
             foreach (var m in Data.mails)
             {
                 var mail = m;
@@ -343,7 +343,7 @@ namespace DontCallMe.UI
         PhoneScreen Read(MailItem m)
         {
             ClueEvents.Raise(ClueEvent.MailRead, m.subject);
-            var s = new PhoneScreen(Phone, "Mail", "#C9A873");
+            var s = new PhoneScreen(Phone, Loc.T("Mail"), "#C9A873");
             s.Content.Add(UIKit.Text(m.subject, "web-title"));
             s.Content.Add(UIKit.Text($"<b>{m.from}</b>", "detail__line"));
             s.Content.Add(UIKit.Chip(m.fromAddress, FactKind.Text));
@@ -353,7 +353,7 @@ namespace DontCallMe.UI
             foreach (var a in m.attachments)
             {
                 var chip = UIKit.Div("chip");
-                chip.Add(UIKit.Text("Attachment: " + a, "chip__label"));
+                chip.Add(UIKit.Text(Loc.T("Attachment: ") + a, "chip__label"));
                 s.Content.Add(chip);
             }
             return s;

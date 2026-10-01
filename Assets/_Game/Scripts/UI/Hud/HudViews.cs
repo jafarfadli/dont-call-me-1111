@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using DontCallMe.Data;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -48,18 +50,18 @@ namespace DontCallMe.UI
 
             hints = UIKit.Div("controls-hint");
             hints.pickingMode = PickingMode.Ignore;
-            foreach (string h in new[] { "WASD  walk", "Drag  look", "Click  interact", "Tab  phone", "Esc  back" })
+            foreach (string h in new[] { "WASD  walk", "Drag  look", "Click  interact", "Tab  phone", "Esc  back" }.Select(Loc.T))
                 hints.Add(UIKit.Text(h));
             IgnorePointer(hints);
             Root.Add(hints);
 
             var hud = UIKit.Div("hud");
             var book = UIKit.IconBtn("ic_notebook", onNotebook, "hud-btn");
-            book.tooltip = "Notebook";
+            book.tooltip = Loc.T("Notebook");
             book.Add(UIKit.Text("N", "hud-btn__key"));
             hud.Add(book);
             var phone = UIKit.IconBtn("ic_phone", onPhone, "hud-btn");
-            phone.tooltip = "Phone (Tab)";
+            phone.tooltip = Loc.T("Phone (Tab)");
             phone.Add(UIKit.Text("Tab", "hud-btn__key"));
             badge = UIKit.Text("", "badge");
             badge.pickingMode = PickingMode.Ignore;
@@ -69,7 +71,7 @@ namespace DontCallMe.UI
 
             prompt = UIKit.Div("prompt");
             prompt.pickingMode = PickingMode.Ignore;
-            promptKey = UIKit.Text("Click", "prompt__key");
+            promptKey = UIKit.Text(Loc.T("Click"), "prompt__key");
             promptText = UIKit.Text("", "prompt__text");
             prompt.Add(promptKey);
             prompt.Add(promptText);

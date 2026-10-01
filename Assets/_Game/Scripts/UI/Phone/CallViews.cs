@@ -43,7 +43,7 @@ namespace DontCallMe.UI
         public SlideToAnswer Slider { get; }
         public override bool LightStatus => false;
 
-        public IncomingCallView(PhoneController phone, CallerInfo caller, string title, string label = "INCOMING CALL")
+        public IncomingCallView(PhoneController phone, CallerInfo caller, string title, string label = null)
             : base(phone, "", scroll: false, header: false)
         {
             var call = CallArt.Screen();
@@ -52,7 +52,7 @@ namespace DontCallMe.UI
             call.Add(ring);
             call.Add(CallArt.Avatar(caller));
             var info = UIKit.Div("call__info");
-            info.Add(UIKit.Text(label, "call__label"));
+            info.Add(UIKit.Text(label ?? Loc.T("INCOMING CALL"), "call__label"));
             info.Add(CallArt.Name(title));
             info.Add(UIKit.Text(caller.number, "call__number"));
             call.Add(info);
@@ -94,13 +94,13 @@ namespace DontCallMe.UI
         readonly Label hangLabel;
         bool hangUpEnabled = true;
 
-        public InCallView(PhoneController phone, CallerInfo caller, string title, string statusText = "ON CALL")
+        public InCallView(PhoneController phone, CallerInfo caller, string title, string statusText = null)
             : base(phone, "", scroll: false, header: false)
         {
             var call = CallArt.Screen();
             call.Add(CallArt.Avatar(caller, "call__avatar--small"));
             var info = UIKit.Div("call__info", "call__info--active");
-            status = UIKit.Text(statusText, "call__label");
+            status = UIKit.Text(statusText ?? Loc.T("ON CALL"), "call__label");
             info.Add(status);
             info.Add(CallArt.Name(title));
             info.Add(UIKit.Text(caller.number, "call__number"));
@@ -110,15 +110,15 @@ namespace DontCallMe.UI
 
             var buttons = UIKit.Div("call__buttons");
             var grid = UIKit.Div("call__grid");
-            grid.Add(Small("ic_keypad", "Keypad", () => phone.Push(phone.App<CallsApp>().CreateKeypad())));
-            grid.Add(Small("ic_apps", "Apps", phone.GoHome));
-            grid.Add(Small("ic_notebook", "Notes", () => phone.UI.OpenNotebook(true)));
-            grid.Add(Small("ic_speaker", "Speaker", () => Sfx.Play(Sfx.Click)));
+            grid.Add(Small("ic_keypad", Loc.T("Keypad"), () => phone.Push(phone.App<CallsApp>().CreateKeypad())));
+            grid.Add(Small("ic_apps", Loc.T("Apps"), phone.GoHome));
+            grid.Add(Small("ic_notebook", Loc.T("Notes"), () => phone.UI.OpenNotebook(true)));
+            grid.Add(Small("ic_speaker", Loc.T("Speaker"), () => Sfx.Play(Sfx.Click)));
             buttons.Add(grid);
             var hang = UIKit.Div("call__hang");
             var red = UIKit.Div("call-btn", "call-btn--red");
             red.Add(UIKit.Icon("ic_hangup"));
-            red.tooltip = "Hang up";
+            red.tooltip = Loc.T("Hang up");
             red.RegisterCallback<ClickEvent>(e =>
             {
                 if (hangUpEnabled)
@@ -127,7 +127,7 @@ namespace DontCallMe.UI
             });
             hang.Add(red);
             hangButton = red;
-            hangLabel = UIKit.Text("Hang up");
+            hangLabel = UIKit.Text(Loc.T("Hang up"));
             hang.Add(hangLabel);
             buttons.Add(hang);
             call.Add(buttons);
@@ -157,8 +157,8 @@ namespace DontCallMe.UI
         {
             hangUpEnabled = on;
             hangButton.EnableInClassList("call-btn--off", !on);
-            hangButton.tooltip = on ? "Hang up" : "Give your verdict on the call";
-            hangLabel.text = on ? "Hang up" : "Verdict on the call";
+            hangButton.tooltip = on ? Loc.T("Hang up") : Loc.T("Give your verdict on the call");
+            hangLabel.text = on ? Loc.T("Hang up") : Loc.T("Verdict on the call");
         }
 
         public void SetStatus(string text) => status.text = text;

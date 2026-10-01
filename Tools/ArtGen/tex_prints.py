@@ -19,6 +19,7 @@ BLUE_PEN = hexc("2C4A9A")
 RED_PEN = hexc("C23B32")
 GOTHIC = "AppleSDGothicNeo.ttc"   # index 0 regular, 6 bold
 MYUNGJO = "AppleMyungjo.ttf"
+HAND_KO = "Gaegu-Bold.ttf"   # Korean handwriting, from the game's fonts
 
 
 def paper_tone(img, seed, amount=0.08):
@@ -116,59 +117,80 @@ def phone_transfer_photo(w, h):
     return cv.result()
 
 
-def headline_lines(cv, text, width, size=112, smallest=72):
-    """The prop's headline in capitals over at most two balanced lines, shrinking the type until it fits."""
-    words = text.upper().split()
+def headline_lines(cv, text, width, size=112, smallest=56, korean=False):
+    """The prop's headline over at most two balanced lines (in capitals in English), shrinking the type until it fits.
+    A break after a comma wins when both lines fit, so "120만 원, 몇 분 만에" never splits "몇 분"."""
+    words = (text if korean else text.upper()).split()
     while True:
-        font = cv.font("DIN Condensed Bold.ttf", size)
+        font = cv.font(GOTHIC, size, index=16) if korean else cv.font("DIN Condensed Bold.ttf", size)
         if cv.text_width(" ".join(words), font) <= width and len(words) < 3:
             return [" ".join(words)], font
         best = None
         for k in range(1, len(words)):
             a, b = " ".join(words[:k]), " ".join(words[k:])
             wide = max(cv.text_width(a, font), cv.text_width(b, font))
-            if best is None or wide < best[0]:
-                best = (wide, [a, b])
-        if best is not None and best[0] <= width or size <= smallest:
+            rank = (not (a.endswith(",") and wide <= width), wide)
+            if best is None or rank < best[0]:
+                best = (rank, [a, b])
+        if best is not None and best[0][1] <= width or size <= smallest:
             return (best[1] if best else [" ".join(words)]), font
         size -= 4
 
 
+KO_FILLER = ("경찰은 최근 은행 직원과 검찰을 사칭한 전화가 잇따르고 있다며 주의를 당부했다 사기범들은 고객의 이름과 계좌 끝자리까지 "
+             "알고 있는 경우가 많아 의심하기 어렵다 전문가들은 전화를 끊고 직접 찾은 번호로 다시 걸어 확인하라고 조언한다 피해를 입었다면 "
+             "즉시 은행과 112에 신고해야 지급정지가 가능하다 관리사무소는 승강기와 출입구에 안내문을 붙이기로 했다").split()
+
+
 def newspaper(w=1024, h=1400, headline=None, subhead="Fake \"bank staff\" ask for transfers. Check whose account it is.",
-              date_en="TUESDAY, OCTOBER 6, 2026", date_ko="2026년 10월 6일 화요일", issue="제 12,408호", name="T_Newspaper", out_w=None):
-    """The folded Seoul Daily on the desk. Day 1's issue by default; newspapers() prints the later issues."""
+              date_en="TUESDAY, OCTOBER 6, 2026", date_ko="2026년 10월 6일 화요일", issue="제 12,408호", name="T_Newspaper", out_w=None, lang="en"):
+    """The folded Seoul Daily on the desk. Day 1's English issue by default; newspapers() prints the later issues and the Korean ones."""
+    ko = lang == "ko"
     cv = Canvas(w, h, ss=2, bg=PAPER)
     m = 40
     size = 80
-    title = cv.font("Georgia Bold.ttf", size)
-    while cv.text_width("SEOUL DAILY", title) > w * 0.62:
-        size -= 2
+    if ko:
+        title = cv.font(MYUNGJO, size)
+        while cv.text_width("서울데일리", title) > w * 0.5:
+            size -= 2
+            title = cv.font(MYUNGJO, size)
+        cv.text((w / 2, m + 46), "서울데일리", title, NEWS_INK, anchor="mm")
+        cv.text((m + 10, m + 46), "SEOUL DAILY", cv.font("Georgia Bold.ttf", 22), NEWS_INK, anchor="lm")
+    else:
         title = cv.font("Georgia Bold.ttf", size)
-    cv.text((w / 2, m + 46), "SEOUL DAILY", title, NEWS_INK, anchor="mm")
-    cv.text((m + 10, m + 46), "서울데일리", cv.font(MYUNGJO, 26), NEWS_INK, anchor="lm")
+        while cv.text_width("SEOUL DAILY", title) > w * 0.62:
+            size -= 2
+            title = cv.font("Georgia Bold.ttf", size)
+        cv.text((w / 2, m + 46), "SEOUL DAILY", title, NEWS_INK, anchor="mm")
+        cv.text((m + 10, m + 46), "서울데일리", cv.font(MYUNGJO, 26), NEWS_INK, anchor="lm")
     cv.text((w - m - 10, m + 46), issue, cv.font(MYUNGJO, 22), NEWS_INK, anchor="rm")
     rule(cv, m, w - m, m + 6, NEWS_INK, 2.5)
     rule(cv, m, w - m, m + 12, NEWS_INK, 1)
     rule(cv, m, w - m, m + 96, NEWS_INK, 1)
     small = cv.font("Georgia.ttf", 17)
-    cv.text((m, m + 106), date_en, small, NEWS_INK)
-    cv.text((w / 2, m + 106), date_ko, gothic(cv, 17), NEWS_INK, anchor="ma")
+    if ko:
+        cv.text((m, m + 106), date_ko, gothic(cv, 17), NEWS_INK)
+        cv.text((w / 2, m + 106), "망원 · 마포 · 서울", gothic(cv, 17), NEWS_INK, anchor="ma")
+    else:
+        cv.text((m, m + 106), date_en, small, NEWS_INK)
+        cv.text((w / 2, m + 106), date_ko, gothic(cv, 17), NEWS_INK, anchor="ma")
     cv.text((w - m, m + 106), "1,000원", gothic(cv, 17), NEWS_INK, anchor="ra")
     rule(cv, m, w - m, m + 132, NEWS_INK, 2.5)
 
     if headline is None:
         lines, head = ["BEFORE YOU SEND,", "READ THE NAME"], cv.font("DIN Condensed Bold.ttf", 112)
     else:
-        lines, head = headline_lines(cv, headline, w - 2 * m)
+        lines, head = headline_lines(cv, headline, w - 2 * m, size=96 if ko else 112, korean=ko)
     step = 112 if len(lines) > 1 else 0
     top = m + 150 if len(lines) > 1 else m + 190
     for k, line in enumerate(lines):
         cv.text((m, top + k * step), line, head, NEWS_INK)
     size = 26
-    sub = cv.font("Georgia Italic.ttf", size)
+    sub_font = (lambda s: cv.font(MYUNGJO, s)) if ko else (lambda s: cv.font("Georgia Italic.ttf", s))
+    sub = sub_font(size)
     while cv.text_width(subhead, sub) > w - 2 * m and size > 19:
         size -= 1
-        sub = cv.font("Georgia Italic.ttf", size)
+        sub = sub_font(size)
     sub_lines = wrap_words(cv, subhead, sub, w - 2 * m)
     for k, line in enumerate(sub_lines[:2]):
         cv.text((m, m + 382 - (len(sub_lines[:2]) - 1) * 14 + k * 28), line, sub, NEWS_INK)
@@ -177,20 +199,27 @@ def newspaper(w=1024, h=1400, headline=None, subhead="Fake \"bank staff\" ask fo
     photo = halftone(phone_transfer_photo(pw, ph), cell=4, dark=NEWS_INK, light=PAPER)
     cv.img.paste(photo.resize((pw * 2, ph * 2), Image.LANCZOS), (px0 * 2, py0 * 2))
     cv.rect(px0, py0, px0 + pw, py0 + ph, outline=NEWS_INK, width=1.5)
-    cap = cv.font("Georgia Italic.ttf", 15)
-    cv.text((px0, py0 + ph + 8), "The transfer screen shows who really gets the money. Photo: Seoul Daily", cap, NEWS_INK)
-    body = cv.font("Times.ttc", 15)
+    cap = gothic(cv, 15) if ko else cv.font("Georgia Italic.ttf", 15)
+    cv.text((px0, py0 + ph + 8), "송금 화면에는 돈을 실제로 받는 사람이 나온다. 사진: 서울데일리" if ko else
+            "The transfer screen shows who really gets the money. Photo: Seoul Daily", cap, NEWS_INK)
+    body = gothic(cv, 15) if ko else cv.font("Times.ttc", 15)
+    vocab = KO_FILLER if ko else FILLER
     col_w = (pw - 20) / 2
     for i in range(2):
-        text_block(cv, px0 + i * (col_w + 20), py0 + ph + 40, col_w, h - (py0 + ph + 40) - 150, body, NEWS_INK, 500 + i, 18)
+        text_block(cv, px0 + i * (col_w + 20), py0 + ph + 40, col_w, h - (py0 + ph + 40) - 150, body, NEWS_INK, 500 + i, 18, vocab=vocab)
 
     sx = px0 + pw + 30
     sw = w - m - sx
-    cv.text((sx + 14, py0 + 12), "INSIDE TODAY", cv.font("DIN Condensed Bold.ttf", 30), NEWS_INK)
-    items = [("Gas inspection", "Inspectors never ask for money"), ("Fake prosecutors", "There is no such thing as a safe account"),
-             ("Parcel texts", "Check a payment link's address"), ("Subway fares", "Base fare stays at 1,550 won"),
-             ("Weather", "Clear, 21°C, humid evening")]
-    it_h, it_b = cv.font("Georgia Bold.ttf", 19), cv.font("Georgia.ttf", 15)
+    cv.text((sx + 14, py0 + 12), "오늘의 기사" if ko else "INSIDE TODAY", gothic(cv, 26, True) if ko else cv.font("DIN Condensed Bold.ttf", 30), NEWS_INK)
+    if ko:
+        items = [("가스 점검", "점검원은 돈을 받지 않는다"), ("가짜 검사 전화", "'안전계좌'는 없다"), ("택배 문자", "결제 링크 주소를 확인하라"),
+                 ("지하철 요금", "기본요금 1,550원 유지"), ("날씨", "맑음, 21°C, 습한 저녁")]
+        it_h, it_b = gothic(cv, 19, True), gothic(cv, 15)
+    else:
+        items = [("Gas inspection", "Inspectors never ask for money"), ("Fake prosecutors", "There is no such thing as a safe account"),
+                 ("Parcel texts", "Check a payment link's address"), ("Subway fares", "Base fare stays at 1,550 won"),
+                 ("Weather", "Clear, 21°C, humid evening")]
+        it_h, it_b = cv.font("Georgia Bold.ttf", 19), cv.font("Georgia.ttf", 15)
     yy = py0 + 58
     for a, b in items:
         cv.text((sx + 14, yy), a, it_h, NEWS_INK)
@@ -200,12 +229,13 @@ def newspaper(w=1024, h=1400, headline=None, subhead="Fake \"bank staff\" ask fo
         yy += 36
         rule(cv, sx + 14, sx + sw - 14, yy - 12, NEWS_INK, 0.8)
     cv.rect(sx, py0, sx + sw, yy, outline=NEWS_INK, width=1.5)
-    text_block(cv, sx, yy + 30, sw, h - (yy + 30) - 150, body, NEWS_INK, 600, 18)
+    text_block(cv, sx, yy + 30, sw, h - (yy + 30) - 150, body, NEWS_INK, 600, 18, vocab=vocab)
 
     ay = h - 130
     cv.rect(m, ay, w - m, h - m, outline=NEWS_INK, width=2.5)
     cv.text((m + 150, ay + 12), "치킨 배달 CHICKEN 24H", gothic(cv, 38, True), NEWS_INK)
-    cv.text((m + 150, ay + 60), "Crispy & soy garlic · Free delivery over 20,000 won · 02-555-0147", cv.font("Georgia.ttf", 18),
+    cv.text((m + 150, ay + 60), "바삭 & 간장마늘 · 2만 원 이상 무료 배달 · 02-555-0147" if ko else
+            "Crispy & soy garlic · Free delivery over 20,000 won · 02-555-0147", gothic(cv, 18) if ko else cv.font("Georgia.ttf", 18),
             NEWS_INK)
     # Drumstick logo.
     fx, fy, ang = m + 72, ay + 46, -0.6
@@ -231,7 +261,7 @@ def newspapers():
         issues = json.load(f)
     os.makedirs(os.path.join(OUT, "Papers"), exist_ok=True)
     return [newspaper(headline=p["headline"], subhead=p["subhead"], date_en=p["dateEn"], date_ko=p["dateKo"], issue=p["issue"],
-                      name="Papers/" + p["name"], out_w=768) for p in issues]
+                      name="Papers/" + p["name"], out_w=768, lang=p.get("lang", "en")) for p in issues]
 
 
 # ---------------------------------------------------------------- calendar
@@ -273,6 +303,12 @@ def sun_moon_peaks(w, h):
 
 
 def calendar(w=768, h=1152):
+    return save(calendar_image(w, h), "T_Calendar")
+
+
+def calendar_image(w=768, h=1152, lang="en"):
+    """The pharmacy calendar with Jiwoo's notes on it, in English or (lang="ko", for the board close-up) Korean."""
+    ko = lang == "ko"
     cv = Canvas(w, h, ss=2, bg=hexc("F7F2E6"))
     red, blue = hexc("C8392F"), hexc("2F5A9A")
     cv.rect(0, 0, w, 70, fill=hexc("2F5A4F"))
@@ -309,27 +345,34 @@ def calendar(w=768, h=1152):
     for r in range(1, 6):
         rule(cv, gx0, w - 30, gy0 + 36 + r * chh, mix(INK, (247, 242, 230), 0.75), 0.8)
 
-    hand = cv.font("Noteworthy.ttc", 17, index=1)
+    hand = cv.font(HAND_KO, 21) if ko else cv.font("Noteworthy.ttc", 17, index=1)
+
+    def note(x, y, dx, en, kr, col):
+        if ko:
+            cv.text((x, y + 60), kr, hand, col, anchor="ma")
+        else:
+            cv.text((x + dx, y + 62), en, hand, col)
+
     rng = np.random.default_rng(5)
     x, y = cell_xy(8)
     cv.line(wobble([(x + 36 * math.cos(a), y + 26 + 30 * math.sin(a)) for a in np.linspace(0, 6.6, 40)], 1.2, rng),
             BLUE_PEN, 2.2)
-    cv.text((x - 40, y + 62), "Dentist", hand, BLUE_PEN)
+    note(x, y, -40, "Dentist", "치과", BLUE_PEN)
     x, y = cell_xy(14)
-    cv.text((x - 40, y + 62), "Gas check", hand, BLUE_PEN)
+    note(x, y, -40, "Gas check", "가스점검", BLUE_PEN)
     x, y = cell_xy(17)
     for k in range(5):
         a1 = -math.pi / 2 + k * 2 * math.pi / 5
         a2 = a1 + 2 * math.pi * 2 / 5
         cv.line([(x + 30 + 12 * math.cos(a1), y + 4 + 12 * math.sin(a1)), (x + 30 + 12 * math.cos(a2), y + 4 + 12 * math.sin(a2))],
                 RED_PEN, 2)
-    cv.text((x - 38, y + 62), "Mom b-day", hand, RED_PEN)
+    note(x, y, -38, "Mom b-day", "엄마 생신", RED_PEN)
     x, y = cell_xy(7)
-    cv.text((x - 26, y + 62), "Rent!", hand, RED_PEN)
+    note(x, y, -26, "Rent!", "월세!", RED_PEN)
     cv.line([(x - 30, y + 84), (x + 22, y + 84)], RED_PEN, 2)
     x, y = cell_xy(13)
-    cv.text((x - 40, y + 62), "Midterms", hand, BLUE_PEN)
-    return save(paper_tone(cv.result(), 222, 0.05), "T_Calendar")
+    note(x, y, -40, "Midterms", "중간고사", BLUE_PEN)
+    return paper_tone(cv.result(), 222, 0.05)
 
 
 # ---------------------------------------------------------------- notes, photos, labels
@@ -346,21 +389,34 @@ def lined_paper(cv, x0, y0, x1, y1, bg, line_col, spacing=26, margin_col=None):
 
 def notes_atlas():
     """Papers on the cork board and in the drawer (layout: atlas.NOTES)."""
+    return save(notes_image(), "T_Notes_Atlas")
+
+
+def notes_image(lang="en"):
+    """The notes atlas, written in English or (lang="ko", for the board and drawer close-ups) Korean."""
+    ko = lang == "ko"
     size = atlas.SIZES["notes"][0]
     R = atlas.NOTES
     cv = Canvas(size, size, ss=2, bg=(250, 250, 250))
     hand = cv.font("Noteworthy.ttc", 26, index=1)
     hand_s = cv.font("Noteworthy.ttc", 21, index=1)
     marker = cv.font("MarkerFelt.ttc", 30)
+    hand_ko = cv.font(HAND_KO, 31)
+    hand_ko_s = cv.font(HAND_KO, 27)
 
     x0, y0, x1, y1 = R["numbers"]
     lined_paper(cv, x0, y0, x1, y1, hexc("F8F4E8"), hexc("A9C3DA"), 30, hexc("E0A0A0"))
-    cv.text((x0 + 70, y0 + 18), "IMPORTANT NUMBERS", marker, RED_PEN)
-    rows = [("Police", "112"), ("Fire / Ambulance", "119"), ("Voice phishing (FSS)", "1332"), ("Nuri Bank", "1599-0000"),
-            ("Landlord", "010-5512-3380"), ("Mom", "010-2231-7745"), ("Dad", "010-4418-0902")]
+    if ko:
+        cv.text((x0 + 70, y0 + 12), "중요한 번호", cv.font(HAND_KO, 38), RED_PEN)
+        rows = [("경찰", "112"), ("화재 / 구급", "119"), ("보이스피싱 (금감원)", "1332"), ("누리은행", "1599-0000"),
+                ("집주인", "010-5512-3380"), ("엄마", "010-2231-7745"), ("아빠", "010-4418-0902")]
+    else:
+        cv.text((x0 + 70, y0 + 18), "IMPORTANT NUMBERS", marker, RED_PEN)
+        rows = [("Police", "112"), ("Fire / Ambulance", "119"), ("Voice phishing (FSS)", "1332"), ("Nuri Bank", "1599-0000"),
+                ("Landlord", "010-5512-3380"), ("Mom", "010-2231-7745"), ("Dad", "010-4418-0902")]
     y = y0 + 64
     for a, b in rows:
-        cv.text((x0 + 66, y), a, hand, BLUE_PEN)
+        cv.text((x0 + 66, y + 4 if ko else y), a, hand_ko if ko else hand, BLUE_PEN)
         cv.text((x1 - 14, y), b, hand, BLUE_PEN, anchor="ra")
         y += 60
     cv.line([(x0 + 300, y0 + 238), (x1 - 12, y0 + 234)], RED_PEN, 2.2)
@@ -369,29 +425,36 @@ def notes_atlas():
     cx = (x0 + x1) / 2
     cv.rect(x0, y0, x1, y1, fill=hexc("FBFBF6"))
     cv.text((cx, y0 + 30), "관리사무소 안내", gothic(cv, 28, True), INK, anchor="ma")
-    cv.text((cx, y0 + 70), "BUILDING NOTICE", cv.font("AmericanTypewriter.ttc", 18), INK, anchor="ma")
+    if ko:
+        cv.text((cx, y0 + 70), "망원하이츠", cv.font(MYUNGJO, 18), INK, anchor="ma")
+        tb = cv.font(MYUNGJO, 17)
+        lines = ["가스 안전점검:", "10월 14일(수) 10:00 - 17:00", "", "점검원은 절대 돈이나", "금융정보를 요구하지 않습니다.",
+                 "", "수상한 방문자나 전화는", "관리사무소로: 02-555-0192"]
+    else:
+        cv.text((cx, y0 + 70), "BUILDING NOTICE", cv.font("AmericanTypewriter.ttc", 18), INK, anchor="ma")
+        tb = cv.font("AmericanTypewriter.ttc", 17)
+        lines = ["Gas safety inspection:", "Wed 14 Oct, 10:00 - 17:00", "", "Inspectors never ask for money", "or bank details.",
+                 "", "Strange visitors or calls?", "Call the office: 02-555-0192"]
     rule(cv, x0 + 48, x1 - 48, y0 + 100, INK, 1.5)
-    tb = cv.font("AmericanTypewriter.ttc", 17)
-    lines = ["Gas safety inspection:", "Wed 14 Oct, 10:00 - 17:00", "", "Inspectors never ask for money", "or bank details.",
-             "", "Strange visitors or calls?", "Call the office: 02-555-0192"]
     y = y0 + 118
     for ln in lines:
         cv.text((x0 + 48, y), ln, tb, INK)
         y += 30
-    cv.text((x1 - 48, y0 + 400), "Management office", tb, INK, anchor="ra")
+    cv.text((x1 - 48, y0 + 400), "관리사무소" if ko else "Management office", tb, INK, anchor="ra")
     cv.ellipse(x1 - 90, y0 + 455, 38, 38, outline=hexc("B8453A"), width=3)
     cv.text((x1 - 90, y0 + 455), "관리", gothic(cv, 20, True), hexc("B8453A"), anchor="mm")
 
     x0, y0, x1, y1 = R["sticky_y"]
     cv.rect(x0, y0, x1, y1, fill=hexc("F7E27A"))
-    cv.text((x0 + 22, y0 + 40), "Phone bill", hand, INK)
-    cv.text((x0 + 22, y0 + 80), "pay by 20th", hand, INK)
-    cv.text((x0 + 22, y0 + 130), "auto-pay?", hand_s, RED_PEN)
+    big, small = (hand_ko, hand_ko_s) if ko else (hand, hand_s)
+    cv.text((x0 + 22, y0 + 40), "휴대폰 요금" if ko else "Phone bill", big, INK)
+    cv.text((x0 + 22, y0 + 80), "20일까지!" if ko else "pay by 20th", big, INK)
+    cv.text((x0 + 22, y0 + 130), "자동이체?" if ko else "auto-pay?", small, RED_PEN)
     x0, y0, x1, y1 = R["sticky_p"]
     cv.rect(x0, y0, x1, y1, fill=hexc("F5B3C2"))
-    cv.text((x0 + 22, y0 + 40), "Mom b-day", hand, INK)
-    cv.text((x0 + 22, y0 + 80), "17th!", hand, INK)
-    cv.text((x0 + 22, y0 + 124), "call + gift", hand_s, INK)
+    cv.text((x0 + 22, y0 + 40), "엄마 생신" if ko else "Mom b-day", big, INK)
+    cv.text((x0 + 22, y0 + 80), "17일!" if ko else "17th!", big, INK)
+    cv.text((x0 + 22, y0 + 124), "전화 + 선물" if ko else "call + gift", small, INK)
 
     x0, y0, x1, y1 = R["strip"]
     strip = pp.photo_strip((x1 - x0, y1 - y0))
@@ -406,18 +469,27 @@ def notes_atlas():
     cv.text((cx, y0 + 56), "망원점  02-555-0133", gothic(cv, 14), INK, anchor="ma")
     cv.text((cx, y0 + 78), "2026-10-05  22:41", mono_s, INK, anchor="ma")
     y = y0 + 110
-    items = [("Triangle gimbap", "1,500"), ("Banana milk", "1,800"), ("Cup ramyun", "1,300"), ("Chocolate", "1,200"),
-             ("Plastic bag", "50")]
+    if ko:
+        items = [("삼각김밥", "1,500"), ("바나나우유", "1,800"), ("컵라면", "1,300"), ("초콜릿", "1,200"), ("봉투", "50")]
+    else:
+        items = [("Triangle gimbap", "1,500"), ("Banana milk", "1,800"), ("Cup ramyun", "1,300"), ("Chocolate", "1,200"),
+                 ("Plastic bag", "50")]
     for a, b in [("-" * 22, "")] + items + [("-" * 22, "")]:
-        cv.text((x0 + 14, y), a, mono_s, INK)
+        cv.text((x0 + 14, y), a, gothic(cv, 14) if ko and b else mono_s, INK)
         cv.text((x1 - 14, y), b, mono_s, INK, anchor="ra")
         y += 24
-    cv.text((x0 + 14, y + 4), "TOTAL", mono, INK)
+    cv.text((x0 + 14, y + 4), "합계" if ko else "TOTAL", gothic(cv, 17, True) if ko else mono, INK)
     cv.text((x1 - 14, y + 2), "5,850원", gothic(cv, 18, True), INK, anchor="ra")
     y += 40
-    for ln in ("CARD   Nuri Bank", "NO.    9410-****-****-0921", "APPROVAL 38120477"):
-        cv.text((x0 + 14, y), ln, mono_s, INK)
-        y += 22
+    if ko:
+        for label, value in (("카드", "누리은행"), ("번호", "9410-****-****-0921"), ("승인", "38120477")):
+            cv.text((x0 + 14, y), label, gothic(cv, 13), INK)
+            cv.text((x0 + 56, y), value, gothic(cv, 13) if value == "누리은행" else mono_s, INK)
+            y += 22
+    else:
+        for ln in ("CARD   Nuri Bank", "NO.    9410-****-****-0921", "APPROVAL 38120477"):
+            cv.text((x0 + 14, y), ln, mono_s, INK)
+            y += 22
     rng = np.random.default_rng(12)
     bx = x0 + 30
     while bx < x1 - 30:
@@ -441,7 +513,7 @@ def notes_atlas():
     cv.text(((stub + x1) / 2, y0 + 60), "55,000원", gothic(cv, 20, True), INK, anchor="ma")
     cv.text(((stub + x1) / 2, y0 + 112), "ADMIT", cv.font("DIN Condensed Bold.ttf", 26), INK, anchor="ma")
     cv.text(((stub + x1) / 2, y0 + 142), "ONE", cv.font("DIN Condensed Bold.ttf", 26), INK, anchor="ma")
-    return save(paper_tone(cv.result(), 333, 0.05), "T_Notes_Atlas")
+    return paper_tone(cv.result(), 333, 0.05)
 
 
 def photos_atlas():
@@ -458,6 +530,12 @@ def photos_atlas():
 
 def labels_atlas():
     """Printed labels and screens for small props (layout: atlas.LABELS)."""
+    return save(labels_image(), "T_Labels_Atlas")
+
+
+def labels_image(lang="en"):
+    """The labels atlas; lang="ko" signs the bank card in Hangul (for the wallet close-up in Korean)."""
+    ko = lang == "ko"
     size = atlas.SIZES["labels"][0]
     R = atlas.LABELS
     cv = Canvas(size, size, ss=2, bg=(245, 245, 245))
@@ -528,7 +606,10 @@ def labels_atlas():
     cv.rect(x0, y0, x1, y1, fill=hexc("3C6E60"))
     cv.rect(x0, y0 + 18, x1, y0 + 46, fill=(20, 20, 24))
     cv.rect(x0 + 12, y0 + 60, x0 + 180, y0 + 84, fill=(245, 245, 240))
-    cv.text((x0 + 16, y0 + 64), "Kim Jiwoo", cv.font("Noteworthy.ttc", 15, index=1), BLUE_PEN)
+    if ko:
+        cv.text((x0 + 18, y0 + 61), "김지우", cv.font(HAND_KO, 19), BLUE_PEN)
+    else:
+        cv.text((x0 + 16, y0 + 64), "Kim Jiwoo", cv.font("Noteworthy.ttc", 15, index=1), BLUE_PEN)
     cv.text((x0 + 12, y0 + 94), "고객센터 CUSTOMER CENTER", gothic(cv, 11, True), (255, 255, 255))
     cv.text((x0 + 12, y0 + 112), "1599-0000", cv.font("Arial Black.ttf", 24), hexc("FFE28A"))
 
@@ -557,7 +638,7 @@ def labels_atlas():
     cv.text((x0 + 148, y0 + 127), "24°", cv.font("DIN Condensed Bold.ttf", 64), hexc("7CE0A8"), anchor="mm")
     cv.text((x0 + 368, y0 + 102), "COOLWIND", cv.font("Arial Black.ttf", 30), hexc("3E5476"), anchor="mm")
     cv.text((x0 + 368, y0 + 147), "에어컨  INVERTER", gothic(cv, 20, True), hexc("3E5476"), anchor="mm")
-    return save(cv.result(), "T_Labels_Atlas")
+    return cv.result()
 
 
 # ---------------------------------------------------------------- posters, rug, clock, TV, books, leaves

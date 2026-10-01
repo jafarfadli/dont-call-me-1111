@@ -54,8 +54,8 @@ namespace DontCallMe.UI
             UIKit.SetImage(logo, UISkin.Tex("title_logo"));
             main.Add(logo);
             var tag = UIKit.Div("title-tagline", "paper");
-            tag.Add(UIKit.Text("A scam-call detective game", "title-tagline__text"));
-            tag.Add(UIKit.Text("전화하지 마세요!", "title-tagline__ko"));
+            tag.Add(UIKit.Text(Loc.T("A scam-call detective game"), "title-tagline__text"));
+            tag.Add(UIKit.Text(Loc.Ko ? "Don't Call Me!" : "전화하지 마세요!", "title-tagline__ko"));
             main.Add(tag);
             var menu = UIKit.Div("title-menu");
             var catalog = DayCatalog.Load();
@@ -63,16 +63,16 @@ namespace DontCallMe.UI
             int next = GameRun.NextDay;
             if (GameRun.HasProgress && next <= days)
             {
-                menu.Add(PauseMenuView.MenuButton("ic_play", $"Continue  ·  Day {next}", () => StartGame(next), "btn--green"));
-                menu.Add(PauseMenuView.MenuButton("ic_star", "New week", ConfirmNewWeek, null));
+                menu.Add(PauseMenuView.MenuButton("ic_play", Loc.F("Continue  ·  Day {0}", next), () => StartGame(next), "btn--green"));
+                menu.Add(PauseMenuView.MenuButton("ic_star", Loc.T("New week"), ConfirmNewWeek, null));
             }
             else
             {
-                string label = GameRun.HasProgress ? "New week  ·  Day 1" : "Start  ·  Day 1";
+                string label = GameRun.HasProgress ? Loc.T("New week  ·  Day 1") : Loc.T("Start  ·  Day 1");
                 menu.Add(PauseMenuView.MenuButton("ic_play", label, NewWeek, "btn--green"));
             }
-            menu.Add(PauseMenuView.MenuButton("ic_gear", "Settings", OpenSettings, null));
-            menu.Add(PauseMenuView.MenuButton("ic_exit", "Quit", Quit, "btn--red"));
+            menu.Add(PauseMenuView.MenuButton("ic_gear", Loc.T("Settings"), OpenSettings, null));
+            menu.Add(PauseMenuView.MenuButton("ic_exit", Loc.T("Quit"), Quit, "btn--red"));
             main.Add(menu);
             screen.Add(main);
 
@@ -80,7 +80,7 @@ namespace DontCallMe.UI
             screen.Add(phone);
 
             var foot = UIKit.Div("title-footer");
-            foot.Add(UIKit.Text("Headphones on  ·  Drag to look  ·  Esc pauses", "title-footer__text"));
+            foot.Add(UIKit.Text(Loc.T("Headphones on  ·  Drag to look  ·  Esc pauses"), "title-footer__text"));
             screen.Add(foot);
             root.Add(screen);
 
@@ -114,8 +114,8 @@ namespace DontCallMe.UI
             UIKit.SetImage(avatar, UISkin.Tex("pt_unknown"));
             call.Add(avatar);
             var info = UIKit.Div("call__info");
-            info.Add(UIKit.Text("INCOMING CALL", "call__label"));
-            info.Add(UIKit.Text("Unknown", "call__name"));
+            info.Add(UIKit.Text(Loc.T("INCOMING CALL"), "call__label"));
+            info.Add(UIKit.Text(Loc.T("Unknown"), "call__name"));
             info.Add(UIKit.Text("070-8844-2019", "call__number"));
             call.Add(info);
             var slider = new SlideToAnswer();
@@ -186,8 +186,8 @@ namespace DontCallMe.UI
         {
             if (confirm != null)
                 return;
-            confirm = new ModalView("Start a new week?", $"Your week so far (up to Day {GameRun.NextDay - 1}) will be forgotten.",
-                                    "New week", "Cancel", () =>
+            confirm = new ModalView(Loc.T("Start a new week?"), Loc.F("Your week so far (up to Day {0}) will be forgotten.", GameRun.NextDay - 1),
+                                    Loc.T("New week"), Loc.T("Cancel"), () =>
                                     {
                                         CloseConfirm();
                                         NewWeek();
@@ -216,10 +216,20 @@ namespace DontCallMe.UI
             if (settings != null)
                 return;
             main.Hide(true);
-            settings = new SettingsView(CloseSettings);
+            settings = new SettingsView(CloseSettings, ChangeLanguage);
             settings.Root.AddToClassList("title-settings");
             settings.Root.AddToClassList("menu-card--in");
             root.Q(className: "title-screen").Add(settings.Root);
+        }
+
+        /// <summary>The title screen comes back in the new language.</summary>
+        void ChangeLanguage(Lang lang)
+        {
+            if (leaving)
+                return;
+            leaving = true;
+            Loc.Current = lang;
+            fade.FadeOut(0.4f, () => SceneFlow.Load(SceneFlow.Home));
         }
 
         void CloseSettings()

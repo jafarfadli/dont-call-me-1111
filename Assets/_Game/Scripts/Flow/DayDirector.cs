@@ -150,7 +150,7 @@ namespace DontCallMe.Flow
             Current = Phase.Seated;
             GameClock.Running = true;
             if (today.day == 1)
-                ui.Toast("ic_mouse", "Look around", "Hold a mouse button and drag to look. Esc pauses.");
+                ui.Toast("ic_mouse", Loc.T("Look around"), Loc.T("Hold a mouse button and drag to look. Esc pauses."));
             // Yesterday's aftermath buzzes in while Jiwoo sits down.
             float waited = 0f;
             foreach (var echo in Plan.notifications)
@@ -200,20 +200,20 @@ namespace DontCallMe.Flow
             switch (echo.kind)
             {
                 case EchoKind.Sms:
-                    ui.Toast("app_messages", "Messages · " + (ui.Phone.FindContact(echo.from)?.name ?? echo.from), echo.text);
+                    ui.Toast("app_messages", Loc.T("Messages") + " · " + (ui.Phone.FindContact(echo.from)?.name ?? echo.from), echo.text);
                     break;
                 case EchoKind.Chat:
-                    ui.Toast("app_talk", "Talk · " + (ui.PhoneView.App<TalkApp>().Thread(echo.from)?.title ?? echo.sender), echo.text);
+                    ui.Toast("app_talk", Loc.T("Talk") + " · " + (ui.PhoneView.App<TalkApp>().Thread(echo.from)?.title ?? echo.sender), echo.text);
                     break;
                 case EchoKind.Mail:
-                    ui.Toast("app_mail", "Mail · " + echo.from, echo.title);
+                    ui.Toast("app_mail", Loc.T("Mail") + " · " + echo.from, echo.title);
                     break;
                 case EchoKind.BankNotice:
                 case EchoKind.BankTransaction:
-                    ui.Toast("app_bank", "Nuri Bank", string.IsNullOrEmpty(echo.title) ? echo.text : echo.title);
+                    ui.Toast("app_bank", Loc.T("Nuri Bank"), string.IsNullOrEmpty(echo.title) ? echo.text : echo.title);
                     break;
                 case EchoKind.MissedCall:
-                    ui.Toast("app_phone", "Missed call", ui.Phone.FindContact(echo.from)?.name ?? echo.from);
+                    ui.Toast("app_phone", Loc.T("Missed call"), ui.Phone.FindContact(echo.from)?.name ?? echo.from);
                     break;
                 default:
                     return;
@@ -234,7 +234,7 @@ namespace DontCallMe.Flow
             yield return new WaitForSeconds(0.8f);
             var conv = Conv;
             bool go = false;
-            string who = ui.Phone.FindContact(conv.caller.number)?.name ?? "Unknown caller";
+            string who = ui.Phone.FindContact(conv.caller.number)?.name ?? Loc.T("Unknown caller");
             ui.ShowCaseCard(Plan.day.day, conv.caseInfo, conv.caller, who, () => go = true);
             while (!go)
                 yield return null;
@@ -249,7 +249,7 @@ namespace DontCallMe.Flow
             ui.Hud.Deadline.Show(true);
             if (music != null && calmLoop != null)
                 music.Play(calmLoop, tenseLoop, 3f);
-            ui.Toast("ic_case", "Investigate", "He's holding the line. Check the room and your phone before " + conv.caseInfo.deadline + ", then give your verdict on the call (Tab).");
+            ui.Toast("ic_case", Loc.T("Investigate"), Loc.F("The caller is holding the line. Check the room and your phone before {0}, then give your verdict on the call (Tab).", conv.caseInfo.deadline));
         }
 
         void Update()

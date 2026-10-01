@@ -23,7 +23,7 @@ namespace DontCallMe.UI
             icon.AddToClassList("chip__icon");
             icon.pickingMode = PickingMode.Ignore;
             Add(icon);
-            tooltip = "Click to copy";
+            tooltip = Loc.T("Click to copy");
             RegisterCallback<ClickEvent>(e =>
             {
                 Clipboard.Copy(Fact);
@@ -147,7 +147,7 @@ namespace DontCallMe.UI
         public SlideToAnswer()
         {
             AddToClassList("slide");
-            hint = new Label("slide to answer   › › ›");
+            hint = new Label(Loc.T("slide to answer") + "   › › ›");
             hint.AddToClassList("slide__hint");
             hint.style.whiteSpace = WhiteSpace.NoWrap;
             hint.pickingMode = PickingMode.Ignore;

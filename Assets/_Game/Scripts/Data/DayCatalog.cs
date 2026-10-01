@@ -4,8 +4,9 @@ using UnityEngine;
 namespace DontCallMe.Data
 {
     /// <summary>
-    /// The days of a run, in order. Lives in a Resources folder so the title, room and morning
-    /// scenes all find it without scene references.
+    /// The days of a run, in order, in one language. Lives in a Resources folder ("DayCatalog" in
+    /// English, "DayCatalog_ko" in Korean) so the title, room and morning scenes find it without
+    /// scene references.
     /// </summary>
     [CreateAssetMenu(menuName = "Don't Call Me/Day Catalog")]
     public class DayCatalog : ScriptableObject
@@ -15,11 +16,17 @@ namespace DontCallMe.Data
         public List<DayData> days = new List<DayData>();
 
         static DayCatalog cached;
+        static Lang cachedLang;
 
+        /// <summary>The catalog in the current language (English when there is none).</summary>
         public static DayCatalog Load()
         {
-            if (cached == null)
-                cached = Resources.Load<DayCatalog>(ResourceName);
+            var lang = Loc.Current;
+            if (cached == null || cachedLang != lang)
+            {
+                cached = (lang == Lang.Ko ? Resources.Load<DayCatalog>(ResourceName + "_ko") : null) ?? Resources.Load<DayCatalog>(ResourceName);
+                cachedLang = lang;
+            }
             return cached;
         }
 

@@ -98,7 +98,7 @@ namespace DontCallMe.Flow
             caller = data.caller;
             voice = data.caller.voice;
             var contact = ui.Phone.FindContact(caller.number);
-            title = contact != null ? contact.name : "Unknown";
+            title = contact != null ? contact.name : Loc.T("Unknown");
             OpenCase();
             state = State.Ringing;
             ui.ClosePanel();
@@ -118,11 +118,11 @@ namespace DontCallMe.Flow
             Phone.Locked = false;
             Phone.RemoveScreen(incoming);
             incoming = null;
-            BeginCallScreen(caller, title, "ON CALL", allowHangUp: false);
+            BeginCallScreen(caller, title, Loc.T("ON CALL"), allowHangUp: false);
             state = State.Active;
             ui.Transcript.Open(caller, title);
             ui.CallHud.Set(title, caller.number, caller.portrait);
-            ui.Transcript.AddSystem($"Call started · {GameClock.Now}");
+            ui.Transcript.AddSystem(Loc.F("Call started · {0}", GameClock.Now));
             Run(conv.nodes.Count > 0 ? conv.nodes[0] : null);
         }
 
@@ -160,7 +160,7 @@ namespace DontCallMe.Flow
                 ui.Phone.chats.Insert(0, new ChatThread
                 {
                     id = caller.chatId, title = title, avatar = caller.portrait, notFriend = !caller.inContacts,
-                    profileId = caller.profileId, profileNote = "Joined Talk today",
+                    profileId = caller.profileId, profileNote = Loc.T("Joined Talk today"),
                 });
             OpenCase();
             state = State.Active;
@@ -247,7 +247,7 @@ namespace DontCallMe.Flow
             {
                 if (speaker == Speaker.System)
                 {
-                    ui.Toast("app_talk", "Talk", text);
+                    ui.Toast("app_talk", Loc.T("Talk"), text);
                     return;
                 }
                 Talk.Append(caller.chatId, new ChatMessage
@@ -291,7 +291,7 @@ namespace DontCallMe.Flow
                         {
                             from = d.from, fromAddress = d.link, subject = d.title, when = GameClock.Now, body = d.text, unread = true,
                         });
-                        ui.Toast("app_mail", "Mail · " + d.from, d.title);
+                        ui.Toast("app_mail", Loc.T("Mail") + " · " + d.from, d.title);
                         Sfx.Play(Sfx.Pop);
                         break;
                     case DeliveryKind.ChatMessage:
@@ -395,16 +395,16 @@ namespace DontCallMe.Flow
             var info = conv.verdict ?? new VerdictInfo();
             var t = TransferTrigger;
             string detail = info.goAlongDetail;
-            string sendTitle = (info.goAlong ?? "GO ALONG").ToUpperInvariant() + "?";
+            string sendTitle = (info.goAlong ?? Loc.T("GO ALONG")).ToUpperInvariant() + "?";
             string sendTo = null;
             if (t != null)
             {
                 string bank = string.IsNullOrEmpty(t.bank) ? "" : t.bank + " ";
                 if (string.IsNullOrEmpty(detail))
-                    detail = $"{FactText.Won(t.amount)} to {bank}{t.target}";
+                    detail = Loc.F("{0} to {1}{2}", FactText.Won(t.amount), bank, t.target);
                 string holder = ui.Directory.FindAccount(t.target)?.holder;
-                sendTitle = $"SEND {FactText.Won(t.amount)}?";
-                sendTo = string.IsNullOrEmpty(holder) ? $"To {bank}{t.target}" : $"To {holder}  ·  {bank}{t.target}";
+                sendTitle = Loc.F("SEND {0}?", FactText.Won(t.amount));
+                sendTo = string.IsNullOrEmpty(holder) ? Loc.F("To {0}{1}", bank, t.target) : Loc.F("To {0}  ·  {1}{2}", holder, bank, t.target);
             }
             var panel = new VerdictPanel(info, detail, sendTitle, sendTo, OnVerdict);
             if (t != null)
@@ -448,7 +448,7 @@ namespace DontCallMe.Flow
             {
                 string holder = ui.Directory.FindAccount(t.target)?.holder ?? t.target;
                 Phone.App<BankApp>().RecordTransfer(holder, t.bank, t.target, t.amount);
-                ui.Transcript.AddSystem($"You sent {FactText.Won(t.amount)} to {holder} ({t.bank} {t.target}).", "bad");
+                ui.Transcript.AddSystem(Loc.F("You sent {0} to {1} ({2} {3}).", FactText.Won(t.amount), holder, t.bank, t.target), "bad");
                 Sfx.Play(Sfx.Success, 0.7f);
             }
             GoTo(!string.IsNullOrEmpty(info.goAlongEndingId) ? info.goAlongEndingId : t != null ? t.endingId : conv.hangUpEndingId);
@@ -460,7 +460,7 @@ namespace DontCallMe.Flow
                 return;
             var open = conv.questions.FindAll(q => !asked.Contains(q));
             ui.Transcript.ShowHold(title, open, Ask);
-            ui.CallHud.SetIdleHint("Holding the line  ·  Tab to ask or decide");
+            ui.CallHud.SetIdleHint(Loc.T("Holding the line  ·  Tab to ask or decide"));
         }
 
         /// <summary>Put one of the conversation's questions to the holding caller.</summary>
@@ -529,7 +529,7 @@ namespace DontCallMe.Flow
             StopSpeech();
             ClearDecision();
             if (!isChat)
-                ui.Transcript.AddSystem($"It's {GameClock.Now}. Time's up.", "bad");
+                ui.Transcript.AddSystem(Loc.F("It's {0}. Time's up.", GameClock.Now), "bad");
             GoTo(conv.timeoutEndingId);
         }
 
@@ -582,7 +582,7 @@ namespace DontCallMe.Flow
                 {
                     ClearDecision();
                     if (!isChat)
-                        ui.Transcript.AddSystem("You took too long.", "bad");
+                        ui.Transcript.AddSystem(Loc.T("You took too long."), "bad");
                     GoTo(conv.timeoutEndingId);
                 }
                 ui.Pressure.Tick(f, dt);
@@ -606,7 +606,7 @@ namespace DontCallMe.Flow
                 return;
             StopSpeech();
             ClearDecision();
-            ui.Transcript.AddSystem("You hung up.");
+            ui.Transcript.AddSystem(Loc.T("You hung up."));
             // The line is dead: the caller's ending lines are not heard.
             CloseLine();
             var ending = conv.FindEnding(conv.hangUpEndingId);
@@ -621,10 +621,10 @@ namespace DontCallMe.Flow
             if (lineClosed)
                 return;
             lineClosed = true;
-            inCall?.SetStatus("CALL ENDED");
+            inCall?.SetStatus(Loc.T("CALL ENDED"));
             // Nothing to return to: the "Return to call" bar goes away.
             Phone.CallView = null;
-            ui.Transcript.AddSystem($"Call ended · {Phone.CallTimerText}");
+            ui.Transcript.AddSystem(Loc.F("Call ended · {0}", Phone.CallTimerText));
             Sfx.Play(Sfx.HangUp, 0.7f);
         }
 
@@ -633,7 +633,7 @@ namespace DontCallMe.Flow
             if (state != State.Active || conv == null)
                 return;
             if (!isChat)
-                ui.Transcript.AddSystem($"You sent {FactText.Won(amount)} to {bank} {account}.", "bad");
+                ui.Transcript.AddSystem(Loc.F("You sent {0} to {1} {2}.", FactText.Won(amount), bank, account), "bad");
             var trigger = conv.actions.Find(a => a.kind == ActionKind.Transfer && FactText.SameNumber(a.target, account));
             if (trigger == null)
                 return;
@@ -648,18 +648,18 @@ namespace DontCallMe.Flow
                 return;
             if (isOutgoing)
             {
-                ui.Toast("app_phone", "Phone", "You're already on a call.");
+                ui.Toast("app_phone", Loc.T("Phone"), Loc.T("You're already on a call."));
                 return;
             }
             if (state == State.Active && !isChat)
             {
                 if (FactText.SameNumber(number, caller.number))
                 {
-                    ui.Toast("app_phone", "Phone", "You're on the line with this number already.");
+                    ui.Toast("app_phone", Loc.T("Phone"), Loc.T("You're on the line with this number already."));
                     return;
                 }
-                ui.Toast("app_phone", "You're on a call",
-                         "You can't call out in the middle of this call. Give your verdict on the call first.");
+                ui.Toast("app_phone", Loc.T("You're on a call"),
+                         Loc.T("You can't call out in the middle of this call. Give your verdict on the call first."));
                 return;
             }
             if (state == State.Active && isChat)
@@ -683,16 +683,16 @@ namespace DontCallMe.Flow
             isChat = false;
             var who = new CallerInfo { displayName = trig.answeredBy, number = number, portrait = trig.portrait, inContacts = true, voice = trig.voice };
             Phone.Raise(true);
-            BeginCallScreen(who, trig.answeredBy, "CALLING…", allowHangUp: false);
+            BeginCallScreen(who, trig.answeredBy, Loc.T("CALLING…"), allowHangUp: false);
             ui.Transcript.Open(who, trig.answeredBy);
-            ui.Transcript.AddSystem($"Calling {number}…");
+            ui.Transcript.AddSystem(Loc.F("Calling {0}…", number));
             ui.CallHud.Set(trig.answeredBy, number, trig.portrait);
             Phone.App<CallsApp>().AddRecord(number, CallKind.Outgoing, "");
             Sfx.Play(Sfx.Tick);
             yield return new WaitForSeconds(0.8f);
             Sfx.Play(Sfx.Tick);
             yield return new WaitForSeconds(0.9f);
-            inCall.SetStatus("ON CALL");
+            inCall.SetStatus(Loc.T("ON CALL"));
             running = null;
             EndWith(conv.FindEnding(trig.endingId), trig.portrait, trig.voice);
         }
@@ -722,7 +722,7 @@ namespace DontCallMe.Flow
             if (!isChat)
                 CloseLine();
             else
-                Show(Speaker.System, "Conversation over", null, null);
+                Show(Speaker.System, Loc.T("Conversation over"), null, null);
             if (conv != null && !isChat)
                 Phone.App<CallsApp>().AddRecord(conv.caller.number, CallKind.Incoming, Phone.CallTimerText);
             yield return new WaitForSeconds(1.4f);
@@ -738,7 +738,7 @@ namespace DontCallMe.Flow
             {
                 caller = conv == null || string.IsNullOrEmpty(conv.caller.number) ? title : $"{title} · {conv.caller.number}",
                 portrait = conv != null ? conv.caller.portrait : caller?.portrait,
-                verdict = ending.verdict == Verdict.GoAlong ? "You went along" : ending.verdict == Verdict.Refuse ? "You refused" : "You checked first",
+                verdict = Loc.T(ending.verdict == Verdict.GoAlong ? "You went along" : ending.verdict == Verdict.Refuse ? "You refused" : "You checked first"),
                 consequence = ending.consequence,
                 money = ending.moneyDelta != 0 ? FactText.Won(ending.moneyDelta) : null,
                 moneyIn = ending.moneyDelta > 0,
@@ -746,14 +746,14 @@ namespace DontCallMe.Flow
             if (conv != null && conv.revealAtEnd)
             {
                 bool right = ending.verdict == Verdict.Verify || (conv.isScam ? ending.verdict == Verdict.Refuse : ending.verdict == Verdict.GoAlong);
-                card.truth = conv.isScam ? "SCAM" : "REAL";
+                card.truth = Loc.T(conv.isScam ? "SCAM" : "REAL");
                 card.truthGood = !conv.isScam;
-                card.judgement = right ? "RIGHT CALL" : "WRONG CALL";
+                card.judgement = Loc.T(right ? "RIGHT CALL" : "WRONG CALL");
                 card.judgementGood = right;
             }
             else
             {
-                card.subtitle = "Tomorrow's Seoul Daily will tell you who it really was.";
+                card.subtitle = Loc.T("Tomorrow's Seoul Daily will tell you who it really was.");
             }
             ui.ShowEndingCard(card, Cleanup);
         }
@@ -802,21 +802,21 @@ namespace DontCallMe.Flow
             string portrait = contact?.portrait ?? cb?.portrait ?? "pt_unknown";
             var who = new CallerInfo { number = number, portrait = portrait, displayName = name };
             Phone.Raise(true);
-            BeginCallScreen(who, name, "CALLING…", replace: false);
+            BeginCallScreen(who, name, Loc.T("CALLING…"), replace: false);
             ui.Transcript.Open(who, name);
             ui.CallHud.Set(name, number, portrait);
             Phone.App<CallsApp>().AddRecord(number, CallKind.Outgoing, "");
-            ui.Transcript.AddSystem($"Calling {number}…");
+            ui.Transcript.AddSystem(Loc.F("Calling {0}…", number));
             yield return new WaitForSeconds(1.8f);
             if (cb == null)
             {
-                inCall.SetStatus("NO ANSWER");
-                ui.Transcript.AddSystem("No answer.");
+                inCall.SetStatus(Loc.T("NO ANSWER"));
+                ui.Transcript.AddSystem(Loc.T("No answer."));
                 yield return new WaitForSeconds(1.5f);
                 EndOutgoing();
                 yield break;
             }
-            inCall.SetStatus("ON CALL");
+            inCall.SetStatus(Loc.T("ON CALL"));
             foreach (var line in cb.lines)
             {
                 var clip = VoiceBank.Lookup(cb.voice, line.Spoken);
@@ -833,7 +833,7 @@ namespace DontCallMe.Flow
                     Sfx.Play(Sfx.Type, 0.6f);
                 yield return new WaitForSeconds(speaking + 0.6f);
             }
-            ui.Transcript.AddSystem("Call ended.");
+            ui.Transcript.AddSystem(Loc.T("Call ended."));
             yield return new WaitForSeconds(1.2f);
             EndOutgoing();
         }

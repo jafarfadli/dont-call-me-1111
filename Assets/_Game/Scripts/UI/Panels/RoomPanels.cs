@@ -32,7 +32,7 @@ namespace DontCallMe.UI
             Root = UIKit.Div("room-panel");
             var box = Build();
             var close = UIKit.IconBtn("ic_close", () => ui.ClosePanel(), "close-btn");
-            close.tooltip = "Close (Esc)";
+            close.tooltip = Loc.T("Close (Esc)");
             box.Add(close);
             Root.Add(box);
             Root.RegisterCallback<ClickEvent>(e =>
@@ -69,13 +69,13 @@ namespace DontCallMe.UI
             var c = scroll.contentContainer;
 
             var top = UIKit.Div("news__top");
-            top.Add(UIKit.Text("서울데일리", "news__kor"));
+            top.Add(UIKit.Text(Loc.Ko ? "SEOUL DAILY" : "서울데일리", "news__kor"));
             top.Add(UIKit.Text(n.masthead, "news__masthead"));
             top.Add(UIKit.Text(n.issue, "news__issue"));
             c.Add(top);
             var date = UIKit.Div("news__dateline");
             date.Add(UIKit.Text(n.dateLine));
-            date.Add(UIKit.Text("MANGWON · MAPO · SEOUL"));
+            date.Add(UIKit.Text(Loc.T("MANGWON · MAPO · SEOUL")));
             date.Add(UIKit.Text(n.price));
             c.Add(date);
             c.Add(UIKit.Text(n.headline, "news__headline"));
@@ -98,7 +98,7 @@ namespace DontCallMe.UI
                 box.Add(UIKit.Text(n.warningText, "news__box-text"));
                 side.Add(box);
             }
-            side.Add(UIKit.Text("LOCAL NEWS", "news__box-title"));
+            side.Add(UIKit.Text(Loc.T("LOCAL NEWS"), "news__box-title"));
             foreach (var item in n.local)
             {
                 side.Add(UIKit.Text(item.title, "news__item-title"));
@@ -144,7 +144,7 @@ namespace DontCallMe.UI
         {
             var tray = UIKit.Div("drawer");
             tabs = UIKit.Div("drawer__tabs");
-            tabs.Add(UIKit.Text("DESK DRAWER", "section"));
+            tabs.Add(UIKit.Text(Loc.T("DESK DRAWER"), "section"));
             for (int i = 0; i < UI.Room.drawer.Count; i++)
             {
                 int k = i;
@@ -158,11 +158,11 @@ namespace DontCallMe.UI
             doc.style.flexGrow = 1;
             right.Add(doc);
             var nav = UIKit.Div("doc__nav");
-            nav.Add(UIKit.Btn("◀  Previous", () => Show(index - 1)));
+            nav.Add(UIKit.Btn("◀  " + Loc.T("Previous"), () => Show(index - 1)));
             counter = UIKit.Text("", "t-bold");
             counter.style.color = new Color(0.98f, 0.95f, 0.88f);
             nav.Add(counter);
-            nav.Add(UIKit.Btn("Next  ▶", () => Show(index + 1)));
+            nav.Add(UIKit.Btn(Loc.T("Next") + "  ▶", () => Show(index + 1)));
             right.Add(nav);
             tray.Add(right);
             Show(0);
@@ -290,11 +290,11 @@ namespace DontCallMe.UI
             foreach (var entry in item.calendar)
             {
                 var row = UIKit.Div("doc__field");
-                row.Add(UIKit.Text($"Oct {entry.day}", "doc__label"));
+                row.Add(UIKit.Text(Loc.F("Oct {0}", entry.day), "doc__label"));
                 row.Add(UIKit.Text(entry.text, "doc__value"));
                 side.Add(row);
             }
-            side.Add(UIKit.Btn("Back to the board", CloseZoom));
+            side.Add(UIKit.Btn(Loc.T("Back to the board"), CloseZoom));
             zoom.Add(side);
             zoom.RegisterCallback<ClickEvent>(e =>
             {
@@ -371,7 +371,7 @@ namespace DontCallMe.UI
             wallet.Add(row);
             var main = UIKit.Div("wallet__main");
             big = UIKit.Div("wallet__card");
-            big.tooltip = "Click to flip";
+            big.tooltip = Loc.T("Click to flip");
             big.RegisterCallback<ClickEvent>(e =>
             {
                 Flip();
@@ -407,7 +407,7 @@ namespace DontCallMe.UI
                     row.Add(UIKit.Text(f.value, "doc__value"));
                 side.Add(row);
             }
-            var flip = UIKit.Btn(card.back != null ? "Flip the card" : "No back side", Flip);
+            var flip = UIKit.Btn(Loc.T(card.back != null ? "Flip the card" : "No back side"), Flip);
             flip.SetEnabled(card.back != null);
             side.Add(flip);
             Sfx.Play(Sfx.Click);
@@ -457,8 +457,8 @@ namespace DontCallMe.UI
                 rings.Add(UIKit.Div("notebook__ring"));
             book.Add(rings);
             var tabs = UIKit.Div("notebook__tabs");
-            rulesTab = UIKit.Btn("Rules", () => ShowTab(false), "notebook__tab");
-            caseTab = UIKit.Btn("Case", () => ShowTab(true), "notebook__tab");
+            rulesTab = UIKit.Btn(Loc.T("Rules"), () => ShowTab(false), "notebook__tab");
+            caseTab = UIKit.Btn(Loc.T("Case"), () => ShowTab(true), "notebook__tab");
             tabs.Add(rulesTab);
             tabs.Add(caseTab);
             book.Add(tabs);
@@ -486,9 +486,9 @@ namespace DontCallMe.UI
 
         void BuildRules()
         {
-            page.Add(UIKit.Text("Rules I've learned", "hand-title"));
+            page.Add(UIKit.Text(Loc.T("Rules I've learned"), "hand-title"));
             if (UI.Room.rules.Count == 0)
-                page.Add(UIKit.Text("Nothing yet. The newspaper teaches a rule every day.", "hand"));
+                page.Add(UIKit.Text(Loc.T("Nothing yet. The newspaper teaches a rule every day."), "hand"));
             for (int i = UI.Room.rules.Count - 1; i >= 0; i--)
             {
                 var r = UI.Room.rules[i];
@@ -504,10 +504,10 @@ namespace DontCallMe.UI
         void BuildCase()
         {
             var c = UI.CurrentCase;
-            page.Add(UIKit.Text("Today's case", "hand-title"));
+            page.Add(UIKit.Text(Loc.T("Today's case"), "hand-title"));
             if (c == null)
             {
-                page.Add(UIKit.Text("No call yet. When someone calls, their claims and every number they give end up here.", "hand"));
+                page.Add(UIKit.Text(Loc.T("No call yet. When someone calls, their claims and every number they give end up here."), "hand"));
                 return;
             }
             var card = UIKit.Div("case-card");
@@ -515,19 +515,19 @@ namespace DontCallMe.UI
             var who = UIKit.Div("grow");
             who.Add(UIKit.Text(c.callerTitle, "rule-entry__title"));
             var chips = UIKit.Div("chip-row");
-            chips.Add(UIKit.Chip(c.caller.number, FactKind.Phone, "Caller ID"));
+            chips.Add(UIKit.Chip(c.caller.number, FactKind.Phone, Loc.T("Caller ID")));
             who.Add(chips);
             card.Add(who);
             page.Add(card);
-            page.Add(UIKit.Text("They claim", "rule-entry__title"));
+            page.Add(UIKit.Text(Loc.T("They claim"), "rule-entry__title"));
             foreach (var claim in c.claims)
                 page.Add(UIKit.Text("• " + claim, "hand"));
-            page.Add(UIKit.Text("Heard or found", "rule-entry__title"));
+            page.Add(UIKit.Text(Loc.T("Heard or found"), "rule-entry__title"));
             var facts = UIKit.Div("chip-row");
             foreach (var f in c.facts)
                 facts.Add(UIKit.Chip(f));
             page.Add(facts);
-            page.Add(UIKit.Text("Check: whose account is it? Is the number really theirs? What does the family chat say?", "hand", "hand--red"));
+            page.Add(UIKit.Text(Loc.T("Check: whose account is it? Is the number really theirs? What does the family chat say?"), "hand", "hand--red"));
         }
     }
 }

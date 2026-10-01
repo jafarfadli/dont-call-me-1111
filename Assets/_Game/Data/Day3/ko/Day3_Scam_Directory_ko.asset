@@ -1,0 +1,586 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 797667f628a9d46008e2075eca252954, type: 3}
+  m_Name: Day3_Scam_Directory_ko
+  m_EditorClassIdentifier: DontCallMe::DontCallMe.Data.WorldDirectory
+  accounts:
+  - bank: "\uB204\uB9AC\uC740\uD589"
+    number: 110-900-551207
+    holder: "\uC815\uBBF8\uB780"
+    reports:
+    - "10\uC6D4 4\uC77C \xB7 \"\uB204\uB9AC\uC740\uD589 \uBCF4\uD638\uD300\uC774\uB77C\uACE0
+      \uD574\uC11C 200\uB9CC \uC6D0 \uBCF4\uB0C8\uC5B4\uC694.\""
+    - "9\uC6D4 29\uC77C \xB7 \"\uBCF4\uD638\uACC4\uC88C \uC598\uAE30. \uBA87 \uBD84
+      \uB9CC\uC5D0 \uB3C8\uC774 \uBE60\uC838\uB098\uAC14\uC5B4\uC694.\""
+  - bank: "\uB300\uD55C\uC740\uD589"
+    number: 3333-12-7788901
+    holder: "\uC724\uC7AC\uD76C"
+    reports: []
+  - bank: "\uB204\uB9AC\uC740\uD589"
+    number: 110-302-558814
+    holder: "\uAE40\uC9C0\uC6B0"
+    reports: []
+  - bank: "\uB204\uB9AC\uC740\uD589"
+    number: 110-302-558990
+    holder: "\uAE40\uC9C0\uC6B0"
+    reports: []
+  - bank: "\uB204\uB9AC\uC740\uD589"
+    number: 110-845-100233
+    holder: "\uBC15\uD61C\uC9C4"
+    reports: []
+  - bank: "\uB204\uB9AC\uC740\uD589"
+    number: 110-771-209944
+    holder: "\uCD5C\uC601\uC2DD"
+    reports: []
+  - bank: "\uB204\uB9AC\uC740\uD589"
+    number: 110-287-004411
+    holder: "\uBC15\uD0DC\uD638"
+    reports: []
+  - bank: "\uD55C\uBE5B\uC740\uD589"
+    number: 620-557-301144
+    holder: "(\uC8FC)\uCF00\uC774\uC54C\uD1B5\uAD00"
+    reports: []
+  numbers:
+  - number: 070-8844-2019
+    owner: "\uC54C \uC218 \uC5C6\uC74C (\uC778\uD130\uB137\uC804\uD654)"
+    official: 0
+    reports:
+    - "10\uC6D4 5\uC77C \xB7 \"\uB204\uB9AC\uC740\uD589 '\uACC4\uC88C\uBCF4\uD638\uD300'.
+      \uC608\uAE08\uC744 \uC62E\uAE30\uB77C\uACE0 \uD568\""
+    - "10\uC6D4 5\uC77C \xB7 \"\uACC4\uC88C \uB05D\uC790\uB9AC\uAE4C\uC9C0 \uC54C\uACE0
+      \uC788\uC5B4\uC11C \uAE5C\uBE61 \uC18D\uC744 \uBED4\""
+    - "10\uC6D4 4\uC77C \xB7 \"\uC804 \uACFC\uC7A5. \uC804\uD654 \uB04A\uC9C0 \uB9D0\uACE0
+      \uC544\uBB34\uD55C\uD14C\uB3C4 \uB9D0\uD558\uC9C0 \uB9D0\uB798\uC694\""
+    - "10\uC6D4 3\uC77C \xB7 \"\uBCF4\uD638\uACC4\uC88C 110-900-551207, \uB2E4\uB978
+      \uC0AC\uB78C \uBA85\uC758\""
+    - "10\uC6D4 2\uC77C \xB7 \"\uBD80\uC0B0\uC5D0\uC11C \uB204\uAC00 \uB85C\uADF8\uC778\uD588\uB2E4\uACE0
+      \uD568\""
+    - "10\uC6D4 1\uC77C \xB7 \"\uC0AC\uAE30. \uB04A\uC5C8\uC74C\""
+    - "9\uC6D4 30\uC77C \xB7 \"\uC740\uD589 \uC0AC\uCE6D\""
+  - number: 1599-0000
+    owner: "\uB204\uB9AC\uC740\uD589 \uACE0\uAC1D\uC13C\uD130"
+    official: 1
+    reports: []
+  - number: 1588-5520
+    owner: "\uD55C\uAC15\uC775\uC2A4\uD504\uB808\uC2A4 \uACE0\uAC1D\uC13C\uD130"
+    official: 1
+    reports: []
+  - number: 1332
+    owner: "\uAE08\uC735\uAC10\uB3C5\uC6D0 \uBD88\uBC95\uAE08\uC735 \uC2E0\uACE0\uC13C\uD130"
+    official: 1
+    reports: []
+  - number: 112
+    owner: "\uACBD\uCC30"
+    official: 1
+    reports: []
+  - number: 02-555-0112
+    owner: "\uB9C8\uD3EC\uACBD\uCC30\uC11C"
+    official: 1
+    reports: []
+  - number: 02-555-0181
+    owner: "\uB9C8\uD3EC\uB3C4\uC2DC\uAC00\uC2A4"
+    official: 1
+    reports: []
+  - number: 02-555-0192
+    owner: "\uB9DD\uC6D0\uD558\uC774\uCE20 \uAD00\uB9AC\uC0AC\uBB34\uC18C"
+    official: 1
+    reports: []
+  - number: 070-4852-1170
+    owner: "\uC54C \uC218 \uC5C6\uC74C (\uC778\uD130\uB137\uC804\uD654)"
+    official: 0
+    reports:
+    - "10\uC6D4 2\uC77C \xB7 \"'\uC138\uAD00'\uC774\uB77C\uBA70 \uC8FC\uBB38\uD55C
+      \uC801\uB3C4 \uC5C6\uB294 \uD0DD\uBC30 \uAD00\uC138\uB97C \uB0B4\uB77C\uACE0
+      \uD568\""
+    - "10\uC6D4 1\uC77C \xB7 \"\uC138\uAD00 \uC0AC\uCE6D, \uC774\uCCB4 \uC694\uAD6C\""
+    - "9\uC6D4 28\uC77C \xB7 \"\uAC00\uC9DC \uD1B5\uAD00 \uC548\uB0B4\""
+    - "9\uC6D4 25\uC77C \xB7 \"\uC0AC\uAE30\""
+  - number: 010-8812-4471
+    owner: "\uC54C \uC218 \uC5C6\uC74C"
+    official: 0
+    reports:
+    - "\uC77C\uC694\uC77C \xB7 \"\uAC00\uC9DC \uB204\uB9AC\uC740\uD589 '\uACC4\uC88C
+      \uC81C\uD55C' \uBB38\uC790, \uB9C1\uD06C \uD3EC\uD568\""
+    - "\uD1A0\uC694\uC77C \xB7 \"\uC2A4\uBBF8\uC2F1 \uB9C1\uD06C nuri-secure.kr\""
+    - "\uD1A0\uC694\uC77C \xB7 \"\uC2A4\uD338\""
+  - number: 010-5903-2271
+    owner: "\uC54C \uC218 \uC5C6\uC74C"
+    official: 0
+    reports:
+    - "10\uC6D4 1\uC77C \xB7 \"\uAC00\uC9DC '\uC6D4\uC138 \uACC4\uC88C \uBCC0\uACBD'
+      \uBB38\uC790\""
+    - "9\uC6D4 30\uC77C \xB7 \"\uC2A4\uBBF8\uC2F1, rent-notice.kr\""
+  - number: 010-7240-1182
+    owner: "\uC54C \uC218 \uC5C6\uC74C"
+    official: 0
+    reports:
+    - "10\uC6D4 6\uC77C \xB7 \"'\uAD00\uC138 \uBBF8\uB0A9' \uBB38\uC790, \uB9C1\uD06C
+      \uD3EC\uD568\""
+    - "10\uC6D4 6\uC77C \xB7 \"\uC2A4\uBBF8\uC2F1\""
+  - number: 1588-5502
+    owner: "\uC54C \uC218 \uC5C6\uC74C"
+    official: 0
+    reports: []
+  pages:
+  - url: nuribank.co.kr/help
+    title: "\uB204\uB9AC\uC740\uD589 \uACE0\uAC1D\uC13C\uD130"
+    site: "\uB204\uB9AC\uC740\uD589"
+    official: 1
+    aliases:
+    - nuri bank
+    - "\uB204\uB9AC\uC740\uD589"
+    - "\uB204\uB9AC"
+    - nuri
+    - bank
+    - "\uC740\uD589"
+    - customer centre
+    - "\uACE0\uAC1D\uC13C\uD130"
+    - protection team
+    - "\uBCF4\uD638\uD300"
+    - protected account
+    - "\uBCF4\uD638\uACC4\uC88C"
+    - safe account
+    - "\uC548\uC804\uACC4\uC88C"
+    blocks:
+    - kind: 1
+      text: "\uACC4\uC88C\uB098 \uCE74\uB4DC \uAD00\uB828 \uB3C4\uC6C0\uC774 \uD544\uC694\uD558\uC2E0\uAC00\uC694?
+        24\uC2DC\uAC04 \uC0C1\uB2F4\uD569\uB2C8\uB2E4."
+      value: 
+    - kind: 2
+      text: "\uACE0\uAC1D\uC13C\uD130 (24\uC2DC\uAC04)"
+      value: 1599-0000
+    - kind: 6
+      text: "\uB204\uB9AC\uC740\uD589\uC740 '\uBCF4\uD638\uACC4\uC88C'\uB098 '\uC548\uC804\uACC4\uC88C'\uB85C
+        \uB3C8\uC744 \uC62E\uAE30\uB77C\uACE0 \uC808\uB300 \uC694\uAD6C\uD558\uC9C0
+        \uC54A\uC2B5\uB2C8\uB2E4. \uADF8\uB7F0 \uACC4\uC88C\uB294 \uC5C6\uC2B5\uB2C8\uB2E4.
+        \uB204\uAD70\uAC00 \uC694\uAD6C\uD558\uBA74 \uC804\uD654\uB97C \uB04A\uACE0
+        \uC9C1\uC811 1599-0000\uC73C\uB85C \uC804\uD654\uD558\uC138\uC694."
+      value: 
+    - kind: 3
+      text: "\uB204\uB9AC\uC740\uD589 \uC9C1\uC6D0\uC740 1599-0000\uC73C\uB85C \uC804\uD654\uD569\uB2C8\uB2E4.
+        \uC758\uC2EC\uB418\uBA74 \uB04A\uACE0 \uB2E4\uC2DC \uAC78\uC5B4 \uC8FC\uC138\uC694."
+      value: 
+    lookup: []
+  - url: nuri-secure.kr/verify
+    title: "\uB204\uB9AC\uC740\uD589 \uBCF4\uC548\uC778\uC99D"
+    site: nuri-secure.kr
+    official: 0
+    aliases: []
+    blocks:
+    - kind: 1
+      text: "\uACE0\uAC1D\uB2D8\uC758 \uACC4\uC88C\uAC00 \uC81C\uD55C\uB418\uC5C8\uC2B5\uB2C8\uB2E4.
+        24\uC2DC\uAC04 \uC548\uC5D0 \uCE74\uB4DC \uC815\uBCF4\uB97C \uC785\uB825\uD574
+        \uC81C\uD55C\uC744 \uD574\uC81C\uD558\uC138\uC694."
+      value: 
+    - kind: 5
+      text: "\uCE74\uB4DC\uBC88\uD638, \uC720\uD6A8\uAE30\uAC04, \uBE44\uBC00\uBC88\uD638"
+      value: "\uC9C0\uAE08 \uC778\uC99D\uD558\uAE30"
+    lookup: []
+  - url: rent-notice.kr
+    title: "\uC6D4\uC138 \uACC4\uC88C \uBCC0\uACBD \uC548\uB0B4"
+    site: rent-notice.kr
+    official: 0
+    aliases: []
+    blocks:
+    - kind: 1
+      text: "\uC784\uB300\uC778\uC774 \uC0C8 \uC6D4\uC138 \uACC4\uC88C\uB97C \uB4F1\uB85D\uD588\uC2B5\uB2C8\uB2E4.
+        \uC740\uD589 \uC815\uBCF4\uB85C \uB85C\uADF8\uC778\uD558\uBA74 \uD655\uC778\uD560
+        \uC218 \uC788\uC2B5\uB2C8\uB2E4."
+      value: 
+    - kind: 5
+      text: "\uC740\uD589, \uACC4\uC88C\uBC88\uD638, \uBE44\uBC00\uBC88\uD638"
+      value: "\uC0C8 \uACC4\uC88C \uD655\uC778\uD558\uAE30"
+    lookup: []
+  - url: kr-customs.help/pay
+    title: "\uAD00\uC138\uCCAD \xB7 \uBBF8\uB0A9 \uAD00\uC138 \uB0A9\uBD80"
+    site: kr-customs.help
+    official: 0
+    aliases: []
+    blocks:
+    - kind: 1
+      text: "\uACE0\uAC1D\uB2D8\uC758 \uD0DD\uBC30\uAC00 \uAD00\uC138(3,200\uC6D0)
+        \uBBF8\uB0A9\uC73C\uB85C \uBCF4\uB958 \uC911\uC785\uB2C8\uB2E4. \uC9C0\uAE08
+        \uCE74\uB4DC\uB85C \uB0A9\uBD80\uD558\uC9C0 \uC54A\uC73C\uBA74 \uBC18\uC1A1\uB429\uB2C8\uB2E4."
+      value: 
+    - kind: 5
+      text: "\uCE74\uB4DC\uBC88\uD638, \uC720\uD6A8\uAE30\uAC04, CVC"
+      value: "3,200\uC6D0 \uACB0\uC81C"
+    lookup: []
+  - url: fss.or.kr/fraud
+    title: "\uAE08\uC735\uAC10\uB3C5\uC6D0: \uAE08\uC735\uC0AC\uAE30 \uC2E0\uACE0"
+    site: "\uAE08\uC735\uAC10\uB3C5\uC6D0"
+    official: 1
+    aliases:
+    - fss
+    - financial supervisory service
+    - "\uAE08\uC735\uAC10\uB3C5\uC6D0"
+    - "\uAE08\uAC10\uC6D0"
+    - 1332
+    - voice phishing
+    - "\uBCF4\uC774\uC2A4\uD53C\uC2F1"
+    - safe account
+    - "\uC548\uC804\uACC4\uC88C"
+    - fraud
+    - "\uC0AC\uAE30"
+    blocks:
+    - kind: 2
+      text: "\uBD88\uBC95\uAE08\uC735 \uC2E0\uACE0\uC13C\uD130"
+      value: 1332
+    - kind: 6
+      text: "\uC740\uD589, \uAC80\uCC30, \uC815\uBD80\uAE30\uAD00\uC740 '\uC548\uC804\uACC4\uC88C'\uB098
+        '\uAC80\uC0AC\uACC4\uC88C'\uB85C \uB3C8\uC744 \uC774\uCCB4\uD558\uB77C\uACE0
+        \uC808\uB300 \uC694\uAD6C\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+      value: 
+    - kind: 1
+      text: "\uC0AC\uAE30\uBC94\uC5D0\uAC8C \uB3C8\uC744 \uBCF4\uB0C8\uB2E4\uBA74
+        \uC989\uC2DC \uC740\uD589\uC774\uB098 112\uC5D0 \uC2E0\uACE0\uD558\uC138\uC694.
+        \uBA87 \uBD84 \uC548\uC5D0 \uC2E0\uACE0\uD558\uBA74 \uC9C0\uAE09\uC815\uC9C0\uAC00
+        \uAC00\uB2A5\uD569\uB2C8\uB2E4."
+      value: 
+    lookup: []
+  - url: police.go.kr/mapo
+    title: "\uB9C8\uD3EC\uACBD\uCC30\uC11C"
+    site: "\uB9C8\uD3EC\uACBD\uCC30\uC11C"
+    official: 1
+    aliases:
+    - mapo police
+    - police
+    - "\uACBD\uCC30"
+    - mapo police station
+    - "\uB9C8\uD3EC\uACBD\uCC30\uC11C"
+    blocks:
+    - kind: 2
+      text: "\uB300\uD45C\uBC88\uD638"
+      value: 02-555-0112
+    - kind: 2
+      text: "\uAE34\uAE09\uC2E0\uACE0"
+      value: 112
+    - kind: 3
+      text: "\uACBD\uCC30\uC740 \uC804\uD654\uB85C \uC774\uCCB4, '\uC548\uC804\uACC4\uC88C',
+        \uAE08\uC735\uC815\uBCF4\uB97C \uC808\uB300 \uC694\uAD6C\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+      value: 
+    lookup: []
+  - url: mapocitygas.co.kr
+    title: "\uB9C8\uD3EC\uB3C4\uC2DC\uAC00\uC2A4: \uC548\uC804\uC810\uAC80 \uC548\uB0B4"
+    site: "\uB9C8\uD3EC\uB3C4\uC2DC\uAC00\uC2A4"
+    official: 1
+    aliases:
+    - gas
+    - "\uAC00\uC2A4"
+    - mapo city gas
+    - "\uB9C8\uD3EC\uB3C4\uC2DC\uAC00\uC2A4"
+    - inspection
+    - "\uC810\uAC80"
+    - boiler
+    - "\uBCF4\uC77C\uB7EC"
+    blocks:
+    - kind: 2
+      text: "\uACE0\uAC1D\uC13C\uD130"
+      value: 02-555-0181
+    - kind: 3
+      text: "\uC810\uAC80\uC740 2\uC8FC \uC804\uC5D0 \uAD00\uB9AC\uC0AC\uBB34\uC18C\uB97C
+        \uD1B5\uD574 \uC548\uB0B4\uB429\uB2C8\uB2E4. \uC810\uAC80\uC6D0\uC740 \uC2E0\uBD84\uC99D\uC744
+        \uC81C\uC2DC\uD558\uBA70 \uC808\uB300 \uB3C8\uC744 \uBC1B\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+      value: 
+    lookup: []
+  - url: seoulhousing.go.kr/rent
+    title: "\uC11C\uC6B8\uC8FC\uAC70\uD3EC\uD138: \uC548\uC804\uD55C \uC6D4\uC138
+      \uB0A9\uBD80"
+    site: "\uC11C\uC6B8\uC8FC\uAC70\uD3EC\uD138"
+    official: 1
+    aliases:
+    - rent
+    - "\uC6D4\uC138"
+    - landlord
+    - "\uC9D1\uC8FC\uC778"
+    - "\uC784\uB300\uC778"
+    - housing
+    - "\uC8FC\uAC70"
+    - lease
+    - "\uACC4\uC57D\uC11C"
+    - rent account
+    - "\uC6D4\uC138 \uACC4\uC88C"
+    - tenant
+    - "\uC138\uC785\uC790"
+    blocks:
+    - kind: 1
+      text: "\uB300\uBD80\uBD84\uC758 \uACC4\uC57D\uC11C\uC5D0\uB294 \uC6D4\uC138
+        \uACC4\uC88C\uB97C \uBC14\uAFB8\uB294 \uBC29\uBC95\uC774 \uC801\uD600 \uC788\uC2B5\uB2C8\uB2E4.
+        '\uC11C\uBA74\uC73C\uB85C'\uB77C\uACE0 \uB418\uC5B4 \uC788\uB2E4\uBA74 \uC804\uD654
+        \uD55C \uD1B5\uB9CC\uC73C\uB85C\uB294 \uBD80\uC871\uD569\uB2C8\uB2E4."
+      value: 
+    - kind: 6
+      text: "\uACC4\uC57D\uC11C\uC5D0 \uC5C6\uB294 \uC0AC\uB78C \uBA85\uC758\uC758
+        \uC0C8 \uC6D4\uC138 \uACC4\uC88C\uB294 \uAC00\uC7A5 \uD754\uD55C \uC784\uB300
+        \uC0AC\uAE30\uC785\uB2C8\uB2E4. \uBCF4\uB0B4\uAE30 \uC804\uC5D0 \uC608\uAE08\uC8FC\uB97C
+        \uD655\uC778\uD558\uC138\uC694."
+      value: 
+    - kind: 3
+      text: "\uC758\uC2EC\uB418\uBA74 \uC774\uBBF8 \uC54C\uACE0 \uC788\uB294 \uBC88\uD638\uB85C
+        \uC9D1\uC8FC\uC778\uC5D0\uAC8C \uD655\uC778\uD558\uAC70\uB098 \uC785\uC8FC\uBBFC
+        \uACF5\uC9C0\uB97C \uD655\uC778\uD558\uC138\uC694."
+      value: 
+    lookup: []
+  - url: customs.go.kr/import
+    title: "\uAD00\uC138\uCCAD: \uD574\uC678\uC9C1\uAD6C \uC548\uB0B4"
+    site: "\uAD00\uC138\uCCAD"
+    official: 1
+    aliases:
+    - customs
+    - "\uAD00\uC138\uCCAD"
+    - "\uC138\uAD00"
+    - duty
+    - "\uAD00\uC138"
+    - import
+    - "\uC9C1\uAD6C"
+    - vat
+    - "\uBD80\uAC00\uC138"
+    - korea customs
+    - overseas
+    - "\uD574\uC678"
+    blocks:
+    - kind: 1
+      text: "\uAC1C\uC778 \uD574\uC678\uC9C1\uAD6C\uB294 \uBBF8\uD654 150\uB2EC\uB7EC\uAE4C\uC9C0
+        \uBA74\uC138\uC785\uB2C8\uB2E4. \uADF8 \uC774\uC0C1\uC774\uBA74 \uAD00\uC138\uC640
+        \uBD80\uAC00\uC138\uB97C \uB0B4\uC57C \uD558\uBA70, \uD310\uB9E4\uC790\uAC00
+        \uACB0\uC81C \uB54C \uBBF8\uB9AC \uBC1B\uC740 \uACBD\uC6B0\uB294 \uC608\uC678\uC785\uB2C8\uB2E4."
+      value: 
+    - kind: 3
+      text: "\uAD00\uC138\uB294 \uD0DD\uBC30\uC0AC(\uC571 \uB610\uB294 \uD0DD\uBC30\uC0AC
+        \uBA85\uC758\uC758 \uAC00\uC0C1\uACC4\uC88C)\uB098 \uAD00\uC138\uCCAD UNI-PASS\uC5D0\uC11C
+        \uB0A9\uBD80\uD569\uB2C8\uB2E4."
+      value: 
+    - kind: 6
+      text: "\uAD00\uC138\uCCAD\uC740 \uAC1C\uC778 \uBA85\uC758 \uACC4\uC88C\uB85C
+        \uC785\uAE08\uD558\uAC70\uB098 \uBB38\uC790 \uC18D \uB9C1\uD06C\uB85C \uB0A9\uBD80\uD558\uB77C\uACE0
+        \uC694\uAD6C\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+      value: 
+    lookup: []
+  - url: seouldaily.kr/2026/10/06/read-the-name
+    title: "\uC1A1\uAE08 \uC804, \uBC1B\uB294 \uC0AC\uB78C \uC774\uB984\uC744 \uD655\uC778\uD558\uC138\uC694"
+    site: "\uC11C\uC6B8\uB370\uC77C\uB9AC"
+    official: 1
+    aliases:
+    - seoul daily
+    - "\uC11C\uC6B8\uB370\uC77C\uB9AC"
+    - news
+    - "\uB274\uC2A4"
+    - read the name
+    - protected account
+    - "\uBCF4\uD638\uACC4\uC88C"
+    - voice phishing
+    - "\uBCF4\uC774\uC2A4\uD53C\uC2F1"
+    blocks:
+    - kind: 1
+      text: "\uC740\uD589 '\uBCF4\uD638\uD300'\uC744 \uC0AC\uCE6D\uD55C \uC804\uD654\uAC00
+        \uACE0\uAC1D\uB4E4\uC5D0\uAC8C \uC608\uAE08\uC744 '\uBCF4\uD638\uACC4\uC88C'\uB85C
+        \uC62E\uAE30\uB77C\uACE0 \uC694\uAD6C\uD558\uACE0 \uC788\uB2E4."
+      value: 
+    - kind: 1
+      text: "\uBAA8\uB4E0 \uC740\uD589 \uC571\uC740 \uC774\uCCB4 \uC804\uC5D0 \uC608\uAE08\uC8FC
+        \uC774\uB984\uC744 \uBCF4\uC5EC \uC900\uB2E4. '\uACF5\uC2DD' \uACC4\uC88C\uB77C\uB294\uB370
+        \uAC1C\uC778 \uC774\uB984\uC774 \uB72C\uB2E4\uBA74 \uADF8\uAC83\uC774 \uACB0\uC815\uC801
+        \uB2E8\uC11C\uB2E4."
+      value: 
+    lookup: []
+  - url: hangangexpress.co.kr/customs
+    title: "\uD55C\uAC15\uC775\uC2A4\uD504\uB808\uC2A4: \uD1B5\uAD00 \uBC0F \uAD00\uC138
+      \uC548\uB0B4"
+    site: "\uD55C\uAC15\uC775\uC2A4\uD504\uB808\uC2A4"
+    official: 1
+    aliases:
+    - hangang express
+    - hangang
+    - "\uD55C\uAC15\uC775\uC2A4\uD504\uB808\uC2A4"
+    - "\uD55C\uAC15"
+    - courier
+    - "\uD0DD\uBC30"
+    - customs
+    - "\uD1B5\uAD00"
+    - "\uAD00\uC138"
+    - duty
+    - parcel
+    - tracking
+    - track
+    - "\uC6B4\uC1A1\uC7A5"
+    blocks:
+    - kind: 2
+      text: "\uACE0\uAC1D\uC13C\uD130 \xB7 \uD1B5\uAD00\uD300"
+      value: 1588-5520
+    - kind: 3
+      text: "\uD574\uC678 \uD0DD\uBC30\uC5D0 \uAD00\uC138\uAC00 \uBD80\uACFC\uB418\uBA74
+        \uBB38\uC790\uB85C \uC548\uB0B4\uD558\uACE0 \uD0DD\uBC30 \uC571\uC5D0\uB3C4
+        \uD45C\uC2DC\uB429\uB2C8\uB2E4. \uD1B5\uAD00\uD300\uC740 1588-5520\uC73C\uB85C
+        \uC5F0\uB77D\uB4DC\uB9B4 \uC218 \uC788\uC2B5\uB2C8\uB2E4."
+      value: 
+    - kind: 6
+      text: "\uAD00\uC138\uB294 \uD0DD\uBC30 \uC571\uC774\uB098 '\uD55C\uAC15\uC775\uC2A4\uD504\uB808\uC2A4(\uAD00\uC138)'
+        \uBA85\uC758\uC758 \uAC00\uC0C1\uACC4\uC88C\uB85C\uB9CC \uB0A9\uBD80\uD558\uC138\uC694.
+        \uB2E4\uB978 \uACC4\uC88C\uB098 \uB2E4\uB978 \uBC88\uD638\uC5D0\uC11C \uC628
+        \uB9C1\uD06C\uB85C \uB0A9\uBD80\uB97C \uC694\uAD6C\uD558\uB294 \uC77C\uC740
+        \uC808\uB300 \uC5C6\uC2B5\uB2C8\uB2E4."
+      value: 
+    - kind: 4
+      text: "\uC6B4\uC1A1\uC7A5 \uC870\uD68C"
+      value: parcel
+    lookup:
+    - key: HX-5520-1183-KR
+      result: "HX-5520-1183-KR \xB7 27\uC778\uCE58 \uBAA8\uB2C8\uD130 \xB7 10\uC6D4
+        7\uC77C \uD1B5\uAD00 \uC644\uB8CC, \uC218\uC785 \uC138\uAE08 \uD310\uB9E4\uC790
+        \uB0A9\uBD80 \xB7 10\uC6D4 9\uC77C(\uAE08) \uBC30\uC1A1 \uC608\uC815"
+    - key: 4410 2287 1934
+      result: "4410 2287 1934 \xB7 \uC2A4\uD0E0\uB4DC \uC804\uAD6C \xB7 10\uC6D4
+        7\uC77C(\uC218) 17:32 \uBC30\uC1A1 \uC644\uB8CC"
+  - url: hangang-customs.kr/pay
+    title: "\uD55C\uAC15\uC775\uC2A4\uD504\uB808\uC2A4 \xB7 \uAD00\uC138 \uB0A9\uBD80"
+    site: hangang-customs.kr
+    official: 0
+    aliases: []
+    blocks:
+    - kind: 1
+      text: "\uD0DD\uBC30 HX-5520-1183-KR: \uAD00\uC138\xB7\uBD80\uAC00\uC138 56,600\uC6D0
+        \uBBF8\uB0A9. 17:00 \uC804\uAE4C\uC9C0 \uCE74\uB4DC\uB85C \uB0A9\uBD80\uD558\uC9C0
+        \uC54A\uC73C\uBA74 \uBC18\uC1A1\uB429\uB2C8\uB2E4."
+      value: 
+    - kind: 5
+      text: "\uCE74\uB4DC\uBC88\uD638, \uC720\uD6A8\uAE30\uAC04, CVC"
+      value: "56,600\uC6D0 \uACB0\uC81C"
+    lookup: []
+  callbacks:
+  - number: 1599-0000
+    answeredBy: "\uB204\uB9AC\uC740\uD589 \uACE0\uAC1D\uC13C\uD130"
+    portrait: pt_song
+    voice: Sandy (Korean (South Korea))
+    lines:
+    - speaker: 0
+      text: "\uB204\uB9AC\uC740\uD589 \uACE0\uAC1D\uC13C\uD130 \uC1A1\uC740\uC9C0\uC785\uB2C8\uB2E4.
+        \uBB34\uC5C7\uC744 \uB3C4\uC640\uB4DC\uB9B4\uAE4C\uC694?"
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.3
+    - speaker: 0
+      text: "\uACE0\uAC1D\uB2D8 \uACC4\uC88C\uC5D0\uB294 \uC774\uC0C1\uC774 \uC5C6\uC2B5\uB2C8\uB2E4.
+        \uB204\uAC00 \uB3C8\uC744 \uC62E\uAE30\uB77C\uACE0 \uD558\uBA74 \uC804\uD654\uB97C
+        \uB04A\uACE0 \uC774 \uBC88\uD638\uB85C \uC5F0\uB77D \uC8FC\uC138\uC694."
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.3
+  - number: 1332
+    answeredBy: "\uAE08\uC735\uAC10\uB3C5\uC6D0 \uC2E0\uACE0\uC13C\uD130"
+    portrait: pt_oh
+    voice: Shelley (Korean (South Korea))
+    lines:
+    - speaker: 0
+      text: "\uAE08\uC735\uAC10\uB3C5\uC6D0 \uBD88\uBC95\uAE08\uC735 \uC2E0\uACE0\uC13C\uD130\uC785\uB2C8\uB2E4."
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.3
+    - speaker: 0
+      text: "\uB204\uAC00 '\uC548\uC804\uACC4\uC88C'\uB85C \uB3C8\uC744 \uC62E\uAE30\uB77C\uACE0
+        \uD558\uBA74 \uC0AC\uAE30\uC785\uB2C8\uB2E4. \uADF8 \uBC88\uD638\uB97C 112\uC5D0
+        \uC2E0\uACE0\uD558\uC138\uC694."
+      spoken: "\uB204\uAC00 \uC548\uC804\uACC4\uC88C\uB85C \uB3C8\uC744 \uC62E\uAE30\uB77C\uACE0
+        \uD558\uBA74 \uC0AC\uAE30\uC785\uB2C8\uB2E4. \uADF8 \uBC88\uD638\uB97C \uC77C\uC77C\uC774\uC5D0
+        \uC2E0\uACE0\uD558\uC138\uC694."
+      facts: []
+      deliver: []
+      pauseAfter: 0.3
+  - number: 112
+    answeredBy: "\uACBD\uCC30 112"
+    portrait: pt_oh
+    voice: Flo (Korean (South Korea))
+    lines:
+    - speaker: 0
+      text: "112\uC785\uB2C8\uB2E4. \uBB34\uC2A8 \uC77C\uC774\uC138\uC694?"
+      spoken: "\uC77C\uC77C\uC774\uC785\uB2C8\uB2E4. \uBB34\uC2A8 \uC77C\uC774\uC138\uC694?"
+      facts: []
+      deliver: []
+      pauseAfter: 0.3
+    - speaker: 0
+      text: "\uBC88\uD638\uC640 \uACC4\uC88C\uB97C \uC54C\uB824 \uC8FC\uC138\uC694.
+        \uBC14\uB85C \uC2E0\uACE0\uD558\uC2DC\uBA74 \uC740\uD589\uC5D0 \uC9C0\uAE09\uC815\uC9C0\uB97C
+        \uC694\uCCAD\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4."
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.3
+  - number: 010-2231-7745
+    answeredBy: "\uC5C4\uB9C8"
+    portrait: pt_mom
+    voice: Grandma (Korean (South Korea))
+    lines:
+    - speaker: 0
+      text: "\uC9C0\uC6B0\uC57C! \uBC25\uC740 \uBA39\uC5C8\uC5B4?"
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.3
+    - speaker: 0
+      text: "\uC624\uB298 \uC544\uBE60\uAC00 \uB41C\uC7A5\uCC0C\uAC1C \uB053\uC600\uC5B4.
+        17\uC77C\uC5D0 \uC9D1\uC5D0 \uC62C \uAC70\uC9C0?"
+      spoken: "\uC624\uB298 \uC544\uBE60\uAC00 \uB41C\uC7A5\uCC0C\uAC1C \uB053\uC600\uC5B4.
+        \uC2ED\uCE60 \uC77C\uC5D0 \uC9D1\uC5D0 \uC62C \uAC70\uC9C0?"
+      facts: []
+      deliver: []
+      pauseAfter: 0.3
+  - number: 010-4418-0902
+    answeredBy: "\uC544\uBE60"
+    portrait: pt_dad
+    voice: Grandpa (Korean (South Korea))
+    lines:
+    - speaker: 0
+      text: "\uC9C0\uC6B0\uC57C! \uBCC4\uC77C \uC5C6\uC9C0?"
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.3
+    - speaker: 0
+      text: "\uC5C4\uB9C8\uD55C\uD14C \uC804\uD654 \uC880 \uD574\uB77C, \uBCF4\uACE0
+        \uC2F6\uC5B4 \uD558\uB354\uB77C."
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.3
+  - number: 02-555-0192
+    answeredBy: "\uB9DD\uC6D0\uD558\uC774\uCE20 \uAD00\uB9AC\uC0AC\uBB34\uC18C"
+    portrait: app_contacts
+    voice: Flo (Korean (South Korea))
+    lines:
+    - speaker: 0
+      text: "\uB9DD\uC6D0\uD558\uC774\uCE20 \uAD00\uB9AC\uC0AC\uBB34\uC18C\uC785\uB2C8\uB2E4."
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.3
+    - speaker: 0
+      text: "\uAC00\uC2A4 \uC810\uAC80\uC740 14\uC77C\uC774\uC5D0\uC694. \uB3C8\uC740
+        \uC808\uB300 \uC548 \uBC1B\uC544\uC694."
+      spoken: "\uAC00\uC2A4 \uC810\uAC80\uC740 \uC2ED\uC0AC \uC77C\uC774\uC5D0\uC694.
+        \uB3C8\uC740 \uC808\uB300 \uC548 \uBC1B\uC544\uC694."
+      facts: []
+      deliver: []
+      pauseAfter: 0.3
+  - number: 070-8844-2019
+    answeredBy: "\uC804 \uACFC\uC7A5"
+    portrait: pt_jeon
+    voice: Rocko (Korean (South Korea))
+    lines:
+    - speaker: 0
+      text: "\uB204\uB9AC\uC740\uD589 \uBCF4\uD638\uD300\uC785\uB2C8\uB2E4\u2026
+        \uAE40\uC9C0\uC6B0 \uC528? \uB124, \uC774\uCCB4 \uC9C4\uD589\uD574 \uC8FC\uC138\uC694."
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.3

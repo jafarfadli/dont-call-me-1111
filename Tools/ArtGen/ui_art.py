@@ -14,6 +14,7 @@ from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 import atlas
 import pixel_people as pp
+import tex_prints
 from texlib import OUT as TEX_OUT, ROOT, Canvas, fbm, halftone, hexc, mix, shade, wobble
 
 UI_OUT = os.path.join(ROOT, "Assets", "_Game", "UI", "Sprites")
@@ -472,6 +473,14 @@ def menu_glyphs():
                 fill=hexc("C99A5C") + (255,), outline=K, width=5)
         cv.line([(x - 32, y - 4), (x + 32, y - 4)], K, 4)
 
+    def globe(cv, x, y):
+        cv.ellipse(x, y, 29, 29, outline=K, width=5)
+        cv.ellipse(x, y, 12, 29, outline=K, width=4)
+        cv.line([(x - 29, y), (x + 29, y)], K, 4)
+        for dy in (-15, 15):
+            half = math.sqrt(29 ** 2 - dy ** 2) - 3
+            cv.line([(x - half, y + dy), (x + half, y + dy)], K, 3)
+
     def ring(cv, x, y):
         handset(cv, x - 4, y + 4, 22, R, rot=0.0)
         for r in (30, 40):
@@ -480,7 +489,7 @@ def menu_glyphs():
 
     for name, fn in (("ic_music", music), ("ic_sfx", speaker), ("ic_voice", mic), ("ic_mouse", mouse), ("ic_clock", clock),
                      ("ic_pause", pause), ("ic_play", play), ("ic_gear", gear), ("ic_exit", exit_door), ("ic_check", check),
-                     ("ic_cross", cross), ("ic_case", case), ("ic_ring", ring)):
+                     ("ic_cross", cross), ("ic_case", case), ("ic_ring", ring), ("ic_globe", globe)):
         glyph(name, fn)
 
 
@@ -624,7 +633,10 @@ def portraits():
 # ---------------------------------------------------------------- documents, cards, board close-ups
 
 def crop_atlas(tex, key, atlas_name, out_name, scale=1.0):
-    img = Image.open(os.path.join(TEX_OUT, tex + ".png")).convert("RGB")
+    return crop_image(Image.open(os.path.join(TEX_OUT, tex + ".png")).convert("RGB"), key, atlas_name, out_name, scale)
+
+
+def crop_image(img, key, atlas_name, out_name, scale=1.0):
     x0, y0, x1, y1 = atlas.ATLASES[atlas_name][key]
     part = img.crop((x0, y0, x1, y1))
     if scale != 1.0:
@@ -660,6 +672,13 @@ def documents():
     crop_atlas("T_Labels_Atlas", "card_back", "labels", "card_nuri_back", scale=2.0)
     cal = Image.open(os.path.join(TEX_OUT, "T_Calendar.png")).convert("RGB")
     save(cal, "board_calendar")
+    # The same close-ups written in Korean; ContentBuilder picks "<name>_ko" for the Korean days.
+    notes_ko = tex_prints.notes_image("ko")
+    for key, name in (("numbers", "board_numbers"), ("notice", "board_notice"), ("sticky_y", "board_sticky_y"),
+                      ("sticky_p", "board_sticky_p"), ("receipt", "doc_receipt")):
+        crop_image(notes_ko, key, "notes", name + "_ko")
+    crop_image(tex_prints.labels_image("ko"), "card_back", "labels", "card_nuri_back_ko", scale=2.0)
+    save(tex_prints.calendar_image(lang="ko"), "board_calendar_ko")
 
     # Stamps.
     for name, text, col in (("stamp_paid", "PAID", hexc("B8453A")), ("stamp_overdue", "OVERDUE", hexc("B8453A")),

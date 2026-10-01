@@ -67,7 +67,7 @@ namespace DontCallMe.Flow
 
         public static DayPlan Compose(DayData day, DayVariant variant, List<DayRecord> earlier, DayCatalog catalog)
         {
-            today = System.Array.IndexOf(Weekdays, day.Weekday);
+            today = WeekdayIndex(day.Weekday);
             var plan = new DayPlan
             {
                 day = day,
@@ -108,7 +108,7 @@ namespace DontCallMe.Flow
         {
             var then = catalog != null ? catalog.Get(r.day) : null;
             int ago = plan.day.day - r.day;
-            string When(string time) => (ago == 1 ? "Yesterday" : then != null ? then.Weekday : "Earlier") + (string.IsNullOrEmpty(time) ? "" : " " + time);
+            string When(string time) => (ago == 1 ? Loc.Yesterday : then != null ? then.Weekday : "") + (string.IsNullOrEmpty(time) ? "" : " " + time);
 
             // The money that left on the call stays gone.
             plan.phone.bank.Change(r.moneyDelta);
@@ -233,7 +233,14 @@ namespace DontCallMe.Flow
         }
 
         static readonly string[] Weekdays = { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" };
+        static readonly string[] WeekdaysKo = { "월요일", "화요일", "수요일", "목요일", "금요일", "토요일", "일요일" };
         static int today;
+
+        static int WeekdayIndex(string label)
+        {
+            int i = System.Array.IndexOf(Weekdays, label);
+            return i >= 0 ? i : System.Array.IndexOf(WeekdaysKo, label);
+        }
 
         /// <summary>Threads run oldest first; puts the message before the first newer one.</summary>
         static void InsertInOrder<T>(List<T> list, T item, System.Func<T, string> when)
@@ -250,12 +257,13 @@ namespace DontCallMe.Flow
         {
             if (string.IsNullOrEmpty(label))
                 return int.MaxValue;
+            // "Today 09:12", "Yesterday 21:40", "Mon 22:47", "Fri 25 Sep" (or 오늘, 어제, 월요일, 9월 25일).
             string[] parts = label.Split(' ');
-            int weekday = System.Array.IndexOf(Weekdays, parts[0]);
+            int weekday = WeekdayIndex(parts[0]);
             int days;
-            if (parts[0] == "Today")
+            if (parts[0] == "Today" || parts[0] == "오늘")
                 days = 0;
-            else if (parts[0] == "Yesterday")
+            else if (parts[0] == "Yesterday" || parts[0] == "어제")
                 days = 1;
             else if (weekday >= 0 && parts.Length <= 2 && today >= 0)
                 days = (today - weekday + 7) % 7 == 0 ? 7 : (today - weekday + 7) % 7;

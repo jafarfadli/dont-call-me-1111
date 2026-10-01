@@ -47,7 +47,7 @@ namespace DontCallMe.UI
         {
             Root.Clear();
             Root.RemoveFromClassList("verdict--confirm");
-            Head("YOUR VERDICT");
+            Head(Loc.T("YOUR VERDICT"));
             var row = UIKit.Div("verdict__row");
             row.Add(Choice("verdict-btn--gold", "btn--amber", Glyph("₩"), info.goAlong, goAlongDetail, ShowSend));
             row.Add(Choice("verdict-btn--red", "btn--red", UIKit.Icon("ic_hangup", "verdict-btn__icon"), info.refuse, info.refuseDetail, ShowHangUp));
@@ -87,19 +87,19 @@ namespace DontCallMe.UI
             if (!string.IsNullOrEmpty(line2))
                 Root.Add(UIKit.Text(line2, "verdict__sub"));
             var buttons = UIKit.Div("verdict__buttons");
-            buttons.Add(UIKit.Btn("Back", ShowChoices, "verdict__back"));
+            buttons.Add(UIKit.Btn(Loc.T("Back"), ShowChoices, "verdict__back"));
             buttons.Add(UIKit.Btn(action, onConfirm, "verdict__go", actionColour));
             Root.Add(buttons);
         }
 
         void ShowSend()
         {
-            Confirm("verdict__head--gold", sendTitle, sendTo, "The money leaves your account as soon as you confirm.",
+            Confirm("verdict__head--gold", sendTitle, sendTo, Loc.T("The money leaves your account as soon as you confirm."),
                     info.goAlong, "btn--amber", () => Choose(VerdictKind.GoAlong));
             SendShown?.Invoke();
         }
 
-        void ShowHangUp() => Confirm("verdict__head--red", "HANG UP?", "You end the call and send nothing.", null,
+        void ShowHangUp() => Confirm("verdict__head--red", Loc.T("HANG UP?"), Loc.T("You end the call and send nothing."), null,
                                      info.refuse, "btn--red", () => Choose(VerdictKind.Refuse));
 
         void Choose(VerdictKind kind)

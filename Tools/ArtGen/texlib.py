@@ -11,7 +11,8 @@ from PIL import Image, ImageDraw, ImageFont
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 OUT = os.path.join(ROOT, "Assets", "_Game", "Art", "Textures")
-FONT_DIRS = ["/System/Library/Fonts/Supplemental", "/System/Library/Fonts"]
+# System fonts, then the game's own OFL fonts (Gaegu for Korean handwriting).
+FONT_DIRS = ["/System/Library/Fonts/Supplemental", "/System/Library/Fonts", os.path.join(ROOT, "Assets", "_Game", "UI", "Fonts")]
 
 INK = (40, 32, 48)
 

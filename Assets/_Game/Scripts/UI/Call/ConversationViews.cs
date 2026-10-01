@@ -67,7 +67,7 @@ namespace DontCallMe.UI
             headerPortrait = UIKit.Portrait("pt_unknown");
             header.Add(headerPortrait);
             var who = UIKit.Div("transcript__who");
-            nameLabel = UIKit.Text("Unknown", "transcript__name");
+            nameLabel = UIKit.Text(Loc.T("Unknown"), "transcript__name");
             numberLabel = UIKit.Text("", "transcript__number");
             who.Add(nameLabel);
             who.Add(numberLabel);
@@ -263,7 +263,7 @@ namespace DontCallMe.UI
             footer.Clear();
             pickHandler = pick;
             var options = UIKit.Div("decide__options");
-            options.Add(UIKit.Text(string.IsNullOrEmpty(d.prompt) ? "Your answer" : d.prompt, "decide__prompt"));
+            options.Add(UIKit.Text(string.IsNullOrEmpty(d.prompt) ? Loc.T("Your answer") : d.prompt, "decide__prompt"));
             var opts = new[] { d.a, d.b };
             for (int i = 0; i < 2; i++)
             {
@@ -311,8 +311,8 @@ namespace DontCallMe.UI
                 holdBox = UIKit.Div("hold");
                 var head = UIKit.Div("hold__head");
                 head.Add(UIKit.Div("hold__dot"));
-                string who = string.IsNullOrEmpty(callerTitle) || callerTitle == "Unknown" ? "The caller" : callerTitle;
-                head.Add(UIKit.Text($"{who} is holding the line  ·  ask him, or give your verdict", "hold__title"));
+                string who = string.IsNullOrEmpty(callerTitle) || callerTitle == Loc.T("Unknown") ? Loc.T("The caller") : callerTitle;
+                head.Add(UIKit.Text(Loc.F("{0} is holding the line  ·  ask, or give your verdict", who), "hold__title"));
                 holdBox.Add(head);
                 questionsArea = UIKit.Div("hold__questions");
                 holdBox.Add(questionsArea);
@@ -440,7 +440,7 @@ namespace DontCallMe.UI
         public void SetDecision(bool pending, float remaining, float total)
         {
             timer.Hide(!pending);
-            hint.text = pending ? "Decision waiting  ·  press Tab" : idleHint;
+            hint.text = pending ? Loc.T("Decision waiting  ·  press Tab") : idleHint;
             if (pending)
                 timer.Set(remaining, total);
         }

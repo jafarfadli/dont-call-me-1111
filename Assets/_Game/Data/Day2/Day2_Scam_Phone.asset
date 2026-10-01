@@ -41,7 +41,7 @@ MonoBehaviour:
     number: 010-9043-2217
     memo: Met at Chuseok
     portrait: pt_taeho
-  - name: "Manager Han (caf\xE9)"
+  - name: Manager Han (cafe)
     number: 010-5530-8812
     memo: Mangwon Roasters
     portrait: pt_cafe
@@ -164,8 +164,8 @@ MonoBehaviour:
     - sender: Landlord Choi
       avatar: pt_landlord
       when: Today 13:40
-      text: "Thank you all for keeping the stairs so clean \U0001F44D See you at
-        the water tank cleaning tomorrow morning. \u2013 Choi, 1F"
+      text: "Thank you all for keeping the stairs so clean! See you at the water
+        tank cleaning tomorrow morning. \u2013 Choi, 1F"
       outgoing: 0
       photoCaption: 
       facts: []
@@ -273,14 +273,14 @@ MonoBehaviour:
     - sender: Mom
       avatar: pt_mom
       when: Today 08:05
-      text: "Good morning! Rent day today, don't forget \U0001F60A"
+      text: Good morning! Rent day today, don't forget :)
       outgoing: 0
       photoCaption: 
       facts: []
     - sender: 
       avatar: 
       when: Today 08:20
-      text: "I know, Mom \U0001F644"
+      text: I know, Mom...
       outgoing: 1
       photoCaption: 
       facts: []

@@ -19,8 +19,10 @@ namespace DontCallMe.Editor.UI
     /// </list>
     /// Every day's phone, room and directory grow from one household timeline
     /// (ContentBuilder.Household.cs): a text sent on Monday reads "Mon 22:47" on Day 1 and is still there
-    /// on Day 3. Each variant adds its own evidence on top. Rerun to reset edits; then run the voice
-    /// pipeline for new or changed lines.
+    /// on Day 3. Each variant adds its own evidence on top. Everything is built twice, in English and in
+    /// Korean (<see cref="L"/>): the Korean assets sit in a "ko" folder next to the English ones and are
+    /// listed in Resources/DayCatalog_ko. Rerun to reset edits; then run the voice pipeline for new or
+    /// changed lines.
     /// </summary>
     public static partial class ContentBuilder
     {
@@ -40,18 +42,35 @@ namespace DontCallMe.Editor.UI
         const string PapersJson = "Tools/ArtGen/papers.json";
         const string PrintsDir = "Assets/_Game/Art/Textures/Papers";
 
-        // The voices (macOS `say`) for everyone who speaks on the phone.
-        const string VoiceJeon = "Daniel";
-        const string VoiceBank = "Samantha";
-        const string VoiceFss = "Karen";
-        const string VoicePolice = "Tessa";
-        const string VoiceMom = "Moira";
-        const string VoiceDad = "Rishi";
-        const string VoiceHyunwoo = "Reed (English (US))";
-        const string VoiceCustoms = "Shelley (English (UK))";
+        // The voices (macOS `say`) for everyone who speaks on the phone, per language.
+        static string VoiceJeon => L("Daniel", "Rocko (Korean (South Korea))");
+        static string VoiceBank => L("Samantha", "Sandy (Korean (South Korea))");
+        static string VoiceFss => L("Karen", "Shelley (Korean (South Korea))");
+        static string VoicePolice => L("Tessa", "Flo (Korean (South Korea))");
+        static string VoiceMom => L("Moira", "Grandma (Korean (South Korea))");
+        static string VoiceDad => L("Rishi", "Grandpa (Korean (South Korea))");
+        static string VoiceHyunwoo => L("Reed (English (US))", "Reed (Korean (South Korea))");
+        static string VoiceCustoms => L("Shelley (English (UK))", "Yuna");
 
         /// <summary>Bump when the built content changes, so open projects rebuild it (and its voices) by themselves.</summary>
-        public const int Version = 4;
+        public const int Version = 5;
+
+        /// <summary>The language being built.</summary>
+        static Lang lang = Lang.En;
+
+        /// <summary>The English or the Korean text, for the language being built.</summary>
+        static string L(string en, string ko) => lang == Lang.Ko ? ko : en;
+
+        /// <summary>Where an asset goes for the language being built: Korean assets sit in a "ko" folder next to the English ones.</summary>
+        static string Localized(string path)
+        {
+            if (lang == Lang.En)
+                return path;
+            string dir = Path.GetDirectoryName(path).Replace('\\', '/');
+            return $"{dir}/ko/{Path.GetFileNameWithoutExtension(path)}_ko{Path.GetExtension(path)}";
+        }
+
+        static string CatalogFor(Lang l) => l == Lang.Ko ? ResourcesDir + "/" + DayCatalog.ResourceName + "_ko.asset" : CatalogPath;
 
         [InitializeOnLoadMethod]
         static void RebuildWhenOutdated()
@@ -61,8 +80,8 @@ namespace DontCallMe.Editor.UI
                 if (EditorApplication.isPlayingOrWillChangePlaymode)
                     return;
                 var day = AssetDatabase.LoadAssetAtPath<DayData>(DayPath);
-                bool catalog = AssetDatabase.LoadAssetAtPath<DayCatalog>(CatalogPath) != null;
-                if (day == null || day.builtWith >= Version && catalog)
+                bool catalogs = AssetDatabase.LoadAssetAtPath<DayCatalog>(CatalogPath) != null && AssetDatabase.LoadAssetAtPath<DayCatalog>(CatalogFor(Lang.Ko)) != null;
+                if (day == null || day.builtWith >= Version && catalogs)
                     return;
                 Debug.Log($"[ContentBuilder] Content is v{day.builtWith}, updating to v{Version} (content, newspaper prints and voices).");
                 Build();
@@ -86,14 +105,24 @@ namespace DontCallMe.Editor.UI
             Move("Assets/_Game/Data/Demo/Demo_Call_M6_ProtectedAccount.asset", CallPath);
             Move("Assets/_Game/Data/Demo/Demo_Chat_E2_MomsBrokenPhone.asset", ChatPath);
 
-            var catalog = ScriptableObject.CreateInstance<DayCatalog>();
-            catalog.days = new List<DayData> { BuildDay1(), BuildDay2(), BuildDay3() };
+            var built = new List<(Lang, List<DayData>)>();
+            foreach (var l in new[] { Lang.En, Lang.Ko })
+            {
+                lang = l;
+                if (l == Lang.Ko)
+                    foreach (string dir in new[] { Day1Dir, Day2Dir, Day3Dir })
+                        EnsureFolder(dir + "/ko");
+                var catalog = ScriptableObject.CreateInstance<DayCatalog>();
+                catalog.days = new List<DayData> { BuildDay1(), BuildDay2(), BuildDay3() };
+                Store(catalog, CatalogFor(l));
+                built.Add((l, catalog.days));
+            }
+            lang = Lang.En;
             Store(BuildChat(), ChatPath);
-            Store(catalog, CatalogPath);
-            ExportPapers(catalog.days);
-            AssignPrints(catalog.days);
+            ExportPapers(built);
+            AssignPrints(built);
             AssetDatabase.SaveAssets();
-            Debug.Log($"[ContentBuilder] {catalog.days.Count} days written (Data/Day1..Day{catalog.days.Count}) and listed in {CatalogPath}");
+            Debug.Log($"[ContentBuilder] {built[0].Item2.Count} days written in English and Korean (Data/Day1..Day{built[0].Item2.Count}, ko folders) and listed in Resources/DayCatalog(_ko)");
         }
 
         // ---------------------------------------------------------------- assets
@@ -138,103 +167,137 @@ namespace DontCallMe.Editor.UI
             return new DayVariant
             {
                 id = id,
-                conversation = Store(call, $"{dir}/{prefix}_Call.asset"),
-                phone = Store(phone, $"{dir}/{prefix}_Phone.asset"),
-                room = Store(room, $"{dir}/{prefix}_Room.asset"),
-                directory = Store(directory, $"{dir}/{prefix}_Directory.asset"),
+                conversation = Store(call, Localized($"{dir}/{prefix}_Call.asset")),
+                phone = Store(phone, Localized($"{dir}/{prefix}_Phone.asset")),
+                room = Store(room, Localized($"{dir}/{prefix}_Room.asset")),
+                directory = Store(directory, Localized($"{dir}/{prefix}_Directory.asset")),
             };
         }
 
-        static Texture2D Tex(string name) => AssetDatabase.LoadAssetAtPath<Texture2D>(Sprites + name + ".png");
+        /// <summary>A UI picture; in Korean, its "_ko" version when there is one (notes and receipts written in Korean).</summary>
+        static Texture2D Tex(string name)
+        {
+            var korean = lang == Lang.Ko ? AssetDatabase.LoadAssetAtPath<Texture2D>(Sprites + name + "_ko.png") : null;
+            return korean != null ? korean : AssetDatabase.LoadAssetAtPath<Texture2D>(Sprites + name + ".png");
+        }
 
         // ---------------------------------------------------------------- the paper on the desk
 
         /// <summary>
-        /// Prints the desk newspaper for every front page that lies on the desk the next day
-        /// (Tools/ArtGen/tex_prints.py papers) and hands the prints to the papers.
+        /// Prints the desk newspaper for every front page that lies on the desk the next day, in both
+        /// languages (Tools/ArtGen/tex_prints.py papers), and hands the prints to the papers.
         /// </summary>
         [MenuItem("Tools/Don't Call Me/Content/Print Desk Newspapers")]
         public static void PrintPapers()
         {
-            var catalog = AssetDatabase.LoadAssetAtPath<DayCatalog>(CatalogPath);
-            if (catalog == null)
+            var built = new List<(Lang, List<DayData>)>();
+            foreach (var l in new[] { Lang.En, Lang.Ko })
+            {
+                var catalog = AssetDatabase.LoadAssetAtPath<DayCatalog>(CatalogFor(l));
+                if (catalog != null)
+                    built.Add((l, catalog.days));
+            }
+            if (built.Count == 0)
             {
                 Debug.LogError("[ContentBuilder] Build the days first.");
                 return;
             }
-            ExportPapers(catalog.days);
+            ExportPapers(built);
             if (!DontCallMe.Editor.Audio.AudioPipeline.RunPython("Tools/ArtGen/tex_prints.py papers"))
                 return;
             AssetDatabase.Refresh();
-            AssignPrints(catalog.days);
+            AssignPrints(built);
             AssetDatabase.SaveAssets();
         }
 
-        static string PrintName(int day, DayVariant v, EndPaper p) => $"T_Paper_D{day}_{v.id}_{p.outcome}";
+        static string PrintName(Lang l, int day, string what) => $"T_Paper_D{day}_{what}" + (l == Lang.Ko ? "_ko" : "");
 
-        static readonly string[] KoreanWeekdays = { "일", "월", "화", "수", "목", "금", "토" };
-
-        /// <summary>The front pages that lie on the desk the next day, for tex_prints.py.</summary>
-        static void ExportPapers(List<DayData> days)
+        /// <summary>
+        /// The front pages that lie on the desk the next day, for tex_prints.py, plus Day 1's own issue in
+        /// Korean (the English one is the room's own texture).
+        /// </summary>
+        static void ExportPapers(List<(Lang, List<DayData>)> built)
         {
             var json = new StringBuilder("[\n");
             bool first = true;
-            foreach (var d in days)
+            void Add(Lang l, string name, string headline, string subhead, int issueDay)
             {
-                if (!days.Exists(x => x != null && x.day == d.day + 1))
-                    continue;
-                var date = new DateTime(2026, 10, 6 + d.day);
+                var date = new DateTime(2026, 10, 5 + issueDay);
                 string dateEn = date.ToString("dddd, MMMM d, yyyy", CultureInfo.InvariantCulture).ToUpperInvariant();
-                string dateKo = $"{date.Year}년 {date.Month}월 {date.Day}일 {KoreanWeekdays[(int)date.DayOfWeek]}요일";
-                string issue = $"제 {12408 + d.day:N0}호";
-                foreach (var v in d.variants)
-                    foreach (var p in v.papers)
-                    {
-                        json.Append(first ? "" : ",\n");
-                        first = false;
-                        json.Append($" {{\"name\": \"{PrintName(d.day, v, p)}\", \"headline\": \"{Json(p.headline)}\", \"subhead\": \"{Json(p.subhead)}\", " +
-                                    $"\"dateEn\": \"{dateEn}\", \"dateKo\": \"{dateKo}\", \"issue\": \"{issue}\"}}");
-                    }
+                string dateKo = $"{date.Year}년 {date.Month}월 {date.Day}일 {KoWeekday(date)}";
+                json.Append(first ? "" : ",\n");
+                first = false;
+                json.Append($" {{\"name\": \"{name}\", \"lang\": \"{(l == Lang.Ko ? "ko" : "en")}\", \"headline\": \"{Json(headline)}\", \"subhead\": \"{Json(subhead)}\", " +
+                            $"\"dateEn\": \"{dateEn}\", \"dateKo\": \"{dateKo}\", \"issue\": \"제 {12407 + issueDay:N0}호\"}}");
             }
+            foreach (var (l, days) in built)
+                foreach (var d in days)
+                {
+                    var room = d.variants.Count > 0 ? d.variants[0].room : null;
+                    if (l == Lang.Ko && d.day == 1 && room != null)
+                        Add(l, PrintName(l, 1, "issue"), room.newspaper.headline, room.newspaper.subhead, 1);
+                    if (!days.Exists(x => x != null && x.day == d.day + 1))
+                        continue;
+                    foreach (var v in d.variants)
+                        foreach (var p in v.papers)
+                            Add(l, PrintName(l, d.day, $"{v.id}_{p.outcome}"), p.headline, p.subhead, d.day + 1);
+                }
             json.Append("\n]\n");
             File.WriteAllText(PapersJson, json.ToString(), new UTF8Encoding(false));
         }
 
         static string Json(string s) => (s ?? "").Replace("\\", "\\\\").Replace("\"", "\\\"").Replace("\n", " ");
 
-        /// <summary>Gives each paper its print, if tex_prints.py has made it, with the room textures' import settings.</summary>
-        static void AssignPrints(List<DayData> days)
+        /// <summary>The print with the room textures' import settings, if tex_prints.py has made it.</summary>
+        static Texture2D LoadPrint(string name)
         {
-            foreach (var d in days)
+            string path = $"{PrintsDir}/{name}.png";
+            if (AssetImporter.GetAtPath(path) is TextureImporter importer && importer.textureCompression != TextureImporterCompression.CompressedHQ)
             {
-                bool changed = false;
-                foreach (var v in d.variants)
-                    foreach (var p in v.papers)
-                    {
-                        string path = $"{PrintsDir}/{PrintName(d.day, v, p)}.png";
-                        if (AssetImporter.GetAtPath(path) is TextureImporter importer && importer.textureCompression != TextureImporterCompression.CompressedHQ)
+                importer.textureType = TextureImporterType.Default;
+                importer.sRGBTexture = true;
+                importer.alphaSource = TextureImporterAlphaSource.None;
+                importer.wrapMode = TextureWrapMode.Clamp;
+                importer.mipmapEnabled = true;
+                importer.filterMode = FilterMode.Trilinear;
+                importer.anisoLevel = 4;
+                importer.maxTextureSize = 2048;
+                importer.textureCompression = TextureImporterCompression.CompressedHQ;
+                importer.SaveAndReimport();
+            }
+            return AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+        }
+
+        /// <summary>Gives each paper (and Korean Day 1's own issue) its print.</summary>
+        static void AssignPrints(List<(Lang, List<DayData>)> built)
+        {
+            foreach (var (l, days) in built)
+                foreach (var d in days)
+                {
+                    bool changed = false;
+                    foreach (var v in d.variants)
+                        foreach (var p in v.papers)
                         {
-                            importer.textureType = TextureImporterType.Default;
-                            importer.sRGBTexture = true;
-                            importer.alphaSource = TextureImporterAlphaSource.None;
-                            importer.wrapMode = TextureWrapMode.Clamp;
-                            importer.mipmapEnabled = true;
-                            importer.filterMode = FilterMode.Trilinear;
-                            importer.anisoLevel = 4;
-                            importer.maxTextureSize = 2048;
-                            importer.textureCompression = TextureImporterCompression.CompressedHQ;
-                            importer.SaveAndReimport();
+                            var print = LoadPrint(PrintName(l, d.day, $"{v.id}_{p.outcome}"));
+                            if (print != null && p.print != print)
+                            {
+                                p.print = print;
+                                changed = true;
+                            }
                         }
-                        var print = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
-                        if (print != null && p.print != print)
+                    if (changed)
+                        EditorUtility.SetDirty(d);
+                    var room = d.variants.Count > 0 ? d.variants[0].room : null;
+                    if (l == Lang.Ko && d.day == 1 && room != null)
+                    {
+                        var issue = LoadPrint(PrintName(l, 1, "issue"));
+                        if (issue != null && room.newspaper.print != issue)
                         {
-                            p.print = print;
-                            changed = true;
+                            room.newspaper.print = issue;
+                            EditorUtility.SetDirty(room);
                         }
                     }
-                if (changed)
-                    EditorUtility.SetDirty(d);
-            }
+                }
         }
 
         // ---------------------------------------------------------------- the calendar
@@ -261,7 +324,10 @@ namespace DontCallMe.Editor.UI
             return string.CompareOrdinal(time ?? "00:00", startTime) < 0;
         }
 
-        /// <summary>How the phone labels a moment: "Today 09:12", "Yesterday 21:40", "Mon 22:47", "Fri 25 Sep".</summary>
+        /// <summary>
+        /// How the phone labels a moment: "Today 09:12", "Yesterday 21:40", "Mon 22:47", "Fri 25 Sep"
+        /// (in Korean: 오늘, 어제, 월요일, 9월 25일).
+        /// </summary>
         static string At(int month, int dom, string time = null)
         {
             var at = new DateTime(2026, month, dom);
@@ -269,13 +335,30 @@ namespace DontCallMe.Editor.UI
             string t = string.IsNullOrEmpty(time) ? "" : " " + time;
             string weekday = at.ToString("ddd", CultureInfo.InvariantCulture);
             if (ago == 0)
-                return "Today" + t;
+                return L("Today", "오늘") + t;
             if (ago == 1)
-                return "Yesterday" + t;
+                return L("Yesterday", "어제") + t;
             if (ago < 7)
-                return weekday + t;
-            return $"{weekday} {at.Day} {at.ToString("MMM", CultureInfo.InvariantCulture)}" + t;
+                return L(weekday, KoWeekday(at)) + t;
+            return L($"{weekday} {at.Day} {at.ToString("MMM", CultureInfo.InvariantCulture)}", $"{at.Month}월 {at.Day}일") + t;
         }
+
+        static readonly string[] KoWeekdays = { "일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일" };
+
+        static string KoWeekday(DateTime d) => KoWeekdays[(int)d.DayOfWeek];
+
+        /// <summary>"Tuesday, 6 October" or "10월 6일 화요일".</summary>
+        static string DateLabel(DateTime d) => L(d.ToString("dddd, d MMMM", CultureInfo.InvariantCulture), $"{d.Month}월 {d.Day}일 {KoWeekday(d)}");
+
+        /// <summary>"Day 2 · Wed 7 Oct" or "2일차 · 10월 7일 (수)".</summary>
+        static string ShortLabel(int day, DateTime d) =>
+            L($"Day {day} · {d.ToString("ddd d MMM", CultureInfo.InvariantCulture)}", $"{day}일차 · {d.Month}월 {d.Day}일 ({KoWeekday(d).Substring(0, 1)})");
+
+        /// <summary>The weekday as the phone writes it for an earlier day: "Tue" or "화요일".</summary>
+        static string WeekdayLabel(DateTime d) => L(d.ToString("ddd", CultureInfo.InvariantCulture), KoWeekday(d));
+
+        /// <summary>The date a day's paper cites, e.g. "Seoul Daily, 7 Oct" or "서울데일리, 10월 7일".</summary>
+        static string PaperSource(int dom) => L($"Seoul Daily, {dom} Oct", $"서울데일리, 10월 {dom}일");
 
         static string Oct(int dom, string time = null) => At(10, dom, time);
 

@@ -35,6 +35,8 @@ namespace DontCallMe.Data
         public int day = 1;
         [Tooltip("Day card, e.g. \"Tuesday, 6 October\".")]
         public string dateLabel;
+        [Tooltip("The weekday as the phone writes it for earlier days, e.g. \"Tue\" or \"화요일\".")]
+        public string weekday;
         [Tooltip("HUD tag, e.g. \"Day 1 · Tue 6 Oct\".")]
         public string shortLabel;
         public string place = "Mangwon-dong, Seoul";
@@ -55,8 +57,8 @@ namespace DontCallMe.Data
         [HideInInspector, Tooltip("The content builder version that wrote this day.")]
         public int builtWith;
 
-        /// <summary>"Tue" from "Tuesday, 6 October", for labels such as "Tue 16:21".</summary>
-        public string Weekday => string.IsNullOrEmpty(dateLabel) || dateLabel.Length < 3 ? "" : dateLabel.Substring(0, 3);
+        /// <summary>The weekday for labels such as "Tue 16:21" (from the date when not set).</summary>
+        public string Weekday => !string.IsNullOrEmpty(weekday) ? weekday : string.IsNullOrEmpty(dateLabel) || dateLabel.Length < 3 ? "" : dateLabel.Substring(0, 3);
 
         public DayVariant Variant(string id) => variants.Find(v => v.id == id);
     }

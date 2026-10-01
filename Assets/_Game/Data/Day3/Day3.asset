@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: DontCallMe::DontCallMe.Data.DayData
   day: 3
   dateLabel: Thursday, 8 October
+  weekday: Thu
   shortLabel: "Day 3 \xB7 Thu 8 Oct"
   place: Mangwon-dong, Seoul
   startTime: 16:25
@@ -326,7 +327,7 @@ MonoBehaviour:
     avatar: pt_landlord
     when: Yesterday 19:05
     title: 
-    text: "302 hung up on him. Well done! \U0001F44D"
+    text: 302 hung up on him. Well done!
     link: 
     amount: 0
     outgoing: 0
@@ -412,7 +413,7 @@ MonoBehaviour:
     avatar: 
     when: 
     title: Sticky note
-    text: "Fake \"son\": 010-4127-8830. Hung up \u2713"
+    text: 'Fake "son": 010-4127-8830. Hung up!'
     link: 
     amount: 0
     outgoing: 0
@@ -498,8 +499,7 @@ MonoBehaviour:
     avatar: 
     when: Yesterday 18:02
     title: 
-    text: "Thanks for the rent, Jiwoo-ssi! Dad says hi from the ward \U0001F60A \u2013
-      Hyunwoo"
+    text: "Thanks for the rent, Jiwoo-ssi! Dad says hi from the ward :) \u2013 Hyunwoo"
     link: 
     amount: 0
     outgoing: 0
@@ -552,8 +552,8 @@ MonoBehaviour:
     avatar: pt_landlord
     when: Today 10:15
     title: 
-    text: "Thank you all for the get-well messages. The hospital food is terrible
-      \U0001F605"
+    text: Thank you all for the get-well messages. The hospital food is terrible,
+      haha
     link: 
     amount: 0
     outgoing: 0
@@ -604,7 +604,7 @@ MonoBehaviour:
     avatar: 
     when: 
     title: Sticky note
-    text: "070-8844-2019 = fake bank. Hung up \u2713"
+    text: 070-8844-2019 = fake bank. Hung up!
     link: 
     amount: 0
     outgoing: 0
@@ -630,4 +630,4 @@ MonoBehaviour:
     rotation: -3
     notify: 0
   nextDateLabel: Friday, 9 October
-  builtWith: 4
+  builtWith: 5

@@ -1,3 +1,4 @@
+using DontCallMe.Data;
 using DontCallMe.UI;
 using UnityEditor;
 using UnityEngine;
@@ -6,17 +7,24 @@ namespace DontCallMe.Editor.UI
 {
     /// <summary>
     /// Tools → Don't Call Me → UI → Capture UI Tour: enters Play mode and screenshots every panel,
-    /// app and the demo call and chat into Temp/UITour (see <see cref="UITour"/>).
+    /// app and the demo call and chat into Temp/UITour (see <see cref="UITour"/>). The tour reads
+    /// English labels, so it runs in English and puts the player's language back afterwards.
     /// </summary>
     [InitializeOnLoad]
     public static class UITourMenu
     {
         const string Pending = "DCM.UITour.Pending";
+        const string PreviousLanguage = "DCM.UITour.Language";
 
         static UITourMenu()
         {
             EditorApplication.playModeStateChanged += state =>
             {
+                if (state == PlayModeStateChange.EnteredEditMode && SessionState.GetInt(PreviousLanguage, -1) >= 0)
+                {
+                    Loc.Current = (Lang)SessionState.GetInt(PreviousLanguage, 0);
+                    SessionState.EraseInt(PreviousLanguage);
+                }
                 if (state != PlayModeStateChange.EnteredPlayMode || !SessionState.GetBool(Pending, false))
                     return;
                 SessionState.SetBool(Pending, false);
@@ -31,6 +39,11 @@ namespace DontCallMe.Editor.UI
             {
                 Start();
                 return;
+            }
+            if (Loc.Current != Lang.En)
+            {
+                SessionState.SetInt(PreviousLanguage, (int)Loc.Current);
+                Loc.Current = Lang.En;
             }
             SessionState.SetBool(Pending, true);
             EditorApplication.isPlaying = true;

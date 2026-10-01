@@ -27,7 +27,11 @@ OUT = os.path.join(ROOT, "Assets", "_Game", "Audio", "Voices")
 SR = 22050
 
 # Words per minute per voice: the scammer talks a little fast, officials a little slower.
-RATES = {"Daniel": 186, "Samantha": 178, "Karen": 176, "Moira": 170, "Tessa": 172, "Rishi": 176, "Fred": 180, "Reed": 178, "Shelley": 176}
+RATES = {"Daniel": 186, "Samantha": 178, "Karen": 176, "Moira": 170, "Tessa": 172, "Rishi": 176, "Fred": 180, "Reed": 178, "Shelley": 176,
+         # Korean voices (the game's Korean dialogue): the Korean variants speak slowly at the default rate.
+         "Yuna": 185, "Rocko (Korean (South Korea))": 240, "Reed (Korean (South Korea))": 232, "Sandy (Korean (South Korea))": 232,
+         "Shelley (Korean (South Korea))": 232, "Flo (Korean (South Korea))": 232, "Grandma (Korean (South Korea))": 215,
+         "Grandpa (Korean (South Korea))": 215}
 
 
 def slug(voice):
@@ -40,7 +44,7 @@ def file_for(voice, text):
 
 
 def say(voice, text, path_aiff):
-    rate = RATES.get(voice.split(" ")[0], 180)
+    rate = RATES.get(voice) or RATES.get(voice.split(" ")[0], 180)
     subprocess.run(["say", "-v", voice, "-r", str(rate), "-o", path_aiff, text], check=True)
 
 
