@@ -150,7 +150,8 @@ def poster_rect(key):
 
 def desk_area(fg):
     desk, top_drawer = bf.desk(fg, (0.92, ROOM_Y - 0.285, 0), (0, 0, 0))
-    bf.chair(fg, (0.86, 1.0, 0), (0, 0, 168))
+    # Pushed back from the desk, leaving room to walk between the two.
+    bf.chair(fg, (0.86, 0.15, 0), (0, 0, 160))
     items = group("DeskItems", desk, (0, 0, DESK_TOP))
     laptop(items, (0.06, 0.0, 0), 0)
     desk_lamp(items, (-0.43, 0.19, 0), 25)

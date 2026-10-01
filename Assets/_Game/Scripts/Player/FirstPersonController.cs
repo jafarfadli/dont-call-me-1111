@@ -27,7 +27,7 @@ namespace DontCallMe.Player
         [Tooltip("Degrees the view turns per pixel dragged.")]
         [SerializeField, Range(0.05f, 1f)] float dragSensitivity = 0.3f;
         [Tooltip("Pixels to drag before the view starts turning, so a click does not nudge it.")]
-        [SerializeField, Range(0f, 20f)] float dragDeadZone = 4f;
+        [SerializeField, Range(0f, 30f)] float dragDeadZone = 10f;
         [Tooltip("Off: the view turns the way you drag. On: you drag the scene, like a photo on a phone.")]
         [SerializeField] bool invertDrag;
         [Tooltip("Degrees per second at full stick deflection.")]
@@ -69,7 +69,7 @@ namespace DontCallMe.Player
         bool dragging;
         bool pressOnUI;
         bool dragTurning;
-        float dragDistance;
+        Vector2 dragTravel;
         Vector2 dragStartPosition;
         int skipDeltaFrames;
 
@@ -204,8 +204,9 @@ namespace DontCallMe.Player
 
             if (!dragTurning)
             {
-                dragDistance += delta.magnitude;
-                if (dragDistance < dragDeadZone)
+                // How far the pointer got from the press, not how much it wobbled on the way.
+                dragTravel += delta;
+                if (dragTravel.magnitude < dragDeadZone)
                     return;
                 dragTurning = true;
                 PressWasDrag = true;
@@ -238,7 +239,7 @@ namespace DontCallMe.Player
             dragging = true;
             dragTurning = false;
             PressWasDrag = false;
-            dragDistance = 0f;
+            dragTravel = Vector2.zero;
             dragStartPosition = Pointer.current != null ? Pointer.current.position.ReadValue() : Vector2.zero;
         }
 

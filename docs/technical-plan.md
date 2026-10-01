@@ -90,9 +90,9 @@ Day 1 runs with `TutorialGuide`: a yellow note on the left of the screen, "HOW T
 | Computer (`Laptop`) | Desk | A browser open on CheckFirst (`checkfirst.kr`, fictional) with two tabs | **Check a phone number** and **Check a bank account**. Each answers with the owner or account holder, a line about the registration ("Prepaid phone, opened 6 days ago", "Personal account, opened 3 weeks ago", OFFICIAL NUMBER), the number of fraud reports and what they say, and the reminder that no reports does not mean safe |
 | Phone | Carried (Tab) | Phone + transcript | See section 4 |
 
-The wallet, the notebook and the notes on the cork board are still in the room as props, without panels.
+The wallet, the notebook and the notes on the cork board are still in the room as props, without panels. The desk chair stands pushed back from the desk: Jiwoo starts the day seated at the desk, stands up in front of it, and can walk between the desk and the chair.
 
-**Highlight.** While the room can be used (no panel open, the phone down), `Interactor` gives every `Interactable` a pulsing yellow outline; the one under the cursor is also lit warm and shows its prompt ("Click · Use the computer"), and the one the guide points at blinks. `Interactable.SetHighlight` writes `_Highlight` on the object's renderers (RGB = added light, A = mark). The toon shader writes a negative ink id for marked objects in its DepthNormals pass, and the ink pass (`DCM_InkComposite`) draws the outline where marked meets unmarked, pulsing with the global `_DCM_HighlightPulse`.
+**Highlight.** While the room can be used (no panel open, the phone down), `Interactor` gives every `Interactable` a thin pulsing yellow outline; the one under the cursor is also lit warm and shows its prompt ("Click · Use the computer"), and the one the guide points at blinks. `Interactable.SetHighlight` writes `_Highlight` on the object's renderers (RGB = added light, A = mark). The toon shader writes a negative ink id for marked objects in its DepthNormals pass, and the ink pass (`DCM_InkComposite`) draws the outline where marked meets unmarked, pulsing with the global `_DCM_HighlightPulse`.
 
 ## 4. The phone
 
@@ -385,7 +385,7 @@ Home (TitleScreen) → Room (DayDirector + CallDirector) → End (EndScreen) →
 - Looking: hold a mouse button and drag to turn. Drags shorter than a few pixels count as clicks, and presses that start on the UI never turn the view. UI that is hidden or faded out never catches the pointer, so a press anywhere on the room always looks or interacts.
 - A press on the room while the phone is up puts the phone away and the same drag turns the view; a ringing phone stays up. A click on the dimmed room around a panel closes it, and clicking the call HUD brings the phone back.
 - `UIManager` keeps the open panel. Opening one calls `FirstPersonController.SetInputLocked(true)`; closing it unlocks. Esc goes back one screen in the phone, then closes the panel.
-- `Interactor` raycasts from the mouse cursor (up to 2.5 m) against the interactables' colliders, shows the prompt and opens the panel on click or E. A click that ended a drag (`FirstPersonController.PressWasDrag`) is ignored. `Interactor` and `Interactable` live in their own files: Unity only serialises a component whose class matches its file name.
+- `Interactor` raycasts from the mouse cursor and takes the nearest interactable on the ray, anywhere in the room: furniture and props on the way never block it, so whatever glows can be clicked. It shows the prompt and opens the panel on click or E. A click that ended a drag (`FirstPersonController.PressWasDrag`) is ignored; a press only becomes a drag once the pointer is 10 px away from where it went down. `Interactor` and `Interactable` live in their own files: Unity only serialises a component whose class matches its file name.
 
 ## 9. Data model
 

@@ -18,10 +18,6 @@
     rotate: 0deg;
 }
 
-.phone--ringing {
-    transition-duration: 0.05s;
-}
-
 .phone__body {
     position: absolute;
     left: 0;
@@ -367,9 +363,6 @@
     flex-shrink: 0;
 }
 
-.list-row__meta--red { color: var(--red); }
-.list-row__meta--green { color: var(--green); }
-
 .dot-unread {
     width: 12px;
     height: 12px;
@@ -406,7 +399,7 @@
 .kv__key { font-size: 15px; color: var(--muted); margin-right: 10px; }
 .kv__value { font-size: 17px; -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset"); }
 
-/* ---------------------------------------------------------------- phone chat bubbles (Messages, Talk) */
+/* ---------------------------------------------------------------- chat bubbles */
 
 .msg {
     flex-direction: row;
@@ -453,9 +446,6 @@
     border-top-right-radius: 4px;
 }
 
-.msg--sms .msg__bubble { background-color: #E7ECF3; }
-.msg--sms.msg--out .msg__bubble { background-color: #BFD4EE; }
-
 .msg__time {
     font-size: 12px;
     color: var(--muted);
@@ -480,40 +470,6 @@
     -unity-text-align: middle-center;
 }
 
-.banner-warn {
-    flex-direction: row;
-    align-items: center;
-    background-color: #F3C8B6;
-    border-width: 2px;
-    border-color: var(--ink);
-    border-radius: 10px;
-    padding: 8px 10px;
-    margin: 6px 4px 10px 4px;
-}
-
-.banner-warn Label { font-size: 15px; flex-shrink: 1; }
-
-.reply-bar {
-    padding: 8px 10px 10px 10px;
-    border-top-width: 3px;
-    border-color: var(--ink);
-    background-color: var(--paper);
-}
-
-.reply-bar__prompt {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 6px;
-}
-
-.reply-bar .btn {
-    min-height: 56px;
-    font-size: 16px;
-    -unity-text-align: middle-left;
-    margin: 3px 0;
-}
-
 /* ---------------------------------------------------------------- bank */
 
 .bank-card {
@@ -531,35 +487,13 @@
 .bank-card__number { color: #C8E3D6; font-size: 14px; margin-top: 2px; }
 .bank-card__balance { color: #FFFFFF; font-size: 34px; margin-top: 8px; -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DotGothic16-Regular.asset"); }
 
-.bank-actions { flex-direction: row; justify-content: space-between; }
-.bank-actions .btn { flex-grow: 1; font-size: 17px; }
-
 .amount-in { color: #2F7A6A; }
 .amount-out { color: var(--red); }
-
-.bank-choice {
-    flex-direction: row;
-    flex-wrap: wrap;
-}
-
-.bank-choice .chip { margin-bottom: 6px; }
-.bank-choice .chip--selected { background-image: url("project://database/Assets/_Game/UI/Sprites/chip_green.png"); }
 
 .recipient {
     align-items: center;
     padding: 20px 8px;
 }
-
-.recipient__label { font-size: 16px; color: var(--muted); }
-
-.recipient__name {
-    font-size: 44px;
-    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DoHyeon-Regular.asset");
-    margin: 6px 0;
-    -unity-text-align: middle-center;
-}
-
-.recipient__sub { font-size: 16px; -unity-text-align: middle-center; }
 
 .recipient__amount {
     font-size: 30px;
@@ -567,58 +501,7 @@
     margin-top: 14px;
 }
 
-.recipient__note {
-    font-size: 15px;
-    color: var(--red);
-    margin-top: 12px;
-    -unity-text-align: middle-center;
-}
-
-.pin-dots { flex-direction: row; justify-content: center; margin: 16px 0; }
-
-.pin-dot {
-    width: 22px;
-    height: 22px;
-    border-radius: 11px;
-    border-width: 3px;
-    border-color: var(--ink);
-    margin: 0 6px;
-}
-
-.pin-dot--on { background-color: var(--ink); }
-
-/* ---------------------------------------------------------------- keypad */
-
-.keypad-display {
-    font-size: 36px;
-    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DotGothic16-Regular.asset");
-    -unity-text-align: middle-center;
-    min-height: 60px;
-    margin: 10px 0 4px 0;
-}
-
-.keypad-name {
-    font-size: 16px;
-    color: var(--muted);
-    -unity-text-align: middle-center;
-    min-height: 22px;
-}
-
-.keypad {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 6px 20px;
-}
-
-.key {
-    width: 30%;
-    height: 72px;
-    margin: 4px 1.5%;
-    font-size: 30px;
-    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DotGothic16-Regular.asset");
-    padding: 2px 4px 12px 4px;
-}
+/* ---------------------------------------------------------------- round call buttons */
 
 .call-btn {
     width: 84px;
@@ -637,102 +520,6 @@
 .call-btn--red { background-image: url("project://database/Assets/_Game/UI/Sprites/circle_red.png"); }
 .call-btn--dark { background-image: url("project://database/Assets/_Game/UI/Sprites/circle_dark.png"); }
 .call-btn > .icon { width: 40px; height: 40px; }
-
-/* ---------------------------------------------------------------- browser */
-
-.browser-bar {
-    flex-direction: row;
-    align-items: center;
-    padding: 6px 8px;
-    background-color: var(--paper);
-    border-bottom-width: 3px;
-    border-color: var(--ink);
-}
-
-.url {
-    font-size: 14px;
-    color: var(--ink-soft);
-    margin: 2px 4px 8px 4px;
-    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DotGothic16-Regular.asset");
-}
-
-.url--official { color: #2F7A6A; }
-.url--suspect { color: var(--red); }
-
-.web-title {
-    font-size: 24px;
-    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DoHyeon-Regular.asset");
-    margin: 4px 2px 6px 2px;
-}
-
-.web-p { font-size: 16px; margin: 4px 2px; }
-
-.web-notice {
-    border-width: 2px;
-    border-color: var(--ink);
-    border-radius: 8px;
-    background-color: #FFF6DC;
-    padding: 8px 10px;
-    margin: 8px 0;
-}
-
-.web-warning {
-    border-width: 2px;
-    border-color: var(--ink);
-    border-radius: 8px;
-    background-color: #F3C8B6;
-    padding: 8px 10px;
-    margin: 8px 0;
-}
-
-.web-form {
-    border-width: 2px;
-    border-color: var(--ink);
-    border-radius: 8px;
-    background-color: #E7ECF3;
-    padding: 8px 10px;
-    margin: 8px 0;
-}
-
-.badge-official {
-    font-size: 12px;
-    color: #FBF4E4;
-    background-color: #2F7A6A;
-    border-radius: 6px;
-    padding: 1px 6px;
-    margin-left: 6px;
-    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
-}
-
-.lookup-result {
-    font-size: 16px;
-    margin-top: 6px;
-    padding: 8px;
-    border-radius: 6px;
-    background-color: #FFFBF0;
-    border-width: 1px;
-    border-color: var(--ink);
-}
-
-/* ---------------------------------------------------------------- CheckFirst */
-
-.report-count {
-    font-size: 40px;
-    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DotGothic16-Regular.asset");
-    -unity-text-align: middle-center;
-}
-
-.report-count--bad { color: var(--red); }
-.report-count--clean { color: #2F7A6A; }
-
-.report-item {
-    border-left-width: 4px;
-    border-color: var(--red);
-    padding: 4px 10px;
-    margin: 6px 0;
-    background-color: #FFF6EE;
-    font-size: 15px;
-}
 
 /* ---------------------------------------------------------------- call screens */
 

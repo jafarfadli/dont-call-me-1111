@@ -137,12 +137,9 @@ for a in DontCallMe DontCallMe.Editor; do $U/Resources/Scripting/NetCoreRuntime/
 
 ## State as of 2026-10-01
 
-- `main` = `origin/main` = `330ca48` (the Korean version plus this file, pushed by the user). The local `jafar` branch is one commit behind `main`.
-- The scope cut is in the working tree, uncommitted (the user commits): three apps, four room objects, the computer, the tutorial, the highlight, the hand, content version 6, 152 voice clips.
+- The scope cut is committed on `main` (`dcec57f`): three apps, four room objects, the computer, the tutorial, the highlight, the hand, content version 6, 152 voice clips. Check `git status` and `git log origin/main` for what came after; a teammate also pushes to `main`.
+- After that commit: the desk chair stands back from the desk, clicks pick the nearest usable object anywhere in the room (a press becomes a drag only after 10 px), the highlight line is thin, and the transcript scrolls inside its frame.
 - Verified in Unity after the cut: Days 1–3 end to end in English and Korean, both truths of Days 2 and 3, all three outcomes, the week summary, a saved week from before the cut continuing into Day 3, and the UI tour (0 failures).
-- Waiting for the user's decision (assets are not deleted without asking):
-  - Empty voice folders under `Assets/_Game/Audio/Voices` (the voices of the removed call-backs) and their `.meta` files.
-  - `Assets/_Game/Data/Samples/Chat_E2_MomsBrokenPhone.asset` (the old sample chat) and the empty `Assets/_Game/Data/Demo` folder.
-  - Sprites and USS rules of the removed apps and panels (`app_*`, board, wallet and notebook art in `UI/Sprites`, unused classes in `Phone.uss`).
+- The assets of the cut features were deleted on 2026-10-01 with the user's go-ahead (old app icons, board, wallet and notebook art, unused portraits, dead rules in `Phone.uss`, empty voice folders, the sample chat), and their generators were removed from `ui_art.py`. The living room of the first version (`SM_LivingRoom.fbx`, `Tools/ArtGen/legacy`) is still there.
 - Not localized: the 3D room's own textures (the notes on the wall, the laptop lock screen). Only the desk newspaper swaps to a Korean print.
 - Next per the plan (§13): playtests with the target audience, then tuning.

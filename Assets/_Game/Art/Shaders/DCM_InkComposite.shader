@@ -24,7 +24,7 @@ Shader "Hidden/DontCallMe/InkComposite"
         _FadeEnd ("Line Fade End (m)", Float) = 40
         _PaperTint ("Paper Tint", Color) = (1, 0.985, 0.955, 1)
         _HighlightColor ("Highlight Outline (A = strength)", Color) = (1, 0.82, 0.25, 0.95)
-        _HighlightWidth ("Highlight Radius (px at 1080p)", Range(1, 8)) = 3
+        _HighlightWidth ("Highlight Radius (px at 1080p)", Range(0.5, 8)) = 1
     }
 
     SubShader
@@ -149,7 +149,7 @@ Shader "Hidden/DontCallMe/InkComposite"
 
                 color.rgb = lerp(color.rgb, _InkColor.rgb, ink * _InkColor.a);
 
-                // Things the player can use: a bright line along the silhouette and a softer one outside it.
+                // Things the player can use: a thin bright line along the silhouette with a faint edge.
                 bool markedC = Marked(rawC);
                 int r2 = max(1, (int)round(_HighlightWidth * _ScreenParams.y / 1080.0));
                 half glow = 0.0h;
@@ -157,8 +157,8 @@ Shader "Hidden/DontCallMe/InkComposite"
                 {
                     if (Marked(InkIdAt(pix + Ring[j] * r2, size)) != markedC)
                         glow = 1.0h;
-                    else if (Marked(InkIdAt(pix + Ring[j] * r2 * 2, size)) != markedC)
-                        glow = max(glow, 0.4h);
+                    else if (Marked(InkIdAt(pix + Ring[j] * (r2 + 1), size)) != markedC)
+                        glow = max(glow, 0.3h);
                 }
                 color.rgb = lerp(color.rgb, _HighlightColor.rgb, glow * _HighlightColor.a * lerp(0.45h, 1.0h, saturate(_DCM_HighlightPulse)));
 

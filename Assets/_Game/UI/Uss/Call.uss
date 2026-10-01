@@ -74,6 +74,8 @@
 .transcript__log {
     flex-grow: 1;
     margin: 4px 0 10px 0;
+    /* Keeps the scrolled lines inside the frame's border instead of running over it. */
+    padding: 9px 6px 9px 6px;
     background-image: url("project://database/Assets/_Game/UI/Sprites/frame_inset_blue.png");
     -unity-slice-left: 22;
     -unity-slice-top: 22;
@@ -82,7 +84,7 @@
 }
 
 .transcript__content {
-    padding: 18px 18px 12px 16px;
+    padding: 9px 12px 3px 10px;
 }
 
 .line {

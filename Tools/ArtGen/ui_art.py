@@ -187,7 +187,6 @@ def bubble(name, fill, tail_right, seed):
 def bubbles():
     bubble("bubble_in", hexc("F4E7C8"), False, 21)
     bubble("bubble_out", SAGE, True, 22)
-    bubble("bubble_system", hexc("E6D3A8"), False, 23)
 
 
 # ---------------------------------------------------------------- phone, slider, call buttons
@@ -365,18 +364,9 @@ def icons():
     W = (250, 244, 232, 255)
     K = INK + (255,)
 
-    def g_phone(cv, cx, cy):
-        handset(cv, cx, cy, 30, W, rot=0.0)
-
     def g_contacts(cv, cx, cy):
         cv.ellipse(cx, cy - 14, 16, 17, fill=W)
         cv.poly([(cx - 30, cy + 34), (cx - 26, cy + 10), (cx, cy + 2), (cx + 26, cy + 10), (cx + 30, cy + 34)], fill=W)
-
-    def g_messages(cv, cx, cy):
-        cv.poly(rrect(cx - 32, cy - 26, cx + 32, cy + 18, 12), fill=W)
-        cv.poly([(cx - 16, cy + 14), (cx - 24, cy + 32), (cx + 2, cy + 16)], fill=W)
-        for k in range(3):
-            cv.line([(cx - 20, cy - 12 + k * 11), (cx + 20 - k * 10, cy - 12 + k * 11)], hexc("5D8FC9") + (255,), 4)
 
     def g_talk(cv, cx, cy):
         cv.ellipse(cx, cy - 4, 34, 27, fill=hexc("3A2E22") + (255,))
@@ -397,34 +387,10 @@ def icons():
         cv.ellipse(cx - 2, cy - 4, 12, 12, outline=hexc("B8453A") + (255,), width=5)
         cv.line([(cx + 7, cy + 5), (cx + 17, cy + 15)], hexc("B8453A") + (255,), 6)
 
-    def g_browser(cv, cx, cy):
-        cv.ellipse(cx, cy, 32, 32, fill=W)
-        col = hexc("4A5C9E") + (255,)
-        cv.ellipse(cx, cy, 32, 32, outline=col, width=3.5)
-        cv.ellipse(cx, cy, 14, 32, outline=col, width=3)
-        cv.line([(cx - 32, cy), (cx + 32, cy)], col, 3)
-        cv.line([(cx - 28, cy - 14), (cx + 28, cy - 14)], col, 2.5)
-        cv.line([(cx - 28, cy + 14), (cx + 28, cy + 14)], col, 2.5)
-
-    def g_parcels(cv, cx, cy):
-        cv.poly([(cx - 30, cy - 14), (cx, cy - 28), (cx + 30, cy - 14), (cx, cy)], fill=mix(W[:3], (230, 190, 140), 0.4) + (255,))
-        cv.poly([(cx - 30, cy - 14), (cx, cy), (cx, cy + 32), (cx - 30, cy + 18)], fill=W)
-        cv.poly([(cx + 30, cy - 14), (cx, cy), (cx, cy + 32), (cx + 30, cy + 18)], fill=mix(W[:3], (200, 160, 110), 0.3) + (255,))
-        cv.line([(cx - 15, cy - 21), (cx + 15, cy - 7), (cx + 15, cy + 6)], hexc("8C5A36") + (255,), 4)
-
-    def g_mail(cv, cx, cy):
-        cv.rect(cx - 32, cy - 22, cx + 32, cy + 24, fill=W)
-        cv.line([(cx - 32, cy - 22), (cx, cy + 4), (cx + 32, cy - 22)], hexc("A8473A") + (255,), 4)
-
-    app_tile("app_phone", hexc("5E9E55"), g_phone)
     app_tile("app_contacts", hexc("D9853B"), g_contacts)
-    app_tile("app_messages", hexc("4F79B8"), g_messages)
     app_tile("app_talk", hexc("F2CB3A"), g_talk)
     app_tile("app_bank", hexc("2F7A6A"), g_bank)
     app_tile("app_checkfirst", hexc("B8453A"), g_check)
-    app_tile("app_browser", hexc("5A6FB0"), g_browser)
-    app_tile("app_parcels", hexc("9A6A42"), g_parcels)
-    app_tile("app_mail", hexc("E6D6B4"), lambda cv, cx, cy: g_mail(cv, cx, cy))
 
     # Line glyphs for buttons, drawn in ink on transparent.
     def glyph(name, draw, s=96):
@@ -435,17 +401,11 @@ def icons():
     lw = 7
     glyph("ic_back", lambda cv, x, y: cv.line([(x + 14, y - 24), (x - 14, y), (x + 14, y + 24)], K, lw))
     glyph("ic_close", lambda cv, x, y: (cv.line([(x - 20, y - 20), (x + 20, y + 20)], K, lw), cv.line([(x + 20, y - 20), (x - 20, y + 20)], K, lw)))
-    glyph("ic_home", lambda cv, x, y: cv.line([(x - 26, y + 2), (x, y - 24), (x + 26, y + 2), (x + 18, y + 2), (x + 18, y + 26),
-                                                (x - 18, y + 26), (x - 18, y + 2), (x - 26, y + 2)], K, 6))
     glyph("ic_copy", lambda cv, x, y: (cv.poly(rrect(x - 22, y - 26, x + 10, y + 12, 5), outline=K, width=5),
                                         cv.poly(rrect(x - 10, y - 12, x + 22, y + 26, 5), fill=(250, 244, 232, 255), outline=K, width=5)))
-    glyph("ic_paste", lambda cv, x, y: (cv.poly(rrect(x - 22, y - 20, x + 22, y + 28, 6), outline=K, width=5),
-                                         cv.poly(rrect(x - 10, y - 28, x + 10, y - 14, 4), fill=K)))
-    glyph("ic_search", lambda cv, x, y: (cv.ellipse(x - 6, y - 6, 18, 18, outline=K, width=6), cv.line([(x + 7, y + 7), (x + 24, y + 24)], K, 8)))
     glyph("ic_send", lambda cv, x, y: cv.poly([(x - 24, y - 22), (x + 26, y), (x - 24, y + 22), (x - 14, y)], fill=hexc("4A5C9E") + (255,)))
     glyph("ic_hangup", lambda cv, x, y: handset(cv, x, y + 4, 26, (250, 244, 232, 255), rot=2.36))
     glyph("ic_answer", lambda cv, x, y: handset(cv, x, y, 26, (250, 244, 232, 255), rot=0.0))
-    glyph("ic_keypad", lambda cv, x, y: [cv.dot(x + (i % 3 - 1) * 18, y + (i // 3 - 1.5) * 16 + 2, 5, (250, 244, 232, 255)) for i in range(12)])
     glyph("ic_speaker", lambda cv, x, y: (cv.poly([(x - 22, y - 8), (x - 10, y - 8), (x + 4, y - 22), (x + 4, y + 22), (x - 10, y + 8),
                                                    (x - 22, y + 8)], fill=(250, 244, 232, 255)),
                                            cv.line([(x + 12, y - 12), (x + 18, y), (x + 12, y + 12)], (250, 244, 232, 255), 4)))
@@ -453,15 +413,9 @@ def icons():
                                                fill=(250, 244, 232, 255)) for i in range(4)])
     glyph("ic_phone", lambda cv, x, y: (cv.poly(rrect(x - 18, y - 32, x + 18, y + 32, 7), fill=hexc("8FB6DB") + (255,), outline=K, width=5),
                                          cv.line([(x - 6, y + 24), (x + 6, y + 24)], K, 4)))
-    glyph("ic_notebook", lambda cv, x, y: (cv.poly(rrect(x - 22, y - 30, x + 24, y + 30, 5), fill=hexc("C99A5C") + (255,), outline=K, width=5),
-                                            cv.line([(x - 12, y - 30), (x - 12, y + 30)], K, 4),
-                                            cv.rect(x - 4, y - 16, x + 16, y - 6, fill=(250, 244, 232, 255))))
-    glyph("ic_chevron", lambda cv, x, y: cv.line([(x - 10, y - 18), (x + 10, y), (x - 10, y + 18)], K, 6))
     glyph("ic_star", lambda cv, x, y: cv.poly([(x + 26 * math.cos(-math.pi / 2 + k * math.pi / 5) * (1 if k % 2 == 0 else 0.45),
                                                 y + 26 * math.sin(-math.pi / 2 + k * math.pi / 5) * (1 if k % 2 == 0 else 0.45)) for k in range(10)],
                                               fill=hexc("E3A53C") + (255,), outline=K, width=4))
-    glyph("ic_warning", lambda cv, x, y: (cv.poly([(x, y - 30), (x + 30, y + 24), (x - 30, y + 24)], fill=hexc("E3A53C") + (255,), outline=K, width=5),
-                                           cv.line([(x, y - 10), (x, y + 6)], K, 6), cv.dot(x, y + 15, 4, K)))
     glyph("ic_lock", lambda cv, x, y: (cv.poly(rrect(x - 22, y - 4, x + 22, y + 28, 5), fill=hexc("C99A5C") + (255,), outline=K, width=5),
                                         cv.line([(x - 12, y - 4), (x - 12, y - 16), (x - 4, y - 26), (x + 4, y - 26), (x + 12, y - 16), (x + 12, y - 4)], K, 6)))
 
@@ -554,15 +508,9 @@ def menu_glyphs():
             half = math.sqrt(29 ** 2 - dy ** 2) - 3
             cv.line([(x - half, y + dy), (x + half, y + dy)], K, 3)
 
-    def ring(cv, x, y):
-        handset(cv, x - 4, y + 4, 22, R, rot=0.0)
-        for r in (30, 40):
-            pts = [(x + 2 + r * math.cos(a), y - 2 + r * math.sin(a)) for a in [(-1.35 + 0.8 * i / 8) for i in range(9)]]
-            cv.line(pts, K, 4)
-
     for name, fn in (("ic_music", music), ("ic_sfx", speaker), ("ic_voice", mic), ("ic_mouse", mouse), ("ic_clock", clock),
                      ("ic_pause", pause), ("ic_play", play), ("ic_gear", gear), ("ic_exit", exit_door), ("ic_check", check),
-                     ("ic_cross", cross), ("ic_case", case), ("ic_ring", ring), ("ic_globe", globe)):
+                     ("ic_cross", cross), ("ic_case", case), ("ic_globe", globe)):
         glyph(name, fn)
 
 
@@ -668,17 +616,9 @@ PORTRAITS = {
     "pt_landlord": (dict(sex="m", skin="D2A07A", hair="B7B2AA", style="short", outfit="cardigan", cloth="7A5A40", inner="E6DCC8",
                          age="old", expression="smile", glasses=True), "sand"),
     "pt_hyunwoo": (dict(sex="m", skin="D8A57E", hair="231C18", style="short", outfit="shirt", cloth="9AAFC7", stubble=True), "blue"),
-    "pt_taeho": (dict(sex="m", skin="DDB08A", hair="3A2A20", style="short", outfit="sweater", cloth="B8573E", expression="smile"), "olive"),
     "pt_cafe": (dict(sex="m", skin="D9A982", hair="2B211B", style="short", outfit="shirt", cloth="3E4B5E", glasses=True), "sand"),
     "pt_jeon": (dict(sex="m", skin="D6A47E", hair="1F1A18", style="short", outfit="blazer", cloth="2F3A52", expression="neutral",
                      glasses=True), "dusk"),
-    "pt_song": (dict(sex="f", skin="E5BD9C", hair="2B1E19", style="bob", outfit="blazer", cloth="2F6B5A", expression="neutral"), "teal"),
-    "pt_kang": (dict(sex="m", skin="CF9C76", hair="16120F", style="short", outfit="shirt_tie", cloth="E6E0D4", tie="23293A",
-                     expression="tired"), "dusk"),
-    "pt_oh": (dict(sex="f", skin="E0B592", hair="241B17", style="bob", outfit="blazer", cloth="4A4A52", expression="neutral"), "blue"),
-    "pt_courier": (dict(sex="m", skin="C98E66", hair="2A211C", style="short", outfit="uniform", cloth="2F6B5A", tie="E3A53C",
-                        stubble=True, expression="tired"), "olive"),
-    "pt_gas": (dict(sex="m", skin="CD9570", hair="2A211C", style="short", outfit="uniform", cloth="3E5476", tie="C9483A"), "blue"),
     "pt_hr": (dict(sex="f", skin="E6BE9E", hair="3A2A22", style="long", outfit="blazer", cloth="B89A72", expression="smile"), "teal"),
 }
 
@@ -714,7 +654,7 @@ def portraits():
     save(cv.result(), "av_shop")
 
 
-# ---------------------------------------------------------------- documents, cards, board close-ups
+# ---------------------------------------------------------------- documents and the calendar
 
 def crop_atlas(tex, key, atlas_name, out_name, scale=1.0):
     return crop_image(Image.open(os.path.join(TEX_OUT, tex + ".png")).convert("RGB"), key, atlas_name, out_name, scale)
@@ -728,45 +668,17 @@ def crop_image(img, key, atlas_name, out_name, scale=1.0):
     return save(part, out_name)
 
 
-def blank_notes():
-    """Empty notes for the board: the game writes on them (a note left by an earlier day, the landlord's note)."""
-    for name, col, seed in (("board_sticky_y_blank", "F7E27A", 41), ("board_sticky_p_blank", "F5B3C2", 42)):
-        save(paper_fill(256, 256, hexc(col), seed, grain=0.05, fibres=False), name)
-    # A page torn from a notebook, as slipped under the door.
-    w, h = 384, 500
-    img = paper_fill(w, h, hexc("F6F1E4"), 43, grain=0.05)
-    d = ImageDraw.Draw(img)
-    for y in range(76, h - 20, 34):
-        d.line([(16, y), (w - 16, y)], fill=hexc("B9C7DA"), width=2)
-    d.line([(52, 10), (52, h - 10)], fill=hexc("E3A0A0"), width=2)
-    save(img, "board_note_blank")
-
-
 def documents():
-    crop_atlas("T_Notes_Atlas", "numbers", "notes", "board_numbers")
-    crop_atlas("T_Notes_Atlas", "notice", "notes", "board_notice")
-    crop_atlas("T_Notes_Atlas", "sticky_y", "notes", "board_sticky_y")
-    crop_atlas("T_Notes_Atlas", "sticky_p", "notes", "board_sticky_p")
-    crop_atlas("T_Notes_Atlas", "ticket", "notes", "board_ticket")
-    crop_atlas("T_Notes_Atlas", "strip", "notes", "board_strip")
     crop_atlas("T_Notes_Atlas", "receipt", "notes", "doc_receipt")
-    crop_atlas("T_Photos_Atlas", "id", "photos", "photo_id")
     crop_atlas("T_Photos_Atlas", "family", "photos", "photo_family")
-    crop_atlas("T_Labels_Atlas", "card_front", "labels", "card_nuri_front", scale=2.0)
-    crop_atlas("T_Labels_Atlas", "card_back", "labels", "card_nuri_back", scale=2.0)
     cal = Image.open(os.path.join(TEX_OUT, "T_Calendar.png")).convert("RGB")
     save(cal, "board_calendar")
     # The same close-ups written in Korean; ContentBuilder picks "<name>_ko" for the Korean days.
-    notes_ko = tex_prints.notes_image("ko")
-    for key, name in (("numbers", "board_numbers"), ("notice", "board_notice"), ("sticky_y", "board_sticky_y"),
-                      ("sticky_p", "board_sticky_p"), ("receipt", "doc_receipt")):
-        crop_image(notes_ko, key, "notes", name + "_ko")
-    crop_image(tex_prints.labels_image("ko"), "card_back", "labels", "card_nuri_back_ko", scale=2.0)
+    crop_image(tex_prints.notes_image("ko"), "receipt", "notes", "doc_receipt_ko")
     save(tex_prints.calendar_image(lang="ko"), "board_calendar_ko")
 
     # Stamps.
-    for name, text, col in (("stamp_paid", "PAID", hexc("B8453A")), ("stamp_overdue", "OVERDUE", hexc("B8453A")),
-                            ("stamp_copy", "COPY", hexc("3E5476"))):
+    for name, text, col in (("stamp_paid", "PAID", hexc("B8453A")), ("stamp_overdue", "OVERDUE", hexc("B8453A"))):
         cv = Canvas(300, 130, ss=3, mode="RGBA", bg=(0, 0, 0, 0))
         cv.poly(rrect(8, 8, 292, 122, 16), outline=col + (230,), width=7)
         cv.poly(rrect(20, 20, 280, 110, 10), outline=col + (200,), width=3)
@@ -776,66 +688,19 @@ def documents():
         arr[..., 3] *= 0.75 + 0.25 * np.random.default_rng(3).random(arr.shape[:2])
         save(Image.fromarray(arr.astype(np.uint8), "RGBA").rotate(-8, expand=True, resample=Image.BICUBIC), name)
 
-    # Student ID and café stamp card.
-    cv = Canvas(480, 300, ss=2, bg=hexc("F4F1EA"))
-    cv.rect(0, 0, 480, 64, fill=hexc("2F4A6E"))
-    cv.text((20, 32), "HANBIT UNIVERSITY", cv.font("Arial Black.ttf", 24), (250, 246, 236), anchor="lm")
-    cv.text((460, 32), "한빛대학교", cv.font("AppleSDGothicNeo.ttc", 22, index=6), hexc("E3C170"), anchor="rm")
-    idp = Image.open(os.path.join(UI_OUT, "photo_id.png")).convert("RGB").resize((150, 200), Image.NEAREST)
-    cv.img.paste(idp.resize((300, 400), Image.NEAREST), (20 * 2, 80 * 2))
-    f = cv.font("Arial.ttf", 18)
-    fb = cv.font("Arial Bold.ttf", 22)
-    for k, (lab, val) in enumerate((("NAME", "KIM JIWOO"), ("STUDENT NO.", "2024-10573"), ("DEPT.", "Korean Language & Literature"),
-                                     ("VALID", "2024.03 - 2028.02"))):
-        cv.text((190, 92 + k * 50), lab, f, hexc("6B6570"))
-        cv.text((190, 112 + k * 50), val, fb if k < 2 else f, INK)
-    save(framed_card(cv.result()), "card_student")
-
-    cv = Canvas(480, 300, ss=2, bg=hexc("E9D8B4"))
-    cv.text((24, 40), "MANGWON ROASTERS", cv.font("Arial Black.ttf", 26), hexc("5A3A24"))
-    cv.text((24, 76), "10 stamps = 1 free americano", cv.font("Georgia Italic.ttf", 18), hexc("5A3A24"))
-    for k in range(10):
-        x, y = 50 + (k % 5) * 88, 150 + (k // 5) * 80
-        cv.ellipse(x, y, 30, 30, outline=hexc("5A3A24"), width=3)
-        if k < 7:
-            cv.ellipse(x, y, 20, 20, fill=hexc("B8453A"))
-    save(framed_card(cv.result()), "card_cafe")
-
     # Newspaper photo, the same one printed on the desk's paper.
     from tex_prints import NEWS_INK, PAPER as NEWS_PAPER, phone_transfer_photo
     save(halftone(phone_transfer_photo(600, 380), cell=4, dark=NEWS_INK, light=NEWS_PAPER), "news_photo")
 
 
-def framed_card(img):
-    """Rounded card with an ink edge, for wallet cards drawn on a canvas."""
-    w, h = img.size
-    ss = 2
-    big = img.resize((w * ss, h * ss), Image.LANCZOS).convert("RGBA")
-    mask = Image.new("L", big.size, 0)
-    ImageDraw.Draw(mask).polygon([(x * ss, y * ss) for x, y in rrect(2, 2, w - 2, h - 2, 18)], fill=255)
-    out = Image.new("RGBA", big.size, (0, 0, 0, 0))
-    out.paste(big, (0, 0), mask)
-    d = ImageDraw.Draw(out)
-    pts = rrect(2, 2, w - 2, h - 2, 18)
-    d.line([(x * ss, y * ss) for x, y in pts + [pts[0]]], fill=INK + (255,), width=3 * ss)
-    return out.resize((w, h), Image.LANCZOS)
-
-
 # ---------------------------------------------------------------- tiles
 
 def tiles():
-    save(paper_fill(256, 256, PAPER, 71, grain=0.07), "tile_paper")
-    save(paper_fill(256, 256, hexc("E7DBC3"), 72, grain=0.08), "tile_newsprint")
-    cork = Image.open(os.path.join(TEX_OUT, "T_Cork.png")).convert("RGB").resize((256, 256), Image.LANCZOS)
-    save(cork, "tile_cork")
-    n = fbm(256, 256, 73, octaves=((6, 0.5), (20, 0.3), (60, 0.2)))
-    leather = np.array(hexc("6B3F2A"), np.float32)[None, None, :] * (0.8 + 0.35 * n)[..., None]
-    save(Image.fromarray(np.clip(leather, 0, 255).astype(np.uint8)), "tile_leather")
     wood = Image.open(os.path.join(TEX_OUT, "T_Floor_Vinyl.png")).convert("RGB").crop((0, 0, 512, 512)).resize((256, 256), Image.LANCZOS)
     save(wood, "tile_wood")
 
 
-# ---------------------------------------------------------------- phone wallpaper, notebook paper
+# ---------------------------------------------------------------- phone wallpaper
 
 def wallpaper():
     """Pixel-art dusk over the Han river: the phone's home screen."""
@@ -881,16 +746,6 @@ def wallpaper():
     save(img.resize((gw * 5, gh * 5), Image.NEAREST), "wallpaper")
 
 
-def notebook_lines():
-    w, h = 1080, 880
-    img = paper_fill(w, h, hexc("F6EFDD"), 81, grain=0.05)
-    d = ImageDraw.Draw(img)
-    for y in range(110, h - 20, 44):
-        d.line([(0, y), (w, y)], fill=hexc("A9C3DA"), width=2)
-    d.line([(96, 0), (96, h)], fill=hexc("E0A0A0"), width=3)
-    save(img, "notebook_lines")
-
-
 def run():
     frames()
     buttons()
@@ -902,10 +757,8 @@ def run():
     icons()
     portraits()
     documents()
-    blank_notes()
     tiles()
     wallpaper()
-    notebook_lines()
     menu_glyphs()
     gradients()
     title_logo()

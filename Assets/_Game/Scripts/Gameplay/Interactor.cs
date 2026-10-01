@@ -6,8 +6,9 @@ using UnityEngine.InputSystem;
 namespace DontCallMe.Gameplay
 {
     /// <summary>
-    /// Looks under the mouse cursor (up to 2.5 m) for an <see cref="Interactable"/>, shows its prompt
-    /// next to the cursor and opens its panel on click or E. Clicks that ended a view drag, and
+    /// Looks under the mouse cursor for an <see cref="Interactable"/> anywhere in the room, shows its
+    /// prompt next to the cursor and opens its panel on click or E. Furniture never blocks the
+    /// pointer: everything that glows can be clicked. Clicks that ended a view drag, and
     /// clicks on the UI, are ignored. While the room can be used, every interactable wears a
     /// pulsing outline; the one under the cursor (and the one a tutorial step points at) also
     /// lights up.
@@ -17,7 +18,7 @@ namespace DontCallMe.Gameplay
         [SerializeField] Camera view;
         [SerializeField] UIManager ui;
         [SerializeField] FirstPersonController player;
-        [SerializeField] float reach = 2.5f;
+        [SerializeField] float reach = 6f;
         [SerializeField] LayerMask mask = ~0;
 
         [Header("Highlight (added light, 0..1 of the highlight colour)")]
@@ -27,6 +28,7 @@ namespace DontCallMe.Gameplay
         static readonly int PulseId = Shader.PropertyToID("_DCM_HighlightPulse");
 
         Interactable hovered;
+        readonly RaycastHit[] hits = new RaycastHit[16];
 
         /// <summary>A panel's object to draw the eye to (the tutorial sets it); None for no spotlight.</summary>
         public PanelId Spotlight { get; set; }
@@ -63,10 +65,7 @@ namespace DontCallMe.Gameplay
             {
                 Vector2 pointer = Mouse.current.position.ReadValue();
                 var ray = view.ScreenPointToRay(pointer);
-                Interactable hit = null;
-                if (Physics.Raycast(ray, out var info, reach, mask, QueryTriggerInteraction.Collide))
-                    hit = info.collider.GetComponentInParent<Interactable>();
-                hovered = hit;
+                hovered = Nearest(ray);
                 if (hovered == null)
                 {
                     ui.HidePrompt();
@@ -106,6 +105,28 @@ namespace DontCallMe.Gameplay
                     light = Mathf.Max(light, hoverLight);
                 it.SetHighlight(usable, light);
             }
+        }
+
+        /// <summary>
+        /// The closest interactable along the ray. Other colliders on the way (the furniture's
+        /// walking boxes, props) are passed over, so a glowing object is never dead to the click.
+        /// </summary>
+        Interactable Nearest(Ray ray)
+        {
+            int count = Physics.RaycastNonAlloc(ray, hits, reach, mask, QueryTriggerInteraction.Collide);
+            Interactable best = null;
+            float bestDistance = float.MaxValue;
+            for (int i = 0; i < count; i++)
+            {
+                if (hits[i].distance >= bestDistance)
+                    continue;
+                var it = hits[i].collider.GetComponentInParent<Interactable>();
+                if (it == null || !it.isActiveAndEnabled)
+                    continue;
+                best = it;
+                bestDistance = hits[i].distance;
+            }
+            return best;
         }
 
         void Clear()

@@ -271,13 +271,14 @@ namespace DontCallMe.Editor.UI
             mso.FindProperty("level").floatValue = 0.7f;
             mso.ApplyModifiedPropertiesWithoutUndo();
 
-            // Where the day starts: in the desk chair facing the desk, and where the player stands up to.
+            // Where the day starts: seated at the desk, and where the player stands up to. The chair
+            // itself stands pushed back behind both, so the player can walk along the desk.
             var seat = new GameObject("Seat").transform;
             seat.SetParent(flow.transform);
             seat.SetPositionAndRotation(DontCallMe.Editor.Art.RoomArtPipeline.FromBlender(new Vector3(0.86f, 1.02f, 0f)), Quaternion.Euler(14f, 2f, 0f));
             var stand = new GameObject("StandSpot").transform;
             stand.SetParent(flow.transform);
-            stand.position = DontCallMe.Editor.Art.RoomArtPipeline.FromBlender(new Vector3(0.86f, 0.42f, 0f));
+            stand.position = DontCallMe.Editor.Art.RoomArtPipeline.FromBlender(new Vector3(0.86f, 0.82f, 0f));
 
             var uiGo = new GameObject("GameUI");
             var doc = uiGo.AddComponent<UIDocument>();
@@ -354,7 +355,7 @@ namespace DontCallMe.Editor.UI
                     continue;
                 }
                 if (go.GetComponent<Collider>() == null)
-                    AddBox(go);
+                    AddBox(go, plain);
                 var it = go.GetComponent<Interactable>();
                 if (it == null)
                     it = go.AddComponent<Interactable>();
@@ -377,14 +378,15 @@ namespace DontCallMe.Editor.UI
         }
 
         /// <summary>A box around everything the object draws, a little thicker than paper so the cursor finds it.</summary>
-        static void AddBox(GameObject go)
+        /// <summary>A box around the object's meshes, leaving out parts whose name contains <paramref name="skip"/> (a trailing cable).</summary>
+        static void AddBox(GameObject go, string skip = "")
         {
             var toLocal = go.transform.worldToLocalMatrix;
             bool any = false;
             var bounds = new Bounds();
             foreach (var filter in go.GetComponentsInChildren<MeshFilter>())
             {
-                if (filter.sharedMesh == null)
+                if (filter.sharedMesh == null || (!string.IsNullOrEmpty(skip) && filter.name.Contains(skip)))
                     continue;
                 var m = toLocal * filter.transform.localToWorldMatrix;
                 var b = filter.sharedMesh.bounds;
