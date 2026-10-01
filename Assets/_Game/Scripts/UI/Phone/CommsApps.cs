@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using DontCallMe.Data;
+using DontCallMe.Flow;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -25,6 +26,9 @@ namespace DontCallMe.UI
         }
 
         public PhoneScreen CreateKeypad(string prefill = null) => new CallsScreen(this, true, prefill);
+
+        /// <summary>Missed calls already in the log when the day starts (they show on the app's badge).</summary>
+        public void AddMissed(int count) => unseenMissed += Mathf.Max(0, count);
 
         public void AddRecord(string number, CallKind kind, string duration = "")
         {
@@ -323,6 +327,7 @@ namespace DontCallMe.UI
 
         PhoneScreen Thread(SmsThread t)
         {
+            ClueEvents.Raise(ClueEvent.MessageRead, t.sender);
             unread.Remove(t.sender);
             var contact = Data.FindContact(t.sender);
             var s = new ThreadScreen(this, contact?.name ?? t.sender);
@@ -350,6 +355,9 @@ namespace DontCallMe.UI
                     app.openThreadScreen = null;
             }
         }
+
+        /// <summary>A thread that came in before the day started and hasn't been read.</summary>
+        public void MarkUnread(string sender) => unread.Add(sender);
 
         /// <summary>A text arrives: stored, badge, toast; appended live if its thread is open.</summary>
         public void Deliver(string sender, string text, string link)
@@ -473,9 +481,17 @@ namespace DontCallMe.UI
             if (thread == null)
                 return null;
             unread.Remove(chatId);
+            ClueEvents.Raise(ClueEvent.ChatRead, chatId);
             open = new ThreadScreen(this, thread);
             ThreadOpened?.Invoke(chatId);
             return open;
+        }
+
+        /// <summary>A message that came in before the day started and hasn't been read.</summary>
+        public void MarkUnread(string chatId)
+        {
+            unread.TryGetValue(chatId, out int n);
+            unread[chatId] = n + 1;
         }
 
         public void Append(string chatId, ChatMessage m)

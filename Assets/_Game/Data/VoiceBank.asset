@@ -1,0 +1,335 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2f8368b1b9ac41d69683bc5fd96d5d7, type: 3}
+  m_Name: VoiceBank
+  m_EditorClassIdentifier: DontCallMe::DontCallMe.Data.VoiceBank
+  entries:
+  - voice: Daniel
+    text: Hello, is this Kim Jiwoo? This is Manager Jeon from Nuri Bank's account
+      protection team.
+    clip: {fileID: 8300000, guid: d078868c395d34b7ea2860d613c9b9c6, type: 3}
+  - voice: Daniel
+    text: Twenty minutes ago, someone logged into your account from an unregistered
+      device in Busan.
+    clip: {fileID: 8300000, guid: 0a7e80bdc683e428db272aa3be0b6970, type: 3}
+  - voice: Daniel
+    text: Miss Kim? Are you still there? This is urgent.
+    clip: {fileID: 8300000, guid: d547d6aa3953447f98fb1c0359445aba, type: 3}
+  - voice: Daniel
+    text: That's exactly why I'm calling. A fraud ring is emptying accounts in Mapo
+      today, and yours is on their list.
+    clip: {fileID: 8300000, guid: 51a6eb7e024a04272b0be85f36933d24, type: 3}
+  - voice: Daniel
+    text: I have your account ending in eight, eight, one, four on my screen, Miss
+      Kim.
+    clip: {fileID: 8300000, guid: 24f0c83a445a94aa5b3516c4958ecf65, type: 3}
+  - voice: Daniel
+    text: We're the protection team, not the call centre, so we call from our direct
+      line.
+    clip: {fileID: 8300000, guid: dac9b5a3ed638463aa203582ea9322bf, type: 3}
+  - voice: Daniel
+    text: To keep your savings safe, we'll move them to a protected account until
+      the security reset at five o'clock.
+    clip: {fileID: 8300000, guid: 9f6ac29610f394a8a81d5a5890523d5e, type: 3}
+  - voice: Daniel
+    text: Please transfer one million, two hundred thousand won to the protected
+      account. Nuri Bank, one one zero, nine zero zero, five five one two zero seven.
+    clip: {fileID: 8300000, guid: 80cf742f32bb64ada821071e33fdb5da, type: 3}
+  - voice: Daniel
+    text: Stay on the line and don't tell anyone. The fraud ring may be watching
+      your messages.
+    clip: {fileID: 8300000, guid: 029de3bd4f2194ae3a8d6534bc23cbfa, type: 3}
+  - voice: Daniel
+    text: I'll hold while you open your bank app. It has to be done before five.
+    clip: {fileID: 8300000, guid: cdd4ca14774f340e28df4637b3bd8b66, type: 3}
+  - voice: Daniel
+    text: The call centre can't see protection cases, Miss Kim. If you hang up, the
+      case closes and the fraud ring gets your money.
+    clip: {fileID: 8300000, guid: f1b6fcc4c9d2b41898d644a3d24a14af, type: 3}
+  - voice: Daniel
+    text: Please, just stay with me.
+    clip: {fileID: 8300000, guid: ec7cce6018ee047a6864544b67040985, type: 3}
+  - voice: Daniel
+    text: It's registered to our security officer, Jeong Miran. Protection accounts
+      are always in an officer's name.
+    clip: {fileID: 8300000, guid: dc2863e1c855f4e549fecbb7efba817e, type: 3}
+  - voice: Daniel
+    text: Of course. Employee number two zero one nine, one one four. Write it down
+      if you like.
+    clip: {fileID: 8300000, guid: cc6cc03eb977143fd859343342ae14b2, type: 3}
+  - voice: Daniel
+    text: Miss Kim, I AM Nuri Bank. Every minute you spend checking, they can take
+      more.
+    clip: {fileID: 8300000, guid: 84073d1fab7ab44aeba126883d27c3db, type: 3}
+  - voice: Daniel
+    text: Please. Just open the app and send it to the protected account.
+    clip: {fileID: 8300000, guid: 46d20876fee2445b89de4e2377bdc992, type: 3}
+  - voice: Daniel
+    text: Miss Kim? Are you still there? Please don't put me on hold for long.
+    clip: {fileID: 8300000, guid: 01ecd29392dec4dbd83eb6bb1ffe61f0, type: 3}
+  - voice: Daniel
+    text: I've sent the case number to your phone, so you can see this is official.
+    clip: {fileID: 8300000, guid: 817b687437abe47eb865635968a96d5e, type: 3}
+  - voice: Daniel
+    text: The fraud ring just tried to log in again. We need that transfer now, Miss
+      Kim.
+    clip: {fileID: 8300000, guid: e06ce5e74ffde45f6a24f3d5662c6dbe, type: 3}
+  - voice: Daniel
+    text: Seven minutes. After the reset I can't protect anything.
+    clip: {fileID: 8300000, guid: 36cde5d20552040a0a7075270392f761, type: 3}
+  - voice: Daniel
+    text: Three minutes! Please, transfer it now!
+    clip: {fileID: 8300000, guid: aa61aab51b870459a9e053b3740b842f, type: 3}
+  - voice: Daniel
+    text: Miss Kim? It's five o'clock.
+    clip: {fileID: 8300000, guid: d643bf648b0df4447b30175829c32474, type: 3}
+  - voice: Daniel
+    text: Fine. Your account will be frozen. Don't call us when it's empty.
+    clip: {fileID: 8300000, guid: de87ed9bfd6d342c885ccaec97ead434, type: 3}
+  - voice: Daniel
+    text: Thank you, Miss Kim. Your money is safe with us now.
+    clip: {fileID: 8300000, guid: 1cb50347600914e2ebe27c8b37916749, type: 3}
+  - voice: Daniel
+    text: Don't tell anyone until tomorrow's reset.
+    clip: {fileID: 8300000, guid: 460c12f0a69ba41e78f181fc317a8264, type: 3}
+  - voice: Reed (English (US))
+    text: Hello, is this Kim Jiwoo in three oh two? This is Choi Hyunwoo, Mr. Choi's
+      son, from the first floor.
+    clip: {fileID: 8300000, guid: 5d2e244b4be3745e8ab01c7a801871a0, type: 3}
+  - voice: Reed (English (US))
+    text: Sorry to call out of the blue. My father went into hospital this morning.
+      It's his knee. Nothing serious, but he'll be there all week.
+    clip: {fileID: 8300000, guid: e8eb4cba336f04e36ae001a671617990, type: 3}
+  - voice: Reed (English (US))
+    text: Jiwoo-ssi? Can you hear me?
+    clip: {fileID: 8300000, guid: f7e732b2e034d4cb585347a5dda98523, type: 3}
+  - voice: Reed (English (US))
+    text: He's fine, thanks. Grumpy about the hospital food.
+    clip: {fileID: 8300000, guid: 942d0a18840f247d5b4cb80caf54f297, type: 3}
+  - voice: Reed (English (US))
+    text: Choi Hyunwoo, the landlord's son. I'm on your lease, under if absent.
+    clip: {fileID: 8300000, guid: dddf2f24e7e344d5187d54682514587a, type: 3}
+  - voice: Reed (English (US))
+    text: So I'm looking after the building this week, and today's the seventh. Rent
+      day.
+    clip: {fileID: 8300000, guid: 3c8945930a15743af8ed29616f037408, type: 3}
+  - voice: Reed (English (US))
+    text: Dad can't use his banking app from the hospital, so this month the rent
+      comes to me.
+    clip: {fileID: 8300000, guid: a8c8803317d56419194656a8baf024f4, type: 3}
+  - voice: Reed (English (US))
+    text: Please send the four hundred and fifty thousand won to my account. Nuri
+      Bank, one one zero, seven seven one, two zero two three five eight.
+    clip: {fileID: 8300000, guid: e4c522f6ab7484c58a58a258d44eba87, type: 3}
+  - voice: Reed (English (US))
+    text: I'm paying his hospital bill with the rents, and the billing desk closes
+      at five. Could you send it before then? I'll hold.
+    clip: {fileID: 8300000, guid: 9ef4338c1d9ed4a8988744aa1030ee0d, type: 3}
+  - voice: Reed (English (US))
+    text: Mine. Choi Hyunwoo. Same as on your lease.
+    clip: {fileID: 8300000, guid: 18c0b9ccfb24b42e48fd1b297169ec71, type: 3}
+  - voice: Reed (English (US))
+    text: Dad can't get into his banking app from the ward. He posted it in the residents'
+      chat this morning and left a note under every door.
+    clip: {fileID: 8300000, guid: 0e829e798da9d4ef4bcb18a5dcbd2791, type: 3}
+  - voice: Reed (English (US))
+    text: Yes. It's the one on your lease, under if absent.
+    clip: {fileID: 8300000, guid: af1ca2d974e29414bba6366fac743874, type: 3}
+  - voice: Reed (English (US))
+    text: He's asleep after the operation. Call him tomorrow, or look in the residents'
+      chat. He posted there this morning.
+    clip: {fileID: 8300000, guid: b7200029e21cf46f79829360f63256b3, type: 3}
+  - voice: Reed (English (US))
+    text: Jiwoo-ssi? Still there? No rush, but the desk closes at five.
+    clip: {fileID: 8300000, guid: cb3bb3be8bcdb4a11820464e28f09e8b, type: 3}
+  - voice: Reed (English (US))
+    text: I've texted you the account number, so you have it in writing.
+    clip: {fileID: 8300000, guid: 8f6508fbaf8c246778eae44374d56707, type: 3}
+  - voice: Reed (English (US))
+    text: The hospital just called me again about the bill. Have you sent it?
+    clip: {fileID: 8300000, guid: 027fdfa7817cc44eeb5de4de985a8357, type: 3}
+  - voice: Reed (English (US))
+    text: Seven minutes, Jiwoo-ssi. Please.
+    clip: {fileID: 8300000, guid: a7bba9a5c93724c3fb36eed9d6e14210, type: 3}
+  - voice: Reed (English (US))
+    text: Three minutes! Please, just send it.
+    clip: {fileID: 8300000, guid: 761ef0cff01f94c42b558bfe5fa213df, type: 3}
+  - voice: Reed (English (US))
+    text: Jiwoo-ssi? It's five. The desk's closed. I'll sort it out some other way.
+    clip: {fileID: 8300000, guid: 9a91aee5d8c8b4175844a904c25bc855, type: 3}
+  - voice: Reed (English (US))
+    text: Got it! Thank you, Jiwoo-ssi. I'll tell Dad you were the first.
+    clip: {fileID: 8300000, guid: 527b110ae56004e7bb00edd612ad42b8, type: 3}
+  - voice: Reed (English (US))
+    text: Please send the four hundred and fifty thousand won to my account. Hanbit
+      Bank, six two zero, one one eight, four four nine zero two seven.
+    clip: {fileID: 8300000, guid: 5fe3e0dbc80834a3880bb515eb65f0ee, type: 3}
+  - voice: Reed (English (US))
+    text: My wife's, Seo Jiyeon. Mine's a business account, it takes a day to clear.
+    clip: {fileID: 8300000, guid: cb6da74e7bb1a41a58d32baab5b42340, type: 3}
+  - voice: Reed (English (US))
+    text: Just for this month. Dad didn't want to bother everyone with a notice.
+    clip: {fileID: 8300000, guid: 185c26bf58ecc4864b99a79f8d58de90, type: 3}
+  - voice: Reed (English (US))
+    text: It's my work phone. My own one is the number on your lease, but the screen's
+      broken.
+    clip: {fileID: 8300000, guid: 141e8ddff098542b9b0c8fa78a230136, type: 3}
+  - voice: Reed (English (US))
+    text: He's in surgery right now. Please, I don't want to worry him.
+    clip: {fileID: 8300000, guid: b827b01d4f4be48a7bb673e234fe807b, type: 3}
+  - voice: Reed (English (US))
+    text: It's five. Forget it. You'll get a late notice.
+    clip: {fileID: 8300000, guid: 4940a925d773f4c33b0f76d43538d10e, type: 3}
+  - voice: Reed (English (US))
+    text: Received. Thank you... I'll send you a receipt.
+    clip: {fileID: 8300000, guid: b81685ec3fabf48e389b091b093684eb, type: 3}
+  - voice: Shelley (English (UK))
+    text: Hello, is this Kim Jiwoo? This is Yoon Seora from Hangang Express, the
+      customs clearance desk.
+    clip: {fileID: 8300000, guid: 1f81052b4eebc49bd8930a6e7dd1ad0e, type: 3}
+  - voice: Shelley (English (UK))
+    text: I'm calling about your parcel from AliStar. The twenty seven inch monitor,
+      tracking number H X, five five two zero, one one eight three, K R.
+    clip: {fileID: 8300000, guid: d6ee8fb7ee2f5409c9838907c40d9e70, type: 3}
+  - voice: Shelley (English (UK))
+    text: Miss Kim? Are you there?
+    clip: {fileID: 8300000, guid: 4f2a0c3f608f54602be3f09dbb48e08d, type: 3}
+  - voice: Shelley (English (UK))
+    text: It's held at Incheon customs. The import duty and VAT haven't been paid.
+    clip: {fileID: 8300000, guid: d7d2def0d23fe41df913fd29971a761e, type: 3}
+  - voice: Shelley (English (UK))
+    text: It's on the customs declaration, Miss Kim. We see every item that comes
+      through.
+    clip: {fileID: 8300000, guid: 4e0a2b0d13c0d4de5aa911acc2fc2fb5, type: 3}
+  - voice: Shelley (English (UK))
+    text: It's held at Incheon customs because the import duty and VAT haven't been
+      paid.
+    clip: {fileID: 8300000, guid: 92ee8fa4d19c04a678364f6635dca5ee, type: 3}
+  - voice: Shelley (English (UK))
+    text: The total is fifty six thousand, six hundred won. Once it's paid, the monitor
+      is released and delivered tomorrow.
+    clip: {fileID: 8300000, guid: d47228164889041e0937b07f159c97f7, type: 3}
+  - voice: Shelley (English (UK))
+    text: Please pay it into our customs account. Nuri Bank, five six two zero, four
+      four, zero one eight eight three zero.
+    clip: {fileID: 8300000, guid: 04c84dbb9318e41f2922193e6dc88c6b, type: 3}
+  - voice: Shelley (English (UK))
+    text: The desk closes at five. After that the parcel goes back to the seller,
+      and you pay the return shipping.
+    clip: {fileID: 8300000, guid: 79532810b13454eaeb41d6fcdf7034d3, type: 3}
+  - voice: Shelley (English (UK))
+    text: I'll stay on the line while you pay.
+    clip: {fileID: 8300000, guid: 2ac10cc3623ba401d8edca6a4b78ce91, type: 3}
+  - voice: Shelley (English (UK))
+    text: It's a virtual account in the name Hangang Express, customs. It's in your
+      Parcels app too.
+    clip: {fileID: 8300000, guid: 8c7374ca6eba4488fb71029190b8469b, type: 3}
+  - voice: Shelley (English (UK))
+    text: Orders over a hundred and fifty dollars pay duty and VAT when they arrive,
+      unless the seller collected it.
+    clip: {fileID: 8300000, guid: 435104241585f42bca987d89b401c6e8, type: 3}
+  - voice: Shelley (English (UK))
+    text: Of course. The same account is under your parcel in the app. Either way
+      works.
+    clip: {fileID: 8300000, guid: 52a65482c196f4c60824fca8dfcfa445, type: 3}
+  - voice: Shelley (English (UK))
+    text: Our customer centre, one five eight eight, five five two zero. It's the
+      number I'm calling from. Ask for the customs desk.
+    clip: {fileID: 8300000, guid: 1c121717d2cf243a78451f070635c69f, type: 3}
+  - voice: Shelley (English (UK))
+    text: I've texted you the payment details, so you have them in writing.
+    clip: {fileID: 8300000, guid: e2c1d5a7513544590815901207172175, type: 3}
+  - voice: Shelley (English (UK))
+    text: Miss Kim? The customs desk is asking whether the payment is on its way.
+    clip: {fileID: 8300000, guid: f7c0cf0f60c524146ab2977e95cbdaa0, type: 3}
+  - voice: Shelley (English (UK))
+    text: Eight minutes before the desk closes.
+    clip: {fileID: 8300000, guid: f210c3785fb704d91b7e004dac750b57, type: 3}
+  - voice: Shelley (English (UK))
+    text: Three minutes. After five I can't stop the return.
+    clip: {fileID: 8300000, guid: 5c4bbbd0f70cd435d8b98d4589fcd0cb, type: 3}
+  - voice: Shelley (English (UK))
+    text: Miss Kim? The desk has closed. I'll have to mark it for return.
+    clip: {fileID: 8300000, guid: 15e3dad339ac1422483060b23b05b2b3, type: 3}
+  - voice: Shelley (English (UK))
+    text: Payment received. Your monitor will be delivered tomorrow afternoon. Thank
+      you, Miss Kim.
+    clip: {fileID: 8300000, guid: 857e40ccbb7674cff9a414df1029a73e, type: 3}
+  - voice: Shelley (English (UK))
+    text: Please pay it into our customs account. Hanbit Bank, six two zero, five
+      five seven, three zero one one four four.
+    clip: {fileID: 8300000, guid: be8da8e77253b4de7b1d6cc14f4d73e3, type: 3}
+  - voice: Shelley (English (UK))
+    text: KR Customs Clearance. We handle customs for Hangang Express.
+    clip: {fileID: 8300000, guid: f7d9b74685e2449059ba6960008f18e9, type: 3}
+  - voice: Shelley (English (UK))
+    text: The app doesn't show customs payments, Miss Kim. It has to be a transfer.
+    clip: {fileID: 8300000, guid: 26ad03f144c1b41829f9b8519dd1052d, type: 3}
+  - voice: Shelley (English (UK))
+    text: This line. One five eight eight, five five zero two. Ask for the customs
+      desk.
+    clip: {fileID: 8300000, guid: 7620cc626ca61432c8d06a86599239e1, type: 3}
+  - voice: Shelley (English (UK))
+    text: Miss Kim? Fine. Your parcel will be returned.
+    clip: {fileID: 8300000, guid: 37d362b5fcb9b4e6d8ba9263cda90ee2, type: 3}
+  - voice: Shelley (English (UK))
+    text: Thank you. Oh, and there's a storage fee as well. I'll call you back about
+      it.
+    clip: {fileID: 8300000, guid: 3a133b7cbfa114173966f45440047b27, type: 3}
+  - voice: Moira
+    text: Jiwoo ya! Did you eat?
+    clip: {fileID: 8300000, guid: 46a6893627cda4e239e8c7866077d758, type: 3}
+  - voice: Moira
+    text: What? My phone is fine, I'm at home with your dad.
+    clip: {fileID: 8300000, guid: b18313bd631d0479bb0ab6c2c971e843, type: 3}
+  - voice: Moira
+    text: Don't send anything! Block that profile.
+    clip: {fileID: 8300000, guid: 9c5812598d3204c61ba5386f90afcf27, type: 3}
+  - voice: Samantha
+    text: Nuri Bank customer centre, this is Song Eunji speaking. How can I help?
+    clip: {fileID: 8300000, guid: 9a440e7b2b9964e24a7c75a4e5133795, type: 3}
+  - voice: Samantha
+    text: Your account looks normal. If anyone asks you to move money, hang up and
+      call us on this number.
+    clip: {fileID: 8300000, guid: 5f10c9f7457f9481e9a429be86e97470, type: 3}
+  - voice: Karen
+    text: Financial Supervisory Service, fraud hotline.
+    clip: {fileID: 8300000, guid: 47129ccd7f28c455483a18339796a381, type: 3}
+  - voice: Karen
+    text: If someone asks you to move money to a safe account, it's a scam. Report
+      the number to one one two.
+    clip: {fileID: 8300000, guid: 63680d287db4f4831ba4fa0289c7e47f, type: 3}
+  - voice: Tessa
+    text: One one two, police. What's happening?
+    clip: {fileID: 8300000, guid: 6206ce5529ad84abeb1326f9baf314f3, type: 3}
+  - voice: Tessa
+    text: Tell us the number and the account. We can ask the bank to freeze a transfer
+      if you call right away.
+    clip: {fileID: 8300000, guid: 27aa0a2e89a104c1e912de79346bab18, type: 3}
+  - voice: Moira
+    text: Your dad cooked doenjang stew today. Come home on the seventeenth, okay?
+    clip: {fileID: 8300000, guid: a28b2eee01da44c218524002783a141c, type: 3}
+  - voice: Rishi
+    text: Jiwoo! Everything okay?
+    clip: {fileID: 8300000, guid: d7edd09a7b6464b0ab916ae287678895, type: 3}
+  - voice: Rishi
+    text: Call your mom, she misses you.
+    clip: {fileID: 8300000, guid: c01fef2308ed7455ea0ad4c2d79bec14, type: 3}
+  - voice: Tessa
+    text: Mangwon Heights office.
+    clip: {fileID: 8300000, guid: 9e7fc8a597f4b400396411da2730a7d3, type: 3}
+  - voice: Tessa
+    text: The gas inspection is on the fourteenth. They won't ask for any money.
+    clip: {fileID: 8300000, guid: edff4a56951e844fb9bfda86dad39869, type: 3}
+  - voice: Daniel
+    text: Nuri Bank protection team... Miss Kim? Good, please go ahead with the transfer.
+    clip: {fileID: 8300000, guid: 26309378f268f4dcea0fe41c55b3f4bc, type: 3}

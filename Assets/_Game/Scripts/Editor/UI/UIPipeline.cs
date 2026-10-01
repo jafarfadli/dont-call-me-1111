@@ -58,7 +58,7 @@ namespace DontCallMe.Editor.UI
             ImportSprites();
             BuildFonts();
             BuildSettings();
-            DemoContentBuilder.Build();
+            ContentBuilder.Build();
             SetupScene();
         }
 
@@ -240,6 +240,20 @@ namespace DontCallMe.Editor.UI
             var flow = new GameObject("Flow");
             var director = flow.AddComponent<CallDirector>();
             var demo = flow.AddComponent<DemoDirector>();
+            var dayDirector = flow.AddComponent<DayDirector>();
+            var music = flow.AddComponent<DontCallMe.Audio.MusicPlayer>();
+            var mso = new SerializedObject(music);
+            mso.FindProperty("playOnStart").boolValue = false;
+            mso.FindProperty("level").floatValue = 0.7f;
+            mso.ApplyModifiedPropertiesWithoutUndo();
+
+            // Where the day starts: in the desk chair facing the desk, and where the player stands up to.
+            var seat = new GameObject("Seat").transform;
+            seat.SetParent(flow.transform);
+            seat.SetPositionAndRotation(DontCallMe.Editor.Art.RoomArtPipeline.FromBlender(new Vector3(0.86f, 1.02f, 0f)), Quaternion.Euler(14f, 2f, 0f));
+            var stand = new GameObject("StandSpot").transform;
+            stand.SetParent(flow.transform);
+            stand.position = DontCallMe.Editor.Art.RoomArtPipeline.FromBlender(new Vector3(0.86f, 0.42f, 0f));
 
             var uiGo = new GameObject("GameUI");
             var doc = uiGo.AddComponent<UIDocument>();
@@ -247,10 +261,11 @@ namespace DontCallMe.Editor.UI
             uiGo.AddComponent<Sfx>();
             var ui = uiGo.AddComponent<UIManager>();
             var so = new SerializedObject(ui);
-            so.FindProperty("phoneContent").objectReferenceValue = AssetDatabase.LoadAssetAtPath<PhoneContent>(DemoContentBuilder.PhonePath);
-            so.FindProperty("directory").objectReferenceValue = AssetDatabase.LoadAssetAtPath<WorldDirectory>(DemoContentBuilder.DirectoryPath);
-            so.FindProperty("roomContent").objectReferenceValue = AssetDatabase.LoadAssetAtPath<RoomContent>(DemoContentBuilder.RoomPath);
+            so.FindProperty("phoneContent").objectReferenceValue = AssetDatabase.LoadAssetAtPath<PhoneContent>(ContentBuilder.PhonePath);
+            so.FindProperty("directory").objectReferenceValue = AssetDatabase.LoadAssetAtPath<WorldDirectory>(ContentBuilder.DirectoryPath);
+            so.FindProperty("roomContent").objectReferenceValue = AssetDatabase.LoadAssetAtPath<RoomContent>(ContentBuilder.RoomPath);
             so.FindProperty("skin").objectReferenceValue = AssetDatabase.LoadAssetAtPath<UISkin>(SkinPath);
+            so.FindProperty("voices").objectReferenceValue = AssetDatabase.LoadAssetAtPath<VoiceBank>(DontCallMe.Editor.Audio.AudioPipeline.BankPath);
             so.FindProperty("phoneAction").objectReferenceValue = FindAction("Player", "Phone");
             so.FindProperty("backAction").objectReferenceValue = FindAction("Player", "Back");
             so.FindProperty("player").objectReferenceValue = player;
@@ -263,9 +278,21 @@ namespace DontCallMe.Editor.UI
             var demoSo = new SerializedObject(demo);
             demoSo.FindProperty("ui").objectReferenceValue = ui;
             demoSo.FindProperty("director").objectReferenceValue = director;
-            demoSo.FindProperty("demoCall").objectReferenceValue = AssetDatabase.LoadAssetAtPath<ConversationData>(DemoContentBuilder.CallPath);
-            demoSo.FindProperty("demoChat").objectReferenceValue = AssetDatabase.LoadAssetAtPath<ConversationData>(DemoContentBuilder.ChatPath);
+            demoSo.FindProperty("demoCall").objectReferenceValue = AssetDatabase.LoadAssetAtPath<ConversationData>(ContentBuilder.CallPath);
+            demoSo.FindProperty("demoChat").objectReferenceValue = AssetDatabase.LoadAssetAtPath<ConversationData>(ContentBuilder.ChatPath);
             demoSo.ApplyModifiedPropertiesWithoutUndo();
+
+            var dayDso = new SerializedObject(dayDirector);
+            dayDso.FindProperty("day").objectReferenceValue = AssetDatabase.LoadAssetAtPath<DayData>(ContentBuilder.DayPath);
+            dayDso.FindProperty("ui").objectReferenceValue = ui;
+            dayDso.FindProperty("director").objectReferenceValue = director;
+            dayDso.FindProperty("player").objectReferenceValue = player;
+            dayDso.FindProperty("music").objectReferenceValue = music;
+            dayDso.FindProperty("calmLoop").objectReferenceValue = DontCallMe.Editor.Audio.AudioPipeline.Music("investigate_calm");
+            dayDso.FindProperty("tenseLoop").objectReferenceValue = DontCallMe.Editor.Audio.AudioPipeline.Music("investigate_tense");
+            dayDso.FindProperty("seat").objectReferenceValue = seat;
+            dayDso.FindProperty("standSpot").objectReferenceValue = stand;
+            dayDso.ApplyModifiedPropertiesWithoutUndo();
 
             if (player != null)
             {

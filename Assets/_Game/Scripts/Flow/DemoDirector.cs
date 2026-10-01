@@ -6,8 +6,9 @@ using UnityEngine.InputSystem;
 namespace DontCallMe.Flow
 {
     /// <summary>
-    /// Drives the UI templates until DayDirector exists: the demo call rings a few seconds after the
-    /// newspaper is first closed (as a real day will), F2 starts the demo call and F3 the demo chat.
+    /// Development shortcuts for trying conversations outside the day flow (editor and development
+    /// builds only): F2 starts the demo call and F3 the demo chat. Optionally the demo call rings a few
+    /// seconds after the newspaper is first closed.
     /// </summary>
     public class DemoDirector : MonoBehaviour
     {
@@ -15,11 +16,12 @@ namespace DontCallMe.Flow
         [SerializeField] CallDirector director;
         [SerializeField] ConversationData demoCall;
         [SerializeField] ConversationData demoChat;
-        [SerializeField] bool ringAfterNewspaper = true;
+        [SerializeField] bool ringAfterNewspaper;
         [SerializeField] float delayAfterNewspaper = 5f;
 
         bool rang;
         float countdown = -1f;
+        DayDirector day;
 
         public ConversationData DemoCall => demoCall;
         public ConversationData DemoChat => demoChat;
@@ -30,7 +32,12 @@ namespace DontCallMe.Flow
                 ui = FindAnyObjectByType<UIManager>();
             if (director == null)
                 director = FindAnyObjectByType<CallDirector>();
+            day = FindAnyObjectByType<DayDirector>();
         }
+
+        /// <summary>A running day owns the phone; the shortcuts would break its flow.</summary>
+        bool DayRunning => day != null && day.isActiveAndEnabled &&
+                           day.Current != DayDirector.Phase.Waiting && day.Current != DayDirector.Phase.Done;
 
         void OnEnable()
         {
@@ -46,7 +53,8 @@ namespace DontCallMe.Flow
 
         void Start()
         {
-            ui?.Toast("ic_star", "UI template demo", "Read the newspaper on the desk. F2: demo call · F3: demo chat");
+            if (ringAfterNewspaper)
+                ui?.Toast("ic_star", "UI template demo", "Read the newspaper on the desk. F2: demo call · F3: demo chat");
         }
 
         void OnPanelClosed(PanelId id)
@@ -57,6 +65,8 @@ namespace DontCallMe.Flow
 
         void Update()
         {
+            if (!Debug.isDebugBuild || DayRunning)
+                return;
             var kb = Keyboard.current;
             if (kb != null && kb.f2Key.wasPressedThisFrame)
                 Ring();

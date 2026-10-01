@@ -29,6 +29,8 @@ namespace DontCallMe.Data
         [TextArea(3, 10)] public List<string> body = new List<string>();
         public string warningTitle;
         [TextArea(2, 6)] public string warningText;
+        [Tooltip("The printed front page on the desk prop for this issue; empty keeps the room's own texture.")]
+        public Texture2D print;
         public List<NewsItem> local = new List<NewsItem>();
         public List<NewsItem> ads = new List<NewsItem>();
     }
@@ -76,6 +78,8 @@ namespace DontCallMe.Data
         public float rotation;
         public List<DocField> details = new List<DocField>();
         public List<CalendarEntry> calendar = new List<CalendarEntry>();
+        [Tooltip("Written over the picture, for blank notes (the game writes on them).")]
+        [TextArea(2, 6)] public string handwriting;
     }
 
     [Serializable]

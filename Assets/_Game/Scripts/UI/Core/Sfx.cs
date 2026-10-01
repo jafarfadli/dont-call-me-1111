@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using DontCallMe.Audio;
 using UnityEngine;
 
 namespace DontCallMe.UI
@@ -7,7 +8,9 @@ namespace DontCallMe.UI
     /// <summary>
     /// Placeholder sound effects synthesised at start-up (ringtone, vibration, message pop, typing,
     /// heartbeat, timer tick...), so the UI templates give feedback before the real SFX exist.
-    /// Replace a clip by assigning it in the inspector under the same name.
+    /// Replace a clip by assigning it in the inspector under the same name. One-shots keep playing
+    /// while the game is paused (menu clicks); the loop (the ringtone) pauses with it.
+    /// Both follow the SFX volume setting.
     /// </summary>
     public class Sfx : MonoBehaviour
     {
@@ -40,6 +43,7 @@ namespace DontCallMe.UI
         readonly Dictionary<string, AudioClip> clips = new Dictionary<string, AudioClip>();
         AudioSource oneShot;
         AudioSource loop;
+        float loopGain = 1f;
         const int Rate = 44100;
         System.Random noise = new System.Random(7);
 
@@ -48,20 +52,31 @@ namespace DontCallMe.UI
             instance = this;
             oneShot = gameObject.AddComponent<AudioSource>();
             oneShot.playOnAwake = false;
+            oneShot.ignoreListenerPause = true;
             loop = gameObject.AddComponent<AudioSource>();
             loop.playOnAwake = false;
             loop.loop = true;
+            GameSettings.Changed += ApplyLoopVolume;
             Build();
             foreach (var o in overrides)
                 if (o.clip != null && !string.IsNullOrEmpty(o.name))
                     clips[o.name] = o.clip;
         }
 
+        void OnDestroy()
+        {
+            GameSettings.Changed -= ApplyLoopVolume;
+            if (instance == this)
+                instance = null;
+        }
+
+        void ApplyLoopVolume() => loop.volume = loopGain * volume * GameSettings.Sfx;
+
         public static void Play(string name, float gain = 1f)
         {
             if (instance == null || !instance.clips.TryGetValue(name, out var clip))
                 return;
-            instance.oneShot.PlayOneShot(clip, gain * instance.volume);
+            instance.oneShot.PlayOneShot(clip, gain * instance.volume * GameSettings.Sfx);
         }
 
         public static void Loop(string name, float gain = 1f)
@@ -71,7 +86,8 @@ namespace DontCallMe.UI
             if (instance.loop.clip == clip && instance.loop.isPlaying)
                 return;
             instance.loop.clip = clip;
-            instance.loop.volume = gain * instance.volume;
+            instance.loopGain = gain;
+            instance.ApplyLoopVolume();
             instance.loop.Play();
         }
 

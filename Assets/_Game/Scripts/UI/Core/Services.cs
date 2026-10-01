@@ -39,7 +39,11 @@ namespace DontCallMe.UI
         public static void RaiseLink(string url) => LinkOpened?.Invoke(url);
     }
 
-    /// <summary>In-game clock: starts at the day's start time, one game minute per real <see cref="SecondsPerMinute"/>.</summary>
+    /// <summary>
+    /// In-game clock: starts at the day's start time, one game minute per real
+    /// <see cref="SecondsPerMinute"/>. Stops while <see cref="Running"/> is false (day cards,
+    /// the case card) and, through Time.deltaTime, while the game is paused.
+    /// </summary>
     public static class GameClock
     {
         public const float SecondsPerMinute = 8f;
@@ -47,21 +51,36 @@ namespace DontCallMe.UI
 
         public static string DayLabel { get; set; } = "Day 1 · Tue 6 Oct";
 
+        public static bool Running { get; set; } = true;
+
+        /// <summary>Minutes since midnight.</summary>
+        public static float Minutes => minutes;
+
         public static void Start(string hhmm)
         {
-            var parts = (hhmm ?? "16:20").Split(':');
-            minutes = int.Parse(parts[0]) * 60 + (parts.Length > 1 ? int.Parse(parts[1]) : 0);
+            minutes = Parse(hhmm);
+            Running = true;
         }
 
-        public static void Tick(float dt) => minutes += dt / SecondsPerMinute;
-
-        public static string Now
+        public static void Tick(float dt)
         {
-            get
-            {
-                int m = Mathf.FloorToInt(minutes);
-                return $"{(m / 60) % 24:00}:{m % 60:00}";
-            }
+            if (Running)
+                minutes += dt / SecondsPerMinute;
         }
+
+        /// <summary>"16:20" → 980 minutes since midnight.</summary>
+        public static float Parse(string hhmm)
+        {
+            var parts = (string.IsNullOrEmpty(hhmm) ? "16:20" : hhmm).Split(':');
+            return int.Parse(parts[0]) * 60 + (parts.Length > 1 ? int.Parse(parts[1]) : 0);
+        }
+
+        public static string Format(float totalMinutes)
+        {
+            int m = Mathf.FloorToInt(totalMinutes);
+            return $"{(m / 60) % 24:00}:{m % 60:00}";
+        }
+
+        public static string Now => Format(minutes);
     }
 }

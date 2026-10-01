@@ -168,8 +168,9 @@ namespace DontCallMe.Editor.Art
             var stale = new List<string>();
             stale.AddRange(AssetDatabase.FindAssets("t:Material", new[] { MaterialDir }).Select(AssetDatabase.GUIDToAssetPath)
                 .Where(p => !materials.Contains(Path.GetFileNameWithoutExtension(p))));
+            // Textures/Papers holds the desk newspaper for each issue; the day content uses them, not a material.
             stale.AddRange(AssetDatabase.FindAssets("t:Texture2D", new[] { TextureDir }).Select(AssetDatabase.GUIDToAssetPath)
-                .Where(p => !textures.Contains(Path.GetFileNameWithoutExtension(p))));
+                .Where(p => !textures.Contains(Path.GetFileNameWithoutExtension(p)) && !p.Contains("/Papers/")));
             stale.AddRange(AssetDatabase.FindAssets("t:Model", new[] { ArtRoot + "/Models" }).Select(AssetDatabase.GUIDToAssetPath)
                 .Where(p => p != ModelPath));
             stale.AddRange(AssetDatabase.FindAssets("t:Prefab", new[] { Path.GetDirectoryName(PrefabPath).Replace('\\', '/') })
@@ -489,47 +490,7 @@ namespace DontCallMe.Editor.Art
         {
             EnsureFolder(Path.GetDirectoryName(ScenePath).Replace('\\', '/'));
             var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
-            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(PrefabPath);
-            var room = (GameObject)PrefabUtility.InstantiatePrefab(prefab, scene);
-            room.name = "Bedroom";
-
-            var lighting = new GameObject("Lighting");
-            var sunGo = new GameObject("Sun");
-            sunGo.transform.SetParent(lighting.transform);
-            var sun = sunGo.AddComponent<Light>();
-            sun.type = LightType.Directional;
-            sun.color = new Color(1f, 0.8f, 0.56f);
-            sun.intensity = 1.5f;
-            sun.shadows = LightShadows.Soft;
-            sun.shadowStrength = 1f;
-            sun.shadowBias = 0.02f;
-            sun.shadowNormalBias = 0.2f;
-            // Late-afternoon sun low in the west, through the window over the bed.
-            sunGo.transform.rotation = Quaternion.LookRotation(FromBlender(new Vector3(0.78f, -0.3f, -0.55f)).normalized, Vector3.up);
-            RenderSettings.sun = sun;
-
-            var fillGo = new GameObject("WindowFill");
-            fillGo.transform.SetParent(lighting.transform);
-            fillGo.transform.rotation = Quaternion.LookRotation(FromBlender(new Vector3(0.85f, -0.1f, -0.5f)).normalized, Vector3.up);
-            fillGo.AddComponent<DCMLook>();
-
-            RenderSettings.ambientMode = AmbientMode.Trilight;
-            RenderSettings.ambientSkyColor = new Color(0.52f, 0.53f, 0.62f);
-            RenderSettings.ambientEquatorColor = new Color(0.58f, 0.56f, 0.59f);
-            RenderSettings.ambientGroundColor = new Color(0.74f, 0.63f, 0.51f);
-            RenderSettings.ambientIntensity = 1f;
-            RenderSettings.skybox = null;
-            RenderSettings.fog = false;
-            RenderSettings.defaultReflectionMode = DefaultReflectionMode.Custom;
-            RenderSettings.reflectionIntensity = 0f;
-
-            BuildSunDust(lighting.transform);
-
-            var volumeGo = new GameObject("PostFX");
-            volumeGo.transform.SetParent(lighting.transform);
-            var volume = volumeGo.AddComponent<Volume>();
-            volume.isGlobal = true;
-            volume.sharedProfile = BuildVolumeProfile();
+            BuildEnvironment(false);
 
             BuildPlayer(new Vector3(1.1f, -1.3f, 0f), new Vector3(-1.2f, 0.9f, 0f));
 
@@ -557,6 +518,97 @@ namespace DontCallMe.Editor.Art
                 buildScenes.Insert(0, new EditorBuildSettingsScene(ScenePath, true));
                 EditorBuildSettings.scenes = buildScenes.ToArray();
             }
+        }
+
+        /// <summary>
+        /// The bedroom with its light: the room prefab, the late-afternoon sun (or, for the next
+        /// morning, a soft light with no sunbeam), window fill, dust in the sunbeam and the post FX.
+        /// Used by the Room scene and by the title and end scenes.
+        /// </summary>
+        public static GameObject BuildEnvironment(bool morning)
+        {
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(PrefabPath);
+            var room = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
+            room.name = "Bedroom";
+
+            var lighting = new GameObject("Lighting");
+            var sunGo = new GameObject("Sun");
+            sunGo.transform.SetParent(lighting.transform);
+            var sun = sunGo.AddComponent<Light>();
+            sun.type = LightType.Directional;
+            sun.shadows = LightShadows.Soft;
+            sun.shadowStrength = 1f;
+            sun.shadowBias = 0.02f;
+            sun.shadowNormalBias = 0.2f;
+            if (morning)
+            {
+                // Morning: the west window gets no direct sun; a soft, cool light from high in the east.
+                sun.color = new Color(0.93f, 0.95f, 1f);
+                sun.intensity = 0.55f;
+                sunGo.transform.rotation = Quaternion.LookRotation(FromBlender(new Vector3(-0.35f, 0.2f, -0.9f)).normalized, Vector3.up);
+            }
+            else
+            {
+                sun.color = new Color(1f, 0.8f, 0.56f);
+                sun.intensity = 1.5f;
+                // Late-afternoon sun low in the west, through the window over the bed.
+                sunGo.transform.rotation = Quaternion.LookRotation(FromBlender(new Vector3(0.78f, -0.3f, -0.55f)).normalized, Vector3.up);
+            }
+            RenderSettings.sun = sun;
+
+            var fillGo = new GameObject("WindowFill");
+            fillGo.transform.SetParent(lighting.transform);
+            fillGo.transform.rotation = Quaternion.LookRotation(FromBlender(new Vector3(0.85f, -0.1f, -0.5f)).normalized, Vector3.up);
+            fillGo.AddComponent<DCMLook>();
+
+            RenderSettings.ambientMode = AmbientMode.Trilight;
+            if (morning)
+            {
+                RenderSettings.ambientSkyColor = new Color(0.66f, 0.7f, 0.78f);
+                RenderSettings.ambientEquatorColor = new Color(0.66f, 0.66f, 0.68f);
+                RenderSettings.ambientGroundColor = new Color(0.7f, 0.64f, 0.56f);
+            }
+            else
+            {
+                RenderSettings.ambientSkyColor = new Color(0.52f, 0.53f, 0.62f);
+                RenderSettings.ambientEquatorColor = new Color(0.58f, 0.56f, 0.59f);
+                RenderSettings.ambientGroundColor = new Color(0.74f, 0.63f, 0.51f);
+            }
+            RenderSettings.ambientIntensity = 1f;
+            RenderSettings.skybox = null;
+            RenderSettings.fog = false;
+            RenderSettings.defaultReflectionMode = DefaultReflectionMode.Custom;
+            RenderSettings.reflectionIntensity = 0f;
+
+            if (!morning)
+                BuildSunDust(lighting.transform);
+
+            var volumeGo = new GameObject("PostFX");
+            volumeGo.transform.SetParent(lighting.transform);
+            var volume = volumeGo.AddComponent<Volume>();
+            volume.isGlobal = true;
+            volume.sharedProfile = BuildVolumeProfile();
+            return room;
+        }
+
+        /// <summary>A camera set up like the player's (post FX, SMAA) for the title and end scenes.</summary>
+        public static Camera BuildShowCamera(string name, Vector3 blenderPos, Vector3 blenderTarget, float fov = 55f)
+        {
+            var go = new GameObject(name);
+            go.tag = "MainCamera";
+            var cam = go.AddComponent<Camera>();
+            cam.fieldOfView = fov;
+            cam.nearClipPlane = 0.03f;
+            cam.farClipPlane = 60f;
+            cam.clearFlags = CameraClearFlags.SolidColor;
+            cam.backgroundColor = new Color(0.66f, 0.71f, 0.78f);
+            var data = go.AddComponent<UniversalAdditionalCameraData>();
+            data.renderPostProcessing = true;
+            data.antialiasing = AntialiasingMode.SubpixelMorphologicalAntiAliasing;
+            data.antialiasingQuality = AntialiasingQuality.High;
+            go.AddComponent<AudioListener>();
+            PlaceCamera(go.transform, blenderPos, blenderTarget);
+            return cam;
         }
 
         const string InputActionsPath = "Assets/InputSystem_Actions.inputactions";

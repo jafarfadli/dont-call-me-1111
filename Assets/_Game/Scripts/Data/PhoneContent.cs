@@ -101,6 +101,23 @@ namespace DontCallMe.Data
         public List<BankTransaction> transactions = new List<BankTransaction>();
         public List<BankNotice> notices = new List<BankNotice>();
         public List<string> banks = new List<string>();
+
+        /// <summary>
+        /// Adds to (or takes from) the main account. Money going out beyond its balance comes out of
+        /// the next accounts (the tuition savings), as Jiwoo would move it to make the transfer.
+        /// </summary>
+        public void Change(long amount)
+        {
+            if (accounts.Count == 0)
+                return;
+            accounts[0].balance += amount;
+            for (int i = 1; i < accounts.Count && accounts[0].balance < 0; i++)
+            {
+                long take = System.Math.Min(-accounts[0].balance, accounts[i].balance);
+                accounts[i].balance -= take;
+                accounts[0].balance += take;
+            }
+        }
     }
 
     [Serializable]
@@ -141,6 +158,10 @@ namespace DontCallMe.Data
         public string driverPhone;
         public string window;
         public bool overseas;
+        [Tooltip("A line from the courier under the status, e.g. what is due and how to pay it.")]
+        [TextArea(1, 4)] public string note;
+        [Tooltip("The account to pay, when something is due (shown as a copy chip).")]
+        public string account;
     }
 
     [Serializable]

@@ -13,6 +13,9 @@ namespace DontCallMe.UI
         public VisualElement Root { get; }
         public VisualElement Toasts { get; }
 
+        /// <summary>The caller's deadline, under the clock, while a case is being investigated.</summary>
+        public DeadlineView Deadline { get; }
+
         readonly Label day;
         readonly Label time;
         readonly Label badge;
@@ -37,12 +40,17 @@ namespace DontCallMe.UI
             time = UIKit.Text("16:20", "daytag__time");
             tag.Add(day);
             tag.Add(time);
+            IgnorePointer(tag);
             Root.Add(tag);
+
+            Deadline = new DeadlineView();
+            Root.Add(Deadline.Root);
 
             hints = UIKit.Div("controls-hint");
             hints.pickingMode = PickingMode.Ignore;
             foreach (string h in new[] { "WASD  walk", "Drag  look", "Click  interact", "Tab  phone", "Esc  back" })
                 hints.Add(UIKit.Text(h));
+            IgnorePointer(hints);
             Root.Add(hints);
 
             var hud = UIKit.Div("hud");
@@ -65,6 +73,7 @@ namespace DontCallMe.UI
             promptText = UIKit.Text("", "prompt__text");
             prompt.Add(promptKey);
             prompt.Add(promptText);
+            IgnorePointer(prompt);
             prompt.Hide(true);
             Root.Add(prompt);
 
@@ -74,6 +83,8 @@ namespace DontCallMe.UI
         }
 
         public void SetTime(string now) => time.text = now;
+
+        public void SetDayLabel(string label) => day.text = label;
 
         public void SetDay(string label) => day.text = label;
 
@@ -94,6 +105,9 @@ namespace DontCallMe.UI
         }
 
         public void HidePrompt() => prompt.Hide(true);
+
+        /// <summary>Informative text: presses go through it to the room.</summary>
+        static void IgnorePointer(VisualElement e) => e.Query().ForEach(c => c.pickingMode = PickingMode.Ignore);
 
         public void Toast(string icon, string title, string text, Action onClick = null)
         {

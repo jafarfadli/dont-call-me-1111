@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using DontCallMe.Data;
+using DontCallMe.Flow;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -33,6 +34,9 @@ namespace DontCallMe.UI
             Notify("Deposit " + FactText.Won(amount), $"From {from}" + (string.IsNullOrEmpty(memo) ? "" : $" · memo \"{memo}\""), false);
         }
 
+        /// <summary>Alerts that came in before the day started and haven't been read.</summary>
+        public void AddUnreadAlerts(int count) => unreadAlerts += Mathf.Max(0, count);
+
         public void Notify(string title, string body, bool alert)
         {
             Data.bank.notices.Insert(0, new BankNotice { when = "Today " + GameClock.Now, title = title, body = body, alert = alert });
@@ -42,6 +46,16 @@ namespace DontCallMe.UI
         }
 
         public PhoneScreen CreateTransfer(string account = null, long amount = 0) => new TransferScreen(this, account, amount);
+
+        /// <summary>Takes the money from the main account and records it (after the PIN, or a verdict on the call).</summary>
+        public void RecordTransfer(string holder, string bank, string number, long won)
+        {
+            Data.bank.Change(-won);
+            Data.bank.transactions.Insert(0, new BankTransaction
+            {
+                when = "Today " + GameClock.Now, counterparty = holder, memo = $"{bank} {number}", amount = -won
+            });
+        }
 
         // ---------------------------------------------------------------- screens
 
@@ -106,6 +120,7 @@ namespace DontCallMe.UI
             PhoneScreen Alerts()
             {
                 app.unreadAlerts = 0;
+                ClueEvents.Raise(ClueEvent.BankAlerts);
                 var s = new PhoneScreen(app.Phone, "Alerts", "#2F7A6A");
                 foreach (var n in app.Data.bank.notices)
                 {
@@ -195,9 +210,13 @@ namespace DontCallMe.UI
                     Fail("Enter an amount.");
                     return;
                 }
-                if (app.Main != null && won > app.Main.balance)
+                // The savings cover what the everyday account can't (see BankData.Change).
+                long total = 0;
+                foreach (var a in app.Data.bank.accounts)
+                    total += a.balance;
+                if (won > total)
                 {
-                    Fail("Not enough money in your account.");
+                    Fail("Not enough money in your accounts.");
                     return;
                 }
                 var target = app.Dir.FindAccount(bank, account.value);
@@ -221,6 +240,7 @@ namespace DontCallMe.UI
         {
             public ConfirmScreen(BankApp app, DirAccount target, long won) : base(app.Phone, "Check the recipient", "#2F7A6A")
             {
+                ClueEvents.Raise(ClueEvent.RecipientShown, target.number);
                 var box = UIKit.Div("recipient");
                 box.Add(UIKit.Text("You are sending money to", "recipient__label"));
                 box.Add(UIKit.Text(target.holder, "recipient__name"));
@@ -235,8 +255,15 @@ namespace DontCallMe.UI
                 Content.Add(box);
                 var actions = UIKit.Div("bank-actions");
                 actions.Add(UIKit.Btn("Cancel", () => app.Phone.Back(), null));
-                actions.Add(UIKit.Btn("Send", () => app.Phone.Push(new PinScreen(app, target, won)), "btn--red"));
+                var send = UIKit.Btn("Send", () => app.Phone.Push(new PinScreen(app, target, won)), "btn--red");
+                actions.Add(send);
                 Content.Add(actions);
+                // During a case the phone is for checking; the decision is made on the call.
+                if (app.Phone.UI.CaseCallActive)
+                {
+                    send.SetEnabled(false);
+                    Content.Add(UIKit.Text("You're on a call. To send this money, choose \"Send the money\" in your verdict on the call.", "recipient__note"));
+                }
             }
         }
 
@@ -288,12 +315,7 @@ namespace DontCallMe.UI
 
             void Send()
             {
-                if (app.Main != null)
-                    app.Main.balance -= won;
-                app.Data.bank.transactions.Insert(0, new BankTransaction
-                {
-                    when = "Today " + GameClock.Now, counterparty = target.holder, memo = $"{target.bank} {target.number}", amount = -won
-                });
+                app.RecordTransfer(target.holder, target.bank, target.number, won);
                 Sfx.Play(Sfx.Success);
                 var done = new PhoneScreen(app.Phone, "Sent", "#2F7A6A");
                 var box = UIKit.Div("recipient");
@@ -363,6 +385,7 @@ namespace DontCallMe.UI
                 if (digits.Length < 3)
                     return;
                 Sfx.Play(Sfx.Click);
+                ClueEvents.Raise(ClueEvent.NumberChecked, query);
                 List<string> reports = null;
                 string what = query;
                 var n = app.Dir.FindNumber(query);

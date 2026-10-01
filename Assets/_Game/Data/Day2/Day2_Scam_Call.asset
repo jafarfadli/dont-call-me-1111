@@ -1,0 +1,320 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfd03999caeea4a5788ed68a4194a80e, type: 3}
+  m_Name: Day2_Scam_Call
+  m_EditorClassIdentifier: DontCallMe::DontCallMe.Data.ConversationData
+  title: "Day 2 \xB7 The new rent account (H3, scam)"
+  channel: 0
+  isScam: 1
+  revealAtEnd: 0
+  caller:
+    displayName: Choi Hyunwoo
+    number: 010-4127-8830
+    inContacts: 0
+    portrait: pt_hyunwoo
+    chatId: 
+    profileId: 
+    voice: Reed (English (US))
+  claims:
+  - He is Choi Hyunwoo, the landlord's son.
+  - Mr. Choi went into hospital this morning (his knee).
+  - 'This month the rent goes to his account: Hanbit Bank 620-118-449027.'
+  - He needs it before 17:00 to pay the hospital bill.
+  nodes:
+  - id: start
+    lines:
+    - speaker: 0
+      text: Hello, is this Kim Jiwoo in 302? This is Choi Hyunwoo, Mr. Choi's son,
+        from the first floor.
+      spoken: Hello, is this Kim Jiwoo in three oh two? This is Choi Hyunwoo, Mr.
+        Choi's son, from the first floor.
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    - speaker: 0
+      text: Sorry to call out of the blue. My father went into hospital this morning.
+        It's his knee. Nothing serious, but he'll be there all week.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    hasDecision: 1
+    decision:
+      kind: 0
+      prompt: How do you answer?
+      patienceSeconds: 45
+      a:
+        label: Oh no. Is he okay?
+        playerLine: Oh no. Is he okay?
+        next: okay
+      b:
+        label: Sorry, who is this again?
+        playerLine: Sorry, who is this again?
+        next: who
+      pressure:
+      - atPatience: 0.5
+        text: Jiwoo-ssi? Can you hear me?
+        spoken: 
+    next: 
+    holds: 0
+  - id: okay
+    lines:
+    - speaker: 0
+      text: He's fine, thanks. Grumpy about the hospital food.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    hasDecision: 0
+    decision:
+      kind: 0
+      prompt: 
+      patienceSeconds: 60
+      a:
+        label: 
+        playerLine: 
+        next: 
+      b:
+        label: 
+        playerLine: 
+        next: 
+      pressure: []
+    next: ask
+    holds: 0
+  - id: who
+    lines:
+    - speaker: 0
+      text: Choi Hyunwoo, the landlord's son. I'm on your lease, under 'if absent'.
+      spoken: Choi Hyunwoo, the landlord's son. I'm on your lease, under if absent.
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    hasDecision: 0
+    decision:
+      kind: 0
+      prompt: 
+      patienceSeconds: 60
+      a:
+        label: 
+        playerLine: 
+        next: 
+      b:
+        label: 
+        playerLine: 
+        next: 
+      pressure: []
+    next: ask
+    holds: 0
+  - id: ask
+    lines:
+    - speaker: 0
+      text: So I'm looking after the building this week, and today's the seventh.
+        Rent day.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    - speaker: 0
+      text: Dad can't use his banking app from the hospital, so this month the rent
+        comes to me.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    - speaker: 0
+      text: "Please send the \u20A9450,000 to my account: Hanbit Bank 620-118-449027."
+      spoken: Please send the four hundred and fifty thousand won to my account.
+        Hanbit Bank, six two zero, one one eight, four four nine zero two seven.
+      facts:
+      - kind: 1
+        value: 620-118-449027
+        label: 
+      - kind: 5
+        value: 450,000
+        label: 
+      deliver: []
+      pauseAfter: 0.4
+    - speaker: 0
+      text: I'm paying his hospital bill with the rents, and the billing desk closes
+        at five. Could you send it before then? I'll hold.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    hasDecision: 0
+    decision:
+      kind: 0
+      prompt: 
+      patienceSeconds: 60
+      a:
+        label: 
+        playerLine: 
+        next: 
+      b:
+        label: 
+        playerLine: 
+        next: 
+      pressure: []
+    next: 
+    holds: 1
+  endings:
+  - id: refuse
+    verdict: 1
+    timedOut: 0
+    moneyDelta: 0
+    lines: []
+    consequence: 'You hung up. Mr. Choi wasn''t in hospital: he was posting in the
+      residents'' chat all afternoon, and his son''s real number is in your lease.'
+  - id: timeout
+    verdict: 1
+    timedOut: 1
+    moneyDelta: 0
+    lines:
+    - speaker: 0
+      text: It's five. Forget it. You'll get a late notice.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    consequence: The caller gave up at five. You kept your money, but you never decided.
+  - id: go_along
+    verdict: 0
+    timedOut: 0
+    moneyDelta: -450000
+    lines:
+    - speaker: 0
+      text: Received. Thank you... I'll send you a receipt.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    consequence: "The \u20A9450,000 went to Seo Jiyeon's account and was withdrawn
+      within minutes. Mr. Choi was at home all afternoon, and the rent account had
+      never changed."
+  actions:
+  - kind: 0
+    target: 620-118-449027
+    endingId: go_along
+    answeredBy: 
+    portrait: 
+    voice: 
+    bank: Hanbit Bank
+    amount: 450000
+  hangUpEndingId: refuse
+  timeoutEndingId: timeout
+  caseInfo:
+    caseTitle: The new rent account
+    claimedIdentity: Choi Hyunwoo, the landlord's son
+    ask: "Pay this month's rent, \u20A9450,000, into a new account: Hanbit Bank 620-118-449027"
+    deadline: 17:00
+    deadlineReason: before the hospital's billing desk closes
+    objective: 'Is he really the landlord''s son, and did the rent account really
+      change? Check before 17:00, then give your verdict on the call: pay the rent,
+      or hang up.'
+  questions:
+  - label: Ask whose name is on the account
+    playerLine: Whose name is on that account?
+    answer:
+    - speaker: 0
+      text: My wife's, Seo Jiyeon. Mine's a business account, it takes a day to clear.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    endingId: 
+  - label: Ask why the account changed
+    playerLine: Why isn't it going to your father's account like always?
+    answer:
+    - speaker: 0
+      text: Just for this month. Dad didn't want to bother everyone with a notice.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    endingId: 
+  - label: Ask about the number he's calling from
+    playerLine: Is this your own number?
+    answer:
+    - speaker: 0
+      text: It's my work phone. My own one is the number on your lease, but the screen's
+        broken.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    endingId: 
+  - label: Ask to speak to Mr. Choi
+    playerLine: Can I talk to your father?
+    answer:
+    - speaker: 0
+      text: He's in surgery right now. Please, I don't want to worry him.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    endingId: 
+  beats:
+  - at: 16:32
+    line:
+      speaker: 0
+      text: Jiwoo-ssi? Still there? No rush, but the desk closes at five.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+  - at: 16:40
+    line:
+      speaker: 0
+      text: I've texted you the account number, so you have it in writing.
+      spoken: 
+      facts: []
+      deliver:
+      - kind: 0
+        from: 010-4127-8830
+        title: 
+        text: '[Mangwon Heights 1F] October rent: Hanbit Bank 620-118-449027. Please
+          pay today by 17:00. Thank you.'
+        link: 
+        amount: 0
+      pauseAfter: 0.4
+  - at: 16:47
+    line:
+      speaker: 0
+      text: The hospital just called me again about the bill. Have you sent it?
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+  - at: 16:53
+    line:
+      speaker: 0
+      text: Seven minutes, Jiwoo-ssi. Please.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+  - at: 16:57
+    line:
+      speaker: 0
+      text: Three minutes! Please, just send it.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+  verdict:
+    goAlong: Pay the rent
+    goAlongDetail: 
+    goAlongEndingId: 
+    refuse: Hang up
+    refuseDetail: Say no and end the call
+    goAlongLine: Okay, I'm sending the rent now.
+    refuseLine: I'm not paying rent into a new account over the phone. Goodbye.

@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 499cc0b1f5ff04c35a52dd9638bcabb6, type: 3}
+  m_Name: DayCatalog
+  m_EditorClassIdentifier: DontCallMe::DontCallMe.Data.DayCatalog
+  days:
+  - {fileID: 11400000, guid: 3f30c6cde14e4465788ca0b902ec506f, type: 2}
+  - {fileID: 11400000, guid: bbb380aeaaaeb4049bbdca104bc7597a, type: 2}
+  - {fileID: 11400000, guid: c9029ba7d2fc945059523c27202a3894, type: 2}

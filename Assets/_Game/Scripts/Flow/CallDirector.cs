@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using DontCallMe.Audio;
 using DontCallMe.Data;
 using DontCallMe.UI;
 using UnityEngine;
@@ -8,14 +10,17 @@ namespace DontCallMe.Flow
 {
     /// <summary>
     /// Runs one conversation at a time on the UI templates: the forced incoming call (slide to
-    /// answer), lines with typing, decisions with the patience timer and pressure lines, and the
-    /// endings, including the ones reached through the phone (a transfer, calling a looked-up number,
-    /// hanging up). Also places ordinary outgoing calls to numbers the world directory knows.
-    /// Plain-C# rules (ConversationRunner, VerdictJudge) will move to Core in phase 3.
+    /// answer), voiced lines revealed as they are spoken, decisions with the patience timer and
+    /// pressure lines, the hold (the caller waits on the line while the player investigates and
+    /// can ask questions), and the endings, including the ones reached through the phone (a
+    /// transfer, calling a looked-up number, hanging up). Also places ordinary outgoing calls to
+    /// numbers the world directory knows. A <see cref="DayDirector"/> drives the hold's clock.
     /// </summary>
     public class CallDirector : MonoBehaviour
     {
         [SerializeField] UIManager ui;
+        [Tooltip("Off during a day: the DayDirector shows the result the next morning instead.")]
+        public bool showEndingCard = true;
 
         enum State { Idle, Ringing, Active, Ending }
 
@@ -24,6 +29,7 @@ namespace DontCallMe.Flow
         bool isChat;
         bool isOutgoing;
         string title;
+        string voice;
         CallerInfo caller;
         float callSeconds;
         ConvDecision pending;
@@ -31,15 +37,36 @@ namespace DontCallMe.Flow
         float patienceMax;
         bool timerRunning;
         bool lineClosed;
+        bool onHold;
         readonly HashSet<PressureLine> firedPressure = new HashSet<PressureLine>();
+        readonly HashSet<ConvQuestion> asked = new HashSet<ConvQuestion>();
+        readonly Queue<ConvLine> sayQueue = new Queue<ConvLine>();
         IncomingCallView incoming;
         InCallView inCall;
         Coroutine running;
         Coroutine outgoing;
 
+        /// <summary>The caller has made the ask and is holding the line.</summary>
+        public event Action HoldStarted;
+
+        /// <summary>The conversation reached an ending (after its closing lines).</summary>
+        public event Action<ConvEnding> ConversationEnded;
+
         /// <summary>A voice call is on screen: an answered call, a call back or an ordinary outgoing call.</summary>
         public bool IsCallActive => isOutgoing || ((state == State.Active || state == State.Ending) && !isChat);
         public bool IsBusy => state != State.Idle || isOutgoing;
+        public bool OnHold => onHold && state == State.Active;
+
+        /// <summary>
+        /// A case is on the line (not a chat, not an ordinary outgoing call): the phone is only for
+        /// investigating and the verdict is given on the call.
+        /// </summary>
+        public bool IsCaseCall => conv != null && !isChat && (state == State.Active || state == State.Ending);
+        public ConversationData Current => conv;
+        public float CallSeconds => callSeconds;
+
+        /// <summary>Screen-edge pressure from outside a decision (the day's deadline); negative for none.</summary>
+        public float ExternalPressure { get; set; } = -1f;
 
         PhoneController Phone => ui.PhoneView;
         TalkApp Talk => Phone.App<TalkApp>();
@@ -69,6 +96,7 @@ namespace DontCallMe.Flow
             conv = data;
             isChat = false;
             caller = data.caller;
+            voice = data.caller.voice;
             var contact = ui.Phone.FindContact(caller.number);
             title = contact != null ? contact.name : "Unknown";
             OpenCase();
@@ -90,7 +118,7 @@ namespace DontCallMe.Flow
             Phone.Locked = false;
             Phone.RemoveScreen(incoming);
             incoming = null;
-            BeginCallScreen(caller, title, "ON CALL");
+            BeginCallScreen(caller, title, "ON CALL", allowHangUp: false);
             state = State.Active;
             ui.Transcript.Open(caller, title);
             ui.CallHud.Set(title, caller.number, caller.portrait);
@@ -102,12 +130,14 @@ namespace DontCallMe.Flow
         /// Shows the in-call screen. Answered calls replace whatever the phone showed; calls the player
         /// places sit on top, so hanging up returns to the app they dialled from.
         /// </summary>
-        void BeginCallScreen(CallerInfo who, string name, string status, bool replace = true)
+        void BeginCallScreen(CallerInfo who, string name, string status, bool replace = true, bool allowHangUp = true)
         {
             if (inCall != null)
                 Phone.RemoveScreen(inCall);
             inCall = new InCallView(Phone, who, name, status);
             inCall.HangUpClicked += HangUp;
+            // On a case the call ends through the verdict, not the phone's red button.
+            inCall.SetHangUpEnabled(allowHangUp);
             Phone.CallView = inCall;
             if (replace)
                 Phone.ShowOnly(inCall);
@@ -124,6 +154,7 @@ namespace DontCallMe.Flow
             conv = data;
             isChat = true;
             caller = data.caller;
+            voice = null;
             title = data.caller.displayName;
             if (Talk.Thread(caller.chatId) == null)
                 ui.Phone.chats.Insert(0, new ChatThread
@@ -141,6 +172,9 @@ namespace DontCallMe.Flow
             var c = new CaseFile { caller = caller, callerTitle = isChat ? title : $"{title} · {caller.number}" };
             c.claims.AddRange(conv.claims);
             ui.CurrentCase = c;
+            asked.Clear();
+            sayQueue.Clear();
+            onHold = false;
         }
 
         // ---------------------------------------------------------------- playback
@@ -155,18 +189,30 @@ namespace DontCallMe.Flow
         IEnumerator PlayNode(ConvNode node)
         {
             foreach (var line in node.lines)
-                yield return PlayLine(line, caller.portrait);
+                yield return PlayLine(line, caller.portrait, voice);
+            running = null;
             if (node.hasDecision)
             {
                 Present(node.decision);
                 yield break;
             }
+            if (node.holds)
+            {
+                EnterHold();
+                yield break;
+            }
             GoTo(node.next);
         }
 
-        IEnumerator PlayLine(ConvLine line, string portrait)
+        /// <summary>
+        /// One line. A voiced caller line plays its clip and its text is revealed while it is spoken;
+        /// without a clip the caller "types" for a moment first.
+        /// </summary>
+        IEnumerator PlayLine(ConvLine line, string portrait, string voiceId)
         {
-            if (line.speaker == Speaker.Caller)
+            bool fromCaller = line.speaker == Speaker.Caller;
+            var clip = fromCaller && !isChat ? VoiceBank.Lookup(voiceId, line.Spoken) : null;
+            if (fromCaller && clip == null)
             {
                 SetTyping(true, portrait);
                 yield return new WaitForSeconds(Mathf.Clamp(line.text.Length / 32f, 0.7f, 2.4f));
@@ -174,14 +220,17 @@ namespace DontCallMe.Flow
             }
             else
             {
-                yield return new WaitForSeconds(0.25f);
+                yield return new WaitForSeconds(fromCaller ? 0.2f : 0.25f);
             }
-            Show(line.speaker, line.text, line.facts, portrait);
+            float speaking = VoicePlayer.Play(clip);
+            Show(line.speaker, line.text, line.facts, portrait, speaking);
             if (line.facts != null)
                 foreach (var f in line.facts)
                     ui.CurrentCase?.AddFact(f);
             Deliver(line.deliver);
-            yield return new WaitForSeconds(line.pauseAfter + (line.speaker == Speaker.Caller ? 0.3f : 0.1f));
+            if (speaking > 0f)
+                yield return new WaitForSeconds(speaking);
+            yield return new WaitForSeconds(line.pauseAfter + (fromCaller ? 0.3f : 0.1f));
         }
 
         void SetTyping(bool on, string portrait)
@@ -192,7 +241,7 @@ namespace DontCallMe.Flow
                 ui.Transcript.SetTyping(on, portrait);
         }
 
-        void Show(Speaker speaker, string text, List<Fact> facts, string portrait)
+        void Show(Speaker speaker, string text, List<Fact> facts, string portrait, float reveal = 0f)
         {
             if (isChat)
             {
@@ -213,13 +262,14 @@ namespace DontCallMe.Flow
                 ui.Transcript.AddSystem(text);
                 return;
             }
-            ui.Transcript.AddLine(speaker, text, facts, portrait);
-            Sfx.Play(Sfx.Type, 0.6f);
+            ui.Transcript.AddLine(speaker, text, facts, portrait, reveal);
+            if (reveal <= 0f)
+                Sfx.Play(Sfx.Type, 0.6f);
             if (speaker == Speaker.Caller)
                 ui.CallHud.SetLine(text);
         }
 
-        void Deliver(List<Delivery> items)
+        public void Deliver(List<Delivery> items)
         {
             if (items == null)
                 return;
@@ -293,6 +343,7 @@ namespace DontCallMe.Flow
                 Show(Speaker.Player, option.playerLine, null, null);
                 yield return new WaitForSeconds(0.5f);
             }
+            running = null;
             GoTo(option.next);
         }
 
@@ -309,7 +360,7 @@ namespace DontCallMe.Flow
             var ending = conv.FindEnding(id);
             if (ending != null)
             {
-                EndWith(ending, caller.portrait);
+                EndWith(ending, caller.portrait, voice);
                 return;
             }
             Debug.LogError($"[CallDirector] {conv.name}: no node or ending called '{id}'");
@@ -322,6 +373,175 @@ namespace DontCallMe.Flow
             ui.Transcript.ShowIdle();
             Talk.ClearChoices();
             ui.CallHud.SetDecision(false, 0f, 1f);
+        }
+
+        // ---------------------------------------------------------------- the hold
+
+        void EnterHold()
+        {
+            onHold = true;
+            ShowHoldOptions();
+            if (!isChat)
+                ui.Transcript.ShowVerdict(BuildVerdict());
+            HoldStarted?.Invoke();
+        }
+
+        // ---------------------------------------------------------------- the verdict
+
+        ActionTrigger TransferTrigger => conv.actions.Find(a => a.kind == ActionKind.Transfer);
+
+        VerdictPanel BuildVerdict()
+        {
+            var info = conv.verdict ?? new VerdictInfo();
+            var t = TransferTrigger;
+            string detail = info.goAlongDetail;
+            string sendTitle = (info.goAlong ?? "GO ALONG").ToUpperInvariant() + "?";
+            string sendTo = null;
+            if (t != null)
+            {
+                string bank = string.IsNullOrEmpty(t.bank) ? "" : t.bank + " ";
+                if (string.IsNullOrEmpty(detail))
+                    detail = $"{FactText.Won(t.amount)} to {bank}{t.target}";
+                string holder = ui.Directory.FindAccount(t.target)?.holder;
+                sendTitle = $"SEND {FactText.Won(t.amount)}?";
+                sendTo = string.IsNullOrEmpty(holder) ? $"To {bank}{t.target}" : $"To {holder}  ·  {bank}{t.target}";
+            }
+            var panel = new VerdictPanel(info, detail, sendTitle, sendTo, OnVerdict);
+            if (t != null)
+                panel.SendShown += () => ClueEvents.Raise(ClueEvent.RecipientShown, t.target);
+            return panel;
+        }
+
+        /// <summary>The verdict from the call: say it, then act on it. The caller is cut off mid-sentence.</summary>
+        void OnVerdict(VerdictKind kind)
+        {
+            if (!OnHold)
+                return;
+            StopSpeech();
+            ClearDecision();
+            running = StartCoroutine(Decide(kind));
+        }
+
+        IEnumerator Decide(VerdictKind kind)
+        {
+            var info = conv.verdict ?? new VerdictInfo();
+            string line = kind == VerdictKind.GoAlong ? info.goAlongLine : info.refuseLine;
+            if (!string.IsNullOrEmpty(line))
+            {
+                Show(Speaker.Player, line, null, null);
+                yield return new WaitForSeconds(0.9f);
+            }
+            running = null;
+            if (kind == VerdictKind.GoAlong)
+                SendTheMoney();
+            else
+                HangUp();
+        }
+
+        void SendTheMoney()
+        {
+            StopSpeech();
+            ClearDecision();
+            var t = TransferTrigger;
+            var info = conv.verdict ?? new VerdictInfo();
+            if (t != null)
+            {
+                string holder = ui.Directory.FindAccount(t.target)?.holder ?? t.target;
+                Phone.App<BankApp>().RecordTransfer(holder, t.bank, t.target, t.amount);
+                ui.Transcript.AddSystem($"You sent {FactText.Won(t.amount)} to {holder} ({t.bank} {t.target}).", "bad");
+                Sfx.Play(Sfx.Success, 0.7f);
+            }
+            GoTo(!string.IsNullOrEmpty(info.goAlongEndingId) ? info.goAlongEndingId : t != null ? t.endingId : conv.hangUpEndingId);
+        }
+
+        void ShowHoldOptions()
+        {
+            if (!OnHold || isChat)
+                return;
+            var open = conv.questions.FindAll(q => !asked.Contains(q));
+            ui.Transcript.ShowHold(title, open, Ask);
+            ui.CallHud.SetIdleHint("Holding the line  ·  Tab to ask or decide");
+        }
+
+        /// <summary>Put one of the conversation's questions to the holding caller.</summary>
+        public void Ask(ConvQuestion question)
+        {
+            if (!OnHold || running != null || question == null || asked.Contains(question))
+                return;
+            asked.Add(question);
+            ui.Transcript.ShowHold(title, null, null);
+            running = StartCoroutine(AskRoutine(question));
+        }
+
+        IEnumerator AskRoutine(ConvQuestion question)
+        {
+            if (!string.IsNullOrEmpty(question.playerLine))
+            {
+                Show(Speaker.Player, question.playerLine, null, null);
+                yield return new WaitForSeconds(0.6f);
+            }
+            foreach (var line in question.answer)
+                yield return PlayLine(line, caller.portrait, voice);
+            running = null;
+            if (!string.IsNullOrEmpty(question.endingId))
+            {
+                onHold = false;
+                GoTo(question.endingId);
+                yield break;
+            }
+            AfterHoldSpeech();
+        }
+
+        /// <summary>A line from the holding caller (a pressure beat). Queued behind anything being said.</summary>
+        public void Say(ConvLine line)
+        {
+            if (!OnHold || line == null)
+                return;
+            sayQueue.Enqueue(line);
+            if (running == null)
+                running = StartCoroutine(SayRoutine());
+        }
+
+        IEnumerator SayRoutine()
+        {
+            ui.Transcript.ShowHold(title, null, null);
+            while (sayQueue.Count > 0 && OnHold)
+                yield return PlayLine(sayQueue.Dequeue(), caller.portrait, voice);
+            running = null;
+            AfterHoldSpeech();
+        }
+
+        void AfterHoldSpeech()
+        {
+            if (!OnHold)
+                return;
+            if (sayQueue.Count > 0)
+                running = StartCoroutine(SayRoutine());
+            else
+                ShowHoldOptions();
+        }
+
+        /// <summary>The caller's deadline passed with no decision.</summary>
+        public void Timeout()
+        {
+            if (state != State.Active || conv == null)
+                return;
+            StopSpeech();
+            ClearDecision();
+            if (!isChat)
+                ui.Transcript.AddSystem($"It's {GameClock.Now}. Time's up.", "bad");
+            GoTo(conv.timeoutEndingId);
+        }
+
+        void StopSpeech()
+        {
+            if (running != null)
+                StopCoroutine(running);
+            running = null;
+            VoicePlayer.Stop();
+            ui.Transcript.SetTyping(false, null);
+            onHold = false;
+            sayQueue.Clear();
         }
 
         void Update()
@@ -355,7 +575,8 @@ namespace DontCallMe.Flow
                     if (firedPressure.Contains(p) || f > p.atPatience)
                         continue;
                     firedPressure.Add(p);
-                    Show(Speaker.Caller, p.text, null, caller.portrait);
+                    var clip = isChat ? null : VoiceBank.Lookup(voice, string.IsNullOrEmpty(p.spoken) ? p.text : p.spoken);
+                    Show(Speaker.Caller, p.text, null, caller.portrait, VoicePlayer.Play(clip));
                 }
                 if (patience <= 0f)
                 {
@@ -368,7 +589,7 @@ namespace DontCallMe.Flow
             }
             else
             {
-                ui.Pressure.Tick(-1f, dt);
+                ui.Pressure.Tick(ExternalPressure, dt);
             }
         }
 
@@ -383,16 +604,14 @@ namespace DontCallMe.Flow
             }
             if (state != State.Active || isChat || conv == null)
                 return;
-            if (running != null)
-                StopCoroutine(running);
+            StopSpeech();
             ClearDecision();
-            ui.Transcript.SetTyping(false, null);
             ui.Transcript.AddSystem("You hung up.");
             // The line is dead: the caller's ending lines are not heard.
             CloseLine();
             var ending = conv.FindEnding(conv.hangUpEndingId);
             if (ending != null)
-                EndWith(ending, caller.portrait, speak: false);
+                EndWith(ending, caller.portrait, voice, speak: false);
             else
                 Cleanup();
         }
@@ -418,8 +637,7 @@ namespace DontCallMe.Flow
             var trigger = conv.actions.Find(a => a.kind == ActionKind.Transfer && FactText.SameNumber(a.target, account));
             if (trigger == null)
                 return;
-            if (running != null)
-                StopCoroutine(running);
+            StopSpeech();
             ClearDecision();
             GoTo(trigger.endingId);
         }
@@ -440,9 +658,8 @@ namespace DontCallMe.Flow
                     ui.Toast("app_phone", "Phone", "You're on the line with this number already.");
                     return;
                 }
-                string who = ui.Phone.FindContact(number)?.name ?? ui.Directory.FindNumber(number)?.owner ?? number;
-                ui.Confirm("Hang up and call?", $"End the call with {title} ({caller.number}) and call {who}?", "Hang up and call",
-                           "Stay on the line", () => CallAway(number));
+                ui.Toast("app_phone", "You're on a call",
+                         "You can't call out in the middle of this call. Give your verdict on the call first.");
                 return;
             }
             if (state == State.Active && isChat)
@@ -450,8 +667,7 @@ namespace DontCallMe.Flow
                 var trig = conv.actions.Find(a => a.kind == ActionKind.Call && FactText.SameNumber(a.target, number));
                 if (trig != null)
                 {
-                    if (running != null)
-                        StopCoroutine(running);
+                    StopSpeech();
                     ClearDecision();
                     running = StartCoroutine(VerifyCall(number, trig));
                     return;
@@ -460,29 +676,14 @@ namespace DontCallMe.Flow
             outgoing = StartCoroutine(Outgoing(number));
         }
 
-        void CallAway(string number)
-        {
-            if (state != State.Active || conv == null)
-                return;
-            if (running != null)
-                StopCoroutine(running);
-            ClearDecision();
-            ui.Transcript.AddSystem($"You hung up on {caller.number} and called {number}.");
-            var trig = conv.actions.Find(a => a.kind == ActionKind.Call && FactText.SameNumber(a.target, number));
-            if (trig != null)
-                running = StartCoroutine(VerifyCall(number, trig));
-            else
-                GoTo(conv.hangUpEndingId);
-        }
-
         /// <summary>The player called a number they looked up; that line answers with the ending's lines.</summary>
         IEnumerator VerifyCall(string number, ActionTrigger trig)
         {
             state = State.Ending;
             isChat = false;
-            var who = new CallerInfo { displayName = trig.answeredBy, number = number, portrait = trig.portrait, inContacts = true };
+            var who = new CallerInfo { displayName = trig.answeredBy, number = number, portrait = trig.portrait, inContacts = true, voice = trig.voice };
             Phone.Raise(true);
-            BeginCallScreen(who, trig.answeredBy, "CALLING…");
+            BeginCallScreen(who, trig.answeredBy, "CALLING…", allowHangUp: false);
             ui.Transcript.Open(who, trig.answeredBy);
             ui.Transcript.AddSystem($"Calling {number}…");
             ui.CallHud.Set(trig.answeredBy, number, trig.portrait);
@@ -492,10 +693,11 @@ namespace DontCallMe.Flow
             Sfx.Play(Sfx.Tick);
             yield return new WaitForSeconds(0.9f);
             inCall.SetStatus("ON CALL");
-            EndWith(conv.FindEnding(trig.endingId), trig.portrait);
+            running = null;
+            EndWith(conv.FindEnding(trig.endingId), trig.portrait, trig.voice);
         }
 
-        void EndWith(ConvEnding ending, string portrait, bool speak = true)
+        void EndWith(ConvEnding ending, string portrait, string voiceId, bool speak = true)
         {
             if (ending == null)
             {
@@ -504,16 +706,19 @@ namespace DontCallMe.Flow
             }
             state = State.Ending;
             pending = null;
+            onHold = false;
+            sayQueue.Clear();
+            ui.Transcript.ShowIdle();
             if (running != null)
                 StopCoroutine(running);
-            running = StartCoroutine(PlayEnding(ending, portrait, speak));
+            running = StartCoroutine(PlayEnding(ending, portrait, voiceId, speak));
         }
 
-        IEnumerator PlayEnding(ConvEnding ending, string portrait, bool speak)
+        IEnumerator PlayEnding(ConvEnding ending, string portrait, string voiceId, bool speak)
         {
             if (speak)
-                foreach (string text in ending.lines)
-                    yield return PlayLine(new ConvLine { speaker = Speaker.Caller, text = text, pauseAfter = 0.3f }, portrait);
+                foreach (var line in ending.lines)
+                    yield return PlayLine(line, portrait, voiceId);
             if (!isChat)
                 CloseLine();
             else
@@ -521,7 +726,10 @@ namespace DontCallMe.Flow
             if (conv != null && !isChat)
                 Phone.App<CallsApp>().AddRecord(conv.caller.number, CallKind.Incoming, Phone.CallTimerText);
             yield return new WaitForSeconds(1.4f);
-            ShowResult(ending);
+            running = null;
+            ConversationEnded?.Invoke(ending);
+            if (showEndingCard)
+                ShowResult(ending);
         }
 
         void ShowResult(ConvEnding ending)
@@ -550,11 +758,15 @@ namespace DontCallMe.Flow
             ui.ShowEndingCard(card, Cleanup);
         }
 
+        /// <summary>Close the finished conversation (the DayDirector calls this when it shows no card).</summary>
+        public void Finish() => Cleanup();
+
         void Cleanup()
         {
             if (running != null)
                 StopCoroutine(running);
             running = null;
+            VoicePlayer.Stop();
             Sfx.StopLoop();
             ClearDecision();
             // An ordinary outgoing call placed during a chat keeps its own screen.
@@ -571,6 +783,8 @@ namespace DontCallMe.Flow
             state = State.Idle;
             conv = null;
             isChat = false;
+            onHold = false;
+            sayQueue.Clear();
         }
 
         // ---------------------------------------------------------------- ordinary outgoing calls
@@ -603,15 +817,21 @@ namespace DontCallMe.Flow
                 yield break;
             }
             inCall.SetStatus("ON CALL");
-            foreach (string text in cb.lines)
+            foreach (var line in cb.lines)
             {
-                ui.Transcript.SetTyping(true, portrait);
-                yield return new WaitForSeconds(Mathf.Clamp(text.Length / 32f, 0.7f, 2.4f));
-                ui.Transcript.SetTyping(false, portrait);
-                ui.Transcript.AddLine(Speaker.Caller, text, null, portrait);
-                ui.CallHud.SetLine(text);
-                Sfx.Play(Sfx.Type, 0.6f);
-                yield return new WaitForSeconds(0.6f);
+                var clip = VoiceBank.Lookup(cb.voice, line.Spoken);
+                if (clip == null)
+                {
+                    ui.Transcript.SetTyping(true, portrait);
+                    yield return new WaitForSeconds(Mathf.Clamp(line.text.Length / 32f, 0.7f, 2.4f));
+                    ui.Transcript.SetTyping(false, portrait);
+                }
+                float speaking = VoicePlayer.Play(clip);
+                ui.Transcript.AddLine(Speaker.Caller, line.text, line.facts, portrait, speaking);
+                ui.CallHud.SetLine(line.text);
+                if (speaking <= 0f)
+                    Sfx.Play(Sfx.Type, 0.6f);
+                yield return new WaitForSeconds(speaking + 0.6f);
             }
             ui.Transcript.AddSystem("Call ended.");
             yield return new WaitForSeconds(1.2f);
@@ -623,6 +843,7 @@ namespace DontCallMe.Flow
             if (outgoing != null)
                 StopCoroutine(outgoing);
             outgoing = null;
+            VoicePlayer.Stop();
             Sfx.Play(Sfx.HangUp, 0.6f);
             ui.Transcript.SetTyping(false, null);
             if (inCall != null)

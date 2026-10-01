@@ -90,6 +90,9 @@ namespace DontCallMe.UI
 
         readonly Label timer;
         readonly Label status;
+        readonly VisualElement hangButton;
+        readonly Label hangLabel;
+        bool hangUpEnabled = true;
 
         public InCallView(PhoneController phone, CallerInfo caller, string title, string statusText = "ON CALL")
             : base(phone, "", scroll: false, header: false)
@@ -118,11 +121,14 @@ namespace DontCallMe.UI
             red.tooltip = "Hang up";
             red.RegisterCallback<ClickEvent>(e =>
             {
-                HangUpClicked?.Invoke();
+                if (hangUpEnabled)
+                    HangUpClicked?.Invoke();
                 e.StopPropagation();
             });
             hang.Add(red);
-            hang.Add(UIKit.Text("Hang up"));
+            hangButton = red;
+            hangLabel = UIKit.Text("Hang up");
+            hang.Add(hangLabel);
             buttons.Add(hang);
             call.Add(buttons);
             Root.Add(call);
@@ -145,6 +151,15 @@ namespace DontCallMe.UI
         }
 
         public void SetTimer(string text) => timer.text = text;
+
+        /// <summary>On a case the red button is off: the call ends through the verdict on the call.</summary>
+        public void SetHangUpEnabled(bool on)
+        {
+            hangUpEnabled = on;
+            hangButton.EnableInClassList("call-btn--off", !on);
+            hangButton.tooltip = on ? "Hang up" : "Give your verdict on the call";
+            hangLabel.text = on ? "Hang up" : "Verdict on the call";
+        }
 
         public void SetStatus(string text) => status.text = text;
     }

@@ -32,12 +32,14 @@ To check the look, use **Tools → Don't Call Me → Art → Capture Audit Views
 
 The UI (UI Toolkit) takes its art from this folder too. It reuses printed art from the room, so rebuild the textures first.
 
-1. **UI art** — writes `Assets/_Game/UI/Sprites` (9-slice frames, buttons, chips, the phone frame, app icons, glyphs, pixel portraits of every caller, documents and cards) and `slices.json` with the 9-slice borders
+1. **UI art** — writes `Assets/_Game/UI/Sprites` (9-slice frames, buttons, chips, the phone frame, app icons, glyphs, pixel portraits of every caller, documents and cards, menu glyphs, the title logo and its shade) and `slices.json` with the 9-slice borders
    ```
    python3 Tools/ArtGen/ui_art.py
    ```
 2. **Unity** — menu **Tools → Don't Call Me → UI → Run UI Pipeline**. It imports the sprites with their borders, builds the font assets (with Hangul fallbacks), the panel settings and the `UISkin`, and adds the UI objects to the Room scene: EventSystem, `GameUI`, `Flow` (`CallDirector`, `DemoDirector`) and an `Interactable` on each `INT_*` object. The art pipeline's scene step runs that last part as well.
-3. **Demo content** — **Tools → Don't Call Me → UI → Rebuild Demo Content** rewrites `Assets/_Game/Data/Demo`: the phone's contents, the directory of numbers, accounts and web pages, the room's documents, the M6 demo call and the E2 demo chat.
+3. **Content** — **Tools → Don't Call Me → Content → Build Days** rewrites `Assets/_Game/Data/Day1..Day3` (per day and truth: the phone's contents, the directory of numbers, accounts and web pages, the room's documents, the call, the clues, the next morning's papers and the rule, plus the echoes of earlier days), a sample chat in `Data/Samples` and `Resources/DayCatalog`.
+   **Tools → Don't Call Me → Content → Print Desk Newspapers** writes `Tools/ArtGen/papers.json` (every front page that lies on the desk the next day), runs `python3 Tools/ArtGen/tex_prints.py papers` to print each one in the Day 1 paper's style to `Assets/_Game/Art/Textures/Papers/` (768 × 1050) and links the prints to their papers. `Remove Stale Art` leaves that folder alone.
+4. **Audio and scenes** — voices and music come from `Tools/Audio` (see its README). **Tools → Don't Call Me → Scenes → Build Home and End Scenes** builds the title and next-morning scenes around the same bedroom (the End scene in morning light) and sets the build order Home, Room, End.
 
 **Tools → Don't Call Me → UI → Capture UI Tour** enters Play mode and saves a screenshot of every panel and app, the demo call played three ways, the chat and an outgoing call to `Temp/UITour`. Failed checks are logged as `[UITour] FAILED`.
 
@@ -46,7 +48,10 @@ The UI (UI Toolkit) takes its art from this folder too. It reuses printed art fr
 | Colours, fonts, sizes, animation | `Assets/_Game/UI/Uss/*.uss` (colour tokens at the top of `Theme.uss`) |
 | Frames, icons, portraits, cards and documents | `ui_art.py` |
 | Screen layouts | C# builders in `Assets/_Game/Scripts/UI` (`Panels/` for the room, `Phone/` for the apps and call screens, `Call/` for the transcript) |
-| Demo texts, numbers, accounts and web pages | `Assets/_Game/Scripts/Editor/UI/DemoContentBuilder.cs` |
+| Jiwoo's week (contacts, texts, chats, bank, parcels, mail, lease, board, wallet) | `Assets/_Game/Scripts/Editor/UI/ContentBuilder.Household.cs` |
+| Each day's call, evidence, clues, papers and echoes | `ContentBuilder.Day1.cs`, `ContentBuilder.Day2.cs`, `ContentBuilder.Day3.cs` |
+| Blank notes the game writes on (sticky notes, a notebook page) | `ui_art.py` (`blank_notes`) |
+| The title logo and menu glyphs | `ui_art.py` (`title_logo`, `menu_glyphs`) |
 
 ## Where to change things
 

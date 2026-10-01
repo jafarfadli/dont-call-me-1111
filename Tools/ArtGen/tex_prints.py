@@ -2,6 +2,7 @@
 notes, family photos, labels, posters, clock, TV, books, rug, leaves and the view
 of Seoul behind the window. Atlas layouts live in atlas.py."""
 import datetime
+import json
 import math
 import os
 
@@ -115,7 +116,27 @@ def phone_transfer_photo(w, h):
     return cv.result()
 
 
-def newspaper(w=1024, h=1400):
+def headline_lines(cv, text, width, size=112, smallest=72):
+    """The prop's headline in capitals over at most two balanced lines, shrinking the type until it fits."""
+    words = text.upper().split()
+    while True:
+        font = cv.font("DIN Condensed Bold.ttf", size)
+        if cv.text_width(" ".join(words), font) <= width and len(words) < 3:
+            return [" ".join(words)], font
+        best = None
+        for k in range(1, len(words)):
+            a, b = " ".join(words[:k]), " ".join(words[k:])
+            wide = max(cv.text_width(a, font), cv.text_width(b, font))
+            if best is None or wide < best[0]:
+                best = (wide, [a, b])
+        if best is not None and best[0] <= width or size <= smallest:
+            return (best[1] if best else [" ".join(words)]), font
+        size -= 4
+
+
+def newspaper(w=1024, h=1400, headline=None, subhead="Fake \"bank staff\" ask for transfers. Check whose account it is.",
+              date_en="TUESDAY, OCTOBER 6, 2026", date_ko="2026년 10월 6일 화요일", issue="제 12,408호", name="T_Newspaper", out_w=None):
+    """The folded Seoul Daily on the desk. Day 1's issue by default; newspapers() prints the later issues."""
     cv = Canvas(w, h, ss=2, bg=PAPER)
     m = 40
     size = 80
@@ -125,21 +146,32 @@ def newspaper(w=1024, h=1400):
         title = cv.font("Georgia Bold.ttf", size)
     cv.text((w / 2, m + 46), "SEOUL DAILY", title, NEWS_INK, anchor="mm")
     cv.text((m + 10, m + 46), "서울데일리", cv.font(MYUNGJO, 26), NEWS_INK, anchor="lm")
-    cv.text((w - m - 10, m + 46), "제 12,408호", cv.font(MYUNGJO, 22), NEWS_INK, anchor="rm")
+    cv.text((w - m - 10, m + 46), issue, cv.font(MYUNGJO, 22), NEWS_INK, anchor="rm")
     rule(cv, m, w - m, m + 6, NEWS_INK, 2.5)
     rule(cv, m, w - m, m + 12, NEWS_INK, 1)
     rule(cv, m, w - m, m + 96, NEWS_INK, 1)
     small = cv.font("Georgia.ttf", 17)
-    cv.text((m, m + 106), "TUESDAY, OCTOBER 6, 2026", small, NEWS_INK)
-    cv.text((w / 2, m + 106), "2026년 10월 6일 화요일", gothic(cv, 17), NEWS_INK, anchor="ma")
+    cv.text((m, m + 106), date_en, small, NEWS_INK)
+    cv.text((w / 2, m + 106), date_ko, gothic(cv, 17), NEWS_INK, anchor="ma")
     cv.text((w - m, m + 106), "1,000원", gothic(cv, 17), NEWS_INK, anchor="ra")
     rule(cv, m, w - m, m + 132, NEWS_INK, 2.5)
 
-    head = cv.font("DIN Condensed Bold.ttf", 112)
-    cv.text((m, m + 150), "BEFORE YOU SEND,", head, NEWS_INK)
-    cv.text((m, m + 262), "READ THE NAME", head, NEWS_INK)
-    sub = cv.font("Georgia Italic.ttf", 26)
-    cv.text((m, m + 382), "Fake \"bank staff\" ask for transfers. Check whose account it is.", sub, NEWS_INK)
+    if headline is None:
+        lines, head = ["BEFORE YOU SEND,", "READ THE NAME"], cv.font("DIN Condensed Bold.ttf", 112)
+    else:
+        lines, head = headline_lines(cv, headline, w - 2 * m)
+    step = 112 if len(lines) > 1 else 0
+    top = m + 150 if len(lines) > 1 else m + 190
+    for k, line in enumerate(lines):
+        cv.text((m, top + k * step), line, head, NEWS_INK)
+    size = 26
+    sub = cv.font("Georgia Italic.ttf", size)
+    while cv.text_width(subhead, sub) > w - 2 * m and size > 19:
+        size -= 1
+        sub = cv.font("Georgia Italic.ttf", size)
+    sub_lines = wrap_words(cv, subhead, sub, w - 2 * m)
+    for k, line in enumerate(sub_lines[:2]):
+        cv.text((m, m + 382 - (len(sub_lines[:2]) - 1) * 14 + k * 28), line, sub, NEWS_INK)
 
     px0, py0, pw, ph = m, m + 430, 600, 400
     photo = halftone(phone_transfer_photo(pw, ph), cell=4, dark=NEWS_INK, light=PAPER)
@@ -184,7 +216,22 @@ def newspaper(w=1024, h=1400):
     for s in (-1, 1):
         cv.ellipse(fx + ca * 56 - sa * s * 7, fy + sa * 56 + ca * s * 7, 8, 8, fill=PAPER, outline=NEWS_INK, width=2)
     cv.ellipse(fx - ca * 8, fy - sa * 8, 32, 24, fill=NEWS_INK, rot=ang)
-    return save(paper_tone(cv.result(), 111, 0.07), "T_Newspaper")
+    img = paper_tone(cv.result(), 111, 0.07)
+    if out_w:
+        img = img.resize((out_w, int(h * out_w / w)), Image.LANCZOS)
+    return save(img, name)
+
+
+PAPERS_JSON = os.path.join(os.path.dirname(__file__), "papers.json")
+
+
+def newspapers():
+    """The later issues on the desk, one per front page Unity lists in papers.json (Content → Build Days)."""
+    with open(PAPERS_JSON, encoding="utf-8") as f:
+        issues = json.load(f)
+    os.makedirs(os.path.join(OUT, "Papers"), exist_ok=True)
+    return [newspaper(headline=p["headline"], subhead=p["subhead"], date_en=p["dateEn"], date_ko=p["dateKo"], issue=p["issue"],
+                      name="Papers/" + p["name"], out_w=768) for p in issues]
 
 
 # ---------------------------------------------------------------- calendar
@@ -277,9 +324,11 @@ def calendar(w=768, h=1152):
         cv.line([(x + 30 + 12 * math.cos(a1), y + 4 + 12 * math.sin(a1)), (x + 30 + 12 * math.cos(a2), y + 4 + 12 * math.sin(a2))],
                 RED_PEN, 2)
     cv.text((x - 38, y + 62), "Mom b-day", hand, RED_PEN)
-    x, y = cell_xy(25)
-    cv.text((x - 30, y + 62), "Rent", hand, BLUE_PEN)
-    cv.line([(x + 22, y + 8), (x + 30, y + 18), (x + 46, y - 6)], BLUE_PEN, 3)
+    x, y = cell_xy(7)
+    cv.text((x - 26, y + 62), "Rent!", hand, RED_PEN)
+    cv.line([(x - 30, y + 84), (x + 22, y + 84)], RED_PEN, 2)
+    x, y = cell_xy(13)
+    cv.text((x - 40, y + 62), "Midterms", hand, BLUE_PEN)
     return save(paper_tone(cv.result(), 222, 0.05), "T_Calendar")
 
 
@@ -435,8 +484,12 @@ def labels_atlas():
     for k in range(5):
         px = x0 + 40 + k * 110
         cv.poly([(px - 90, y1), (px, y1 - 70 - (k % 2) * 30), (px + 90, y1)], fill=mix(hexc("1E2A40"), hexc("2F4A6E"), k * 0.15))
-    cv.text((cx, y0 + 88), "10:32", cv.font("Arial Rounded Bold.ttf", 72), (240, 236, 228), anchor="mm")
-    cv.text((cx, y0 + 146), "Tuesday, October 6", cv.font("Arial.ttf", 22), (220, 226, 236), anchor="mm")
+    # A lock screen with no clock, so it fits any day.
+    cv.ellipse(cx, y0 + 74, 34, 34, fill=(228, 220, 206), outline=(250, 246, 238), width=3)
+    cv.ellipse(cx, y0 + 66, 12, 12, fill=hexc("6B5B6E"))
+    cv.poly([(cx - 20, y0 + 100), (cx - 14, y0 + 84), (cx + 14, y0 + 84), (cx + 20, y0 + 100)], fill=hexc("6B5B6E"))
+    cv.text((cx, y0 + 132), "Kim Jiwoo", cv.font("Arial Rounded Bold.ttf", 30), (240, 236, 228), anchor="mm")
+    cv.text((cx, y0 + 166), "Touch ID or Enter Password", cv.font("Arial.ttf", 18), (220, 226, 236), anchor="mm")
 
     x0, y0, x1, y1 = R["thermostat"]
     cv.rect(x0, y0, x1, y1, fill=hexc("E8E4DA"))
@@ -808,5 +861,6 @@ def run():
 
 
 if __name__ == "__main__":
-    for p in run():
+    import sys
+    for p in (newspapers() if "papers" in sys.argv else run()):
         print(p)

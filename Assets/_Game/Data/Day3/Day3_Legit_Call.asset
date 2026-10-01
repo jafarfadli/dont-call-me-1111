@@ -1,0 +1,331 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfd03999caeea4a5788ed68a4194a80e, type: 3}
+  m_Name: Day3_Legit_Call
+  m_EditorClassIdentifier: DontCallMe::DontCallMe.Data.ConversationData
+  title: "Day 3 \xB7 The held parcel (legit)"
+  channel: 0
+  isScam: 0
+  revealAtEnd: 0
+  caller:
+    displayName: Yoon Seora
+    number: 1588-5520
+    inContacts: 0
+    portrait: pt_hr
+    chatId: 
+    profileId: 
+    voice: Shelley (English (UK))
+  claims:
+  - She is Yoon Seora from Hangang Express's customs clearance desk.
+  - My AliStar monitor (HX-5520-1183-KR) is held at Incheon customs.
+  - "Duty and VAT of \u20A956,600 haven't been paid."
+  - Pay into Nuri Bank 5620-44-018830 before 17:00, or it goes back to the seller.
+  nodes:
+  - id: start
+    lines:
+    - speaker: 0
+      text: Hello, is this Kim Jiwoo? This is Yoon Seora from Hangang Express, the
+        customs clearance desk.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    - speaker: 0
+      text: 'I''m calling about your parcel from AliStar: the 27-inch monitor, tracking
+        number HX-5520-1183-KR.'
+      spoken: I'm calling about your parcel from AliStar. The twenty seven inch monitor,
+        tracking number H X, five five two zero, one one eight three, K R.
+      facts:
+      - kind: 3
+        value: HX-5520-1183-KR
+        label: Tracking
+      deliver: []
+      pauseAfter: 0.4
+    hasDecision: 1
+    decision:
+      kind: 0
+      prompt: How do you answer?
+      patienceSeconds: 40
+      a:
+        label: Yes, that's mine. Is something wrong?
+        playerLine: Yes, that's mine. Is something wrong?
+        next: problem
+      b:
+        label: How do you know what I ordered?
+        playerLine: How do you know what I ordered?
+        next: know
+      pressure:
+      - atPatience: 0.5
+        text: Miss Kim? Are you there?
+        spoken: 
+    next: 
+    holds: 0
+  - id: problem
+    lines:
+    - speaker: 0
+      text: It's held at Incheon customs. The import duty and VAT haven't been paid.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    hasDecision: 0
+    decision:
+      kind: 0
+      prompt: 
+      patienceSeconds: 60
+      a:
+        label: 
+        playerLine: 
+        next: 
+      b:
+        label: 
+        playerLine: 
+        next: 
+      pressure: []
+    next: ask
+    holds: 0
+  - id: know
+    lines:
+    - speaker: 0
+      text: It's on the customs declaration, Miss Kim. We see every item that comes
+        through.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    - speaker: 0
+      text: It's held at Incheon customs because the import duty and VAT haven't
+        been paid.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    hasDecision: 0
+    decision:
+      kind: 0
+      prompt: 
+      patienceSeconds: 60
+      a:
+        label: 
+        playerLine: 
+        next: 
+      b:
+        label: 
+        playerLine: 
+        next: 
+      pressure: []
+    next: ask
+    holds: 0
+  - id: ask
+    lines:
+    - speaker: 0
+      text: "The total is \u20A956,600. Once it's paid, the monitor is released and
+        delivered tomorrow."
+      spoken: The total is fifty six thousand, six hundred won. Once it's paid, the
+        monitor is released and delivered tomorrow.
+      facts:
+      - kind: 5
+        value: 56,600
+        label: 
+      deliver: []
+      pauseAfter: 0.4
+    - speaker: 0
+      text: 'Please pay it into our customs account: Nuri Bank 5620-44-018830.'
+      spoken: Please pay it into our customs account. Nuri Bank, five six two zero,
+        four four, zero one eight eight three zero.
+      facts:
+      - kind: 1
+        value: 5620-44-018830
+        label: 
+      deliver: []
+      pauseAfter: 0.4
+    - speaker: 0
+      text: The desk closes at five. After that the parcel goes back to the seller,
+        and you pay the return shipping.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    - speaker: 0
+      text: I'll stay on the line while you pay.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    hasDecision: 0
+    decision:
+      kind: 0
+      prompt: 
+      patienceSeconds: 60
+      a:
+        label: 
+        playerLine: 
+        next: 
+      b:
+        label: 
+        playerLine: 
+        next: 
+      pressure: []
+    next: 
+    holds: 1
+  endings:
+  - id: refuse
+    verdict: 1
+    timedOut: 0
+    moneyDelta: 0
+    lines: []
+    consequence: The duty wasn't paid by five. The monitor went back to Incheon,
+      and the return shipping comes out of your refund.
+  - id: timeout
+    verdict: 1
+    timedOut: 1
+    moneyDelta: 0
+    lines:
+    - speaker: 0
+      text: Miss Kim? The desk has closed. I'll have to mark it for return.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    consequence: Five o'clock passed. The monitor went back to Incheon.
+  - id: go_along
+    verdict: 0
+    timedOut: 0
+    moneyDelta: -56600
+    lines:
+    - speaker: 0
+      text: Payment received. Your monitor will be delivered tomorrow afternoon.
+        Thank you, Miss Kim.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    consequence: The duty went to Hangang Express's customs account. The monitor
+      arrived on Friday.
+  actions:
+  - kind: 0
+    target: 5620-44-018830
+    endingId: go_along
+    answeredBy: 
+    portrait: 
+    voice: 
+    bank: Nuri Bank
+    amount: 56600
+  hangUpEndingId: refuse
+  timeoutEndingId: timeout
+  caseInfo:
+    caseTitle: The held parcel
+    claimedIdentity: Yoon Seora, Hangang Express's customs desk
+    ask: "Pay \u20A956,600 duty and VAT into Nuri Bank 5620-44-018830"
+    deadline: 17:00
+    deadlineReason: before the customs desk closes
+    objective: 'Is your monitor really held at customs, and is this really Hangang
+      Express? Check before 17:00, then give your verdict on the call: pay the duty,
+      or hang up.'
+  questions:
+  - label: Ask whose name is on the account
+    playerLine: Whose name is on that account?
+    answer:
+    - speaker: 0
+      text: It's a virtual account in the name Hangang Express, customs. It's in
+        your Parcels app too.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    endingId: 
+  - label: Ask why you owe duty
+    playerLine: Why do I have to pay duty?
+    answer:
+    - speaker: 0
+      text: Orders over a hundred and fifty dollars pay duty and VAT when they arrive,
+        unless the seller collected it.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    endingId: 
+  - label: Ask if you can pay in the Parcels app
+    playerLine: Can I pay in the Parcels app instead?
+    answer:
+    - speaker: 0
+      text: Of course. The same account is under your parcel in the app. Either way
+        works.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    endingId: 
+  - label: Ask for a number to call back
+    playerLine: What number can I call you back on?
+    answer:
+    - speaker: 0
+      text: Our customer centre, 1588-5520. It's the number I'm calling from. Ask
+        for the customs desk.
+      spoken: Our customer centre, one five eight eight, five five two zero. It's
+        the number I'm calling from. Ask for the customs desk.
+      facts:
+      - kind: 0
+        value: 1588-5520
+        label: Call back
+      deliver: []
+      pauseAfter: 0.4
+    endingId: 
+  beats:
+  - at: 16:39
+    line:
+      speaker: 0
+      text: I've texted you the payment details, so you have them in writing.
+      spoken: 
+      facts: []
+      deliver:
+      - kind: 0
+        from: Hangang Express
+        title: 
+        text: "[Hangang Express] Customs: duty and VAT \u20A956,600 due for HX-5520-1183-KR.
+          Pay by 17:00 in the app or to virtual account Nuri Bank 5620-44-018830
+          (HANGANG EXPRESS (CUSTOMS))."
+        link: 
+        amount: 0
+      pauseAfter: 0.4
+  - at: 16:46
+    line:
+      speaker: 0
+      text: Miss Kim? The customs desk is asking whether the payment is on its way.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+  - at: 16:52
+    line:
+      speaker: 0
+      text: Eight minutes before the desk closes.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+  - at: 16:57
+    line:
+      speaker: 0
+      text: Three minutes. After five I can't stop the return.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+  verdict:
+    goAlong: Pay the duty
+    goAlongDetail: 
+    goAlongEndingId: 
+    refuse: Hang up
+    refuseDetail: Say no and end the call
+    goAlongLine: Okay, I'm paying it now.
+    refuseLine: I'm not paying anything over the phone. Goodbye.

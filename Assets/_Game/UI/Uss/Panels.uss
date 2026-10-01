@@ -351,6 +351,16 @@
 
 .board__item:hover { scale: 1.06 1.06; }
 
+/* Handwriting on a blank note (position and size are set from the note's size in code). */
+.board__hand {
+    position: absolute;
+    color: #2B2430;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/Gaegu-Bold.asset");
+    white-space: normal;
+    -unity-text-align: upper-left;
+    overflow: hidden;
+}
+
 .board__pin {
     position: absolute;
     top: -8px;

@@ -1,3 +1,5 @@
+using System.Collections;
+using DontCallMe.Audio;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,7 +9,9 @@ namespace DontCallMe.Player
     /// First-person walking: WASD or left stick to move, Shift to walk faster.
     /// Looking is click-and-drag: hold a mouse button (or touch) and drag to turn the view;
     /// a plain click leaves the view alone so it can select things. The right stick turns the view directly.
-    /// Panels lock it with <see cref="SetInputLocked"/>.
+    /// Panels lock it with <see cref="SetInputLocked"/>. A day starts with the player seated at the desk
+    /// (<see cref="Sit"/>): the view is lower, turns within a range and nothing walks until
+    /// <see cref="StandUp"/>. The drag speed follows the Look sensitivity setting.
     /// </summary>
     [RequireComponent(typeof(CharacterController))]
     public sealed class FirstPersonController : MonoBehaviour
@@ -42,6 +46,12 @@ namespace DontCallMe.Player
         [Tooltip("Metres walked per full bob cycle (two steps).")]
         [SerializeField] float strideLength = 1.3f;
 
+        [Header("Seated")]
+        [Tooltip("How much lower the eyes are when seated.")]
+        [SerializeField] float seatedDrop = 0.42f;
+        [Tooltip("How far the seated view turns left or right of the desk, in degrees.")]
+        [SerializeField] float seatedYawRange = 80f;
+
         CharacterController body;
         Vector3 horizontalVelocity;
         float verticalSpeed;
@@ -51,6 +61,10 @@ namespace DontCallMe.Player
         float bobWeight;
         Vector3 pivotRest;
         bool inputLocked;
+        bool seated;
+        float seatYaw;
+        float heightOffset;
+        Coroutine standing;
 
         bool dragging;
         bool pressOnUI;
@@ -60,6 +74,7 @@ namespace DontCallMe.Player
         int skipDeltaFrames;
 
         public bool InputLocked => inputLocked;
+        public bool IsSeated => seated;
 
         /// <summary>Set by the UI: true while the pointer is over a UI element, so a press there never turns the view.</summary>
         public static System.Func<bool> PointerOverUI;
@@ -105,8 +120,51 @@ namespace DontCallMe.Player
         {
             if (!inputLocked)
                 Look();
-            Move(!inputLocked);
+            Move(!inputLocked && !seated && standing == null);
             HeadBob();
+        }
+
+        /// <summary>Sits the player at the desk: feet on the floor at the chair, facing <paramref name="yawDegrees"/>.</summary>
+        public void Sit(Vector3 feet, float yawDegrees, float pitchDegrees = 12f)
+        {
+            if (standing != null)
+                StopCoroutine(standing);
+            standing = null;
+            EndDrag();
+            seated = true;
+            body.enabled = false;
+            horizontalVelocity = Vector3.zero;
+            verticalSpeed = 0f;
+            transform.position = feet;
+            yaw = seatYaw = yawDegrees;
+            pitch = pitchDegrees;
+            heightOffset = -seatedDrop;
+            Turn(Vector2.zero);
+        }
+
+        /// <summary>Stands up and steps back to <paramref name="feet"/>, then walking works again.</summary>
+        public void StandUp(Vector3 feet, float seconds = 0.9f)
+        {
+            if (!seated || standing != null)
+                return;
+            standing = StartCoroutine(Stand(feet, seconds));
+        }
+
+        IEnumerator Stand(Vector3 feet, float seconds)
+        {
+            Vector3 from = transform.position;
+            float t = 0f;
+            while (t < 1f)
+            {
+                t = Mathf.Min(1f, t + Time.deltaTime / Mathf.Max(0.05f, seconds));
+                float k = t * t * (3f - 2f * t);
+                transform.position = Vector3.Lerp(from, feet, k);
+                heightOffset = Mathf.Lerp(-seatedDrop, 0f, k);
+                yield return null;
+            }
+            seated = false;
+            body.enabled = true;
+            standing = null;
         }
 
         void Look()
@@ -151,7 +209,7 @@ namespace DontCallMe.Player
                     return;
                 dragTurning = true;
                 PressWasDrag = true;
-                Turn(delta * (dragSensitivity * (invertDrag ? -1f : 1f)));
+                Turn(delta * DragDegreesPerPixel);
                 // Hide and pin the cursor so the drag never stops at the screen edge.
                 // Locking recentres the cursor, so ignore the jump that follows.
                 Cursor.lockState = CursorLockMode.Locked;
@@ -160,12 +218,16 @@ namespace DontCallMe.Player
                 return;
             }
 
-            Turn(delta * (dragSensitivity * (invertDrag ? -1f : 1f)));
+            Turn(delta * DragDegreesPerPixel);
         }
+
+        float DragDegreesPerPixel => dragSensitivity * GameSettings.LookSensitivity * (invertDrag ? -1f : 1f);
 
         void Turn(Vector2 degrees)
         {
             yaw += degrees.x;
+            if (seated)
+                yaw = seatYaw + Mathf.Clamp(Mathf.DeltaAngle(seatYaw, yaw), -seatedYawRange, seatedYawRange);
             pitch = Mathf.Clamp(pitch - degrees.y, -pitchLimit, pitchLimit);
             transform.rotation = Quaternion.Euler(0f, yaw, 0f);
             cameraPivot.localRotation = Quaternion.Euler(pitch, 0f, 0f);
@@ -196,6 +258,8 @@ namespace DontCallMe.Player
 
         void Move(bool canControl)
         {
+            if (!body.enabled)
+                return;
             Vector2 input = canControl ? Vector2.ClampMagnitude(move.action.ReadValue<Vector2>(), 1f) : Vector2.zero;
             float speed = canControl && sprint.action.IsPressed() ? fastSpeed : walkSpeed;
             Vector3 target = (transform.right * input.x + transform.forward * input.y) * speed;
@@ -211,14 +275,14 @@ namespace DontCallMe.Player
 
         void HeadBob()
         {
-            float speed = new Vector3(body.velocity.x, 0f, body.velocity.z).magnitude;
-            bool walking = body.isGrounded && speed > 0.1f;
+            float speed = body.enabled ? new Vector3(body.velocity.x, 0f, body.velocity.z).magnitude : 0f;
+            bool walking = body.enabled && body.isGrounded && speed > 0.1f;
             bobWeight = Mathf.MoveTowards(bobWeight, walking ? Mathf.Clamp01(speed / walkSpeed) : 0f, 4f * Time.deltaTime);
             if (walking)
                 bobPhase += speed / Mathf.Max(strideLength, 0.1f) * 2f * Mathf.PI * Time.deltaTime;
             float lift = Mathf.Abs(Mathf.Sin(bobPhase)) * bobHeight * bobWeight;
             float sway = Mathf.Sin(bobPhase) * bobSway * bobWeight;
-            cameraPivot.localPosition = pivotRest + new Vector3(sway, lift, 0f);
+            cameraPivot.localPosition = pivotRest + new Vector3(sway, lift + heightOffset, 0f);
         }
     }
 }

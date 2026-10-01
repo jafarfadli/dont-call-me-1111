@@ -1,5 +1,6 @@
 using System.Linq;
 using DontCallMe.Data;
+using DontCallMe.Flow;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -130,6 +131,7 @@ namespace DontCallMe.UI
         {
             public PageScreen(BrowserApp app, WebPage page) : base(app.Phone, page.site, "#5A6FB0")
             {
+                ClueEvents.Raise(ClueEvent.PageOpened, page.url);
                 var urlRow = UIKit.Div("row");
                 if (page.official)
                     urlRow.Add(UIKit.Icon("ic_lock", "list-row__icon"));
@@ -279,8 +281,17 @@ namespace DontCallMe.UI
 
         PhoneScreen Detail(Parcel p)
         {
+            ClueEvents.Raise(ClueEvent.ParcelOpened, p.tracking);
             var s = new PhoneScreen(Phone, p.item, "#9A6A42");
             s.Content.Add(UIKit.Kv("Status", p.status));
+            if (!string.IsNullOrEmpty(p.note))
+            {
+                var box = UIKit.Div("web-notice");
+                box.Add(UIKit.Text(p.note));
+                s.Content.Add(box);
+            }
+            if (!string.IsNullOrEmpty(p.account))
+                s.Content.Add(UIKit.Kv("Pay to", p.account, FactKind.Account));
             s.Content.Add(UIKit.Kv("Seller", p.seller));
             s.Content.Add(UIKit.Kv("Tracking", p.tracking, FactKind.Case));
             s.Content.Add(UIKit.Kv("Courier", p.courier));
@@ -331,6 +342,7 @@ namespace DontCallMe.UI
 
         PhoneScreen Read(MailItem m)
         {
+            ClueEvents.Raise(ClueEvent.MailRead, m.subject);
             var s = new PhoneScreen(Phone, "Mail", "#C9A873");
             s.Content.Add(UIKit.Text(m.subject, "web-title"));
             s.Content.Add(UIKit.Text($"<b>{m.from}</b>", "detail__line"));

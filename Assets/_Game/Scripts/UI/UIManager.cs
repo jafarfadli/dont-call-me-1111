@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using DontCallMe.Audio;
 using DontCallMe.Data;
 using DontCallMe.Flow;
 using DontCallMe.Player;
@@ -29,17 +30,19 @@ namespace DontCallMe.UI
 
     /// <summary>
     /// Builds the game UI on one UIDocument and owns its layers: HUD, room panels, transcript,
-    /// phone, pressure overlay, toasts and modals. Handles Tab (phone), Esc/right-click (back),
-    /// 1/2 (answer), N (notebook), and locks walking while anything is open.
+    /// phone, pressure overlay, day and case cards, toasts, modals, the pause menu and the screen
+    /// fade. Handles Tab (phone), Esc/right-click (back, then pause), 1–4 (answer or ask),
+    /// N (notebook), and locks walking while anything is open.
     /// </summary>
     [RequireComponent(typeof(UIDocument))]
     public class UIManager : MonoBehaviour
     {
-        [Header("Content (cloned at start, so play mode never edits the assets)")]
+        [Header("Content when no day runs (cloned at start, so play mode never edits the assets)")]
         [SerializeField] PhoneContent phoneContent;
         [SerializeField] WorldDirectory directory;
         [SerializeField] RoomContent roomContent;
         [SerializeField] UISkin skin;
+        [SerializeField] VoiceBank voices;
 
         [Header("Input")]
         [SerializeField] InputActionReference phoneAction;
@@ -59,7 +62,11 @@ namespace DontCallMe.UI
         public HudView Hud { get; private set; }
         public CaseFile CurrentCase { get; set; }
         public bool InputLocked { get; private set; }
+        public bool Paused => pauseMenu != null;
+        /// <summary>A case call is on: the phone is for investigating, the verdict is given on the call.</summary>
+        public bool CaseCallActive => director != null && director.IsCaseCall;
         public RoomPanel OpenPanelView => openPanel;
+        public Fader Fade { get; private set; }
 
         public event Action<PanelId> PanelOpened;
         public event Action<PanelId> PanelClosed;
@@ -71,15 +78,22 @@ namespace DontCallMe.UI
         RoomPanel openPanel;
         ModalView modal;
         VisualElement endingCard;
+        VisualElement card;
+        PauseMenuView pauseMenu;
         // Not serialized: after a script reload in Play mode the views are gone and must not be touched.
         [System.NonSerialized] bool built;
 
         void Awake()
         {
             UISkin.Current = skin;
-            Phone = phoneContent != null ? Instantiate(phoneContent) : ScriptableObject.CreateInstance<PhoneContent>();
-            Directory = directory != null ? Instantiate(directory) : ScriptableObject.CreateInstance<WorldDirectory>();
-            Room = roomContent != null ? Instantiate(roomContent) : ScriptableObject.CreateInstance<RoomContent>();
+            if (voices != null)
+                VoiceBank.Current = voices;
+            // A day brings its own evidence (already cloned); otherwise use the scene's content.
+            var dayDirector = FindAnyObjectByType<DayDirector>();
+            var plan = dayDirector != null && dayDirector.enabled ? dayDirector.Prepare() : null;
+            Phone = plan != null ? plan.phone : phoneContent != null ? Instantiate(phoneContent) : ScriptableObject.CreateInstance<PhoneContent>();
+            Directory = plan != null ? plan.directory : directory != null ? Instantiate(directory) : ScriptableObject.CreateInstance<WorldDirectory>();
+            Room = plan != null ? plan.room : roomContent != null ? Instantiate(roomContent) : ScriptableObject.CreateInstance<RoomContent>();
             GameClock.Start(Phone.startTime);
             if (director == null)
                 director = FindAnyObjectByType<CallDirector>();
@@ -100,6 +114,8 @@ namespace DontCallMe.UI
 
         void OnDisable()
         {
+            if (Paused)
+                SetPaused(false);
             Clipboard.Copied -= OnCopied;
             if (FirstPersonController.PointerOverUI == (Func<bool>)IsPointerOverUI)
                 FirstPersonController.PointerOverUI = null;
@@ -121,6 +137,12 @@ namespace DontCallMe.UI
             root.Add(Hud.Root);
 
             CallHud = new CallHud();
+            CallHud.Clicked += () =>
+            {
+                if (openPanel != null)
+                    ClosePanel();
+                PhoneView.Raise(true);
+            };
             root.Add(CallHud.Root);
 
             panelLayer = Layer();
@@ -141,6 +163,9 @@ namespace DontCallMe.UI
             overlayLayer = Layer();
             root.Add(overlayLayer);
             overlayLayer.Add(Hud.Toasts);
+
+            Fade = new Fader(false);
+            root.Add(Fade.Root);
         }
 
         VisualElement Layer()
@@ -165,13 +190,14 @@ namespace DontCallMe.UI
             Hud.SetBadge(PhoneView.TotalBadges);
             PhoneView.Tick(dt);
             HandleInput();
+            PutPhoneAwayOnRoomPress();
 
             bool inCall = director != null && director.IsCallActive;
             Transcript.SetVisible(inCall && PhoneView.IsUp);
             CallHud.SetVisible(inCall && !PhoneView.IsUp);
-            Hud.SetHintsVisible(!PhoneView.IsUp && openPanel == null);
+            Hud.SetHintsVisible(!PhoneView.IsUp && openPanel == null && card == null && (player == null || !player.IsSeated));
 
-            bool locked = PhoneView.IsUp || openPanel != null || modal != null || endingCard != null;
+            bool locked = PhoneView.IsUp || openPanel != null || modal != null || endingCard != null || card != null || Paused;
             if (locked != InputLocked)
             {
                 InputLocked = locked;
@@ -182,6 +208,22 @@ namespace DontCallMe.UI
             }
         }
 
+        /// <summary>
+        /// A press on the room (anywhere that is not UI) while the phone is up lowers the phone, so
+        /// the same drag turns the view. A ringing phone stays up: the call has to be answered.
+        /// </summary>
+        void PutPhoneAwayOnRoomPress()
+        {
+            var mouse = Mouse.current;
+            if (mouse == null || !PhoneView.IsUp || PhoneView.Locked || openPanel != null || modal != null || endingCard != null ||
+                card != null || Paused)
+                return;
+            if (!mouse.leftButton.wasPressedThisFrame && !mouse.rightButton.wasPressedThisFrame)
+                return;
+            if (!IsPointerOverUI())
+                PhoneView.Raise(false);
+        }
+
         void HandleInput()
         {
             bool typing = root.panel?.focusController?.focusedElement is TextField ||
@@ -189,7 +231,7 @@ namespace DontCallMe.UI
 
             if (phoneAction != null && phoneAction.action.WasPressedThisFrame())
             {
-                if (modal == null && endingCard == null)
+                if (modal == null && endingCard == null && card == null && !Paused)
                 {
                     if (openPanel != null)
                     {
@@ -210,12 +252,16 @@ namespace DontCallMe.UI
                 Back();
 
             var kb = Keyboard.current;
-            if (kb == null || typing || modal != null || endingCard != null)
+            if (kb == null || typing || modal != null || endingCard != null || card != null || Paused)
                 return;
             if (kb.digit1Key.wasPressedThisFrame || kb.numpad1Key.wasPressedThisFrame)
                 Choose(0);
             if (kb.digit2Key.wasPressedThisFrame || kb.numpad2Key.wasPressedThisFrame)
                 Choose(1);
+            if (kb.digit3Key.wasPressedThisFrame || kb.numpad3Key.wasPressedThisFrame)
+                Choose(2);
+            if (kb.digit4Key.wasPressedThisFrame || kb.numpad4Key.wasPressedThisFrame)
+                Choose(3);
             if (kb.nKey.wasPressedThisFrame)
             {
                 if (openPanel is NotebookPanel)
@@ -225,14 +271,26 @@ namespace DontCallMe.UI
             }
         }
 
+        /// <summary>Keys 1–4: a decision's option, a question for a holding caller, or a chat reply.</summary>
         void Choose(int index)
         {
-            if (PhoneView.IsUp && Transcript.HasDecision && director != null && director.IsCallActive)
-                Transcript.Pick(index);
-            else
-                PhoneView.App<TalkApp>().PickFromKeyboard(index);
+            if (PhoneView.IsUp && director != null && director.IsCallActive)
+            {
+                if (Transcript.HasDecision)
+                {
+                    Transcript.Pick(index);
+                    return;
+                }
+                if (Transcript.HasQuestions)
+                {
+                    Transcript.PickQuestion(index);
+                    return;
+                }
+            }
+            PhoneView.App<TalkApp>().PickFromKeyboard(index);
         }
 
+        /// <summary>Esc: close the top thing (modal, phone screen, panel); with nothing open, pause.</summary>
         public void Back()
         {
             if (modal != null)
@@ -240,15 +298,91 @@ namespace DontCallMe.UI
                 CloseModal();
                 return;
             }
+            if (Paused)
+            {
+                if (!pauseMenu.CloseSettings())
+                    SetPaused(false);
+                return;
+            }
             if (endingCard != null)
                 return;
-            if (PhoneView.IsUp)
+            if (PhoneView.IsUp && !PhoneView.Locked)
             {
                 PhoneView.Back();
                 return;
             }
-            if (openPanel != null && !openPanel.Back())
-                ClosePanel();
+            if (openPanel != null)
+            {
+                if (!openPanel.Back())
+                    ClosePanel();
+                return;
+            }
+            SetPaused(true);
+        }
+
+        // ---------------------------------------------------------------- pause
+
+        /// <summary>Freezes the game (time, voices, the ringtone) and shows the pause menu; music keeps playing, quieter.</summary>
+        public void SetPaused(bool on)
+        {
+            if (on == Paused || !built)
+                return;
+            if (on)
+            {
+                pauseMenu = new PauseMenuView($"{GameClock.DayLabel}  ·  {GameClock.Now}", () => SetPaused(false), ConfirmMainMenu);
+                overlayLayer.Add(pauseMenu.Root);
+                Time.timeScale = 0f;
+                AudioListener.pause = true;
+                MusicPlayer.Current?.Duck(true);
+                Hud.HidePrompt();
+                Sfx.Play(Sfx.Paper, 0.6f);
+            }
+            else
+            {
+                pauseMenu.Root.RemoveFromHierarchy();
+                pauseMenu = null;
+                Time.timeScale = 1f;
+                AudioListener.pause = false;
+                MusicPlayer.Current?.Duck(false);
+            }
+        }
+
+        void ConfirmMainMenu()
+        {
+            Confirm("Back to the main menu?", "Today's case ends here. You can start the day again from the title screen.",
+                    "Main menu", "Stay", () =>
+                    {
+                        MusicPlayer.Current?.Stop(0.8f);
+                        Fade.FadeOut(0.8f, () => SceneFlow.Load(SceneFlow.Home));
+                    });
+        }
+
+        // ---------------------------------------------------------------- day and case cards
+
+        /// <summary>The black DAY card; <paramref name="onDone"/> runs once it has faded into the room.</summary>
+        public DayCardView ShowDayCard(DayData day, IReadOnlyList<string> extraLines, Action onDone)
+        {
+            var view = new DayCardView(day, extraLines, () =>
+            {
+                card = null;
+                onDone?.Invoke();
+            });
+            card = view.Root;
+            overlayLayer.Add(view.Root);
+            return view;
+        }
+
+        /// <summary>The CASE OPENED file; <paramref name="onStart"/> runs when the player starts investigating.</summary>
+        public void ShowCaseCard(int day, CaseInfo info, CallerInfo caller, string callerTitle, Action onStart)
+        {
+            ClosePanel();
+            var view = new CaseCardView(day, info, caller, callerTitle, () =>
+            {
+                card = null;
+                onStart?.Invoke();
+            });
+            card = view.Root;
+            overlayLayer.Add(view.Root);
         }
 
         public void TogglePhone()
@@ -284,6 +418,7 @@ namespace DontCallMe.UI
             if (p == null)
                 return;
             openPanel = p;
+            ClueEvents.Raise(ClueEvent.PanelOpened, id.ToString());
             panelLayer.Add(p.Root);
             dim.AddToClassList("dim--on");
             p.Root.schedule.Execute(() => p.Root.AddToClassList("room-panel--open")).ExecuteLater(20);
@@ -447,7 +582,19 @@ namespace DontCallMe.UI
             var p = Mouse.current.position.ReadValue();
             var panelPos = RuntimePanelUtils.ScreenToPanel(root.panel, new Vector2(p.x, Screen.height - p.y));
             var picked = root.panel.Pick(panelPos);
-            return picked != null && picked != root;
+            return picked != null && picked != root && IsSeen(picked);
+        }
+
+        /// <summary>
+        /// False for an element that is faded out (its own or an ancestor's opacity is near zero):
+        /// the player cannot see it, so a press there belongs to the room.
+        /// </summary>
+        static bool IsSeen(VisualElement e)
+        {
+            float opacity = 1f;
+            for (var c = e; c != null; c = c.parent)
+                opacity *= c.resolvedStyle.opacity;
+            return opacity > 0.05f;
         }
 
         public void ShowPrompt(string text, Vector2 screenPosition)

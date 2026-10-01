@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using DontCallMe.Data;
+using DontCallMe.Flow;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -15,7 +16,10 @@ namespace DontCallMe.UI
         Notebook,
     }
 
-    /// <summary>A full-screen room panel with a close button. Esc or right-click closes it.</summary>
+    /// <summary>
+    /// A full-screen room panel with a close button. Esc, right-click or a click on the dimmed room
+    /// around it closes it.
+    /// </summary>
     public abstract class RoomPanel
     {
         public readonly UIManager UI;
@@ -31,6 +35,11 @@ namespace DontCallMe.UI
             close.tooltip = "Close (Esc)";
             box.Add(close);
             Root.Add(box);
+            Root.RegisterCallback<ClickEvent>(e =>
+            {
+                if (e.target == Root)
+                    ui.ClosePanel();
+            });
         }
 
         protected abstract VisualElement Build();
@@ -167,6 +176,7 @@ namespace DontCallMe.UI
                 return;
             index = (i + docs.Count) % docs.Count;
             var d = docs[index];
+            ClueEvents.Raise(ClueEvent.DocumentViewed, d.title);
             doc.Clear();
             var scroll = new ScrollView(ScrollViewMode.Vertical);
             scroll.style.flexGrow = 1;
@@ -231,6 +241,8 @@ namespace DontCallMe.UI
                 e.style.width = w;
                 e.style.height = w * aspect;
                 e.style.rotate = new Rotate(new Angle(item.rotation, AngleUnit.Degree));
+                if (!string.IsNullOrEmpty(item.handwriting))
+                    e.Add(Handwriting(item.handwriting, 0f, 0f, w, w * aspect));
                 var pin = UIKit.Div("board__pin");
                 pin.style.backgroundColor = PhoneScreen.Hex(pins[i % pins.Length]);
                 pin.pickingMode = PickingMode.Ignore;
@@ -249,10 +261,19 @@ namespace DontCallMe.UI
 
         void Zoom(BoardItem item)
         {
+            ClueEvents.Raise(ClueEvent.BoardItemOpened, item.title);
             CloseZoom();
             Sfx.Play(Sfx.Paper, 0.6f);
             zoom = UIKit.Div("board__zoom");
             var img = UIKit.Image(item.image, "board__zoom-image");
+            if (!string.IsNullOrEmpty(item.handwriting))
+            {
+                // The picture is fitted into 640 × 820; write inside the part it covers.
+                const float boxW = 640f, boxH = 820f;
+                float aspect = item.image != null ? (float)item.image.height / item.image.width : 1f;
+                float w = Mathf.Min(boxW, boxH / aspect), h = w * aspect;
+                img.Add(Handwriting(item.handwriting, (boxW - w) / 2f, (boxH - h) / 2f, w, h));
+            }
             zoom.Add(img);
             var side = UIKit.Div("board__zoom-side", "paper");
             side.Add(UIKit.Text(item.title, "doc__title"));
@@ -287,6 +308,21 @@ namespace DontCallMe.UI
         {
             zoom?.RemoveFromHierarchy();
             zoom = null;
+        }
+
+        /// <summary>Handwriting on a blank note, inside the note's own rectangle (left, top, width, height).</summary>
+        static Label Handwriting(string text, float left, float top, float width, float height)
+        {
+            var hand = UIKit.Text(text, "board__hand");
+            hand.pickingMode = PickingMode.Ignore;
+            hand.style.left = left + width * 0.1f;
+            hand.style.top = top + height * 0.1f;
+            hand.style.width = width * 0.82f;
+            hand.style.height = height * 0.8f;
+            // Longer notes are written smaller, so they still fit on the paper.
+            float fit = Mathf.Min(1f, Mathf.Sqrt(55f / Mathf.Max(55f, text.Length)));
+            hand.style.fontSize = Mathf.Clamp(width * 0.095f * fit, 10f, 44f);
+            return hand;
         }
 
         public override bool Back()
@@ -382,6 +418,8 @@ namespace DontCallMe.UI
             var card = UI.Room.wallet[current];
             if (card.back == null)
                 return;
+            if (!showingBack)
+                ClueEvents.Raise(ClueEvent.CardFlipped, card.title);
             big.AddToClassList("wallet__card--flip");
             Sfx.Play(Sfx.Paper, 0.5f);
             big.schedule.Execute(() =>

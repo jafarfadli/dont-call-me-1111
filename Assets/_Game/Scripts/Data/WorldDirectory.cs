@@ -138,6 +138,7 @@ namespace DontCallMe.Data
         public string number;
         public string answeredBy;
         public string portrait;
-        [TextArea(1, 4)] public List<string> lines = new List<string>();
+        public string voice;
+        public List<ConvLine> lines = new List<ConvLine>();
     }
 }

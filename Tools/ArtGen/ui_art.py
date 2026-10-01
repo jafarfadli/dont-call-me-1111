@@ -10,7 +10,7 @@ import math
 import os
 
 import numpy as np
-from PIL import Image, ImageDraw, ImageFilter
+from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 import atlas
 import pixel_people as pp
@@ -392,6 +392,186 @@ def icons():
                                         cv.line([(x - 12, y - 4), (x - 12, y - 16), (x - 4, y - 26), (x + 4, y - 26), (x + 12, y - 16), (x + 12, y - 4)], K, 6)))
 
 
+# ---------------------------------------------------------------- menus and title
+
+def menu_glyphs():
+    """Ink glyphs for the pause menu, settings rows, the day and case cards and the summary."""
+    K = INK + (255,)
+    P = (250, 244, 232, 255)
+    R = hexc("C9483A") + (255,)
+    G = hexc("4F8F47") + (255,)
+
+    def glyph(name, draw, s=96):
+        cv = Canvas(s, s, ss=4, mode="RGBA", bg=(0, 0, 0, 0))
+        draw(cv, s / 2, s / 2)
+        save(cv.result(), name)
+
+    def music(cv, x, y):
+        cv.line([(x - 12, y + 18), (x - 12, y - 22), (x + 20, y - 30), (x + 20, y + 10)], K, 6)
+        cv.line([(x - 12, y - 10), (x + 20, y - 18)], K, 6)
+        cv.ellipse(x - 20, y + 20, 10, 8, fill=K, rot=-0.4)
+        cv.ellipse(x + 12, y + 12, 10, 8, fill=K, rot=-0.4)
+
+    def speaker(cv, x, y):
+        cv.poly([(x - 28, y - 9), (x - 15, y - 9), (x - 1, y - 24), (x - 1, y + 24), (x - 15, y + 9), (x - 28, y + 9)], fill=K)
+        for r in (12, 22):
+            pts = [(x + 2 + r * math.cos(a), y + r * math.sin(a)) for a in [(-0.9 + 1.8 * i / 12) for i in range(13)]]
+            cv.line(pts, K, 5)
+
+    def mic(cv, x, y):
+        cv.poly(rrect(x - 10, y - 30, x + 10, y + 6, 10), fill=K)
+        pts = [(x + 18 * math.cos(a), y - 4 + 18 * math.sin(a)) for a in [(0.1 + 2.94 * i / 14) for i in range(15)]]
+        cv.line(pts, K, 5)
+        cv.line([(x, y + 14), (x, y + 26)], K, 5)
+        cv.line([(x - 12, y + 27), (x + 12, y + 27)], K, 5)
+
+    def mouse(cv, x, y):
+        cv.poly(rrect(x - 16, y - 26, x + 16, y + 26, 15), outline=K, width=5)
+        cv.line([(x, y - 26), (x, y - 8)], K, 4)
+        cv.line([(x - 16, y - 8), (x + 16, y - 8)], K, 4)
+        cv.line([(x - 34, y), (x - 24, y - 7)], K, 4)
+        cv.line([(x - 34, y), (x - 24, y + 7)], K, 4)
+        cv.line([(x + 34, y), (x + 24, y - 7)], K, 4)
+        cv.line([(x + 34, y), (x + 24, y + 7)], K, 4)
+
+    def clock(cv, x, y):
+        cv.ellipse(x, y, 30, 30, fill=P, outline=K, width=6)
+        cv.line([(x, y - 18), (x, y), (x + 13, y + 8)], K, 6)
+
+    def pause(cv, x, y):
+        cv.poly(rrect(x - 20, y - 26, x - 6, y + 26, 4), fill=K)
+        cv.poly(rrect(x + 6, y - 26, x + 20, y + 26, 4), fill=K)
+
+    def play(cv, x, y):
+        cv.poly([(x - 16, y - 26), (x + 24, y), (x - 16, y + 26)], fill=K)
+
+    def gear(cv, x, y):
+        teeth = []
+        for i in range(16):
+            a = i * math.pi / 8
+            r = 31 if i % 2 == 0 else 23
+            teeth.append((x + r * math.cos(a - 0.12), y + r * math.sin(a - 0.12)))
+            teeth.append((x + r * math.cos(a + 0.12), y + r * math.sin(a + 0.12)))
+        cv.poly(teeth, fill=K)
+        cv.ellipse(x, y, 10, 10, fill=P)
+
+    def exit_door(cv, x, y):
+        cv.line([(x - 4, y - 28), (x - 26, y - 28), (x - 26, y + 28), (x - 4, y + 28)], K, 6)
+        cv.line([(x - 12, y), (x + 26, y)], K, 6)
+        cv.line([(x + 14, y - 12), (x + 26, y), (x + 14, y + 12)], K, 6)
+
+    def check(cv, x, y):
+        cv.line([(x - 24, y + 2), (x - 8, y + 20), (x + 26, y - 20)], G, 10)
+
+    def cross(cv, x, y):
+        cv.line([(x - 20, y - 20), (x + 20, y + 20)], R, 10)
+        cv.line([(x + 20, y - 20), (x - 20, y + 20)], R, 10)
+
+    def case(cv, x, y):
+        cv.poly([(x - 32, y - 20), (x - 12, y - 20), (x - 6, y - 12), (x + 32, y - 12), (x + 32, y + 26), (x - 32, y + 26)],
+                fill=hexc("C99A5C") + (255,), outline=K, width=5)
+        cv.line([(x - 32, y - 4), (x + 32, y - 4)], K, 4)
+
+    def ring(cv, x, y):
+        handset(cv, x - 4, y + 4, 22, R, rot=0.0)
+        for r in (30, 40):
+            pts = [(x + 2 + r * math.cos(a), y - 2 + r * math.sin(a)) for a in [(-1.35 + 0.8 * i / 8) for i in range(9)]]
+            cv.line(pts, K, 4)
+
+    for name, fn in (("ic_music", music), ("ic_sfx", speaker), ("ic_voice", mic), ("ic_mouse", mouse), ("ic_clock", clock),
+                     ("ic_pause", pause), ("ic_play", play), ("ic_gear", gear), ("ic_exit", exit_door), ("ic_check", check),
+                     ("ic_cross", cross), ("ic_case", case), ("ic_ring", ring)):
+        glyph(name, fn)
+
+
+def gradients():
+    """Left-to-right shade behind the title menu, so text stays readable over the room."""
+    w, h = 512, 8
+    x = np.linspace(0, 1, w)
+    alpha = (0.82 * (1 - x) ** 1.6 * 255).astype(np.uint8)
+    img = np.zeros((h, w, 4), np.uint8)
+    img[..., :3] = (20, 14, 22)
+    img[..., 3] = alpha[None, :]
+    save(Image.fromarray(img, "RGBA"), "grad_left")
+
+
+def title_logo():
+    """The title, DON'T / CALL ME!, as a chunky inked sticker: cream letters with a thick ink line,
+    a red offset shadow with halftone dots, and a ringing red handset jumping off the corner."""
+    ss = 2
+    font_file = os.path.join(ROOT, "Assets", "_Game", "UI", "Fonts", "DoHyeon-Regular.ttf")
+    cream, red, dark_red = (248, 239, 218, 255), hexc("C9483A") + (255,), hexc("8E2E24") + (255,)
+    ink = INK + (255,)
+    stroke = 13 * ss
+    shadow = (24 * ss, 26 * ss)
+
+    def word(text, size, angle, face=None, fill=None, shadow_fill=None):
+        font = ImageFont.truetype(face or font_file, size * ss)
+        probe = ImageDraw.Draw(Image.new("L", (8, 8)))
+        x0, y0, x1, y1 = probe.textbbox((0, 0), text, font=font, stroke_width=stroke)
+        pad = 30 * ss
+        w, h = x1 - x0 + 2 * pad + shadow[0], y1 - y0 + 2 * pad + shadow[1]
+        at = (pad - x0, pad - y0)
+        img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+        d = ImageDraw.Draw(img)
+        sx, sy = at[0] + shadow[0], at[1] + shadow[1]
+        d.text((sx, sy), text, font=font, fill=shadow_fill or red, stroke_width=stroke, stroke_fill=ink)
+        # Halftone dots on the part of the shadow the letters leave visible, denser towards the bottom.
+        shadow_fill = Image.new("L", (w, h), 0)
+        ImageDraw.Draw(shadow_fill).text((sx, sy), text, font=font, fill=255)
+        front = Image.new("L", (w, h), 0)
+        ImageDraw.Draw(front).text(at, text, font=font, fill=255, stroke_width=stroke)
+        dots = Image.new("L", (w, h), 0)
+        dd = ImageDraw.Draw(dots)
+        step = 11 * ss
+        for yy in range(0, h, step):
+            for xx in range(((yy // step) % 2) * step // 2, w, step):
+                r = (1.4 + 3.0 * (yy / h)) * ss
+                dd.ellipse([xx - r, yy - r, xx + r, yy + r], fill=255)
+        mask = np.minimum(np.asarray(shadow_fill), np.asarray(dots)).astype(np.float32)
+        mask *= 1.0 - np.asarray(front, dtype=np.float32) / 255.0
+        dot_layer = Image.new("RGBA", (w, h), dark_red)
+        dot_layer.putalpha(Image.fromarray(mask.astype(np.uint8)))
+        img.alpha_composite(dot_layer)
+        d.text(at, text, font=font, fill=fill or cream, stroke_width=stroke, stroke_fill=ink)
+        return img.rotate(angle, resample=Image.BICUBIC, expand=True)
+
+    top = word("DON'T", 205, 4)
+    call = word("CALL", 300, -3)
+    me = word("ME!", 300, -5)
+    gap = -95 * ss
+    bottom_w = call.width + gap + me.width
+    # A retro desk telephone (the ☎ dingbat) ringing off the corner; a drawn handset if the font is missing.
+    phone_face = next((f for f in ("/System/Library/Fonts/Supplemental/ZapfDingbats.ttf", "/System/Library/Fonts/Apple Symbols.ttf")
+                       if os.path.exists(f)), None)
+    phone = word("\u260E", 150, 14, face=phone_face, fill=red, shadow_fill=INK + (255,)) if phone_face else None
+    W = max(top.width + (phone.width if phone else 0) + 40 * ss, bottom_w + 60 * ss)
+    H = top.height + max(call.height, me.height) - 95 * ss
+    out = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    out.alpha_composite(top, (20 * ss, 30 * ss))
+    y = top.height - 75 * ss
+    x = (W - bottom_w) // 2 + 30 * ss
+    out.alpha_composite(call, (x, y))
+    out.alpha_composite(me, (x + call.width + gap, y - 18 * ss))
+    cv = Canvas(W // ss, H // ss, ss=ss, mode="RGBA", bg=(0, 0, 0, 0))
+    if phone is not None:
+        px, py = top.width + 10 * ss, 0
+        out.alpha_composite(phone, (px, py))
+        hx, hy = (px + phone.width * 0.48) / ss, (py + phone.height * 0.5) / ss
+    else:
+        hx, hy = top.width // ss + 95, top.height // ss * 0.5
+        handset(cv, hx, hy, 70, red, rot=-0.5)
+    # Ringing lines on both sides.
+    for r in (88, 112):
+        for base in (-0.95, 2.35):
+            pts = [(hx + r * math.cos(base + 0.62 * i / 10), hy + r * math.sin(base + 0.62 * i / 10)) for i in range(11)]
+            cv.line(pts, ink, 9)
+    out.alpha_composite(cv.img.resize((W, H)))
+    out = out.crop(out.getbbox())
+    out = out.resize((out.width // ss, out.height // ss), Image.LANCZOS)
+    save(out, "title_logo")
+
+
 # ---------------------------------------------------------------- portraits
 
 BG_POOL = {"blue": ("5E6F8E", "3E4B63"), "teal": ("4E7A74", "30524F"), "rose": ("B98A86", "8A5F5E"), "sand": ("C9B08A", "9A8060"),
@@ -450,6 +630,20 @@ def crop_atlas(tex, key, atlas_name, out_name, scale=1.0):
     if scale != 1.0:
         part = part.resize((int(part.width * scale), int(part.height * scale)), Image.LANCZOS)
     return save(part, out_name)
+
+
+def blank_notes():
+    """Empty notes for the board: the game writes on them (a note left by an earlier day, the landlord's note)."""
+    for name, col, seed in (("board_sticky_y_blank", "F7E27A", 41), ("board_sticky_p_blank", "F5B3C2", 42)):
+        save(paper_fill(256, 256, hexc(col), seed, grain=0.05, fibres=False), name)
+    # A page torn from a notebook, as slipped under the door.
+    w, h = 384, 500
+    img = paper_fill(w, h, hexc("F6F1E4"), 43, grain=0.05)
+    d = ImageDraw.Draw(img)
+    for y in range(76, h - 20, 34):
+        d.line([(16, y), (w - 16, y)], fill=hexc("B9C7DA"), width=2)
+    d.line([(52, 10), (52, h - 10)], fill=hexc("E3A0A0"), width=2)
+    save(img, "board_note_blank")
 
 
 def documents():
@@ -604,9 +798,13 @@ def run():
     icons()
     portraits()
     documents()
+    blank_notes()
     tiles()
     wallpaper()
     notebook_lines()
+    menu_glyphs()
+    gradients()
+    title_logo()
     with open(os.path.join(UI_OUT, "slices.json"), "w") as f:
         json.dump({"slices": [{"name": k, "border": list(v)} for k, v in sorted(SLICES.items())]}, f, indent=1)
     return UI_OUT

@@ -33,7 +33,8 @@ namespace DontCallMe.UI
             ui = FindAnyObjectByType<UIManager>();
             director = FindAnyObjectByType<CallDirector>();
             demo = FindAnyObjectByType<DemoDirector>();
-            // The demo would ring on its own a few seconds after the newspaper closes.
+            // The tour drives calls itself: stop the day flow and the demo's own ring.
+            FindAnyObjectByType<DayDirector>()?.Cancel();
             if (demo != null)
                 demo.enabled = false;
             Directory.CreateDirectory(outputDir);
@@ -51,7 +52,6 @@ namespace DontCallMe.UI
             yield return PhoneApps();
             yield return CallHangUp();
             yield return CallTransfer();
-            yield return CallBack();
             yield return Chat();
             yield return OutgoingCall();
             done = true;
@@ -159,7 +159,7 @@ namespace DontCallMe.UI
             yield return new WaitForSeconds(0.5f);
         }
 
-        /// <summary>Answer, listen, choose, look away, then hang up while the caller pushes.</summary>
+        /// <summary>Answer, listen, choose, ask while he holds, look away, then hang up while he pushes.</summary>
         IEnumerator CallHangUp()
         {
             yield return Ring();
@@ -169,58 +169,49 @@ namespace DontCallMe.UI
             yield return WaitFor(() => ui.Transcript.HasDecision, 25f, "the first decision appears");
             yield return Shot("call_first_decision", 0.5f);
             ui.Transcript.Pick(1);
-            yield return WaitFor(() => ui.Transcript.HasDecision, 30f, "the second decision appears");
-            yield return Shot("call_second_decision", 0.5f);
+            yield return WaitFor(() => director.OnHold && ui.Transcript.HasQuestions, 40f, "the caller holds the line with questions");
+            yield return Shot("call_hold", 0.5f);
+            ui.Transcript.PickQuestion(1);
+            yield return Shot("call_question", 1.5f);
+            yield return WaitFor(() => ui.Transcript.HasQuestions, 30f, "the answer ends and the questions return");
+            yield return Shot("call_answered_question", 0.3f);
             ui.OpenNotebook(true);
             yield return Shot("notebook_case", 0.8f);
             ui.ClosePanel();
             phone.Raise(false);
             yield return Shot("call_hud_phone_down", 1.0f);
             phone.Raise(true);
-            yield return Shot("call_pressure", 10f);
-            director.HangUp();
+            director.Say(ConvLine.Caller("Miss Kim? Are you still there? Please don't put me on hold for long."));
+            yield return Shot("call_pressure_line", 3f);
+            yield return Shot("verdict_choices", 0.1f);
+            ClickFirst(root, "verdict-btn--red", 0);
+            yield return Shot("verdict_hang_up_confirm", 0.5f);
+            ClickFirst(root, "verdict__go", 0);
             yield return CloseEnding("call_ending_hangup", "You refused");
         }
 
-        /// <summary>Send the money the caller asks for: the transfer itself ends the call.</summary>
+        /// <summary>Choose "Send the money" in the verdict: the confirmation shows who gets it.</summary>
         IEnumerator CallTransfer()
         {
             yield return Ring();
             yield return Answer();
             yield return WaitFor(() => ui.Transcript.HasDecision, 25f, "the first decision appears");
+            ui.Transcript.Pick(0);
+            yield return WaitFor(() => director.OnHold, 40f, "the caller holds the line");
+            // The bank app only checks during a case: its Send button is off.
             phone.OpenApp<BankApp>();
             yield return new WaitForSeconds(0.3f);
             phone.Push(phone.App<BankApp>().CreateTransfer("110-900-551207", 1200000));
             yield return new WaitForSeconds(0.4f);
             ClickChip(phone.Top.Root, "Nuri Bank");
             ClickButton(phone.Top.Root, "Next");
-            yield return new WaitForSeconds(0.5f);
-            ClickButton(phone.Top.Root, "Send");
-            yield return new WaitForSeconds(0.4f);
-            for (int i = 0; i < 6; i++)
-            {
-                ClickButton(phone.Top.Root, "1");
-                if (i == 2)
-                    yield return Shot("bank_pin", 0.1f);
-                yield return new WaitForSeconds(0.1f);
-            }
-            yield return Shot("bank_sent", 0.8f);
+            yield return Shot("bank_send_locked", 0.6f);
+            phone.GoHome();
+            ClickFirst(root, "verdict-btn--gold", 0);
+            yield return Shot("verdict_send_confirm", 0.6f);
+            ClickFirst(root, "verdict__go", 0);
+            yield return Shot("verdict_sent", 1.5f);
             yield return CloseEnding("call_ending_transfer", "You went along");
-        }
-
-        /// <summary>Look up the bank's real number and call it: the call ends as verified.</summary>
-        IEnumerator CallBack()
-        {
-            yield return Ring();
-            yield return Answer();
-            yield return new WaitForSeconds(2.5f);
-            phone.Push(phone.App<CallsApp>().CreateKeypad("1599-0000"));
-            yield return new WaitForSeconds(0.4f);
-            ClickFirst(phone.Top.Root, "call-btn", 0);
-            yield return Shot("call_hang_up_and_call", 0.5f);
-            ClickButton(root, "Hang up and call");
-            yield return Shot("call_calling_bank", 1.0f);
-            yield return CloseEnding("call_ending_verify", "You checked first");
         }
 
         // ---------------------------------------------------------------- chat

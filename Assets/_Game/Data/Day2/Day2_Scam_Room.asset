@@ -1,0 +1,400 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b53d3a7811bb8498d9ae0485fd422ad9, type: 3}
+  m_Name: Day2_Scam_Room
+  m_EditorClassIdentifier: DontCallMe::DontCallMe.Data.RoomContent
+  newspaper:
+    masthead: SEOUL DAILY
+    issue: No. 12,409
+    dateLine: WEDNESDAY, OCTOBER 7, 2026
+    price: 1,000 won
+    headline: '"Protection team" scam calls hit Mangwon'
+    subhead: Callers posing as Nuri Bank staff asked residents to move their savings
+      to a stranger's account.
+    photo: {fileID: 2800000, guid: 4c63c0d2cf38942db834f06de02c655f, type: 3}
+    caption: 'The transfer screen shows who really gets the money. Photo: Seoul Daily'
+    body:
+    - A caller calling himself "Manager Jeon" of Nuri Bank's "account protection
+      team" phoned residents of Mangwon-dong yesterday afternoon. He warned them
+      that their accounts had been accessed from Busan and asked them to move their
+      savings to a "protected account" before a 5 p.m. "security reset".
+    - Several residents hung up. Police say the "protected account", Nuri Bank 110-900-551207,
+      belongs to a 30-year-old woman paid to lend her account to the ring, and ask
+      anyone called by 070-8844-2019 to report it to 112 or the fraud hotline 1332.
+    - '"There is no such thing as a protected account," said Song Eunji of Nuri Bank''s
+      customer centre. "Every banking app shows the name of the person you are sending
+      money to. If it''s a person''s name, stop, hang up and call us on the number
+      you already have."'
+    warningTitle: 'RENT DAY: CHECK THE NEW ACCOUNT'
+    warningText: Tenants across Mapo report calls and texts about a "new rent account"
+      around rent day. Your lease says how the account can change. Check it, and
+      check that the new account is in the name of your landlord or someone your
+      lease names.
+    print: {fileID: 0}
+    local:
+    - title: Water tank cleaning tomorrow
+      text: Villas on Poeun-ro will be without water on Thursday, 10:00-12:00.
+    - title: Mangwon market by night
+      text: The market stays open until 23:00 this Saturday, with street food and
+        live music.
+    - title: Midterms
+      text: Hanbit University's library opens around the clock from Friday.
+    ads:
+    - title: "\uCE58\uD0A8 CHICKEN 24H"
+      text: Crispy & soy garlic. Free delivery over 20,000 won. 02-555-0147
+    - title: HANBIT ACADEMY
+      text: TOEIC weekend class, 30% off for students. 02-555-0166
+    - title: EASY MONEY!
+      text: 'Remote job: forward client deposits, keep 3%. No experience! 010-3309-2214'
+  drawer:
+  - title: "Lease contract \xB7 Unit 302"
+    kind: 0
+    issuer: Mangwon Heights
+    fields:
+    - label: Landlord
+      value: Choi Youngsik
+      isFact: 0
+      factKind: 6
+    - label: Landlord's phone
+      value: 010-5512-3380
+      isFact: 1
+      factKind: 0
+    - label: Rent
+      value: 450,000 won a month, due on the 7th
+      isFact: 0
+      factKind: 6
+    - label: Rent account
+      value: Nuri Bank 110-771-209944 (Choi Youngsik)
+      isFact: 1
+      factKind: 1
+    - label: Deposit
+      value: 10,000,000 won
+      isFact: 0
+      factKind: 6
+    - label: If absent, contact
+      value: Choi Hyunwoo (son) 010-2280-6614
+      isFact: 1
+      factKind: 0
+    body: 'Special terms
+
+      1. The rent account changes only with a written notice
+      from the landlord.
+
+      2. The tenant allows the annual gas safety inspection.
+
+      3.
+      No smoking inside the unit.'
+    stamp: 
+    image: {fileID: 0}
+  - title: "Gas bill \xB7 September"
+    kind: 1
+    issuer: Mapo City Gas
+    fields:
+    - label: Customer
+      value: "Kim Jiwoo \xB7 Mangwon Heights 302"
+      isFact: 0
+      factKind: 6
+    - label: Amount
+      value: 18,420 won
+      isFact: 0
+      factKind: 6
+    - label: Paid
+      value: 28 Sep (auto-pay)
+      isFact: 0
+      factKind: 6
+    - label: Customer centre
+      value: 02-555-0181
+      isFact: 1
+      factKind: 0
+    body: 'Safety inspection this month: Wednesday 14 October. Our inspectors carry
+      an ID card and never ask for money.'
+    stamp: stamp_paid
+    image: {fileID: 0}
+  - title: "Mobile bill \xB7 September"
+    kind: 1
+    issuer: Hangul Telecom
+    fields:
+    - label: Number
+      value: 010-6620-0921
+      isFact: 0
+      factKind: 6
+    - label: Amount
+      value: 43,200 won
+      isFact: 0
+      factKind: 6
+    - label: Due
+      value: 20 October
+      isFact: 0
+      factKind: 6
+    - label: Customer centre
+      value: 02-555-0114
+      isFact: 1
+      factKind: 0
+    body: 
+    stamp: 
+    image: {fileID: 0}
+  - title: "Receipt \xB7 5 Oct"
+    kind: 2
+    issuer: DAILY 24 Mangwon
+    fields:
+    - label: Total
+      value: 5,850 won
+      isFact: 0
+      factKind: 6
+    - label: Card
+      value: Nuri ****0921
+      isFact: 0
+      factKind: 6
+    body: 
+    stamp: 
+    image: {fileID: 2800000, guid: c000f9c1281a04bc39bbbcf431f2acba, type: 3}
+  - title: Scholarship interview
+    kind: 3
+    issuer: Hanbit University
+    fields:
+    - label: When
+      value: Fri 16 Oct, 14:00
+      isFact: 0
+      factKind: 6
+    - label: Where
+      value: Student Centre 204
+      isFact: 0
+      factKind: 6
+    - label: Office
+      value: 02-555-0200
+      isFact: 1
+      factKind: 0
+    body: Please bring your student ID. The scholarship office never charges a fee.
+    stamp: 
+    image: {fileID: 0}
+  - title: Delivery slip
+    kind: 4
+    issuer: Hangang Express
+    fields:
+    - label: Tracking
+      value: 4410 2287 1934
+      isFact: 1
+      factKind: 3
+    - label: Driver
+      value: Kim Taesik
+      isFact: 0
+      factKind: 6
+    - label: Driver's phone
+      value: 010-7715-5521
+      isFact: 1
+      factKind: 0
+    - label: Customer centre
+      value: 1588-5520
+      isFact: 1
+      factKind: 0
+    body: 
+    stamp: 
+    image: {fileID: 0}
+  board:
+  - title: "Happy Pharmacy calendar \xB7 October"
+    kind: 0
+    image: {fileID: 2800000, guid: 25ea0bb3b624744ddbc8a5694a1d99cd, type: 3}
+    position: {x: 0.03, y: 0.05}
+    width: 0.25
+    rotation: -1.5
+    details: []
+    calendar:
+    - day: 5
+      text: Substitute holiday
+    - day: 7
+      text: Rent
+    - day: 8
+      text: Dentist
+    - day: 13
+      text: Midterms start
+    - day: 14
+      text: Gas check
+    - day: 17
+      text: Mom's birthday
+    handwriting: 
+  - title: Important numbers
+    kind: 1
+    image: {fileID: 2800000, guid: 4271c0dfdf7b54922a4b507329e4f4ae, type: 3}
+    position: {x: 0.32, y: 0.04}
+    width: 0.24
+    rotation: 2.5
+    details:
+    - label: Police
+      value: 112
+      isFact: 1
+      factKind: 0
+    - label: Fire / ambulance
+      value: 119
+      isFact: 1
+      factKind: 0
+    - label: Voice phishing (FSS)
+      value: 1332
+      isFact: 1
+      factKind: 0
+    - label: Nuri Bank
+      value: 1599-0000
+      isFact: 1
+      factKind: 0
+    - label: Landlord
+      value: 010-5512-3380
+      isFact: 1
+      factKind: 0
+    - label: Mom
+      value: 010-2231-7745
+      isFact: 1
+      factKind: 0
+    - label: Dad
+      value: 010-4418-0902
+      isFact: 1
+      factKind: 0
+    calendar: []
+    handwriting: 
+  - title: Building notice
+    kind: 2
+    image: {fileID: 2800000, guid: 90151273f82104c3ba6a3edae4ca55a4, type: 3}
+    position: {x: 0.6, y: 0.05}
+    width: 0.25
+    rotation: -2
+    details:
+    - label: Gas inspection
+      value: Wed 14 Oct, 10:00-17:00
+      isFact: 0
+      factKind: 6
+    - label: Water tank cleaning
+      value: Thu 8 Oct, 10:00-12:00
+      isFact: 0
+      factKind: 6
+    - label: Note
+      value: Inspectors never ask for money or bank details
+      isFact: 0
+      factKind: 6
+    - label: Office
+      value: 02-555-0192
+      isFact: 1
+      factKind: 0
+    calendar: []
+    handwriting: 
+  - title: Sticky note
+    kind: 1
+    image: {fileID: 2800000, guid: 80c9d8c1994284f2d9da7f11be82c101, type: 3}
+    position: {x: 0.33, y: 0.52}
+    width: 0.1
+    rotation: -4
+    details:
+    - label: Reminder
+      value: 'Phone bill: pay by the 20th (auto-pay?)'
+      isFact: 0
+      factKind: 6
+    calendar: []
+    handwriting: 
+  - title: Sticky note
+    kind: 1
+    image: {fileID: 2800000, guid: 80053ba76f15841bea089dd282108c71, type: 3}
+    position: {x: 0.45, y: 0.57}
+    width: 0.1
+    rotation: 7
+    details:
+    - label: Reminder
+      value: 'Mom''s birthday on the 17th: call + gift'
+      isFact: 0
+      factKind: 6
+    calendar: []
+    handwriting: 
+  - title: Concert ticket
+    kind: 4
+    image: {fileID: 2800000, guid: 53f55436b981f4e57b8129bae233afd1, type: 3}
+    position: {x: 0.58, y: 0.55}
+    width: 0.24
+    rotation: -3
+    details:
+    - label: Show
+      value: The Rainy Seasons, Hongdae
+      isFact: 0
+      factKind: 6
+    - label: When
+      value: Sat 7 Nov, 19:00
+      isFact: 0
+      factKind: 6
+    - label: Seat
+      value: Standing A-128
+      isFact: 0
+      factKind: 6
+    calendar: []
+    handwriting: 
+  - title: Photo booth strip
+    kind: 3
+    image: {fileID: 2800000, guid: e8cd983f2836a449ea5b92e85b6bdde7, type: 3}
+    position: {x: 0.86, y: 0.42}
+    width: 0.09
+    rotation: 4
+    details:
+    - label: With
+      value: Yuna, 12 Sep
+      isFact: 0
+      factKind: 6
+    calendar: []
+    handwriting: 
+  - title: ID photo
+    kind: 3
+    image: {fileID: 2800000, guid: 8a8d6ab04b4fe4a29b3ada0d5670b80c, type: 3}
+    position: {x: 0.88, y: 0.08}
+    width: 0.08
+    rotation: -6
+    details: []
+    calendar: []
+    handwriting: 
+  wallet:
+  - title: Nuri Bank check card
+    front: {fileID: 2800000, guid: 1bb38ff8f1e134d19aaa0a7c7aebce98, type: 3}
+    back: {fileID: 2800000, guid: c9de7330c09034dda9e84557a43c9671, type: 3}
+    details:
+    - label: Name
+      value: KIM JIWOO
+      isFact: 0
+      factKind: 6
+    - label: Card
+      value: 9410 2231 7745 0921
+      isFact: 0
+      factKind: 6
+    - label: Customer centre
+      value: 1599-0000
+      isFact: 1
+      factKind: 0
+  - title: Student ID
+    front: {fileID: 2800000, guid: 03466ff647eba40fc8e450c63f987c1d, type: 3}
+    back: {fileID: 0}
+    details:
+    - label: University
+      value: Hanbit University
+      isFact: 0
+      factKind: 6
+    - label: Student no.
+      value: 2024-10573
+      isFact: 0
+      factKind: 6
+  - title: "Caf\xE9 stamp card"
+    front: {fileID: 2800000, guid: 3cf4e96a2e56d4677899c79a47317388, type: 3}
+    back: {fileID: 0}
+    details:
+    - label: Stamps
+      value: 7 of 10
+      isFact: 0
+      factKind: 6
+  rules:
+  - title: Call a number you looked up yourself
+    text: Unsure? Hang up and call the number on your card or the official website,
+      not the number the caller gives you.
+    learnedOn: Seoul Daily, 6 Oct
+  - title: Read the name on the account
+    text: Before you send money, check the account holder's name on the transfer
+      screen. A person's name on an 'official' account is a red flag.
+    learnedOn: Seoul Daily, 6 Oct

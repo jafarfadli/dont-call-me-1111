@@ -3,3 +3,4 @@
 @import url("project://database/Assets/_Game/UI/Uss/Phone.uss");
 @import url("project://database/Assets/_Game/UI/Uss/Panels.uss");
 @import url("project://database/Assets/_Game/UI/Uss/Call.uss");
+@import url("project://database/Assets/_Game/UI/Uss/Menus.uss");
