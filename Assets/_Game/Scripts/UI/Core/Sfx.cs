@@ -29,14 +29,17 @@ namespace DontCallMe.UI
         public const string Whoosh = "whoosh";
         public const string Stamp = "stamp";
         public const string Suspense = "suspense";
+        public const string Roll = "roll";
         public const string Reveal = "reveal";
         public const string RevealGood = "reveal_good";
         public const string RevealBad = "reveal_bad";
 
-        /// <summary>How long the suspense clip builds before the reveal lands on its last sample.</summary>
+        /// <summary>How long the suspense clip (the long drumroll) builds before the reveal lands on its last sample.</summary>
         public const float SuspenseSeconds = 3.2f;
-        /// <summary>When the suspense clip's heartbeats fall (seconds): closer and closer together.</summary>
-        public static readonly float[] SuspenseBeats = { 0.1f, 0.9f, 1.58f, 2.14f, 2.58f, 2.9f };
+        /// <summary>How long the short drumroll before the verdict runs.</summary>
+        public const float RollSeconds = 0.95f;
+        /// <summary>When the heartbeats under the long drumroll fall (seconds): closer and closer together.</summary>
+        static readonly float[] SuspenseBeats = { 0.1f, 0.9f, 1.58f, 2.14f, 2.58f, 2.9f };
 
         [Serializable]
         public struct Override
@@ -139,33 +142,36 @@ namespace DontCallMe.UI
         }
 
         /// <summary>
-        /// The next morning's reveal: a drone and trembling strings that swell over a quickening
-        /// heartbeat and cut off, the hit when the truth is stamped, and a bright or a sinking
-        /// phrase for a right or a wrong call.
+        /// The next morning's reveal: a snare drumroll that quickens and swells over a low drone and
+        /// a heartbeat and cuts off, the hit when the truth is stamped (a boom, a rimshot and a
+        /// cymbal), a short roll before the verdict, and a bright or a sinking phrase for a right or
+        /// a wrong call.
         /// </summary>
         void BuildReveal()
         {
             const float len = SuspenseSeconds;
+            var longRoll = Snare(len, 14f, 30f, 0.1f, 1f, 1.6f);
             clips[Suspense] = Make(len, t =>
             {
                 float rise = t / len;
                 // Two low voices a little apart, so the drone throbs; it swells to the end.
-                float drone = (Sine(t, 55f) + Sine(t, 58.3f) * 0.8f + Sine(t, 110.6f) * 0.35f) * (0.05f + 0.17f * rise * rise);
-                // Strings a semitone apart, trembling faster and climbing as they get louder.
-                float tremble = 0.55f + 0.45f * Mathf.Sin(2f * Mathf.PI * (6f + 7f * rise) * t);
-                float pitch = 1f + 0.06f * rise;
-                float strings = (Sine(t, 440f * pitch) + Sine(t, 466.2f * pitch) + Sine(t, 880f * pitch) * 0.3f) * tremble * 0.075f * rise * rise;
+                float drone = (Sine(t, 55f) + Sine(t, 58.3f) * 0.8f) * (0.04f + 0.11f * rise * rise);
                 float heart = 0f;
                 foreach (float b in SuspenseBeats)
                     heart += Beat(t - b) + Beat(t - b - 0.17f) * 0.7f;
                 // A clean cut just before the hit.
-                float cut = Mathf.Clamp01((len - t) / 0.05f);
-                return (drone + strings + heart * 0.62f) * cut;
+                float cut = Mathf.Clamp01((len - t) / 0.03f);
+                return (longRoll(t) * 0.75f + drone + heart * 0.26f) * cut;
             });
-            clips[Reveal] = Make(1.5f, t =>
-                Mathf.Sin(2f * Mathf.PI * (38f + 64f * Mathf.Exp(-t * 18f)) * t) * Mathf.Exp(-t * 3.4f) * 0.58f
-                + Noise() * Env(t, 0.001f, 0.1f) * 0.28f
-                + (Sine(t, 110f) + Sine(t, 164.8f) * 0.6f + Sine(t, 220.9f) * 0.3f) * Mathf.Exp(-t * 2.4f) * 0.075f);
+            var shortRoll = Snare(RollSeconds, 22f, 32f, 0.3f, 1f, 1.3f);
+            clips[Roll] = Make(RollSeconds, t => shortRoll(t) * 0.6f * Mathf.Clamp01((RollSeconds - t) / 0.03f));
+            var rim = HighNoise(0.16f);
+            var cymbal = HighNoise(0.55f);
+            clips[Reveal] = Make(1.8f, t =>
+                Mathf.Sin(2f * Mathf.PI * (38f + 64f * Mathf.Exp(-t * 18f)) * t) * Mathf.Exp(-t * 3.4f) * 0.5f
+                + rim() * Env(t, 0.001f, 0.12f) * 0.34f
+                + cymbal() * Mathf.Exp(-t * 3f) * 0.15f
+                + (Sine(t, 110f) + Sine(t, 164.8f) * 0.6f) * Mathf.Exp(-t * 2.4f) * 0.06f);
             float[] bright = { 523.25f, 659.25f, 783.99f, 1046.5f };
             clips[RevealGood] = Make(1.7f, t =>
             {
@@ -185,6 +191,40 @@ namespace DontCallMe.UI
                 float second = u >= 0f ? Low(u, 123.5f) * Mathf.Exp(-u * 1.9f) * Mathf.Min(1f, u / 0.006f) : 0f;
                 return (first * 0.8f + second) * 0.24f + Thump(t) * 0.45f + Thump(u) * 0.55f;
             });
+        }
+
+        /// <summary>
+        /// A snare roll, sample by sample: the strokes go from <paramref name="fromRate"/> to
+        /// <paramref name="toRate"/> a second, hands alternating, and the level from
+        /// <paramref name="fromLevel"/> to <paramref name="toLevel"/>. Call it with rising times.
+        /// </summary>
+        Func<float, float> Snare(float seconds, float fromRate, float toRate, float fromLevel, float toLevel, float curve)
+        {
+            var wires = HighNoise(0.16f);
+            return t =>
+            {
+                float rise = Mathf.Clamp01(t / seconds);
+                float rate = Mathf.Lerp(fromRate, toRate, rise);
+                // How many strokes so far (the rate's integral), and the time since the last one.
+                float strokes = fromRate * t + (toRate - fromRate) * t * t / (2f * seconds);
+                float since = (strokes - Mathf.Floor(strokes)) / rate;
+                float hand = ((int)strokes & 1) == 0 ? 1f : 0.8f;
+                float head = Mathf.Sin(2f * Mathf.PI * 185f * since) * Mathf.Exp(-since * 65f);
+                float stroke = (wires() * 0.5f + head * 0.6f) * Mathf.Exp(-since * 50f) * hand;
+                return stroke * Mathf.Lerp(fromLevel, toLevel, Mathf.Pow(rise, curve));
+            };
+        }
+
+        /// <summary>Noise with the lows taken out (snare wires, a cymbal): the higher <paramref name="amount"/>, the thinner.</summary>
+        Func<float> HighNoise(float amount)
+        {
+            float low = 0f;
+            return () =>
+            {
+                float n = Noise();
+                low += (n - low) * amount;
+                return n - low;
+            };
         }
 
         /// <summary>One half of a heartbeat: the low thump with a little body above it, so small speakers carry it.</summary>

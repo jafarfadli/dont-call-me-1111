@@ -541,7 +541,7 @@
 .call-btn--dark { background-image: url("project://database/Assets/_Game/UI/Sprites/circle_dark.png"); }
 
 /* The phone's red button is off during a case: the verdict is given on the call. */
-.call-btn--off { opacity: 0.3; }
+.call-btn--off { opacity: 0.6; }
 .call-btn--off:hover { scale: 1 1; }
 .call-btn > .icon { width: 40px; height: 40px; }
 
@@ -564,16 +564,16 @@
     bottom: 0;
     background-image: url("project://database/Assets/_Game/UI/Sprites/wallpaper.png");
     -unity-background-scale-mode: scale-and-crop;
-    opacity: 0.3;
 }
 
+/* Calls sit a shade darker than the home screen. */
 .call__shade {
     position: absolute;
     left: 0;
     right: 0;
     top: 0;
     bottom: 0;
-    background-color: rgba(20, 16, 24, 0.35);
+    background-color: rgba(8, 8, 12, 0.3);
 }
 
 .call__avatar {
@@ -639,19 +639,21 @@
     margin-top: 6px;
 }
 
+/* The call's buttons are large and light against the dark screen: Apps and Speaker side by side,
+   the red button under them. */
 .call__buttons {
     position: absolute;
     left: 12px;
     right: 12px;
-    bottom: 34px;
+    bottom: 30px;
     align-items: center;
 }
 
 .call__grid {
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: center;
     align-self: stretch;
-    margin-bottom: 22px;
+    margin-bottom: 12px;
 }
 
 .call__small,
@@ -659,19 +661,20 @@
     align-items: center;
 }
 
-.call__small { width: 25%; }
+.call__small { width: 44%; }
 
 .call__small Label,
 .call__hang Label {
-    font-size: 13px;
-    color: #E6DDEF;
-    margin-top: 4px;
+    font-size: 17px;
+    color: #F4EAD2;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+    margin-top: 0;
 }
 
-.call__small .call-btn { width: 62px; height: 62px; }
-.call__small .call-btn > .icon { width: 28px; height: 28px; }
-.call__hang .call-btn { width: 88px; height: 88px; }
-.call__hang .call-btn > .icon { width: 44px; height: 44px; }
+.call__small .call-btn { width: 106px; height: 106px; }
+.call__small .call-btn > .icon { width: 52px; height: 52px; }
+.call__hang .call-btn { width: 126px; height: 126px; }
+.call__hang .call-btn > .icon { width: 64px; height: 64px; }
 
 /* slide to answer */
 

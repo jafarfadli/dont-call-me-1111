@@ -50,7 +50,7 @@ namespace DontCallMe.Editor.UI
                 new NewsItem { title = L("Subway fares", "지하철 요금"), text = L("The base fare stays at 1,550 won through the end of the year.", "기본요금 1,550원이 연말까지 유지된다.") },
             };
 
-            var v = StoreVariant("scam", Day0Dir, "Day0", Day0Call(), HouseholdPhone(), room, HouseholdDirectory());
+            var v = StoreVariant("scam", CaseGas, Day0Dir, "Day0", Day0Call(), HouseholdPhone(), room, HouseholdDirectory());
             v.clues = new List<ClueDef>
             {
                 Guided(Clue("paper", L("Today's paper warns about exactly this: callers who say a bill is unpaid and want a transfer.", "오늘 신문이 바로 이 수법을 경고한다. 요금이 미납됐다며 이체를 요구하는 전화."),

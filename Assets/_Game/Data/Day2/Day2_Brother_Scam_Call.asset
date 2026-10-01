@@ -1,0 +1,306 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfd03999caeea4a5788ed68a4194a80e, type: 3}
+  m_Name: Day2_Brother_Scam_Call
+  m_EditorClassIdentifier: DontCallMe::DontCallMe.Data.ConversationData
+  title: "Day 2 \xB7 Minjun's broken phone (scam)"
+  isScam: 1
+  revealAtEnd: 0
+  caller:
+    displayName: Minjun
+    number: 010-9046-2715
+    inContacts: 0
+    portrait: pt_unknown
+    voice: Eddy (English (US))
+  claims:
+  - He says he is Minjun, calling from his roommate's phone.
+  - He dropped his phone after lunch and the screen is dead.
+  - "The repair costs \u20A9280,000: send it to Lee Dohyun, Hanbit Bank 620-204-771035."
+  - The service centre stops taking repairs at 17:00.
+  nodes:
+  - id: start
+    lines:
+    - speaker: 0
+      text: Noona? It's me, Minjun. Can you hear me? The line is bad in here.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    - speaker: 0
+      text: Don't freak out about the number. I dropped my phone on the stairs after
+        lunch and the screen is dead. This is my roommate Dohyun's phone.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    hasDecision: 1
+    decision:
+      kind: 0
+      prompt: How do you answer?
+      patienceSeconds: 45
+      a:
+        label: Again? Are you okay?
+        playerLine: Again? Are you okay?
+        next: okay
+      b:
+        label: You sound different.
+        playerLine: You sound different.
+        next: voice
+      pressure:
+      - atPatience: 0.5
+        text: Noona? Hello?
+        spoken: 
+    next: 
+    holds: 0
+  - id: okay
+    lines:
+    - speaker: 0
+      text: I'm fine. The phone isn't.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    hasDecision: 0
+    decision:
+      kind: 0
+      prompt: 
+      patienceSeconds: 60
+      a:
+        label: 
+        playerLine: 
+        next: 
+      b:
+        label: 
+        playerLine: 
+        next: 
+      pressure: []
+    next: ask
+    holds: 0
+  - id: voice
+    lines:
+    - speaker: 0
+      text: It's Dohyun's phone, it sounds weird on my end too. And I've had a cold
+        since Monday.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    hasDecision: 0
+    decision:
+      kind: 0
+      prompt: 
+      patienceSeconds: 60
+      a:
+        label: 
+        playerLine: 
+        next: 
+      b:
+        label: 
+        playerLine: 
+        next: 
+      pressure: []
+    next: ask
+    holds: 0
+  - id: ask
+    lines:
+    - speaker: 0
+      text: I'm at the service centre. The screen is 280,000 won, and they can do
+        it today if I pay now.
+      spoken: I'm at the service centre. The screen is two hundred and eighty thousand
+        won, and they can do it today if I pay now.
+      facts:
+      - kind: 5
+        value: 280,000
+        label: 
+      deliver: []
+      pauseAfter: 0.4
+    - speaker: 0
+      text: My banking app is on the dead phone, so I can't pay. Can you send it
+        to Dohyun? He'll pay with his card.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    - speaker: 0
+      text: Hanbit Bank 620-204-771035, Lee Dohyun.
+      spoken: Hanbit Bank, six two zero, two zero four, seven seven one zero three
+        five. Lee Dohyun.
+      facts:
+      - kind: 1
+        value: 620-204-771035
+        label: 
+      deliver: []
+      pauseAfter: 0.4
+    - speaker: 0
+      text: They stop taking repairs at five. I'll pay you back on the 25th, I swear.
+        I'll hold on.
+      spoken: They stop taking repairs at five. I'll pay you back on the twenty fifth,
+        I swear. I'll hold on.
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    hasDecision: 0
+    decision:
+      kind: 0
+      prompt: 
+      patienceSeconds: 60
+      a:
+        label: 
+        playerLine: 
+        next: 
+      b:
+        label: 
+        playerLine: 
+        next: 
+      pressure: []
+    next: 
+    holds: 1
+  endings:
+  - id: refuse
+    verdict: 1
+    timedOut: 0
+    moneyDelta: 0
+    lines: []
+    consequence: 'You hung up. The real Minjun had written in the family chat at
+      15:52: in the library, phone on silent.'
+  - id: timeout
+    verdict: 1
+    timedOut: 1
+    moneyDelta: 0
+    lines:
+    - speaker: 0
+      text: Forget it. Thanks for nothing.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    consequence: The caller gave up at five. The real Minjun was in the library the
+      whole time.
+  - id: go_along
+    verdict: 0
+    timedOut: 0
+    moneyDelta: -280000
+    lines:
+    - speaker: 0
+      text: Got it. Thanks, noona. I'll call you later.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    consequence: "The \u20A9280,000 went to an account in Lee Dohyun's name and was
+      gone within minutes. The real Minjun was in the library, his phone on silent."
+  actions:
+  - kind: 0
+    target: 620-204-771035
+    endingId: go_along
+    bank: Hanbit Bank
+    amount: 280000
+  hangUpEndingId: refuse
+  timeoutEndingId: timeout
+  caseInfo:
+    caseTitle: Minjun's broken phone
+    claimedIdentity: Minjun, your brother, on his roommate's phone
+    ask: "Send \u20A9280,000 for the repair to Lee Dohyun: Hanbit Bank 620-204-771035"
+    deadline: 17:00
+    deadlineReason: before the service centre stops taking repairs
+    objective: 'Is that really Minjun? Check before 17:00, then give your verdict
+      on the call: send the money, or hang up.'
+  questions:
+  - label: Ask what you told him about Saturday
+    playerLine: What did I say when you asked to sleep over on Saturday?
+    answer:
+    - speaker: 0
+      text: Noona, come on, I don't have time for quizzes. The centre closes at five.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    endingId: 
+  - label: Ask why he doesn't ask Mom
+    playerLine: Why don't you ask Mom?
+    answer:
+    - speaker: 0
+      text: Don't tell Mom, please! She'd kill me. Just this once, noona.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    endingId: 
+  - label: Ask who Dohyun is
+    playerLine: Who is Dohyun?
+    answer:
+    - speaker: 0
+      text: My roommate, Lee Dohyun. Same department. The account is his.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    endingId: 
+  - label: Say you'll ask him in the family chat
+    playerLine: I'll ask you in the family chat.
+    answer:
+    - speaker: 0
+      text: My phone is dead, I can't read it! Just send it, please, there's no time.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    endingId: 
+  beats:
+  - at: 16:33
+    line:
+      speaker: 0
+      text: Noona? Are you sending it?
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+  - at: 16:40
+    line:
+      speaker: 0
+      text: The guy at the counter keeps looking at me. Noona, please.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+  - at: 16:47
+    line:
+      speaker: 0
+      text: Dohyun has a class at five. He can't wait around much longer.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+  - at: 16:53
+    line:
+      speaker: 0
+      text: Seven minutes. They're closing the repair desk.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+  - at: 16:57
+    line:
+      speaker: 0
+      text: Three minutes! Noona!
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+  verdict:
+    goAlong: Send the money
+    goAlongDetail: 
+    goAlongEndingId: 
+    refuse: Hang up
+    refuseDetail: Say no and end the call
+    goAlongLine: Okay, I'm sending it to Dohyun now.
+    refuseLine: I'll ask Minjun myself. Bye.

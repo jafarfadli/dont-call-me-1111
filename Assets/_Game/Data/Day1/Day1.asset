@@ -24,6 +24,8 @@ MonoBehaviour:
   ringDelay: 7
   variants:
   - id: scam
+    scenario: protected
+    intro: 
     conversation: {fileID: 11400000, guid: 90c7ec07c04e04a4f8a572d0cdec5fb4, type: 2}
     phone: {fileID: 11400000, guid: a28b0e7a3c22442eb9e950995bfde198, type: 2}
     room: {fileID: 11400000, guid: 0aa6ea02e8f2f4901b561270e05fb28e, type: 2}
@@ -120,8 +122,348 @@ MonoBehaviour:
       up the account and the caller''s number first: a stranger''s name on an "official"
       account means stop.'
     ruleSource: Seoul Daily, 7 Oct
+  - id: paper_scam
+    scenario: paper
+    intro: 'Classes are over. On the desk lies the Seoul Daily your dad signed you
+      up for in March: it comes every morning.'
+    conversation: {fileID: 11400000, guid: 60a43197bee374369a387aebae661f87, type: 2}
+    phone: {fileID: 11400000, guid: 7a6444bb3adce4135916b2dc51a8ce66, type: 2}
+    room: {fileID: 11400000, guid: ab3f4ac3b7d6c4ac99a950bf44f93cef, type: 2}
+    directory: {fileID: 11400000, guid: 63a369fa05696479d9d61f7e63b16a46, type: 2}
+    clues:
+    - id: notice
+      text: 'Today''s Seoul Daily prints a notice: the Mapo branch has a new manager
+        since 1 October, Oh Sangchul no longer works for the paper, and the fee is
+        paid by giro slip only, never by a transfer over the phone.'
+      where: the newspaper on the desk
+      guide: 
+      when:
+      - kind: 0
+        target: Newspaper
+    papers:
+    - outcome: 1
+      headline: Former branch manager kept "collecting" for the paper
+      subhead: His name and his account were real. Readers who read the notice hung
+        up.
+      body: 'A man who ran the Seoul Daily''s Mapo branch until September spent Tuesday
+        phoning its subscribers. From October, he told them, the fee was collected
+        by bank transfer, and three months were due by 5 p.m.: 54,000 won, into an
+        account in his own name.
+
+
+        The name and the account were real: Oh
+        Sangchul, 58, ran the branch for six years. The paper ended his contract
+        on 30 September and said so in a notice on Tuesday''s front page. The fee
+        is paid by giro slip only.
+
+
+        "Look him up and you learn that his
+        name is real. You don''t learn whether he may still collect," said the new
+        branch manager, Ryu Mina. "That is what our notice is for."'
+      verdictNote: You hung up. The notice in the paper on your desk said he no longer
+        collected.
+      print: {fileID: 2800000, guid: 2a8a91bf72dc84e8398fbfb5ea31281d, type: 3}
+    - outcome: 0
+      headline: Three months paid to a man who no longer delivers
+      subhead: A Mangwon student sent 54,000 won to the branch's former manager.
+      body: 'A man who ran the Seoul Daily''s Mapo branch until September spent Tuesday
+        phoning its subscribers. From October, he told them, the fee was collected
+        by bank transfer, and three months were due by 5 p.m.: 54,000 won, into an
+        account in his own name.
+
+
+        A 22-year-old student in Mangwon-dong
+        sent the money. Her lookup showed a real name on a twelve-year-old account,
+        and that was true. The name and the account were real: Oh Sangchul, 58, ran
+        the branch for six years. The paper ended his contract on 30 September and
+        said so in a notice on Tuesday''s front page. The fee is paid by giro slip
+        only.
+
+
+        "Look him up and you learn that his name is real. You don''t
+        learn whether he may still collect," said the new branch manager, Ryu Mina.
+        "That is what our notice is for."'
+      verdictNote: His name was real, and so was the account. The paper's own notice
+        said he had left.
+      print: {fileID: 2800000, guid: fde03eed69a3047a1a9cbf6ad6dc1440, type: 3}
+    - outcome: 3
+      headline: '"Pay by five or lose your paper"'
+      subhead: The papers arrived the next morning all the same.
+      body: 'A man who ran the Seoul Daily''s Mapo branch until September spent Tuesday
+        phoning its subscribers. From October, he told them, the fee was collected
+        by bank transfer, and three months were due by 5 p.m.: 54,000 won, into an
+        account in his own name.
+
+
+        The name and the account were real: Oh
+        Sangchul, 58, ran the branch for six years. The paper ended his contract
+        on 30 September and said so in a notice on Tuesday''s front page. The fee
+        is paid by giro slip only.
+
+
+        "Look him up and you learn that his
+        name is real. You don''t learn whether he may still collect," said the new
+        branch manager, Ryu Mina. "That is what our notice is for."'
+      verdictNote: Nothing was sent, but you never gave him an answer. The notice
+        was in the paper on your desk.
+      print: {fileID: 2800000, guid: 659cd7479b85b4e4fa66c9ff074237a5, type: 3}
+    ruleTitle: A real name is not permission
+    rule: Someone collecting for a company you pay? Looking him up only proves that
+      his name is real. The company's own notice says who may collect, and how.
+    ruleSource: Seoul Daily, 7 Oct
+  - id: paper_legit
+    scenario: paper
+    intro: 'Classes are over. On the desk lies the Seoul Daily your dad signed you
+      up for in March: it comes every morning.'
+    conversation: {fileID: 11400000, guid: ba894d803ee244b58b0b7f2e63000528, type: 2}
+    phone: {fileID: 11400000, guid: ceda3a0eddefa431d8ce08c1a783a5fa, type: 2}
+    room: {fileID: 11400000, guid: 81913668e77884e7da246c0e9b3b23ac, type: 2}
+    directory: {fileID: 11400000, guid: a2c86a09888184e559380a102f41a602, type: 2}
+    clues:
+    - id: notice
+      text: 'Today''s Seoul Daily prints the notice itself: this week branch manager
+        Oh Sangchul phones readers for the October to December fee, 54,000 won, into
+        the very account he gave you.'
+      where: the newspaper on the desk
+      guide: 
+      when:
+      - kind: 0
+        target: Newspaper
+    papers:
+    - outcome: 0
+      headline: Our Mapo branch stops knocking on doors
+      subhead: The manager phoned every reader himself, after a notice on the front
+        page.
+      body: 'The Seoul Daily''s Mapo branch stopped collecting at the door this month.
+        Its manager, Oh Sangchul, 58, spent Tuesday phoning his 400 subscribers to
+        ask for three months'' fee by bank transfer.
+
+
+        "Half of them took
+        me for a scammer," Mr. Oh said. "I don''t blame them. That is why we printed
+        my name, my number and the account on the front page first." One student
+        read the notice while he waited on the line, then paid. "That is exactly
+        how it should go," he said.
+
+
+        The Mapo Consumer Centre says a company''s
+        own notice is the place to check a collector: who may collect, how much,
+        and into which account.'
+      verdictNote: 'He was the real branch manager, and you checked: the paper''s
+        own notice named him, the amount and the account.'
+      print: {fileID: 2800000, guid: d594ac7c738144c768d63bbebe2bfbe5, type: 3}
+    - outcome: 1
+      headline: Readers hang up on their own newspaper
+      subhead: A branch manager's real calls were taken for a scam.
+      body: 'The Seoul Daily''s Mapo branch stopped collecting at the door this month.
+        Its manager, Oh Sangchul, 58, spent Tuesday phoning his 400 subscribers to
+        ask for three months'' fee by bank transfer.
+
+
+        "Half of them took
+        me for a scammer," Mr. Oh said. "I don''t blame them. That is why we printed
+        my name, my number and the account on the front page first." He delivered
+        to all of them on Wednesday anyway. "One more day," he said.
+
+
+        The
+        Mapo Consumer Centre says a company''s own notice is the place to check a
+        collector: who may collect, how much, and into which account.'
+      verdictNote: 'This one was real: the notice in the paper on your desk named
+        him, the amount and the account.'
+      print: {fileID: 2800000, guid: d4c84c796ccf949ada370ffe2db521c7, type: 3}
+    - outcome: 3
+      headline: The books closed at five
+      subhead: A branch manager waited on the line for readers who never decided.
+      body: 'The Seoul Daily''s Mapo branch stopped collecting at the door this month.
+        Its manager, Oh Sangchul, 58, spent Tuesday phoning his 400 subscribers to
+        ask for three months'' fee by bank transfer.
+
+
+        "Half of them took
+        me for a scammer," Mr. Oh said. "I don''t blame them. That is why we printed
+        my name, my number and the account on the front page first."
+
+
+        The
+        Mapo Consumer Centre says a company''s own notice is the place to check a
+        collector: who may collect, how much, and into which account.'
+      verdictNote: He was the real branch manager, and the notice was in the paper
+        on your desk. Deciding in time matters too.
+      print: {fileID: 2800000, guid: 5dbc1770f6f0f4468bd2ecd27198025b, type: 3}
+    ruleTitle: The company's own notice settles it
+    rule: When the company's own notice names the collector, the amount and the account,
+      paying him is safe. Read the notice, then act.
+    ruleSource: Seoul Daily, 7 Oct
+  - id: sale_scam
+    scenario: sale
+    intro: 'Classes are over. Your old monitor is sold on Neighbour Market: the buyer
+      pays 60,000 won today and picks it up on Saturday.'
+    conversation: {fileID: 11400000, guid: 9a00545e8a71d44db8a09e02dd56b35f, type: 2}
+    phone: {fileID: 11400000, guid: 404d7dfc3087a41e7b8e83e2abee030c, type: 2}
+    room: {fileID: 11400000, guid: da880377b0ba941fbb53928605d346ad, type: 2}
+    directory: {fileID: 11400000, guid: 4ed9eee7d284f4358a321c436a93e2fe, type: 2}
+    clues:
+    - id: deposit
+      text: Your bank history shows no deposit today. Nothing came from her, so there
+        is nothing to send back.
+      where: "Phone \u2192 Nuri Bank"
+      guide: 
+      when:
+      - kind: 5
+        target: 
+    papers:
+    - outcome: 1
+      headline: '"I paid you too much": sellers asked to return money that never
+        came'
+      subhead: Sellers who opened their bank app first lost nothing.
+      body: 'Sellers on the second-hand app Neighbour Market were phoned on Tuesday
+        by a "buyer" close to tears. She had paid in advance, she said, and typed
+        one zero too many: could they send the difference back before 5 p.m., because
+        it was her rent?
+
+
+        No money had been sent. Police say the callers
+        pick sellers who have given an account number for an advance payment, and
+        count on them not opening their bank app while someone is crying on the line.
+
+
+        "A
+        transfer arrives in seconds," a Mapo police officer said. "If it is not in
+        your history, it was never sent. Look before you ''return'' anything."'
+      verdictNote: You hung up. Your bank history showed that nothing had come from
+        her.
+      print: {fileID: 2800000, guid: 632c96dd0a95648bcac9bdb8249d4456, type: 3}
+    - outcome: 0
+      headline: Seller "returns" 540,000 won that never arrived
+      subhead: A Mangwon student selling a monitor sent her own money to a fake buyer.
+      body: 'Sellers on the second-hand app Neighbour Market were phoned on Tuesday
+        by a "buyer" close to tears. She had paid in advance, she said, and typed
+        one zero too many: could they send the difference back before 5 p.m., because
+        it was her rent?
+
+
+        A 22-year-old student selling a 60,000-won monitor
+        sent 540,000 won of her own. The account was in the name the caller gave,
+        Bae Sujin; police say its owner had lent it out for a fee.
+
+
+        "A transfer
+        arrives in seconds," a Mapo police officer said. "If it is not in your history,
+        it was never sent. Look before you ''return'' anything."'
+      verdictNote: Your bank history had no deposit from her. There was nothing to
+        send back.
+      print: {fileID: 2800000, guid: 41e3870e8f8e24c0cbf419e9348b7dcf, type: 3}
+    - outcome: 3
+      headline: The "extra zero" calls
+      subhead: Fake buyers ask second-hand sellers for refunds.
+      body: 'Sellers on the second-hand app Neighbour Market were phoned on Tuesday
+        by a "buyer" close to tears. She had paid in advance, she said, and typed
+        one zero too many: could they send the difference back before 5 p.m., because
+        it was her rent?
+
+
+        No money had been sent. Police say the callers
+        pick sellers who have given an account number for an advance payment, and
+        count on them not opening their bank app while someone is crying on the line.
+
+
+        "A
+        transfer arrives in seconds," a Mapo police officer said. "If it is not in
+        your history, it was never sent. Look before you ''return'' anything."'
+      verdictNote: Nothing was sent, but you never gave her an answer. One look at
+        your bank history would have settled it.
+      print: {fileID: 2800000, guid: 571b3f8b4beac4f388bceeb2c3445002, type: 3}
+    ruleTitle: '"I sent you too much"? Open your bank'
+    rule: Asked to send back money that came by mistake? Open your own bank history
+      first. Money that never arrived cannot be returned.
+    ruleSource: Seoul Daily, 7 Oct
+  - id: sale_legit
+    scenario: sale
+    intro: 'Classes are over. Your old monitor is sold on Neighbour Market: the buyer
+      pays 60,000 won today and picks it up on Saturday.'
+    conversation: {fileID: 11400000, guid: 5573bcd2b720848d88381d8acad87ddf, type: 2}
+    phone: {fileID: 11400000, guid: a2aa35d9f38254785827bd965bd46000, type: 2}
+    room: {fileID: 11400000, guid: 389d14e403e6e45c39694d375c54ee5e, type: 2}
+    directory: {fileID: 11400000, guid: a80e8242a26144a70b5f3d21997e002b, type: 2}
+    clues:
+    - id: deposit
+      text: "Your bank history shows \u20A9600,000 from BAE SUJIN at 16:07, ten times
+        the price. The extra \u20A9540,000 is hers."
+      where: "Phone \u2192 Nuri Bank"
+      guide: 
+      when:
+      - kind: 5
+        target: 
+    papers:
+    - outcome: 0
+      headline: One zero too many, and a seller who checked
+      subhead: A buyer got her rent money back within the hour.
+      body: 'It happens about forty times a day at Nuri Bank alone: a finger slips,
+        one zero too many, and ten times the money is gone. On Tuesday it happened
+        to Bae Sujin, 31, who was paying 60,000 won for a second-hand monitor in
+        Mangwon-dong and sent 600,000.
+
+
+        "She said, let me look at my bank
+        first," Ms. Bae said. "Then she sent it back. I paid my rent with minutes
+        to spare."
+
+
+        A bank''s wrong-transfer claim can take two weeks. Nuri
+        Bank says a seller who finds the deposit in her own history, under the caller''s
+        name, can simply send the extra back to that same name.'
+      verdictNote: "She really had overpaid, and you checked: \u20A9600,000 from
+        her own name was in your bank history."
+      print: {fileID: 2800000, guid: ad9af405a82c24c13915671451e0b7b9, type: 3}
+    - outcome: 1
+      headline: When the overpayment is real
+      subhead: After a wave of fake "extra zero" calls, a real one was hung up on.
+      body: 'It happens about forty times a day at Nuri Bank alone: a finger slips,
+        one zero too many, and ten times the money is gone. On Tuesday it happened
+        to Bae Sujin, 31, who was paying 60,000 won for a second-hand monitor in
+        Mangwon-dong and sent 600,000.
+
+
+        The seller hung up on her. "I understand
+        why," Ms. Bae said. "But the money was sitting in her account with my name
+        on it." She paid her rent late.
+
+
+        A bank''s wrong-transfer claim
+        can take two weeks. Nuri Bank says a seller who finds the deposit in her
+        own history, under the caller''s name, can simply send the extra back to
+        that same name.'
+      verdictNote: "This one was real: \u20A9600,000 from BAE SUJIN was at the top
+        of your bank history."
+      print: {fileID: 2800000, guid: b9b3b190f368a411d9e26f79062363f6, type: 3}
+    - outcome: 3
+      headline: The rent, and one zero too many
+      subhead: A buyer waited on the line for a seller who never decided.
+      body: 'It happens about forty times a day at Nuri Bank alone: a finger slips,
+        one zero too many, and ten times the money is gone. On Tuesday it happened
+        to Bae Sujin, 31, who was paying 60,000 won for a second-hand monitor in
+        Mangwon-dong and sent 600,000.
+
+
+        "I held the line until five," Ms.
+        Bae said. "She only had to open her bank app."
+
+
+        A bank''s wrong-transfer
+        claim can take two weeks. Nuri Bank says a seller who finds the deposit in
+        her own history, under the caller''s name, can simply send the extra back
+        to that same name.'
+      verdictNote: She really had overpaid, and the deposit was in your bank history.
+        Deciding in time matters too.
+      print: {fileID: 2800000, guid: 41e3c3e230aff4d0792acef4cdb6137c, type: 3}
+    ruleTitle: Return it to the name it came from
+    rule: When the deposit is in your own history under the caller's name, the extra
+      is theirs. Send it back to that same name.
+    ruleSource: Seoul Daily, 7 Oct
   echoes:
   - afterDay: 0
+    scenario: 
     truth: 0
     outcomes: 1
     kind: 3
@@ -135,6 +477,7 @@ MonoBehaviour:
     outgoing: 0
     notify: 0
   - afterDay: 0
+    scenario: 
     truth: 0
     outcomes: 1
     kind: 0
@@ -148,6 +491,7 @@ MonoBehaviour:
     outgoing: 1
     notify: 0
   - afterDay: 0
+    scenario: 
     truth: 0
     outcomes: 1
     kind: 0
@@ -162,6 +506,7 @@ MonoBehaviour:
     outgoing: 0
     notify: 1
   - afterDay: 0
+    scenario: 
     truth: 0
     outcomes: 2
     kind: 3
@@ -175,6 +520,7 @@ MonoBehaviour:
     outgoing: 0
     notify: 0
   - afterDay: 0
+    scenario: 
     truth: 0
     outcomes: 2
     kind: 0
@@ -189,6 +535,7 @@ MonoBehaviour:
     outgoing: 1
     notify: 0
   - afterDay: 0
+    scenario: 
     truth: 0
     outcomes: 2
     kind: 0
@@ -202,6 +549,7 @@ MonoBehaviour:
     outgoing: 0
     notify: 1
   - afterDay: 0
+    scenario: 
     truth: 0
     outcomes: 8
     kind: 3
@@ -215,4 +563,4 @@ MonoBehaviour:
     outgoing: 0
     notify: 0
   nextDateLabel: Wednesday, 7 October
-  builtWith: 7
+  builtWith: 8

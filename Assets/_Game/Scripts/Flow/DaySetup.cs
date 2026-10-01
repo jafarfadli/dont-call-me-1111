@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace DontCallMe.Flow
 {
-    /// <summary>A day ready to play: its truth, and its evidence with the earlier days' traces added.</summary>
+    /// <summary>A day ready to play: its case and truth, and its evidence with the earlier days' traces added.</summary>
     public class DayPlan
     {
         public DayData day;
@@ -20,18 +20,24 @@ namespace DontCallMe.Flow
         public readonly List<string> unreadChats = new List<string>();
 
         public ConversationData Conversation => variant?.conversation;
+
+        /// <summary>The day card's line of intro: the case's own, else the day's.</summary>
+        public string Intro => variant != null && !string.IsNullOrEmpty(variant.intro) ? variant.intro : day != null ? day.intro : null;
     }
 
     /// <summary>
-    /// Picks a day's truth and assembles its evidence: the variant's phone, room and directory
-    /// (cloned, so play never edits the assets), then what the earlier days left: the money that
-    /// left the account, yesterday's paper on the desk, and the day's echoes for how those days went.
+    /// Picks a day's case and truth and assembles its evidence: the variant's phone, room and
+    /// directory (cloned, so play never edits the assets), then what the earlier days left: the
+    /// money that left the account, yesterday's paper on the desk, and the day's echoes for how
+    /// those days went.
     /// </summary>
     public static class DaySetup
     {
         /// <summary>
-        /// A random variant. A run always has at least one legit caller: on the last day that has a
-        /// legit variant, if every earlier day was a scam, that day is legit.
+        /// The day's case and its truth. The case the player has finished least often comes first, so
+        /// another week brings another case; among those, the case and then its truth are random. A
+        /// run always has at least one legit caller: on the last day that has a legit variant, if
+        /// every earlier day was a scam, that day is legit.
         /// </summary>
         public static DayVariant Pick(DayData day, List<DayRecord> earlier, DayCatalog catalog, string force = null)
         {
@@ -45,10 +51,20 @@ namespace DontCallMe.Flow
             }
             if (day.variants.Count == 1)
                 return day.variants[0];
-            var legit = day.variants.Find(v => !v.IsScam);
-            if (legit != null && earlier.Count == day.day - GameRun.FirstDay && earlier.TrueForAll(r => r.scam) && !LegitLater(day, catalog))
-                return legit;
-            return day.variants[Random.Range(0, day.variants.Count)];
+            var pool = day.variants;
+            if (pool.Exists(v => !v.IsScam) && earlier.Count == day.day - GameRun.FirstDay && earlier.TrueForAll(r => r.scam) && !LegitLater(day, catalog))
+                pool = pool.FindAll(v => !v.IsScam);
+            int least = int.MaxValue;
+            foreach (var v in pool)
+                least = Mathf.Min(least, GameRun.TimesPlayed(day.day, v.Scenario));
+            // Each case is as likely as the next, whether it has one truth or two.
+            var cases = new List<string>();
+            foreach (var v in pool)
+                if (GameRun.TimesPlayed(day.day, v.Scenario) == least && !cases.Contains(v.Scenario))
+                    cases.Add(v.Scenario);
+            string scenario = cases[Random.Range(0, cases.Count)];
+            var truths = pool.FindAll(v => v.Scenario == scenario);
+            return truths[Random.Range(0, truths.Count)];
         }
 
         static bool LegitLater(DayData day, DayCatalog catalog)
@@ -78,14 +94,24 @@ namespace DontCallMe.Flow
             foreach (var echo in day.echoes)
             {
                 var r = earlier.Find(x => x.day == echo.afterDay);
-                if (r != null && Matches(echo, r))
+                if (r != null && Matches(echo, r, ScenarioOf(r, catalog)))
                     Apply(plan, echo);
             }
             return plan;
         }
 
-        public static bool Matches(DayEcho echo, DayRecord r)
+        /// <summary>The case an earlier day played, from its saved variant.</summary>
+        static string ScenarioOf(DayRecord r, DayCatalog catalog)
         {
+            var variant = catalog != null ? catalog.Get(r.day)?.Variant(r.variant) : null;
+            return variant != null ? variant.Scenario : r.variant;
+        }
+
+        /// <summary>Does the echo react to how that day went: its case (<paramref name="scenario"/>), its truth and the verdict?</summary>
+        public static bool Matches(DayEcho echo, DayRecord r, string scenario)
+        {
+            if (!string.IsNullOrEmpty(echo.scenario) && echo.scenario != scenario)
+                return false;
             if (echo.truth == Truth.Scam && !r.scam || echo.truth == Truth.Legit && r.scam)
                 return false;
             var mask = r.outcome switch

@@ -12,8 +12,9 @@ namespace DontCallMe.UI
     /// summary: the verdict stamp, money kept, paid or lost, when the player decided, which clues
     /// they found and where the missed ones were, and the rule learned. Then the next day, the same
     /// day again or the menu; after the last day, the week's summary.
-    /// The truth is held back for a few seconds: the paper lands with its headline hidden and a
-    /// heartbeat builds in silence before SCAM or REAL is stamped, then the verdict, then the rest.
+    /// The truth is held back for a few seconds: the paper lands with its headline hidden, the
+    /// room goes dark with one spotlight on the spot where the stamp will land, and a drumroll
+    /// builds before SCAM or REAL is stamped; a short roll, the verdict, then the lights and the rest.
     /// </summary>
     [RequireComponent(typeof(UIDocument))]
     public class EndScreen : MonoBehaviour
@@ -28,8 +29,10 @@ namespace DontCallMe.UI
         const long CardAt = 1700;
         const long SuspenseAt = 2300;
         /// <summary>The pause between the truth (SCAM or REAL) and the verdict on the player's call.</summary>
-        const long VerdictAfter = 1250;
+        const long VerdictAfter = 1300;
         const long RestAfter = 650;
+        /// <summary>The spotlight's dark sheet (a square, in panel pixels; the same in Menus.uss): big enough to cover the screen from any spot.</summary>
+        const float SpotSize = 4400f;
 
         VisualElement root;
         VisualElement screen;
@@ -44,9 +47,8 @@ namespace DontCallMe.UI
         VisualElement truthStamp;
         VisualElement verdictStamp;
         VisualElement buttons;
-        VisualElement dread;
+        VisualElement spot;
         bool goodCall;
-        float suspenseStart = -1f;
 
         void Awake()
         {
@@ -114,9 +116,6 @@ namespace DontCallMe.UI
             row.Add(left);
             row.Add(summary);
             screen.Add(row);
-            dread = UIKit.Div("end-dread");
-            dread.pickingMode = PickingMode.Ignore;
-            screen.Add(dread);
 
             // Quiet until the truth is out: the morning's music waits for the verdict.
             var music = FindAnyObjectByType<MusicPlayer>();
@@ -134,28 +133,35 @@ namespace DontCallMe.UI
                 Sfx.Play(Sfx.Paper);
             }).ExecuteLater(PaperAt);
             summary.schedule.Execute(() => summary.AddToClassList("end--in")).ExecuteLater(CardAt);
-            // The wait: a heartbeat, quicker and quicker, and the screen's edges closing in with it.
-            dread.schedule.Execute(() =>
+            // The wait: the room goes dark, one light narrows on the empty spot of the stamp, and a
+            // drumroll quickens and swells.
+            spot.schedule.Execute(() =>
             {
-                suspenseStart = Time.unscaledTime;
+                Aim(truthStamp, false);
+                spot.AddToClassList("end-spot--on");
                 Sfx.Play(Sfx.Suspense);
             }).ExecuteLater(SuspenseAt);
-            dread.schedule.Execute(Pulse).Every(16);
-            // Who really called: the stamp comes down and the headline appears with it.
+            // Who really called: the stamp comes down in the light and the headline appears with it.
             screen.schedule.Execute(() =>
             {
-                suspenseStart = -1f;
-                dread.style.opacity = 0f;
                 Slam(truthStamp);
                 Sfx.Play(Sfx.Reveal);
                 headline?.AddToClassList("end-late--in");
             }).ExecuteLater(truthAt);
+            // The light moves to the second spot and a short roll leads into the verdict.
+            spot.schedule.Execute(() =>
+            {
+                Aim(verdictStamp, true);
+                Sfx.Play(Sfx.Roll);
+            }).ExecuteLater(verdictAt - (long)(Sfx.RollSeconds * 1000f));
             // Was the player right.
             screen.schedule.Execute(() =>
             {
                 Slam(verdictStamp);
                 Sfx.Play(goodCall ? Sfx.RevealGood : Sfx.RevealBad);
             }).ExecuteLater(verdictAt);
+            // The lights come back up.
+            spot.schedule.Execute(() => spot.RemoveFromClassList("end-spot--on")).ExecuteLater(verdictAt + 300);
             // The story, the numbers and the buttons, and the morning's music.
             screen.schedule.Execute(() =>
             {
@@ -178,17 +184,23 @@ namespace DontCallMe.UI
                 rule.schedule.Execute(() => rule.AddToClassList("end--in")).ExecuteLater(restAt + 450 + 180 * clueLines.Count + 500);
         }
 
-        /// <summary>The red edges of the screen breathe with the suspense clip's heartbeats.</summary>
-        void Pulse()
+        /// <summary>
+        /// Points the spotlight at a stamp: the dark sheet is a big square with a clear hole in its
+        /// middle, so its middle goes where the stamp's is (both sit in the same row). It is placed
+        /// on the first stamp and glides to the second (<paramref name="glide"/>).
+        /// </summary>
+        void Aim(VisualElement stamp, bool glide)
         {
-            if (suspenseStart < 0f)
+            var first = truthStamp.layout.center;
+            if (!glide)
+            {
+                spot.style.left = first.x - SpotSize / 2f;
+                spot.style.top = first.y - SpotSize / 2f;
+                spot.style.translate = new Translate(0, 0);
                 return;
-            float t = Time.unscaledTime - suspenseStart;
-            float beat = 0f;
-            foreach (float b in Sfx.SuspenseBeats)
-                if (t >= b)
-                    beat = Mathf.Max(beat, Mathf.Exp(-(t - b) * 7f));
-            dread.style.opacity = Mathf.Clamp01(0.1f + 0.32f * t / Sfx.SuspenseSeconds + 0.42f * beat);
+            }
+            var to = stamp.layout.center;
+            spot.style.translate = new Translate(to.x - first.x, to.y - first.y);
         }
 
         static VisualElement BuildRule(DayVariant variant)
@@ -252,6 +264,11 @@ namespace DontCallMe.UI
             var stamps = UIKit.Div("end-card__stamps");
             truthStamp = Stamp(Loc.T(scam ? "SCAM" : "REAL"), !scam, -6f);
             verdictStamp = Stamp(verdict, good, 5f);
+            // The spotlight's dark sheet lives in the stamps' row, so it stays on their spot however
+            // the screen is laid out; it is drawn over everything before it (the paper, the case's head).
+            spot = UIKit.Div("end-spot");
+            spot.pickingMode = PickingMode.Ignore;
+            stamps.Add(spot);
             stamps.Add(truthStamp);
             stamps.Add(verdictStamp);
             card.Add(stamps);

@@ -79,7 +79,7 @@ namespace DontCallMe.Editor.UI
                 string path = AssetDatabase.GUIDToAssetPath(guid);
                 string name = Path.GetFileNameWithoutExtension(path);
                 var importer = (TextureImporter)AssetImporter.GetAtPath(path);
-                bool pixel = name.StartsWith("pt_") || name == "wallpaper";
+                bool pixel = name.StartsWith("pt_");
                 bool tile = name.StartsWith("tile_");
                 importer.textureType = TextureImporterType.Sprite;
                 importer.spriteImportMode = SpriteImportMode.Single;

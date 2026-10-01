@@ -1,0 +1,187 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b53d3a7811bb8498d9ae0485fd422ad9, type: 3}
+  m_Name: Day1_Sale_Scam_Room
+  m_EditorClassIdentifier: DontCallMe::DontCallMe.Data.RoomContent
+  newspaper:
+    masthead: SEOUL DAILY
+    issue: No. 12,408
+    dateLine: TUESDAY, OCTOBER 6, 2026
+    price: 1,000 won
+    headline: Holiday "gas bill" calls were fake
+    subhead: Residents who checked their bill and their bank history hung up.
+    photo: {fileID: 2800000, guid: 4c63c0d2cf38942db834f06de02c655f, type: 3}
+    caption: 'Before any transfer, the bank shows who really gets the money. Photo:
+      Seoul Daily'
+    body:
+    - A woman calling herself "Team Leader Baek" of Mapo City Gas's billing team
+      phoned residents of Mangwon-dong on Monday's holiday. She said their September
+      gas bill was unpaid, and that the gas would be shut off at five unless they
+      transferred the money at once.
+    - Most of those called had already paid by automatic transfer. Police say the
+      account she gave, Hanbit Bank 620-339-104772, is in the name of a man in his
+      twenties who sold it to the ring. Anyone called by 010-7359-2046 can report
+      it to 112 or the fraud hotline 1332.
+    - '"We do not phone customers to collect bills, and our offices were closed for
+      the holiday," Mapo City Gas said. "Our only number is 02-555-0181, the one
+      printed on the bill."'
+    warningTitle: SELLING SECOND-HAND? READ YOUR OWN BANK
+    warningText: '"I paid you too much, send back the difference" is an honest slip
+      on some days and a trick on others, and the buyer''s name and account can be
+      real either way. A transfer arrives within seconds. Only your own bank history
+      shows whether the money came, and from whom.'
+    print: {fileID: 0}
+    local:
+    - title: Gas inspections next week
+      text: Mapo City Gas checks villas in Mangwon-dong from 12 Oct. Inspectors carry
+        ID and never collect money.
+    - title: Water tank cleaning
+      text: Several villas on Poeun-ro will be without water on Thursday morning.
+    - title: Subway fares
+      text: The base fare stays at 1,550 won through the end of the year.
+    ads:
+    - title: "\uCE58\uD0A8 CHICKEN 24H"
+      text: Crispy & soy garlic. Free delivery over 20,000 won. 02-555-0147
+    - title: CHECKFIRST.KR
+      text: Who owns that number? Whose account is it? Look it up before you send.
+    - title: HANBIT ACADEMY
+      text: TOEIC weekend class, 30% off for students. 02-555-0166
+  drawer:
+  - title: "Lease contract \xB7 Unit 302"
+    kind: 0
+    issuer: Mangwon Heights
+    fields:
+    - label: Landlord
+      value: Choi Youngsik
+      isFact: 0
+      factKind: 6
+    - label: Landlord's phone
+      value: 010-5512-3380
+      isFact: 1
+      factKind: 0
+    - label: Rent
+      value: 450,000 won a month, due on the 7th
+      isFact: 0
+      factKind: 6
+    - label: Rent account
+      value: 110-771-209944
+      isFact: 1
+      factKind: 1
+    - label: Account holder
+      value: Choi Youngsik (Nuri Bank)
+      isFact: 0
+      factKind: 6
+    - label: If absent, contact
+      value: Choi Hyunwoo (son)
+      isFact: 0
+      factKind: 6
+    - label: Son's phone
+      value: 010-2280-6614
+      isFact: 1
+      factKind: 0
+    body: 'Special terms
+
+      1. The rent account changes only with a written notice
+      from the landlord.
+
+      2. The tenant allows the annual gas safety inspection.
+
+      3.
+      No smoking inside the unit.'
+    stamp: 
+    image: {fileID: 0}
+  - title: "Gas bill \xB7 September"
+    kind: 1
+    issuer: Mapo City Gas
+    fields:
+    - label: Customer
+      value: "Kim Jiwoo \xB7 Mangwon Heights 302"
+      isFact: 0
+      factKind: 6
+    - label: Amount
+      value: 18,420 won
+      isFact: 0
+      factKind: 6
+    - label: Paid
+      value: 28 Sep (auto-pay)
+      isFact: 0
+      factKind: 6
+    - label: Customer centre
+      value: 02-555-0181
+      isFact: 1
+      factKind: 0
+    body: 'Safety inspection this month: Wednesday 14 October. Our inspectors carry
+      an ID card and never ask for money.'
+    stamp: stamp_paid
+    image: {fileID: 0}
+  - title: Delivery slip
+    kind: 4
+    issuer: Hangang Express
+    fields:
+    - label: Parcel
+      value: Phone case (delivered 21 Sep)
+      isFact: 0
+      factKind: 6
+    - label: Tracking
+      value: HX-4410-2287-KR
+      isFact: 0
+      factKind: 6
+    - label: Customer centre
+      value: 1588-5520
+      isFact: 1
+      factKind: 0
+    body: 'Hangang Express has one number for everything, deliveries and customs:
+      1588-5520.'
+    stamp: 
+    image: {fileID: 0}
+  - title: "Receipt \xB7 5 Oct"
+    kind: 2
+    issuer: DAILY 24 Mangwon
+    fields:
+    - label: Total
+      value: 5,850 won
+      isFact: 0
+      factKind: 6
+    - label: Card
+      value: Nuri ****0921
+      isFact: 0
+      factKind: 6
+    body: 
+    stamp: 
+    image: {fileID: 2800000, guid: c000f9c1281a04bc39bbbcf431f2acba, type: 3}
+  calendar:
+    title: "Happy Pharmacy calendar \xB7 October"
+    image: {fileID: 2800000, guid: 25ea0bb3b624744ddbc8a5694a1d99cd, type: 3}
+    todayLabel: 'Today: Tuesday, 6 October'
+    today: 6
+    entries:
+    - day: 5
+      label: Mon 5
+      text: Substitute holiday
+    - day: 7
+      label: Wed 7
+      text: Rent day! 450,000 won to Mr. Choi
+    - day: 8
+      label: Thu 8
+      text: Dentist, 18:30
+    - day: 10
+      label: Sat 10
+      text: Monitor buyer comes at 11:00 (Neighbour Market, 60,000 won paid ahead)
+    - day: 13
+      label: Tue 13
+      text: Midterms start
+    - day: 14
+      label: Wed 14
+      text: Gas safety check, 10:00-17:00
+    - day: 17
+      label: Sat 17
+      text: 'Mom''s birthday: call + gift'

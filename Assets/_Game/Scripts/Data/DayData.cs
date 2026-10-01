@@ -19,10 +19,12 @@ namespace DontCallMe.Data
     }
 
     /// <summary>
-    /// One day: the date, where the player starts, and the truths the day can take. Each
-    /// <see cref="DayVariant"/> is a whole case (the call, the evidence, the clues and the next
-    /// morning's papers); one is picked when the day starts, so the same caller can be a scammer
-    /// or exactly who they say. <see cref="echoes"/> are what earlier days left behind.
+    /// One day: the date, where the player starts, and the cases the day can bring. Each
+    /// <see cref="DayVariant"/> is one truth of one case (the call, the evidence, the clues and the
+    /// next morning's papers); a scam and its legit twin share a <see cref="DayVariant.scenario"/>.
+    /// One is picked when the day starts, so the same caller can be a scammer or exactly who they
+    /// say, and another week can bring another case. <see cref="echoes"/> are what earlier days
+    /// left behind.
     /// </summary>
     [CreateAssetMenu(menuName = "Don't Call Me/Day")]
     public class DayData : ScriptableObject
@@ -42,7 +44,7 @@ namespace DontCallMe.Data
         [Tooltip("Seconds in the chair before the phone rings.")]
         public float ringDelay = 7f;
 
-        [Tooltip("The truths this day can take (a scam and its legit twin share the caller and the ask). One is picked at random.")]
+        [Tooltip("The cases this day can bring, as their truths (a scam and its legit twin share the caller, the ask and the scenario). One is picked when the day starts.")]
         public List<DayVariant> variants = new List<DayVariant>();
 
         [Tooltip("What earlier days left behind: texts, chat messages, a note on the board, a line on the day card.")]
@@ -60,12 +62,16 @@ namespace DontCallMe.Data
         public DayVariant Variant(string id) => variants.Find(v => v.id == id);
     }
 
-    /// <summary>One truth of a day: the call, the evidence that goes with it, the clues and the papers.</summary>
+    /// <summary>One truth of one of a day's cases: the call, the evidence that goes with it, the clues and the papers.</summary>
     [Serializable]
     public class DayVariant
     {
-        [Tooltip("\"scam\" or \"legit\".")]
+        [Tooltip("Unique within the day: \"scam\" or \"legit\" for the day's first case, \"sale_scam\", \"sale_legit\"... for the others.")]
         public string id = "scam";
+        [Tooltip("The case this truth belongs to, e.g. \"rent\". A scam and its legit twin share it.")]
+        public string scenario;
+        [Tooltip("The day card's line of intro when this case is played; empty uses the day's.")]
+        [TextArea(2, 4)] public string intro;
         public ConversationData conversation;
         [Tooltip("Jiwoo's phone, the room and the world the apps look things up in, for this truth.")]
         public PhoneContent phone;
@@ -79,6 +85,9 @@ namespace DontCallMe.Data
         public string ruleSource;
 
         public bool IsScam => conversation == null || conversation.isScam;
+
+        /// <summary>The case's name, for picking a case and for echoes (the id when no scenario is set).</summary>
+        public string Scenario => string.IsNullOrEmpty(scenario) ? id : scenario;
 
         public EndPaper Paper(Outcome outcome) => papers.Find(p => p.outcome == outcome) ?? (papers.Count > 0 ? papers[0] : null);
     }
@@ -151,6 +160,8 @@ namespace DontCallMe.Data
     {
         [Tooltip("The earlier day this reacts to.")]
         public int afterDay = 1;
+        [Tooltip("Only when that day played this case (a DayVariant.scenario); empty for any case.")]
+        public string scenario;
         [Tooltip("Only when that day's caller was a scammer (or legit).")]
         public Truth truth;
         [Tooltip("Only for these verdicts on that day.")]

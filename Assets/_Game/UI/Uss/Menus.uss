@@ -775,16 +775,24 @@
 /* The headline snaps in with the stamp. */
 .end-paper__headline.end-late { transition-duration: 0.14s; }
 
-/* The screen's edges close in with each heartbeat before the reveal. */
-.end-dread {
+/* Before the reveal the room goes dark and one light narrows on the spot where the stamp will land:
+   a big dark square with a clear hole in its middle (EndScreen puts the middle on the stamp). */
+.end-spot {
     position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url("project://database/Assets/_Game/UI/Sprites/vignette.png");
+    width: 4400px;
+    height: 4400px;
+    background-image: url("project://database/Assets/_Game/UI/Sprites/spotlight.png");
     -unity-background-scale-mode: stretch-to-fill;
     opacity: 0;
+    scale: 1.8 1.8;
+    transition-property: opacity, scale, translate;
+    transition-duration: 0.5s, 2.7s, 0.4s;
+    transition-timing-function: ease-out, ease-in-out, ease-in-out;
+}
+
+.end-spot--on {
+    opacity: 1;
+    scale: 1 1;
 }
 
 .end-card__head {

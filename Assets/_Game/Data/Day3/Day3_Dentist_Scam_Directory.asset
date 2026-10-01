@@ -1,0 +1,139 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 797667f628a9d46008e2075eca252954, type: 3}
+  m_Name: Day3_Dentist_Scam_Directory
+  m_EditorClassIdentifier: DontCallMe::DontCallMe.Data.WorldDirectory
+  accounts:
+  - bank: Nuri Bank
+    number: 110-900-551207
+    holder: JEONG MIRAN
+    note: Personal account, opened 3 weeks ago
+    reports:
+    - "4 Oct \xB7 \"Said he was from the Nuri Bank protection team. I sent 2,000,000
+      won.\""
+    - "29 Sep \xB7 \"Protected account story. The money was gone in minutes.\""
+  - bank: Hanbit Bank
+    number: 620-339-104772
+    holder: HAN SUNGMIN
+    note: Personal account, opened 5 days ago
+    reports:
+    - "5 Oct \xB7 \"Paid a 'gas bill' into this account. The gas company knew nothing
+      about it.\""
+    - "4 Oct \xB7 \"'Collection account' of a fake billing team.\""
+  - bank: Nuri Bank
+    number: 110-302-558814
+    holder: KIM JIWOO
+    note: Personal account
+    reports: []
+  - bank: Nuri Bank
+    number: 110-302-558990
+    holder: KIM JIWOO
+    note: Savings account
+    reports: []
+  - bank: Nuri Bank
+    number: 110-845-100233
+    holder: PARK HYEJIN
+    note: Personal account
+    reports: []
+  - bank: Nuri Bank
+    number: 110-771-209944
+    holder: CHOI YOUNGSIK
+    note: Personal account, opened 2011
+    reports: []
+  - bank: Nuri Bank
+    number: 5620-71-336029
+    holder: GAON PAY (payment agency)
+    note: Virtual account of a payment company. It does not show which shop is behind
+      it.
+    reports: []
+  numbers:
+  - number: 070-8844-2019
+    owner: Not registered
+    note: Internet phone (070), opened 9 days ago
+    official: 0
+    reports:
+    - "5 Oct \xB7 \"Nuri Bank 'account protection team'. Wanted my savings moved.\""
+    - "5 Oct \xB7 \"Knew the last digits of my account. Very convincing.\""
+    - "4 Oct \xB7 \"Manager Jeon. Told me to stay on the line and not tell anyone.\""
+    - "3 Oct \xB7 \"Protected account 110-900-551207, someone else's name on it.\""
+    - "2 Oct \xB7 \"Said someone logged in from Busan.\""
+    - "1 Oct \xB7 \"Scam. Hung up.\""
+    - "30 Sep \xB7 \"Bank impersonation.\""
+  - number: 010-7359-2046
+    owner: Not registered
+    note: Prepaid phone, opened 3 days ago
+    official: 0
+    reports:
+    - "5 Oct \xB7 \"Said my gas would be cut off today. Wanted a transfer.\""
+    - "5 Oct \xB7 \"'Mapo City Gas billing team'. The real company never calls.\""
+    - "4 Oct \xB7 \"Unpaid bill story, account in a man's name.\""
+    - "3 Oct \xB7 \"Scam. Hung up.\""
+  - number: 02-555-0181
+    owner: Mapo City Gas customer centre
+    note: The number printed on the gas bill
+    official: 1
+    reports: []
+  - number: 1599-0000
+    owner: Nuri Bank customer centre
+    note: The bank's only customer number
+    official: 1
+    reports: []
+  - number: 1588-5520
+    owner: Hangang Express customer centre
+    note: Customer centre and customs desk
+    official: 1
+    reports: []
+  - number: 1332
+    owner: Financial Supervisory Service fraud hotline
+    note: 
+    official: 1
+    reports: []
+  - number: 112
+    owner: Police
+    note: 
+    official: 1
+    reports: []
+  - number: 02-555-0192
+    owner: Mangwon Heights office
+    note: 
+    official: 1
+    reports: []
+  - number: 010-5512-3380
+    owner: CHOI YOUNGSIK
+    note: Mobile phone, since 2009
+    official: 0
+    reports: []
+  - number: 010-2280-6614
+    owner: CHOI HYUNWOO
+    note: Mobile phone, since 2016
+    official: 0
+    reports: []
+  - number: 010-2231-7745
+    owner: PARK HYEJIN
+    note: Mobile phone
+    official: 0
+    reports: []
+  - number: 010-4418-0902
+    owner: KIM DONGSU
+    note: Mobile phone
+    official: 0
+    reports: []
+  - number: 010-6620-0921
+    owner: KIM JIWOO
+    note: Mobile phone
+    official: 0
+    reports: []
+  - number: 010-5127-4406
+    owner: MOON JIHYE
+    note: Mobile phone, since 2018
+    official: 0
+    reports: []

@@ -40,6 +40,7 @@ namespace DontCallMe.Editor.UI
         static string AtNumberCheck => L("Computer → Check a phone number", "컴퓨터 → 전화번호 조회");
         static string AtLease => L("Desk drawer → Lease contract", "책상 서랍 → 임대차 계약서");
         static string AtVillaChat => L("Chats → Mangwon Heights residents", "채팅 → 망원하이츠 입주민");
+        static string AtFamilyChat => L("Chats → Our family", "채팅 → 우리 가족");
         static string AtCalendar => L("the calendar on the wall", "벽에 걸린 달력");
         static string AtPaper => L("the newspaper on the desk", "책상 위 신문");
         static string AtGasBill => L("Desk drawer → Gas bill", "책상 서랍 → 도시가스 고지서");
@@ -209,14 +210,23 @@ namespace DontCallMe.Editor.UI
         }
 
         /// <summary>Adds a message to a chat of a built phone (for a variant's own evidence), putting the chat on top.</summary>
-        static void AddChat(PhoneContent p, string chatId, int dom, string time, string sender, string avatar, string text)
+        static void AddChat(PhoneContent p, string chatId, int dom, string time, string sender, string avatar, string text, string photo = null)
         {
             var t = p.chats.Find(c => c.id == chatId);
             if (t == null || !Seen(10, dom, time))
                 return;
-            t.messages.Add(new ChatMessage { sender = sender, avatar = avatar, when = Oct(dom, time), text = text });
+            t.messages.Add(new ChatMessage { sender = sender, avatar = avatar, when = Oct(dom, time), text = text, photoCaption = photo });
             p.chats.Remove(t);
             p.chats.Insert(0, t);
+        }
+
+        /// <summary>Adds today's newest line to the bank history of a built phone (for a variant's own evidence), and the money to the balance.</summary>
+        static void AddTx(PhoneContent p, int dom, string time, string counterparty, string memo, long amount)
+        {
+            if (!Seen(10, dom, time))
+                return;
+            p.bank.transactions.Insert(0, new BankTransaction { when = Oct(dom, time), counterparty = counterparty, memo = memo, amount = amount });
+            p.bank.Change(amount);
         }
 
         // ================================================================ what CheckFirst knows
@@ -382,6 +392,16 @@ namespace DontCallMe.Editor.UI
             Note(r, 14, L("Gas safety check, 10:00-17:00", "가스 안전점검 10:00~17:00"));
             Note(r, 17, L("Mom's birthday: call + gift", "엄마 생신: 전화 + 선물"));
             return r;
+        }
+
+        /// <summary>Rewrites what the calendar says on a date (a variant's own evidence).</summary>
+        static void Renote(RoomContent room, int dom, string text)
+        {
+            var entry = room.calendar.entries.Find(e => e.day == dom);
+            if (entry != null)
+                entry.text = text;
+            else
+                Note(room, dom, text);
         }
 
         /// <summary>Something Jiwoo wrote on the calendar, kept in date order.</summary>

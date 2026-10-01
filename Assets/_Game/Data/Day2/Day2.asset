@@ -23,6 +23,8 @@ MonoBehaviour:
   ringDelay: 7
   variants:
   - id: scam
+    scenario: rent
+    intro: 
     conversation: {fileID: 11400000, guid: 22f2aed7e321048b1abf80217b6a709b, type: 2}
     phone: {fileID: 11400000, guid: 70939c56e2207464b95a14904dfde186, type: 2}
     room: {fileID: 11400000, guid: e56ae609b70414623bb93ec08017ab05, type: 2}
@@ -129,6 +131,8 @@ MonoBehaviour:
       holder's name against your lease, and ask the landlord's own chat.
     ruleSource: Seoul Daily, 8 Oct
   - id: legit
+    scenario: rent
+    intro: 
     conversation: {fileID: 11400000, guid: b5782b6a4626142aeb0c45af35ce3eb5, type: 2}
     phone: {fileID: 11400000, guid: aa208c986f6b54834b6580dd0b9383d9, type: 2}
     room: {fileID: 11400000, guid: 3060e3da6775b47c3aa5d4b1db8cbb4f, type: 2}
@@ -232,8 +236,176 @@ MonoBehaviour:
     rule: When the number in your lease, the landlord's own message and the name
       on the account all match, the change is real. Check, then act.
     ruleSource: Seoul Daily, 8 Oct
+  - id: brother_scam
+    scenario: brother
+    intro: 'Rent day: you sent Mr. Choi the 450,000 won after class, like every month.
+      Midterms are a week away.'
+    conversation: {fileID: 11400000, guid: e8e837783bc934f7aa3629848ac7c413, type: 2}
+    phone: {fileID: 11400000, guid: 6be6aa95bc0b54dafaf076e785791326, type: 2}
+    room: {fileID: 11400000, guid: cfbd78c86289f4ef28ad5e1bac414117, type: 2}
+    directory: {fileID: 11400000, guid: 7c86cb67b9f974f3a96c5c3ed01d73b0, type: 2}
+    clues:
+    - id: family_chat
+      text: 'Minjun wrote in the family chat at 15:52, from his own phone: he is
+        in the library with his phone on silent. His phone is not broken.'
+      where: "Chats \u2192 Our family"
+      guide: 
+      when:
+      - kind: 4
+        target: family
+    papers:
+    - outcome: 1
+      headline: '"Noona, my phone broke": copied voices call families'
+      subhead: The number was new, the voice familiar. The real brothers were in
+        class.
+      body: '"Noona, it''s me. I broke my phone." Students and parents across Mapo
+        took that call on Wednesday, from a number they did not know and in a voice
+        they did. The caller needed a screen repair paid before 5 p.m., into a "roommate''s"
+        account.
+
+
+        Police say the voices were copied from short videos on
+        social media. The phone and the account belonged to a real student who had
+        lent both for a "part-time job", so a lookup showed nothing wrong.
+
+
+        "Don''t
+        test the voice. Ask the person," a Mapo police officer said. "Write one line
+        in the chat you already share, and wait for the answer."'
+      verdictNote: You hung up. The real Minjun had just written in the family chat,
+        from his own phone.
+      print: {fileID: 2800000, guid: e76593b89d2ef4a99ac6edb58bdd42f1, type: 3}
+    - outcome: 0
+      headline: 280,000 won for a phone that was never broken
+      subhead: A Mangwon student paid for her "brother's" repair. He was in the library.
+      body: '"Noona, it''s me. I broke my phone." Students and parents across Mapo
+        took that call on Wednesday, from a number they did not know and in a voice
+        they did. The caller needed a screen repair paid before 5 p.m., into a "roommate''s"
+        account.
+
+
+        A 22-year-old student sent 280,000 won. Her brother, a
+        first-year in Daejeon, had posted a photo of his library desk to the family
+        chat half an hour earlier. Police say the voices were copied from short videos
+        on social media. The phone and the account belonged to a real student who
+        had lent both for a "part-time job", so a lookup showed nothing wrong.
+
+
+        "Don''t
+        test the voice. Ask the person," a Mapo police officer said. "Write one line
+        in the chat you already share, and wait for the answer."'
+      verdictNote: 'The family chat had the answer: Minjun had posted from his own
+        phone at 15:52.'
+      print: {fileID: 2800000, guid: 935d28f0463fb4af5a99563f77c2eee8, type: 3}
+    - outcome: 3
+      headline: The voice was his. The call was not.
+      subhead: Families in Mapo were phoned by copied voices on Wednesday.
+      body: '"Noona, it''s me. I broke my phone." Students and parents across Mapo
+        took that call on Wednesday, from a number they did not know and in a voice
+        they did. The caller needed a screen repair paid before 5 p.m., into a "roommate''s"
+        account.
+
+
+        Police say the voices were copied from short videos on
+        social media. The phone and the account belonged to a real student who had
+        lent both for a "part-time job", so a lookup showed nothing wrong.
+
+
+        "Don''t
+        test the voice. Ask the person," a Mapo police officer said. "Write one line
+        in the chat you already share, and wait for the answer."'
+      verdictNote: Nothing was sent, but you never decided. One look at the family
+        chat would have told you.
+      print: {fileID: 2800000, guid: bdd5152f2de914af6a9e1d6f6bf87cc3, type: 3}
+    ruleTitle: Ask them where you always talk
+    rule: Family asking for money from a strange number? A voice can be copied and
+      a lookup can come back clean. Ask them in the chat you already share.
+    ruleSource: Seoul Daily, 8 Oct
+  - id: brother_legit
+    scenario: brother
+    intro: 'Rent day: you sent Mr. Choi the 450,000 won after class, like every month.
+      Midterms are a week away.'
+    conversation: {fileID: 11400000, guid: 1e46d25129f414b42ba2946963055fd9, type: 2}
+    phone: {fileID: 11400000, guid: 32e45c9683023401b940ed79a053d336, type: 2}
+    room: {fileID: 11400000, guid: ab52e7007179e4d65b784cc4e637f3e9, type: 2}
+    directory: {fileID: 11400000, guid: 882a0bd172f204cf3af2c5e547083304, type: 2}
+    clues:
+    - id: family_chat
+      text: 'Minjun wrote it himself in the family chat at 15:22: his screen is dead,
+        and he will call from his roommate Dohyun''s phone.'
+      where: "Chats \u2192 Our family"
+      guide: 
+      when:
+      - kind: 4
+        target: family
+    papers:
+    - outcome: 0
+      headline: A broken phone, and a sister who checked first
+      subhead: He had written to the family chat before he called. She read it, then
+        paid.
+      body: 'After a month of copied-voice scams, a real call for help can sound
+        exactly like a fake one. A first-year student in Daejeon found that out on
+        Wednesday, when he broke his phone and rang his sister in Seoul from his
+        roommate''s.
+
+
+        "I wrote to our family chat from the dorm PC before
+        I left," he said. "She read it, asked me one question, and sent the money.
+        The phone was fixed by six."
+
+
+        Police advise families to agree on
+        one place to check: the chat they already share. "If he wrote it there himself,
+        the strange number is explained," an officer said.'
+      verdictNote: 'It really was Minjun, and you checked: his own message in the
+        family chat explained the strange number.'
+      print: {fileID: 2800000, guid: f218e64379a7b4631a550fc3da85ba3c, type: 3}
+    - outcome: 1
+      headline: '"She hung up on me": when the real brother calls'
+      subhead: A student with a broken phone could not convince his own sister.
+      body: 'After a month of copied-voice scams, a real call for help can sound
+        exactly like a fake one. A first-year student in Daejeon found that out on
+        Wednesday, when he broke his phone and rang his sister in Seoul from his
+        roommate''s.
+
+
+        "She hung up on me," he said. "I don''t blame her.
+        But I had written it in our family chat an hour before." His roommate lent
+        him the money.
+
+
+        Police advise families to agree on one place to
+        check: the chat they already share. "If he wrote it there himself, the strange
+        number is explained," an officer said.'
+      verdictNote: 'This one was real: Minjun had written in the family chat that
+        he would call from his roommate''s phone.'
+      print: {fileID: 2800000, guid: 1ec8a9b56b11344beb4d71fa5e4c9a7a, type: 3}
+    - outcome: 3
+      headline: The repair desk closed at five
+      subhead: A student waited on the line for a sister who never decided.
+      body: 'After a month of copied-voice scams, a real call for help can sound
+        exactly like a fake one. A first-year student in Daejeon found that out on
+        Wednesday, when he broke his phone and rang his sister in Seoul from his
+        roommate''s.
+
+
+        "I held on until they closed," he said. "It was all
+        in the family chat." His roommate lent him the money.
+
+
+        Police advise
+        families to agree on one place to check: the chat they already share. "If
+        he wrote it there himself, the strange number is explained," an officer said.'
+      verdictNote: It really was Minjun, and the answer was in the family chat. Deciding
+        in time matters too.
+      print: {fileID: 2800000, guid: 43e0b6bdc121b4542b1cadabc04b09ff, type: 3}
+    ruleTitle: Their own message explains the strange number
+    rule: 'The same check clears a real call: when they wrote it themselves in your
+      own chat, the strange number is explained. Check, then help.'
+    ruleSource: Seoul Daily, 8 Oct
   echoes:
   - afterDay: 1
+    scenario: protected
     truth: 0
     outcomes: 1
     kind: 3
@@ -247,6 +419,7 @@ MonoBehaviour:
     outgoing: 0
     notify: 0
   - afterDay: 1
+    scenario: protected
     truth: 0
     outcomes: 1
     kind: 0
@@ -261,6 +434,7 @@ MonoBehaviour:
     outgoing: 0
     notify: 1
   - afterDay: 1
+    scenario: protected
     truth: 0
     outcomes: 1
     kind: 0
@@ -274,6 +448,7 @@ MonoBehaviour:
     outgoing: 1
     notify: 0
   - afterDay: 1
+    scenario: protected
     truth: 0
     outcomes: 2
     kind: 3
@@ -288,6 +463,7 @@ MonoBehaviour:
     outgoing: 0
     notify: 0
   - afterDay: 1
+    scenario: protected
     truth: 0
     outcomes: 2
     kind: 0
@@ -301,6 +477,7 @@ MonoBehaviour:
     outgoing: 1
     notify: 0
   - afterDay: 1
+    scenario: protected
     truth: 0
     outcomes: 2
     kind: 0
@@ -314,6 +491,7 @@ MonoBehaviour:
     outgoing: 0
     notify: 1
   - afterDay: 1
+    scenario: protected
     truth: 0
     outcomes: 2
     kind: 0
@@ -327,6 +505,7 @@ MonoBehaviour:
     outgoing: 1
     notify: 0
   - afterDay: 1
+    scenario: protected
     truth: 0
     outcomes: 2
     kind: 0
@@ -340,6 +519,7 @@ MonoBehaviour:
     outgoing: 0
     notify: 0
   - afterDay: 1
+    scenario: protected
     truth: 0
     outcomes: 8
     kind: 3
@@ -353,6 +533,7 @@ MonoBehaviour:
     outgoing: 0
     notify: 0
   - afterDay: 1
+    scenario: protected
     truth: 0
     outcomes: 8
     kind: 0
@@ -366,5 +547,353 @@ MonoBehaviour:
     amount: 0
     outgoing: 0
     notify: 1
+  - afterDay: 1
+    scenario: paper
+    truth: 2
+    outcomes: 10
+    kind: 1
+    from: OH SANGCHUL
+    sender: 
+    avatar: 
+    when: Today 08:10
+    title: Seoul Daily, October to December
+    text: 
+    amount: -54000
+    outgoing: 0
+    notify: 0
+  - afterDay: 1
+    scenario: paper
+    truth: 1
+    outcomes: 1
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: "Yesterday's \"branch manager\" had been let go in September. Your \u20A954,000
+      is gone."
+    amount: 0
+    outgoing: 0
+    notify: 0
+  - afterDay: 1
+    scenario: paper
+    truth: 1
+    outcomes: 1
+    kind: 0
+    from: family
+    sender: Dad
+    avatar: pt_dad
+    when: Yesterday 19:40
+    title: 
+    text: The Seoul Daily called me back. That man hasn't worked for them since September.
+      Report it to 112, Jiwoo. And read the front page next time!
+    amount: 0
+    outgoing: 0
+    notify: 1
+  - afterDay: 1
+    scenario: paper
+    truth: 1
+    outcomes: 1
+    kind: 0
+    from: family
+    sender: 
+    avatar: 
+    when: Yesterday 19:44
+    title: 
+    text: I know... The notice was right there on my desk.
+    amount: 0
+    outgoing: 1
+    notify: 0
+  - afterDay: 1
+    scenario: paper
+    truth: 1
+    outcomes: 2
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: Yesterday's "branch manager" no longer worked for the paper. You hung up.
+    amount: 0
+    outgoing: 0
+    notify: 0
+  - afterDay: 1
+    scenario: paper
+    truth: 1
+    outcomes: 2
+    kind: 0
+    from: family
+    sender: 
+    avatar: 
+    when: Yesterday 17:20
+    title: 
+    text: Dad, someone called to collect the newspaper fee. The paper itself said
+      he was let go, so I hung up.
+    amount: 0
+    outgoing: 1
+    notify: 0
+  - afterDay: 1
+    scenario: paper
+    truth: 1
+    outcomes: 2
+    kind: 0
+    from: family
+    sender: Dad
+    avatar: pt_dad
+    when: Yesterday 17:35
+    title: 
+    text: Well done. So you do read it! I pay by giro, you don't owe anyone a thing.
+    amount: 0
+    outgoing: 0
+    notify: 1
+  - afterDay: 1
+    scenario: paper
+    truth: 1
+    outcomes: 8
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: Yesterday's "branch manager" gave up at five. The paper still came this
+      morning.
+    amount: 0
+    outgoing: 0
+    notify: 0
+  - afterDay: 1
+    scenario: paper
+    truth: 2
+    outcomes: 1
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: The paper is paid until December. Mr. Oh left a thank-you note on this
+      morning's copy.
+    amount: 0
+    outgoing: 0
+    notify: 0
+  - afterDay: 1
+    scenario: paper
+    truth: 2
+    outcomes: 1
+    kind: 0
+    from: family
+    sender: Dad
+    avatar: pt_dad
+    when: Yesterday 18:10
+    title: 
+    text: The branch texted me that you paid the paper. Thank you! I owe you a dinner.
+    amount: 0
+    outgoing: 0
+    notify: 1
+  - afterDay: 1
+    scenario: paper
+    truth: 2
+    outcomes: 10
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: Mr. Oh was the real branch manager. He left today's paper anyway; you paid
+      him this morning.
+    amount: 0
+    outgoing: 0
+    notify: 0
+  - afterDay: 1
+    scenario: paper
+    truth: 2
+    outcomes: 10
+    kind: 0
+    from: family
+    sender: Dad
+    avatar: pt_dad
+    when: Yesterday 18:30
+    title: 
+    text: Jiwoo, the branch manager called me. He's real, it was in today's paper.
+      Send him the fee tomorrow morning, will you?
+    amount: 0
+    outgoing: 0
+    notify: 1
+  - afterDay: 1
+    scenario: sale
+    truth: 2
+    outcomes: 15
+    kind: 1
+    from: BAE SUJIN
+    sender: 
+    avatar: 
+    when: Yesterday 16:07
+    title: Monitor (Neighbour Market)
+    text: 
+    amount: 600000
+    outgoing: 0
+    notify: 0
+  - afterDay: 1
+    scenario: sale
+    truth: 2
+    outcomes: 10
+    kind: 1
+    from: BAE SUJIN
+    sender: 
+    avatar: 
+    when: Today 08:20
+    title: "Overpayment returned \xB7 Hanbit 620-481-207356"
+    text: 
+    amount: -540000
+    outgoing: 0
+    notify: 0
+  - afterDay: 1
+    scenario: sale
+    truth: 1
+    outcomes: 1
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: "Nothing had ever arrived from yesterday's \"buyer\". Your \u20A9540,000
+      is gone."
+    amount: 0
+    outgoing: 0
+    notify: 0
+  - afterDay: 1
+    scenario: sale
+    truth: 1
+    outcomes: 1
+    kind: 0
+    from: yuna
+    sender: 
+    avatar: 
+    when: Yesterday 18:05
+    title: 
+    text: I just sent 540,000 won to a fake monitor buyer. I didn't even look at
+      my bank first.
+    amount: 0
+    outgoing: 1
+    notify: 0
+  - afterDay: 1
+    scenario: sale
+    truth: 1
+    outcomes: 1
+    kind: 0
+    from: yuna
+    sender: Yuna
+    avatar: pt_yuna
+    when: Yesterday 18:07
+    title: 
+    text: NO. Report it right now, 112 and your bank!! I'm coming over with tteokbokki.
+    amount: 0
+    outgoing: 0
+    notify: 1
+  - afterDay: 1
+    scenario: sale
+    truth: 1
+    outcomes: 2
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: Yesterday's "buyer" had never sent a won. You looked at your bank, and
+      hung up.
+    amount: 0
+    outgoing: 0
+    notify: 0
+  - afterDay: 1
+    scenario: sale
+    truth: 1
+    outcomes: 2
+    kind: 0
+    from: yuna
+    sender: 
+    avatar: 
+    when: Yesterday 17:25
+    title: 
+    text: Someone tried the "I paid you too much" trick on my monitor listing!
+    amount: 0
+    outgoing: 1
+    notify: 0
+  - afterDay: 1
+    scenario: sale
+    truth: 1
+    outcomes: 2
+    kind: 0
+    from: yuna
+    sender: Yuna
+    avatar: pt_yuna
+    when: Yesterday 17:27
+    title: 
+    text: The classic!! Did you check your bank first?
+    amount: 0
+    outgoing: 0
+    notify: 1
+  - afterDay: 1
+    scenario: sale
+    truth: 1
+    outcomes: 2
+    kind: 0
+    from: yuna
+    sender: 
+    avatar: 
+    when: Yesterday 17:28
+    title: 
+    text: Obviously. Nothing there.
+    amount: 0
+    outgoing: 1
+    notify: 0
+  - afterDay: 1
+    scenario: sale
+    truth: 1
+    outcomes: 8
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: Yesterday's "buyer" gave up at five. Nothing had ever arrived from her.
+    amount: 0
+    outgoing: 0
+    notify: 0
+  - afterDay: 1
+    scenario: sale
+    truth: 2
+    outcomes: 1
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: "The buyer got her \u20A9540,000 back in time for her rent. She collects
+      the monitor on Saturday."
+    amount: 0
+    outgoing: 0
+    notify: 0
+  - afterDay: 1
+    scenario: sale
+    truth: 2
+    outcomes: 10
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: "The buyer really had sent \u20A9600,000. You returned the extra this morning,
+      with an apology."
+    amount: 0
+    outgoing: 0
+    notify: 0
   nextDateLabel: Thursday, 8 October
-  builtWith: 7
+  builtWith: 8

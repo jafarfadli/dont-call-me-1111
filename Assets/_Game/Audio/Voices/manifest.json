@@ -305,6 +305,241 @@
   "file": "Assets/_Game/Audio/Voices/Daniel/6e04a1cd61a1.wav"
  },
  {
+  "voice": "Grandpa (English (US))",
+  "text": "Hello, is this the student in three oh two, Mangwon Heights? This is Oh Sangchul, the manager of the Seoul Daily's Mapo branch.",
+  "file": "Assets/_Game/Audio/Voices/GrandpaEnglishUS/de1c3aa5b740.wav"
+ },
+ {
+  "voice": "Grandpa (English (US))",
+  "text": "Your father took out the paper for you in March and paid up to September. From October, the fee hasn't been paid.",
+  "file": "Assets/_Game/Audio/Voices/GrandpaEnglishUS/96a3d384a381.wav"
+ },
+ {
+  "voice": "Grandpa (English (US))",
+  "text": "Hello? Student? Are you there?",
+  "file": "Assets/_Game/Audio/Voices/GrandpaEnglishUS/382d5eb085a6.wav"
+ },
+ {
+  "voice": "Grandpa (English (US))",
+  "text": "Eighteen thousand won a month. Most readers pay three months at a time.",
+  "file": "Assets/_Game/Audio/Voices/GrandpaEnglishUS/ce808e9be93b.wav"
+ },
+ {
+  "voice": "Grandpa (English (US))",
+  "text": "I tried him this morning and he didn't pick up. And the paper comes to your door, student.",
+  "file": "Assets/_Game/Audio/Voices/GrandpaEnglishUS/53533e57a051.wav"
+ },
+ {
+  "voice": "Grandpa (English (US))",
+  "text": "We don't collect at the door any more. From this month it's by bank transfer, and I'm phoning every reader myself this week.",
+  "file": "Assets/_Game/Audio/Voices/GrandpaEnglishUS/1efee3c9b9f8.wav"
+ },
+ {
+  "voice": "Grandpa (English (US))",
+  "text": "October to December comes to fifty four thousand won. Please send it to Nuri Bank, one one zero, four five seven, eight zero three three one two. The account is in my name, Oh Sangchul.",
+  "file": "Assets/_Game/Audio/Voices/GrandpaEnglishUS/b4b21d90eb73.wav"
+ },
+ {
+  "voice": "Grandpa (English (US))",
+  "text": "I close the branch's books at five. Whoever hasn't paid by then comes off tomorrow's delivery list.",
+  "file": "Assets/_Game/Audio/Voices/GrandpaEnglishUS/1fb75d674b0d.wav"
+ },
+ {
+  "voice": "Grandpa (English (US))",
+  "text": "I'll stay on the line while you send it.",
+  "file": "Assets/_Game/Audio/Voices/GrandpaEnglishUS/0eae95581b21.wav"
+ },
+ {
+  "voice": "Grandpa (English (US))",
+  "text": "Mine. Oh Sangchul. A branch is its manager's own business, student, so the account is in my name.",
+  "file": "Assets/_Game/Audio/Voices/GrandpaEnglishUS/8077e707ee6f.wav"
+ },
+ {
+  "voice": "Grandpa (English (US))",
+  "text": "Head office changed it from October. It's in this morning's paper, in the box on the front page.",
+  "file": "Assets/_Game/Audio/Voices/GrandpaEnglishUS/d84d2d66c2ec.wav"
+ },
+ {
+  "voice": "Grandpa (English (US))",
+  "text": "This mobile, student. It's the number printed in today's notice. zero one zero, eight two six five, three three one seven.",
+  "file": "Assets/_Game/Audio/Voices/GrandpaEnglishUS/68837897875c.wav"
+ },
+ {
+  "voice": "Grandpa (English (US))",
+  "text": "Of course. But I close the books at five, and starting again later means a new sign-up.",
+  "file": "Assets/_Game/Audio/Voices/GrandpaEnglishUS/0432cf826f53.wav"
+ },
+ {
+  "voice": "Grandpa (English (US))",
+  "text": "Student? Still there? Take your time, but I do close at five.",
+  "file": "Assets/_Game/Audio/Voices/GrandpaEnglishUS/db9951110a1d.wav"
+ },
+ {
+  "voice": "Grandpa (English (US))",
+  "text": "I have forty more readers to call today. Has it gone through?",
+  "file": "Assets/_Game/Audio/Voices/GrandpaEnglishUS/9e6655a33059.wav"
+ },
+ {
+  "voice": "Grandpa (English (US))",
+  "text": "Twelve minutes, student. I'd hate to stop the paper your father chose for you.",
+  "file": "Assets/_Game/Audio/Voices/GrandpaEnglishUS/6e17068f5f35.wav"
+ },
+ {
+  "voice": "Grandpa (English (US))",
+  "text": "Six minutes, student.",
+  "file": "Assets/_Game/Audio/Voices/GrandpaEnglishUS/4c765026c520.wav"
+ },
+ {
+  "voice": "Grandpa (English (US))",
+  "text": "Three minutes. Shall I take you off the list, then?",
+  "file": "Assets/_Game/Audio/Voices/GrandpaEnglishUS/54eab523210c.wav"
+ },
+ {
+  "voice": "Grandpa (English (US))",
+  "text": "Student? It's five, I have to close the books. Call me when you've decided.",
+  "file": "Assets/_Game/Audio/Voices/GrandpaEnglishUS/c840409c182e.wav"
+ },
+ {
+  "voice": "Grandpa (English (US))",
+  "text": "It's in. Thank you! The paper will be at your door at six, as always.",
+  "file": "Assets/_Game/Audio/Voices/GrandpaEnglishUS/6e387fe65a6a.wav"
+ },
+ {
+  "voice": "Grandpa (English (US))",
+  "text": "Head office changed it from October. It was in the paper last week.",
+  "file": "Assets/_Game/Audio/Voices/GrandpaEnglishUS/ee82d9d2b388.wav"
+ },
+ {
+  "voice": "Grandpa (English (US))",
+  "text": "This mobile, student. The office line was cut when the branch moved. zero one zero, eight two six five, three three one seven.",
+  "file": "Assets/_Game/Audio/Voices/GrandpaEnglishUS/8b97b466e7fe.wav"
+ },
+ {
+  "voice": "Grandpa (English (US))",
+  "text": "It's five. I'm taking you off the list.",
+  "file": "Assets/_Game/Audio/Voices/GrandpaEnglishUS/3c9435fbb95c.wav"
+ },
+ {
+  "voice": "Grandpa (English (US))",
+  "text": "Received. Thank you, student. Keep reading!",
+  "file": "Assets/_Game/Audio/Voices/GrandpaEnglishUS/d1f7f444e4b9.wav"
+ },
+ {
+  "voice": "Tessa",
+  "text": "Hello, is this Jiwoo, with the monitor on Neighbour Market? It's Bae Sujin, the buyer.",
+  "file": "Assets/_Game/Audio/Voices/Tessa/410bb9a65faa.wav"
+ },
+ {
+  "voice": "Tessa",
+  "text": "I'm so sorry, I've done something stupid. I just paid you, and my finger slipped: one zero too many.",
+  "file": "Assets/_Game/Audio/Voices/Tessa/c557cc65241e.wav"
+ },
+ {
+  "voice": "Tessa",
+  "text": "Hello? Can you hear me?",
+  "file": "Assets/_Game/Audio/Voices/Tessa/40367b6500c9.wav"
+ },
+ {
+  "voice": "Tessa",
+  "text": "Six hundred thousand won instead of sixty thousand.",
+  "file": "Assets/_Game/Audio/Voices/Tessa/c6432d016630.wav"
+ },
+ {
+  "voice": "Tessa",
+  "text": "It went out at seven past four. Six hundred thousand won instead of sixty thousand.",
+  "file": "Assets/_Game/Audio/Voices/Tessa/94dd55556166.wav"
+ },
+ {
+  "voice": "Tessa",
+  "text": "So you have five hundred and forty thousand won of mine. Could you please send it back?",
+  "file": "Assets/_Game/Audio/Voices/Tessa/4199b1678016.wav"
+ },
+ {
+  "voice": "Tessa",
+  "text": "My account is Hanbit Bank, six two zero, four eight one, two zero seven three five six, in my name, Bae Sujin.",
+  "file": "Assets/_Game/Audio/Voices/Tessa/6264c0d0b619.wav"
+ },
+ {
+  "voice": "Tessa",
+  "text": "It's my rent money. My landlord wants it by five today, and my bank says a reversal takes two weeks.",
+  "file": "Assets/_Game/Audio/Voices/Tessa/9adeb54fcfd7.wav"
+ },
+ {
+  "voice": "Tessa",
+  "text": "I'll stay on the line. I'm really sorry about this.",
+  "file": "Assets/_Game/Audio/Voices/Tessa/a2768d1815e4.wav"
+ },
+ {
+  "voice": "Tessa",
+  "text": "Of course, please do. It should be right at the top, under my name.",
+  "file": "Assets/_Game/Audio/Voices/Tessa/61e9d054859d.wav"
+ },
+ {
+  "voice": "Tessa",
+  "text": "They said a wrong-transfer claim takes up to two weeks, and only if you agree. My rent is due today.",
+  "file": "Assets/_Game/Audio/Voices/Tessa/da896cf09ba4.wav"
+ },
+ {
+  "voice": "Tessa",
+  "text": "Mine, Bae Sujin. The same name the payment came from.",
+  "file": "Assets/_Game/Audio/Voices/Tessa/8a55ad0e211a.wav"
+ },
+ {
+  "voice": "Tessa",
+  "text": "I wish I could wait. My landlord won't. Please, it's only my own money I'm asking for.",
+  "file": "Assets/_Game/Audio/Voices/Tessa/702cbea179fc.wav"
+ },
+ {
+  "voice": "Tessa",
+  "text": "Jiwoo? Have you found it? It was at seven past four.",
+  "file": "Assets/_Game/Audio/Voices/Tessa/97c946a54700.wav"
+ },
+ {
+  "voice": "Tessa",
+  "text": "I feel terrible bothering you. I just can't be late with the rent again.",
+  "file": "Assets/_Game/Audio/Voices/Tessa/af489aef4d34.wav"
+ },
+ {
+  "voice": "Tessa",
+  "text": "My landlord just texted me. Could you send it now, please?",
+  "file": "Assets/_Game/Audio/Voices/Tessa/0ee507397825.wav"
+ },
+ {
+  "voice": "Tessa",
+  "text": "Seven minutes. Please, Jiwoo.",
+  "file": "Assets/_Game/Audio/Voices/Tessa/10d64307d5ba.wav"
+ },
+ {
+  "voice": "Tessa",
+  "text": "Three minutes! Please just send it back!",
+  "file": "Assets/_Game/Audio/Voices/Tessa/2f6828c3b10c.wav"
+ },
+ {
+  "voice": "Tessa",
+  "text": "It's five. I'll have to ask my bank, then. Two weeks...",
+  "file": "Assets/_Game/Audio/Voices/Tessa/b2d151f465a0.wav"
+ },
+ {
+  "voice": "Tessa",
+  "text": "It's here! Thank you so much. I'll bring you a coffee on Saturday.",
+  "file": "Assets/_Game/Audio/Voices/Tessa/75275b8d29a0.wav"
+ },
+ {
+  "voice": "Tessa",
+  "text": "Please do, but it can take a while to show up between banks. It has left my account, I promise.",
+  "file": "Assets/_Game/Audio/Voices/Tessa/7225fbda067e.wav"
+ },
+ {
+  "voice": "Tessa",
+  "text": "Forget it. I'll report you to the market.",
+  "file": "Assets/_Game/Audio/Voices/Tessa/a47ebc2b31fe.wav"
+ },
+ {
+  "voice": "Tessa",
+  "text": "Oh, thank you. You're a lifesaver. See you on Saturday!",
+  "file": "Assets/_Game/Audio/Voices/Tessa/9721a8998c9c.wav"
+ },
+ {
   "voice": "Rocko (Korean (South Korea))",
   "text": "여보세요, 김지우 씨 되시죠? 누리은행 계좌보호팀 전 과장입니다.",
   "file": "Assets/_Game/Audio/Voices/RockoKoreanSouthKorea/35dc4fe53632.wav"
@@ -418,6 +653,366 @@
   "voice": "Rocko (Korean (South Korea))",
   "text": "내일 초기화 전까지는 아무에게도 말하지 마세요.",
   "file": "Assets/_Game/Audio/Voices/RockoKoreanSouthKorea/28f2bb626698.wav"
+ },
+ {
+  "voice": "Grandpa (Korean (South Korea))",
+  "text": "여보세요, 망원하이츠 삼백이 호 학생 맞지요? 서울데일리 마포지국장 오상철입니다.",
+  "file": "Assets/_Game/Audio/Voices/GrandpaKoreanSouthKorea/0f1e70e4c84c.wav"
+ },
+ {
+  "voice": "Grandpa (Korean (South Korea))",
+  "text": "삼월에 아버님이 학생 앞으로 신문을 신청하시면서 구월분까지 내셨어요. 시월부터는 구독료가 안 들어왔고요.",
+  "file": "Assets/_Game/Audio/Voices/GrandpaKoreanSouthKorea/ee7cd27bcb92.wav"
+ },
+ {
+  "voice": "Grandpa (Korean (South Korea))",
+  "text": "여보세요? 학생? 듣고 있어요?",
+  "file": "Assets/_Game/Audio/Voices/GrandpaKoreanSouthKorea/e786440edc3e.wav"
+ },
+ {
+  "voice": "Grandpa (Korean (South Korea))",
+  "text": "한 달에 만 팔천 원이에요. 보통 석 달 치를 한 번에들 내세요.",
+  "file": "Assets/_Game/Audio/Voices/GrandpaKoreanSouthKorea/7829b9ba5478.wav"
+ },
+ {
+  "voice": "Grandpa (Korean (South Korea))",
+  "text": "아침에 아버님께 전화드렸는데 안 받으시더라고요. 그리고 신문은 학생 집으로 들어가잖아요.",
+  "file": "Assets/_Game/Audio/Voices/GrandpaKoreanSouthKorea/1ee3db0760a4.wav"
+ },
+ {
+  "voice": "Grandpa (Korean (South Korea))",
+  "text": "이제 방문 수금은 안 해요. 이번 달부터는 계좌이체로 받고, 이번 주에 제가 독자분들께 일일이 전화드리고 있어요.",
+  "file": "Assets/_Game/Audio/Voices/GrandpaKoreanSouthKorea/e2e9b0baf753.wav"
+ },
+ {
+  "voice": "Grandpa (Korean (South Korea))",
+  "text": "시월부터 십이월까지 오만 사천 원이에요. 누리은행 일일공, 사오칠, 팔공삼삼일이로 보내 주세요. 예금주는 저, 오상철입니다.",
+  "file": "Assets/_Game/Audio/Voices/GrandpaKoreanSouthKorea/b24efe141a10.wav"
+ },
+ {
+  "voice": "Grandpa (Korean (South Korea))",
+  "text": "지국 장부를 다섯 시에 마감해요. 그때까지 안 들어온 집은 내일 배달 명단에서 빠집니다.",
+  "file": "Assets/_Game/Audio/Voices/GrandpaKoreanSouthKorea/cf103c7a3142.wav"
+ },
+ {
+  "voice": "Grandpa (Korean (South Korea))",
+  "text": "보내시는 동안 기다릴게요.",
+  "file": "Assets/_Game/Audio/Voices/GrandpaKoreanSouthKorea/aa04a08981cb.wav"
+ },
+ {
+  "voice": "Grandpa (Korean (South Korea))",
+  "text": "제 명의예요. 오상철. 지국은 지국장 개인 사업이라 계좌도 제 이름으로 돼 있어요.",
+  "file": "Assets/_Game/Audio/Voices/GrandpaKoreanSouthKorea/70dee544c992.wav"
+ },
+ {
+  "voice": "Grandpa (Korean (South Korea))",
+  "text": "본사에서 시월부터 바꿨어요. 오늘 아침 신문 일 면 박스에 실렸어요.",
+  "file": "Assets/_Game/Audio/Voices/GrandpaKoreanSouthKorea/865916718a6f.wav"
+ },
+ {
+  "voice": "Grandpa (Korean (South Korea))",
+  "text": "이 휴대폰이에요, 학생. 오늘 알림에 실린 번호 그대로예요. 공일공, 팔이육오, 삼삼일칠.",
+  "file": "Assets/_Game/Audio/Voices/GrandpaKoreanSouthKorea/2169ffbfc5ac.wav"
+ },
+ {
+  "voice": "Grandpa (Korean (South Korea))",
+  "text": "그러세요. 다만 장부를 다섯 시에 마감하고, 나중에 다시 넣으려면 새로 신청하셔야 해요.",
+  "file": "Assets/_Game/Audio/Voices/GrandpaKoreanSouthKorea/e64e092c57d0.wav"
+ },
+ {
+  "voice": "Grandpa (Korean (South Korea))",
+  "text": "학생? 듣고 있어요? 천천히 해요, 근데 다섯 시에는 마감해야 해요.",
+  "file": "Assets/_Game/Audio/Voices/GrandpaKoreanSouthKorea/015541d39d1c.wav"
+ },
+ {
+  "voice": "Grandpa (Korean (South Korea))",
+  "text": "오늘 전화드릴 집이 아직 마흔 곳 남았어요. 이체는 됐나요?",
+  "file": "Assets/_Game/Audio/Voices/GrandpaKoreanSouthKorea/36ca9a1d72d1.wav"
+ },
+ {
+  "voice": "Grandpa (Korean (South Korea))",
+  "text": "십이 분 남았어요. 아버님이 골라 주신 신문인데 끊기면 아깝잖아요.",
+  "file": "Assets/_Game/Audio/Voices/GrandpaKoreanSouthKorea/0d0b52fcba0d.wav"
+ },
+ {
+  "voice": "Grandpa (Korean (South Korea))",
+  "text": "육 분 남았어요, 학생.",
+  "file": "Assets/_Game/Audio/Voices/GrandpaKoreanSouthKorea/76c20e4e1eb4.wav"
+ },
+ {
+  "voice": "Grandpa (Korean (South Korea))",
+  "text": "삼 분 남았어요. 그럼 명단에서 뺄까요?",
+  "file": "Assets/_Game/Audio/Voices/GrandpaKoreanSouthKorea/0873c870ade4.wav"
+ },
+ {
+  "voice": "Grandpa (Korean (South Korea))",
+  "text": "학생? 다섯 시라 장부를 마감해야 해요. 마음 정해지면 전화 줘요.",
+  "file": "Assets/_Game/Audio/Voices/GrandpaKoreanSouthKorea/4a94241eef72.wav"
+ },
+ {
+  "voice": "Grandpa (Korean (South Korea))",
+  "text": "들어왔어요. 고마워요! 신문은 늘 그렇듯 여섯 시에 문 앞에 있을 거예요.",
+  "file": "Assets/_Game/Audio/Voices/GrandpaKoreanSouthKorea/fef3507f449a.wav"
+ },
+ {
+  "voice": "Grandpa (Korean (South Korea))",
+  "text": "본사에서 시월부터 바꿨어요. 지난주 신문에 났었어요.",
+  "file": "Assets/_Game/Audio/Voices/GrandpaKoreanSouthKorea/b7f15ac2db76.wav"
+ },
+ {
+  "voice": "Grandpa (Korean (South Korea))",
+  "text": "이 휴대폰이에요, 학생. 지국 이사하면서 사무실 전화는 없앴어요. 공일공, 팔이육오, 삼삼일칠.",
+  "file": "Assets/_Game/Audio/Voices/GrandpaKoreanSouthKorea/909556f24e50.wav"
+ },
+ {
+  "voice": "Grandpa (Korean (South Korea))",
+  "text": "다섯 시네요. 명단에서 빼겠습니다.",
+  "file": "Assets/_Game/Audio/Voices/GrandpaKoreanSouthKorea/373f9b6fc31b.wav"
+ },
+ {
+  "voice": "Grandpa (Korean (South Korea))",
+  "text": "들어왔네요. 고마워요, 학생. 신문 열심히 봐요!",
+  "file": "Assets/_Game/Audio/Voices/GrandpaKoreanSouthKorea/337c56faf0ad.wav"
+ },
+ {
+  "voice": "Flo (Korean (South Korea))",
+  "text": "여보세요, 이웃마켓에 모니터 올리신 지우 님 맞으시죠? 구매하기로 한 배수진이에요.",
+  "file": "Assets/_Game/Audio/Voices/FloKoreanSouthKorea/87cdacd3b498.wav"
+ },
+ {
+  "voice": "Flo (Korean (South Korea))",
+  "text": "정말 죄송한데 제가 실수를 했어요. 방금 입금하다가 손이 미끄러져서 영을 하나 더 눌렀지 뭐예요.",
+  "file": "Assets/_Game/Audio/Voices/FloKoreanSouthKorea/5f52b09acd25.wav"
+ },
+ {
+  "voice": "Flo (Korean (South Korea))",
+  "text": "여보세요? 들리세요?",
+  "file": "Assets/_Game/Audio/Voices/FloKoreanSouthKorea/0ab3f6561e9e.wav"
+ },
+ {
+  "voice": "Flo (Korean (South Korea))",
+  "text": "육만 원을 보낸다는 게 육십만 원이 나갔어요.",
+  "file": "Assets/_Game/Audio/Voices/FloKoreanSouthKorea/52b24f3e6691.wav"
+ },
+ {
+  "voice": "Flo (Korean (South Korea))",
+  "text": "네 시 칠 분에 나갔어요. 육만 원을 보낸다는 게 육십만 원이 나갔고요.",
+  "file": "Assets/_Game/Audio/Voices/FloKoreanSouthKorea/223d573a7e1a.wav"
+ },
+ {
+  "voice": "Flo (Korean (South Korea))",
+  "text": "그러니까 지우 님한테 제 돈 오십사만 원이 가 있어요. 그것만 돌려주실 수 있을까요?",
+  "file": "Assets/_Game/Audio/Voices/FloKoreanSouthKorea/20d1ff882dd0.wav"
+ },
+ {
+  "voice": "Flo (Korean (South Korea))",
+  "text": "제 계좌는 한빛은행 육이공, 사팔일, 이공칠삼오육이고, 예금주는 저 배수진이에요.",
+  "file": "Assets/_Game/Audio/Voices/FloKoreanSouthKorea/b3ebfacf4515.wav"
+ },
+ {
+  "voice": "Flo (Korean (South Korea))",
+  "text": "그게 월세 낼 돈이에요. 집주인이 오늘 다섯 시까지 달라는데, 은행에서는 반환 신청하면 이 주 걸린대요.",
+  "file": "Assets/_Game/Audio/Voices/FloKoreanSouthKorea/636203171c1f.wav"
+ },
+ {
+  "voice": "Flo (Korean (South Korea))",
+  "text": "끊지 않고 기다릴게요. 정말 죄송해요.",
+  "file": "Assets/_Game/Audio/Voices/FloKoreanSouthKorea/457ceed985d6.wav"
+ },
+ {
+  "voice": "Flo (Korean (South Korea))",
+  "text": "네, 그럼요. 제 이름으로 맨 위에 있을 거예요.",
+  "file": "Assets/_Game/Audio/Voices/FloKoreanSouthKorea/1a52d2e05212.wav"
+ },
+ {
+  "voice": "Flo (Korean (South Korea))",
+  "text": "착오송금 반환은 길면 이 주 걸리고, 그것도 받는 분이 동의해야 한대요. 월세는 오늘까지고요.",
+  "file": "Assets/_Game/Audio/Voices/FloKoreanSouthKorea/14e1fa181877.wav"
+ },
+ {
+  "voice": "Flo (Korean (South Korea))",
+  "text": "제 거예요, 배수진. 입금자 이름이랑 같아요.",
+  "file": "Assets/_Game/Audio/Voices/FloKoreanSouthKorea/2479cc1d5749.wav"
+ },
+ {
+  "voice": "Flo (Korean (South Korea))",
+  "text": "저도 그러고 싶은데 집주인이 안 기다려 줘요. 부탁드려요, 제 돈만 돌려 달라는 거예요.",
+  "file": "Assets/_Game/Audio/Voices/FloKoreanSouthKorea/2aa61783aa3e.wav"
+ },
+ {
+  "voice": "Flo (Korean (South Korea))",
+  "text": "지우 님? 확인하셨어요? 네 시 칠 분이었어요.",
+  "file": "Assets/_Game/Audio/Voices/FloKoreanSouthKorea/38941699153b.wav"
+ },
+ {
+  "voice": "Flo (Korean (South Korea))",
+  "text": "번거롭게 해서 정말 죄송해요. 제가 월세를 또 밀릴 수는 없어서요.",
+  "file": "Assets/_Game/Audio/Voices/FloKoreanSouthKorea/0663508b6c2f.wav"
+ },
+ {
+  "voice": "Flo (Korean (South Korea))",
+  "text": "방금 집주인한테 문자가 왔어요. 지금 보내 주실 수 있을까요?",
+  "file": "Assets/_Game/Audio/Voices/FloKoreanSouthKorea/a82e79f26d64.wav"
+ },
+ {
+  "voice": "Flo (Korean (South Korea))",
+  "text": "칠 분 남았어요. 부탁드려요, 지우 님.",
+  "file": "Assets/_Game/Audio/Voices/FloKoreanSouthKorea/8511bc57e1c2.wav"
+ },
+ {
+  "voice": "Flo (Korean (South Korea))",
+  "text": "삼 분 남았어요! 제발 돌려주세요!",
+  "file": "Assets/_Game/Audio/Voices/FloKoreanSouthKorea/a5d4a21f9e8b.wav"
+ },
+ {
+  "voice": "Flo (Korean (South Korea))",
+  "text": "다섯 시네요. 은행에 신청할 수밖에 없겠어요. 이 주라니…",
+  "file": "Assets/_Game/Audio/Voices/FloKoreanSouthKorea/7086a750716c.wav"
+ },
+ {
+  "voice": "Flo (Korean (South Korea))",
+  "text": "들어왔어요! 정말 감사해요. 토요일에 커피 사 갈게요.",
+  "file": "Assets/_Game/Audio/Voices/FloKoreanSouthKorea/7f2e780254af.wav"
+ },
+ {
+  "voice": "Flo (Korean (South Korea))",
+  "text": "네, 보세요. 근데 은행이 다르면 뜨는 데 시간이 좀 걸리기도 해요. 제 통장에서는 분명히 나갔어요.",
+  "file": "Assets/_Game/Audio/Voices/FloKoreanSouthKorea/db6827c1b5b1.wav"
+ },
+ {
+  "voice": "Flo (Korean (South Korea))",
+  "text": "됐어요. 이웃마켓에 신고할게요.",
+  "file": "Assets/_Game/Audio/Voices/FloKoreanSouthKorea/837d0600b5cb.wav"
+ },
+ {
+  "voice": "Flo (Korean (South Korea))",
+  "text": "아, 감사해요. 덕분에 살았어요. 토요일에 봬요!",
+  "file": "Assets/_Game/Audio/Voices/FloKoreanSouthKorea/9582e9f2fd07.wav"
+ },
+ {
+  "voice": "Eddy (English (US))",
+  "text": "Noona? It's me, Minjun. Can you hear me? The line is bad in here.",
+  "file": "Assets/_Game/Audio/Voices/EddyEnglishUS/98ce113192e5.wav"
+ },
+ {
+  "voice": "Eddy (English (US))",
+  "text": "Don't freak out about the number. I dropped my phone on the stairs after lunch and the screen is dead. This is my roommate Dohyun's phone.",
+  "file": "Assets/_Game/Audio/Voices/EddyEnglishUS/515450cac972.wav"
+ },
+ {
+  "voice": "Eddy (English (US))",
+  "text": "Noona? Hello?",
+  "file": "Assets/_Game/Audio/Voices/EddyEnglishUS/8af8901b843c.wav"
+ },
+ {
+  "voice": "Eddy (English (US))",
+  "text": "I'm fine. The phone isn't.",
+  "file": "Assets/_Game/Audio/Voices/EddyEnglishUS/ce525aefa16c.wav"
+ },
+ {
+  "voice": "Eddy (English (US))",
+  "text": "It's Dohyun's phone, it sounds weird on my end too. And I've had a cold since Monday.",
+  "file": "Assets/_Game/Audio/Voices/EddyEnglishUS/b170939b1044.wav"
+ },
+ {
+  "voice": "Eddy (English (US))",
+  "text": "I'm at the service centre. The screen is two hundred and eighty thousand won, and they can do it today if I pay now.",
+  "file": "Assets/_Game/Audio/Voices/EddyEnglishUS/958af4c7d7ee.wav"
+ },
+ {
+  "voice": "Eddy (English (US))",
+  "text": "My banking app is on the dead phone, so I can't pay. Can you send it to Dohyun? He'll pay with his card.",
+  "file": "Assets/_Game/Audio/Voices/EddyEnglishUS/7c1ae1bc8a0e.wav"
+ },
+ {
+  "voice": "Eddy (English (US))",
+  "text": "Hanbit Bank, six two zero, two zero four, seven seven one zero three five. Lee Dohyun.",
+  "file": "Assets/_Game/Audio/Voices/EddyEnglishUS/0af527960104.wav"
+ },
+ {
+  "voice": "Eddy (English (US))",
+  "text": "They stop taking repairs at five. I'll pay you back on the twenty fifth, I swear. I'll hold on.",
+  "file": "Assets/_Game/Audio/Voices/EddyEnglishUS/bd8c7430f5cc.wav"
+ },
+ {
+  "voice": "Eddy (English (US))",
+  "text": "Only if I bring snacks. I'm bringing snacks, noona. Lots.",
+  "file": "Assets/_Game/Audio/Voices/EddyEnglishUS/611dcb32cfca.wav"
+ },
+ {
+  "voice": "Eddy (English (US))",
+  "text": "She's in a meeting till six, she said so in the chat. And she'd kill me. It's the second one this year.",
+  "file": "Assets/_Game/Audio/Voices/EddyEnglishUS/5413467af2fc.wav"
+ },
+ {
+  "voice": "Eddy (English (US))",
+  "text": "My roommate, Lee Dohyun. Same department. The account is his.",
+  "file": "Assets/_Game/Audio/Voices/EddyEnglishUS/a2b5d72f3b6e.wav"
+ },
+ {
+  "voice": "Eddy (English (US))",
+  "text": "Sure. I wrote there before I left the dorm. Look.",
+  "file": "Assets/_Game/Audio/Voices/EddyEnglishUS/73701ac1507d.wav"
+ },
+ {
+  "voice": "Eddy (English (US))",
+  "text": "Noona? Are you sending it?",
+  "file": "Assets/_Game/Audio/Voices/EddyEnglishUS/d8b23a4371ec.wav"
+ },
+ {
+  "voice": "Eddy (English (US))",
+  "text": "The guy at the counter keeps looking at me. Noona, please.",
+  "file": "Assets/_Game/Audio/Voices/EddyEnglishUS/7c057636a701.wav"
+ },
+ {
+  "voice": "Eddy (English (US))",
+  "text": "Dohyun has a class at five. He can't wait around much longer.",
+  "file": "Assets/_Game/Audio/Voices/EddyEnglishUS/d745640ee9c9.wav"
+ },
+ {
+  "voice": "Eddy (English (US))",
+  "text": "Seven minutes. They're closing the repair desk.",
+  "file": "Assets/_Game/Audio/Voices/EddyEnglishUS/a6972c7b957d.wav"
+ },
+ {
+  "voice": "Eddy (English (US))",
+  "text": "Three minutes! Noona!",
+  "file": "Assets/_Game/Audio/Voices/EddyEnglishUS/179e5ba8db0c.wav"
+ },
+ {
+  "voice": "Eddy (English (US))",
+  "text": "It's five, they've closed. I'll figure something out. Bye, noona.",
+  "file": "Assets/_Game/Audio/Voices/EddyEnglishUS/270e872e346b.wav"
+ },
+ {
+  "voice": "Eddy (English (US))",
+  "text": "Dohyun got it! You're the best, noona. Snacks on Saturday, I promise.",
+  "file": "Assets/_Game/Audio/Voices/EddyEnglishUS/c150c2ae0a39.wav"
+ },
+ {
+  "voice": "Eddy (English (US))",
+  "text": "Noona, come on, I don't have time for quizzes. The centre closes at five.",
+  "file": "Assets/_Game/Audio/Voices/EddyEnglishUS/b8dd65a92034.wav"
+ },
+ {
+  "voice": "Eddy (English (US))",
+  "text": "Don't tell Mom, please! She'd kill me. Just this once, noona.",
+  "file": "Assets/_Game/Audio/Voices/EddyEnglishUS/b6dbb77eca36.wav"
+ },
+ {
+  "voice": "Eddy (English (US))",
+  "text": "My phone is dead, I can't read it! Just send it, please, there's no time.",
+  "file": "Assets/_Game/Audio/Voices/EddyEnglishUS/6ccced850bf2.wav"
+ },
+ {
+  "voice": "Eddy (English (US))",
+  "text": "Forget it. Thanks for nothing.",
+  "file": "Assets/_Game/Audio/Voices/EddyEnglishUS/8c90cc1464ea.wav"
+ },
+ {
+  "voice": "Eddy (English (US))",
+  "text": "Got it. Thanks, noona. I'll call you later.",
+  "file": "Assets/_Game/Audio/Voices/EddyEnglishUS/6ab1307a485e.wav"
  },
  {
   "voice": "Reed (English (US))",
@@ -555,6 +1150,131 @@
   "file": "Assets/_Game/Audio/Voices/ReedEnglishUS/923518eb6c7d.wav"
  },
  {
+  "voice": "Eddy (Korean (South Korea))",
+  "text": "누나? 나야, 민준이. 들려? 여기 전화가 잘 안 터져.",
+  "file": "Assets/_Game/Audio/Voices/EddyKoreanSouthKorea/6d65c180c800.wav"
+ },
+ {
+  "voice": "Eddy (Korean (South Korea))",
+  "text": "번호 보고 놀라지 마. 점심 먹고 계단에서 폰 떨어뜨려서 액정이 나갔어. 이거 룸메이트 도현이 폰이야.",
+  "file": "Assets/_Game/Audio/Voices/EddyKoreanSouthKorea/f43bb498c011.wav"
+ },
+ {
+  "voice": "Eddy (Korean (South Korea))",
+  "text": "누나? 여보세요?",
+  "file": "Assets/_Game/Audio/Voices/EddyKoreanSouthKorea/2a16f69257d4.wav"
+ },
+ {
+  "voice": "Eddy (Korean (South Korea))",
+  "text": "난 멀쩡해. 폰이 문제지.",
+  "file": "Assets/_Game/Audio/Voices/EddyKoreanSouthKorea/0ef3421275bd.wav"
+ },
+ {
+  "voice": "Eddy (Korean (South Korea))",
+  "text": "도현이 폰이라 그래, 나도 이상하게 들려. 그리고 월요일부터 감기 기운도 있고.",
+  "file": "Assets/_Game/Audio/Voices/EddyKoreanSouthKorea/4b03066cdf41.wav"
+ },
+ {
+  "voice": "Eddy (Korean (South Korea))",
+  "text": "지금 서비스센터인데, 액정이 이십팔만 원이래. 지금 결제하면 오늘 안에 해 준대.",
+  "file": "Assets/_Game/Audio/Voices/EddyKoreanSouthKorea/fe3be0cb5391.wav"
+ },
+ {
+  "voice": "Eddy (Korean (South Korea))",
+  "text": "은행 앱이 그 폰에 있어서 내가 결제를 못 해. 도현이한테 보내 줄 수 있어? 도현이가 카드로 긁어 주기로 했어.",
+  "file": "Assets/_Game/Audio/Voices/EddyKoreanSouthKorea/0086f7c1922b.wav"
+ },
+ {
+  "voice": "Eddy (Korean (South Korea))",
+  "text": "한빛은행 육이공, 이공사, 칠칠일공삼오, 이도현.",
+  "file": "Assets/_Game/Audio/Voices/EddyKoreanSouthKorea/8d34f919d377.wav"
+ },
+ {
+  "voice": "Eddy (Korean (South Korea))",
+  "text": "접수가 다섯 시에 끝난대. 이십오 일에 꼭 갚을게, 진짜야. 끊지 않고 기다릴게.",
+  "file": "Assets/_Game/Audio/Voices/EddyKoreanSouthKorea/271f3432d815.wav"
+ },
+ {
+  "voice": "Eddy (Korean (South Korea))",
+  "text": "간식 사 오면 된다며. 사 갈게, 누나. 많이.",
+  "file": "Assets/_Game/Audio/Voices/EddyKoreanSouthKorea/d8a7f777dde4.wav"
+ },
+ {
+  "voice": "Eddy (Korean (South Korea))",
+  "text": "엄마 여섯 시까지 회의래, 톡방에 그렇게 썼잖아. 그리고 나 죽어. 올해만 두 번째야.",
+  "file": "Assets/_Game/Audio/Voices/EddyKoreanSouthKorea/65c26b65beef.wav"
+ },
+ {
+  "voice": "Eddy (Korean (South Korea))",
+  "text": "내 룸메이트 이도현. 같은 과야. 계좌도 도현이 거고.",
+  "file": "Assets/_Game/Audio/Voices/EddyKoreanSouthKorea/09fead4138ed.wav"
+ },
+ {
+  "voice": "Eddy (Korean (South Korea))",
+  "text": "그래. 기숙사 나오기 전에 거기 써 놨어. 봐 봐.",
+  "file": "Assets/_Game/Audio/Voices/EddyKoreanSouthKorea/720edd372dae.wav"
+ },
+ {
+  "voice": "Eddy (Korean (South Korea))",
+  "text": "누나? 보내고 있어?",
+  "file": "Assets/_Game/Audio/Voices/EddyKoreanSouthKorea/66dcdfd19d35.wav"
+ },
+ {
+  "voice": "Eddy (Korean (South Korea))",
+  "text": "카운터 직원이 자꾸 쳐다봐. 누나, 제발.",
+  "file": "Assets/_Game/Audio/Voices/EddyKoreanSouthKorea/05325e5a37e7.wav"
+ },
+ {
+  "voice": "Eddy (Korean (South Korea))",
+  "text": "도현이 다섯 시에 수업 있대. 오래 못 기다린대.",
+  "file": "Assets/_Game/Audio/Voices/EddyKoreanSouthKorea/ff7f99bca5db.wav"
+ },
+ {
+  "voice": "Eddy (Korean (South Korea))",
+  "text": "칠 분 남았어. 접수 창구 닫는대.",
+  "file": "Assets/_Game/Audio/Voices/EddyKoreanSouthKorea/849e18bae47d.wav"
+ },
+ {
+  "voice": "Eddy (Korean (South Korea))",
+  "text": "삼 분 남았어! 누나!",
+  "file": "Assets/_Game/Audio/Voices/EddyKoreanSouthKorea/f0a480329ce9.wav"
+ },
+ {
+  "voice": "Eddy (Korean (South Korea))",
+  "text": "다섯 시야, 접수 끝났대. 내가 알아서 해 볼게. 끊어, 누나.",
+  "file": "Assets/_Game/Audio/Voices/EddyKoreanSouthKorea/0f5def98b598.wav"
+ },
+ {
+  "voice": "Eddy (Korean (South Korea))",
+  "text": "도현이한테 들어왔대! 누나가 최고야. 토요일에 간식 꼭 사 갈게.",
+  "file": "Assets/_Game/Audio/Voices/EddyKoreanSouthKorea/7d92242ec476.wav"
+ },
+ {
+  "voice": "Eddy (Korean (South Korea))",
+  "text": "누나, 지금 퀴즈 낼 때야? 센터 다섯 시에 닫는다니까.",
+  "file": "Assets/_Game/Audio/Voices/EddyKoreanSouthKorea/33ca4c865e11.wav"
+ },
+ {
+  "voice": "Eddy (Korean (South Korea))",
+  "text": "엄마한테는 말하지 마, 제발! 나 죽어. 이번 한 번만, 누나.",
+  "file": "Assets/_Game/Audio/Voices/EddyKoreanSouthKorea/8f597ace80fa.wav"
+ },
+ {
+  "voice": "Eddy (Korean (South Korea))",
+  "text": "폰이 죽었는데 그걸 어떻게 봐! 그냥 보내 줘, 제발, 시간 없어.",
+  "file": "Assets/_Game/Audio/Voices/EddyKoreanSouthKorea/32c076945798.wav"
+ },
+ {
+  "voice": "Eddy (Korean (South Korea))",
+  "text": "됐어. 누나 진짜 너무하다.",
+  "file": "Assets/_Game/Audio/Voices/EddyKoreanSouthKorea/8aeaed225bb1.wav"
+ },
+ {
+  "voice": "Eddy (Korean (South Korea))",
+  "text": "들어왔대. 고마워, 누나. 나중에 전화할게.",
+  "file": "Assets/_Game/Audio/Voices/EddyKoreanSouthKorea/f1525747ba57.wav"
+ },
+ {
   "voice": "Reed (Korean (South Korea))",
   "text": "안녕하세요, 삼백이 호 김지우 씨 맞으시죠? 일 층 최 사장님 아들 최현우입니다.",
   "file": "Assets/_Game/Audio/Voices/ReedKoreanSouthKorea/1329c0c0a72c.wav"
@@ -690,6 +1410,111 @@
   "file": "Assets/_Game/Audio/Voices/ReedKoreanSouthKorea/b1755dff0d67.wav"
  },
  {
+  "voice": "Karen",
+  "text": "Hello, is this Kim Jiwoo? This is Moon Jihye, the coordinator at Saebom Dental.",
+  "file": "Assets/_Game/Audio/Voices/Karen/abe98b4b972d.wav"
+ },
+ {
+  "voice": "Karen",
+  "text": "I'm calling about your appointment today, at half past six.",
+  "file": "Assets/_Game/Audio/Voices/Karen/1f7cd5c3bacf.wav"
+ },
+ {
+  "voice": "Karen",
+  "text": "Hello? Ms. Kim?",
+  "file": "Assets/_Game/Audio/Voices/Karen/2a7fc1d2cf47.wav"
+ },
+ {
+  "voice": "Karen",
+  "text": "No problem at all. It's just a confirmation call.",
+  "file": "Assets/_Game/Audio/Voices/Karen/bb55946e2dd3.wav"
+ },
+ {
+  "voice": "Karen",
+  "text": "It's the number on your booking, Ms. Kim. We call every evening patient on the day.",
+  "file": "Assets/_Game/Audio/Voices/Karen/816835ed279e.wav"
+ },
+ {
+  "voice": "Karen",
+  "text": "Evening slots are short, so we take a thirty thousand won deposit to hold them. It comes off your bill tonight.",
+  "file": "Assets/_Game/Audio/Voices/Karen/2c0b740cf7f6.wav"
+ },
+ {
+  "voice": "Karen",
+  "text": "Please send it to our payment account. Nuri Bank, five six two zero, seven one, three three six zero two nine.",
+  "file": "Assets/_Game/Audio/Voices/Karen/df45fdb157e9.wav"
+ },
+ {
+  "voice": "Karen",
+  "text": "At five we release every slot that isn't confirmed. I'll hold while you send it.",
+  "file": "Assets/_Game/Audio/Voices/Karen/12970195bfd4.wav"
+ },
+ {
+  "voice": "Karen",
+  "text": "Today, Thursday the eighth, at half past six.",
+  "file": "Assets/_Game/Audio/Voices/Karen/cc27ceab4853.wav"
+ },
+ {
+  "voice": "Karen",
+  "text": "Your lower-right wisdom tooth, with Dr. Jang. You booked it on the twenty eighth.",
+  "file": "Assets/_Game/Audio/Voices/Karen/d33160ce471c.wav"
+ },
+ {
+  "voice": "Karen",
+  "text": "It's a virtual account from our payment company, Gaon Pay. It's issued for your booking.",
+  "file": "Assets/_Game/Audio/Voices/Karen/e8e2f7c834d0.wav"
+ },
+ {
+  "voice": "Karen",
+  "text": "I'm afraid not for evening slots, Ms. Kim. Too many people didn't turn up, so it has to be before five.",
+  "file": "Assets/_Game/Audio/Voices/Karen/b37f683d8a7f.wav"
+ },
+ {
+  "voice": "Karen",
+  "text": "Ms. Kim? Shall I keep your slot?",
+  "file": "Assets/_Game/Audio/Voices/Karen/4aa3d5dc369a.wav"
+ },
+ {
+  "voice": "Karen",
+  "text": "I have someone on the waiting list for half past six. Are you sending it?",
+  "file": "Assets/_Game/Audio/Voices/Karen/1f4ff1064923.wav"
+ },
+ {
+  "voice": "Karen",
+  "text": "Ten minutes until we release the evening slots.",
+  "file": "Assets/_Game/Audio/Voices/Karen/5e65f02a652f.wav"
+ },
+ {
+  "voice": "Karen",
+  "text": "Five minutes, Ms. Kim. The next free slot is in three weeks.",
+  "file": "Assets/_Game/Audio/Voices/Karen/da89b4b39751.wav"
+ },
+ {
+  "voice": "Karen",
+  "text": "It's five, Ms. Kim. I have to give the slot to the next patient. Call us to book again.",
+  "file": "Assets/_Game/Audio/Voices/Karen/d819016c6eb6.wav"
+ },
+ {
+  "voice": "Karen",
+  "text": "Thank you, it's in. See you at half past six, Ms. Kim.",
+  "file": "Assets/_Game/Audio/Voices/Karen/8179c3fbb3f7.wav"
+ },
+ {
+  "voice": "Karen",
+  "text": "It just says a check-up here, Ms. Kim. The doctor will go through it with you.",
+  "file": "Assets/_Game/Audio/Voices/Karen/c9ba0bb1fcbe.wav"
+ },
+ {
+  "voice": "Karen",
+  "text": "It's five, Ms. Kim. I'm releasing your slot.",
+  "file": "Assets/_Game/Audio/Voices/Karen/cdc368a6006a.wav"
+ },
+ {
+  "voice": "Karen",
+  "text": "Thank you. Your slot is confirmed. See you tonight.",
+  "file": "Assets/_Game/Audio/Voices/Karen/af4b726e7135.wav"
+ },
+ {
   "voice": "Shelley (English (UK))",
   "text": "Hello, is this Kim Jiwoo? This is Yoon Seora from Hangang Express, the customs clearance desk.",
   "file": "Assets/_Game/Audio/Voices/ShelleyEnglishUK/42855ff46a4b.wav"
@@ -818,6 +1643,111 @@
   "voice": "Shelley (English (UK))",
   "text": "Thank you. Oh, and there's a storage fee as well. I'll call you back about it.",
   "file": "Assets/_Game/Audio/Voices/ShelleyEnglishUK/4cf567b9d8af.wav"
+ },
+ {
+  "voice": "Shelley (Korean (South Korea))",
+  "text": "안녕하세요, 김지우 님 맞으시죠? 새봄치과 문지혜 실장입니다.",
+  "file": "Assets/_Game/Audio/Voices/ShelleyKoreanSouthKorea/2f0a63001c55.wav"
+ },
+ {
+  "voice": "Shelley (Korean (South Korea))",
+  "text": "오늘 저녁 여섯 시 삼십 분 예약 건으로 연락드렸어요.",
+  "file": "Assets/_Game/Audio/Voices/ShelleyKoreanSouthKorea/3b043e9bcaae.wav"
+ },
+ {
+  "voice": "Shelley (Korean (South Korea))",
+  "text": "여보세요? 김지우 님?",
+  "file": "Assets/_Game/Audio/Voices/ShelleyKoreanSouthKorea/7ac86a3899b9.wav"
+ },
+ {
+  "voice": "Shelley (Korean (South Korea))",
+  "text": "문제는 아니고요, 예약 확인 전화예요.",
+  "file": "Assets/_Game/Audio/Voices/ShelleyKoreanSouthKorea/92227903a311.wav"
+ },
+ {
+  "voice": "Shelley (Korean (South Korea))",
+  "text": "예약하실 때 남기신 번호예요. 저녁 진료 환자분들께는 당일에 다 전화드려요.",
+  "file": "Assets/_Game/Audio/Voices/ShelleyKoreanSouthKorea/9997e3e3d49f.wav"
+ },
+ {
+  "voice": "Shelley (Korean (South Korea))",
+  "text": "저녁 시간은 자리가 적어서 예약금 삼만 원을 받고 있어요. 오늘 진료비에서 그대로 빠집니다.",
+  "file": "Assets/_Game/Audio/Voices/ShelleyKoreanSouthKorea/89e9c1beaebe.wav"
+ },
+ {
+  "voice": "Shelley (Korean (South Korea))",
+  "text": "결제 계좌로 보내 주세요. 누리은행 오육이공, 칠일, 삼삼육공이구입니다.",
+  "file": "Assets/_Game/Audio/Voices/ShelleyKoreanSouthKorea/986c31a9f71b.wav"
+ },
+ {
+  "voice": "Shelley (Korean (South Korea))",
+  "text": "다섯 시가 되면 확정 안 된 예약은 다른 분께 넘어가요. 보내시는 동안 기다릴게요.",
+  "file": "Assets/_Game/Audio/Voices/ShelleyKoreanSouthKorea/3ee7c177915b.wav"
+ },
+ {
+  "voice": "Shelley (Korean (South Korea))",
+  "text": "오늘, 팔 일 목요일 저녁 여섯 시 삼십 분이요.",
+  "file": "Assets/_Game/Audio/Voices/ShelleyKoreanSouthKorea/56c8d5161273.wav"
+ },
+ {
+  "voice": "Shelley (Korean (South Korea))",
+  "text": "오른쪽 아래 사랑니 발치요, 장 원장님 진료고요. 이십팔 일에 예약하셨어요.",
+  "file": "Assets/_Game/Audio/Voices/ShelleyKoreanSouthKorea/501ca5f2a981.wav"
+ },
+ {
+  "voice": "Shelley (Korean (South Korea))",
+  "text": "결제대행사 가온페이의 가상계좌예요. 고객님 예약 건으로 발급된 거고요.",
+  "file": "Assets/_Game/Audio/Voices/ShelleyKoreanSouthKorea/882237227697.wav"
+ },
+ {
+  "voice": "Shelley (Korean (South Korea))",
+  "text": "저녁 진료는 안 돼요, 고객님. 안 오시는 분이 너무 많아서 다섯 시 전에 받고 있어요.",
+  "file": "Assets/_Game/Audio/Voices/ShelleyKoreanSouthKorea/9b1f466b70c3.wav"
+ },
+ {
+  "voice": "Shelley (Korean (South Korea))",
+  "text": "김지우 님? 예약 유지할까요?",
+  "file": "Assets/_Game/Audio/Voices/ShelleyKoreanSouthKorea/79f5496b1577.wav"
+ },
+ {
+  "voice": "Shelley (Korean (South Korea))",
+  "text": "여섯 시 삼십 분 대기자가 한 분 계세요. 보내고 계신가요?",
+  "file": "Assets/_Game/Audio/Voices/ShelleyKoreanSouthKorea/f83f22c11148.wav"
+ },
+ {
+  "voice": "Shelley (Korean (South Korea))",
+  "text": "저녁 예약 정리까지 십 분 남았어요.",
+  "file": "Assets/_Game/Audio/Voices/ShelleyKoreanSouthKorea/f59608c06ecc.wav"
+ },
+ {
+  "voice": "Shelley (Korean (South Korea))",
+  "text": "오 분 남았어요, 고객님. 다음 빈 시간은 삼 주 뒤예요.",
+  "file": "Assets/_Game/Audio/Voices/ShelleyKoreanSouthKorea/72a19c8ba12a.wav"
+ },
+ {
+  "voice": "Shelley (Korean (South Korea))",
+  "text": "다섯 시가 됐어요, 고객님. 다음 분께 자리를 드려야 해요. 다시 예약하시려면 전화 주세요.",
+  "file": "Assets/_Game/Audio/Voices/ShelleyKoreanSouthKorea/5b4ba4fa1d89.wav"
+ },
+ {
+  "voice": "Shelley (Korean (South Korea))",
+  "text": "입금 확인됐어요. 여섯 시 삼십 분에 뵐게요, 고객님.",
+  "file": "Assets/_Game/Audio/Voices/ShelleyKoreanSouthKorea/f852099c80c6.wav"
+ },
+ {
+  "voice": "Shelley (Korean (South Korea))",
+  "text": "여기는 그냥 검진이라고만 나와 있어요. 자세한 건 원장님이 설명해 주실 거예요.",
+  "file": "Assets/_Game/Audio/Voices/ShelleyKoreanSouthKorea/965097606bb7.wav"
+ },
+ {
+  "voice": "Shelley (Korean (South Korea))",
+  "text": "다섯 시네요, 고객님. 예약은 취소 처리할게요.",
+  "file": "Assets/_Game/Audio/Voices/ShelleyKoreanSouthKorea/944d02cd35e8.wav"
+ },
+ {
+  "voice": "Shelley (Korean (South Korea))",
+  "text": "감사합니다. 예약 확정됐어요. 이따 뵐게요.",
+  "file": "Assets/_Game/Audio/Voices/ShelleyKoreanSouthKorea/ebb69dfcae8b.wav"
  },
  {
   "voice": "Yuna",

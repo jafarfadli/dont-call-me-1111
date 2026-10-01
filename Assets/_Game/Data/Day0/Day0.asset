@@ -24,6 +24,8 @@ MonoBehaviour:
   ringDelay: 7
   variants:
   - id: scam
+    scenario: gas
+    intro: 
     conversation: {fileID: 11400000, guid: a20345f45459944ebb5a73b0bccd2c80, type: 2}
     phone: {fileID: 11400000, guid: 93e737c48ff9240929f0678987855624, type: 2}
     room: {fileID: 11400000, guid: 412b533086ac0452d8c81010d6ff3218, type: 2}
@@ -176,4 +178,4 @@ MonoBehaviour:
     ruleSource: Seoul Daily, 6 Oct
   echoes: []
   nextDateLabel: Tuesday, 6 October
-  builtWith: 7
+  builtWith: 8

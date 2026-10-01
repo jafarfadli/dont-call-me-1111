@@ -28,10 +28,11 @@ SR = 22050
 
 # Words per minute per voice: the scammer talks a little fast, officials a little slower.
 RATES = {"Daniel": 186, "Samantha": 178, "Karen": 176, "Moira": 170, "Tessa": 172, "Rishi": 176, "Fred": 180, "Reed": 178, "Shelley": 176,
+         "Eddy": 186, "Grandpa": 172,
          # Korean voices (the game's Korean dialogue): the Korean variants speak slowly at the default rate.
          "Yuna": 185, "Rocko (Korean (South Korea))": 240, "Reed (Korean (South Korea))": 232, "Sandy (Korean (South Korea))": 232,
          "Shelley (Korean (South Korea))": 232, "Flo (Korean (South Korea))": 232, "Grandma (Korean (South Korea))": 215,
-         "Grandpa (Korean (South Korea))": 215}
+         "Grandpa (Korean (South Korea))": 215, "Eddy (Korean (South Korea))": 240}
 
 
 def slug(voice):

@@ -7,8 +7,9 @@ using UnityEngine.UIElements;
 namespace DontCallMe.UI
 {
     /// <summary>
-    /// The black card that opens a day: DAY 1, the date, time and place, a line of intro and what
-    /// is still on Jiwoo's mind from the days before. Click (or wait) to continue; it fades into the room.
+    /// The black card that opens a day: DAY 1, the date, time and place, a line of intro (the day's,
+    /// or the one of the case being played) and what is still on Jiwoo's mind from the days before.
+    /// Click (or wait) to continue; it fades into the room.
     /// </summary>
     public class DayCardView
     {
@@ -16,7 +17,7 @@ namespace DontCallMe.UI
         Action onDone;
         bool closing;
 
-        public DayCardView(DayData day, IReadOnlyList<string> extraLines, Action onDone)
+        public DayCardView(DayData day, string intro, IReadOnlyList<string> extraLines, Action onDone)
         {
             this.onDone = onDone;
             Root = UIKit.Div("daycard");
@@ -27,8 +28,8 @@ namespace DontCallMe.UI
             inner.Add(UIKit.Div("daycard__rule"));
             inner.Add(UIKit.Text(day.dateLabel, "daycard__date"));
             inner.Add(UIKit.Text($"{day.startTime}  ·  {day.place}", "daycard__place"));
-            if (!string.IsNullOrEmpty(day.intro))
-                inner.Add(UIKit.Text(day.intro, "daycard__intro"));
+            if (!string.IsNullOrEmpty(intro))
+                inner.Add(UIKit.Text(intro, "daycard__intro"));
             if (extraLines != null)
                 foreach (string line in extraLines)
                     inner.Add(UIKit.Text(line, "daycard__echo"));

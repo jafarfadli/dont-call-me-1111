@@ -1,0 +1,305 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfd03999caeea4a5788ed68a4194a80e, type: 3}
+  m_Name: Day1_Sale_Legit_Call
+  m_EditorClassIdentifier: DontCallMe::DontCallMe.Data.ConversationData
+  title: "Day 1 \xB7 The extra zero (legit)"
+  isScam: 0
+  revealAtEnd: 0
+  caller:
+    displayName: Bae Sujin
+    number: 010-3378-9024
+    inContacts: 0
+    portrait: pt_buyer
+    voice: Tessa
+  claims:
+  - She is Bae Sujin, the buyer of my old monitor on Neighbour Market.
+  - "She meant to send \u20A960,000 at 16:07 but typed \u20A9600,000."
+  - "She wants the extra \u20A9540,000 back: Hanbit Bank 620-481-207356, in her name."
+  - It is her rent money, and her rent is due at 17:00.
+  nodes:
+  - id: start
+    lines:
+    - speaker: 0
+      text: Hello, is this Jiwoo, with the monitor on Neighbour Market? It's Bae
+        Sujin, the buyer.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    - speaker: 0
+      text: 'I''m so sorry, I''ve done something stupid. I just paid you, and my
+        finger slipped: one zero too many.'
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    hasDecision: 1
+    decision:
+      kind: 0
+      prompt: How do you answer?
+      patienceSeconds: 45
+      a:
+        label: One zero too many? How much did you send?
+        playerLine: One zero too many? How much did you send?
+        next: amount
+      b:
+        label: Oh. I haven't looked at my bank yet.
+        playerLine: Oh. I haven't looked at my bank yet.
+        next: look
+      pressure:
+      - atPatience: 0.5
+        text: Hello? Can you hear me?
+        spoken: 
+    next: 
+    holds: 0
+  - id: amount
+    lines:
+    - speaker: 0
+      text: Six hundred thousand won instead of sixty thousand.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    hasDecision: 0
+    decision:
+      kind: 0
+      prompt: 
+      patienceSeconds: 60
+      a:
+        label: 
+        playerLine: 
+        next: 
+      b:
+        label: 
+        playerLine: 
+        next: 
+      pressure: []
+    next: ask
+    holds: 0
+  - id: look
+    lines:
+    - speaker: 0
+      text: It went out at seven past four. Six hundred thousand won instead of sixty
+        thousand.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    hasDecision: 0
+    decision:
+      kind: 0
+      prompt: 
+      patienceSeconds: 60
+      a:
+        label: 
+        playerLine: 
+        next: 
+      b:
+        label: 
+        playerLine: 
+        next: 
+      pressure: []
+    next: ask
+    holds: 0
+  - id: ask
+    lines:
+    - speaker: 0
+      text: So you have 540,000 won of mine. Could you please send it back?
+      spoken: So you have five hundred and forty thousand won of mine. Could you
+        please send it back?
+      facts:
+      - kind: 5
+        value: 540,000
+        label: 
+      deliver: []
+      pauseAfter: 0.4
+    - speaker: 0
+      text: My account is Hanbit Bank 620-481-207356, in my name, Bae Sujin.
+      spoken: My account is Hanbit Bank, six two zero, four eight one, two zero seven
+        three five six, in my name, Bae Sujin.
+      facts:
+      - kind: 1
+        value: 620-481-207356
+        label: 
+      deliver: []
+      pauseAfter: 0.4
+    - speaker: 0
+      text: It's my rent money. My landlord wants it by five today, and my bank says
+        a reversal takes two weeks.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    - speaker: 0
+      text: I'll stay on the line. I'm really sorry about this.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    hasDecision: 0
+    decision:
+      kind: 0
+      prompt: 
+      patienceSeconds: 60
+      a:
+        label: 
+        playerLine: 
+        next: 
+      b:
+        label: 
+        playerLine: 
+        next: 
+      pressure: []
+    next: 
+    holds: 1
+  endings:
+  - id: refuse
+    verdict: 1
+    timedOut: 0
+    moneyDelta: 0
+    lines: []
+    consequence: "You hung up on a buyer who had really overpaid. Her \u20A9600,000
+      was at the top of your bank history, under her own name."
+  - id: timeout
+    verdict: 1
+    timedOut: 1
+    moneyDelta: 0
+    lines:
+    - speaker: 0
+      text: It's five. I'll have to ask my bank, then. Two weeks...
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    consequence: "Five o'clock passed with her \u20A9540,000 still in your account."
+  - id: go_along
+    verdict: 0
+    timedOut: 0
+    moneyDelta: -540000
+    lines:
+    - speaker: 0
+      text: It's here! Thank you so much. I'll bring you a coffee on Saturday.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    consequence: "Her extra \u20A9540,000 went back to the name it came from. The
+      \u20A960,000 for the monitor stays with you."
+  actions:
+  - kind: 0
+    target: 620-481-207356
+    endingId: go_along
+    bank: Hanbit Bank
+    amount: 540000
+  hangUpEndingId: refuse
+  timeoutEndingId: timeout
+  caseInfo:
+    caseTitle: The extra zero
+    claimedIdentity: Bae Sujin, the buyer of your old monitor
+    ask: "Send back the \u20A9540,000 she says she overpaid, to Hanbit Bank 620-481-207356"
+    deadline: 17:00
+    deadlineReason: before her own rent is due
+    objective: 'Did she really send you too much? Check before 17:00, then give your
+      verdict on the call: send the money back, or hang up.'
+  questions:
+  - label: Say you'll look at your bank first
+    playerLine: Let me look at my bank app first.
+    answer:
+    - speaker: 0
+      text: Of course, please do. It should be right at the top, under my name.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    endingId: 
+  - label: Ask why her bank can't take it back
+    playerLine: Can't your bank just take it back?
+    answer:
+    - speaker: 0
+      text: They said a wrong-transfer claim takes up to two weeks, and only if you
+        agree. My rent is due today.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    endingId: 
+  - label: Ask whose account the money goes back to
+    playerLine: Whose account is that?
+    answer:
+    - speaker: 0
+      text: Mine, Bae Sujin. The same name the payment came from.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    endingId: 
+  - label: Offer to settle it on Saturday
+    playerLine: Can't we sort it out when you come on Saturday?
+    answer:
+    - speaker: 0
+      text: I wish I could wait. My landlord won't. Please, it's only my own money
+        I'm asking for.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    endingId: 
+  beats:
+  - at: 16:33
+    line:
+      speaker: 0
+      text: Jiwoo? Have you found it? It was at seven past four.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+  - at: 16:40
+    line:
+      speaker: 0
+      text: I feel terrible bothering you. I just can't be late with the rent again.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+  - at: 16:47
+    line:
+      speaker: 0
+      text: My landlord just texted me. Could you send it now, please?
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+  - at: 16:53
+    line:
+      speaker: 0
+      text: Seven minutes. Please, Jiwoo.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+  - at: 16:57
+    line:
+      speaker: 0
+      text: Three minutes! Please just send it back!
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+  verdict:
+    goAlong: Send it back
+    goAlongDetail: 
+    goAlongEndingId: 
+    refuse: Hang up
+    refuseDetail: Say no and end the call
+    goAlongLine: Okay, I'm sending it back now.
+    refuseLine: I can't send that over the phone. Ask your bank. Goodbye.

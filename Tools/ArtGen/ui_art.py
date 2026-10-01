@@ -303,7 +303,8 @@ def phone_hand():
 
 
 def call_buttons():
-    for name, col in (("circle_green", GREEN), ("circle_red", RED), ("circle_dark", hexc("4B4652"))):
+    # The "dark" one (Apps, Speaker) is a slate light enough to stand out on the phone's dark background.
+    for name, col in (("circle_green", GREEN), ("circle_red", RED), ("circle_dark", hexc("6F768C"))):
         s = 160
         cv = Canvas(s, s, ss=3, mode="RGBA", bg=(0, 0, 0, 0))
         cv.ellipse(s / 2 + 5, s / 2 + 7, 64, 64, fill=SHADOW)
@@ -660,6 +661,12 @@ PORTRAITS = {
     "pt_hr": (dict(sex="f", skin="E6BE9E", hair="3A2A22", style="long", outfit="blazer", cloth="B89A72", expression="smile"), "teal"),
     # Day 0: "Team Leader Baek" of the gas company's billing team.
     "pt_billing": (dict(sex="f", skin="E3B998", hair="2B1E19", style="bob", outfit="blazer", cloth="3E5476", expression="smile"), "olive"),
+    # The other cases' callers: the newspaper's branch manager, the monitor's buyer, the dentist's coordinator.
+    "pt_branch": (dict(sex="m", skin="CC9A74", hair="6F6A66", style="short", outfit="shirt", cloth="6E6F4C", age="old",
+                       expression="smile"), "blue"),
+    "pt_buyer": (dict(sex="f", skin="E4BA98", hair="3A2820", style="long", outfit="sweater", cloth="A85C6B", expression="neutral"), "dusk"),
+    "pt_dental": (dict(sex="f", skin="E8C2A4", hair="241B18", style="bun", outfit="uniform", cloth="8DB8AE", tie="5E8F86",
+                       expression="smile"), "teal"),
 }
 
 
@@ -716,6 +723,9 @@ def documents():
     # The same close-ups written in Korean; ContentBuilder picks "<name>_ko" for the Korean days.
     crop_image(tex_prints.notes_image("ko"), "receipt", "notes", "doc_receipt_ko")
     save(tex_prints.calendar_image(lang="ko"), "board_calendar_ko")
+    # Day 3's dentist case, when Jiwoo has moved the appointment: the 8th crossed out, the 22nd circled.
+    save(tex_prints.calendar_image(dentist_moved_to=22), "board_calendar_moved")
+    save(tex_prints.calendar_image(lang="ko", dentist_moved_to=22), "board_calendar_moved_ko")
 
     # Stamps (the Korean one is for the Korean days' bill).
     for name, text, col in (("stamp_paid", "PAID", hexc("B8453A")), ("stamp_paid_ko", "납부완료", hexc("B8453A")),
@@ -747,47 +757,31 @@ def tiles():
 # ---------------------------------------------------------------- phone wallpaper
 
 def wallpaper():
-    """Pixel-art dusk over the Han river: the phone's home screen."""
-    gw, gh = 92, 200
-    img = Image.new("RGB", (gw, gh))
-    px = img.load()
-    top, mid, low = np.array(hexc("2E2F52"), float), np.array(hexc("B8657A"), float), np.array(hexc("F0B27A"), float)
-    for y in range(gh):
-        t = y / (gh * 0.62)
-        c = top + (mid - top) * min(t, 1) * 1.0 if t < 1 else mid + (low - mid) * min((t - 1) * 3, 1)
-        for x in range(gw):
-            d = ((x * 7 + y * 13) % 5) / 40.0     # ordered dither
-            px[x, y] = tuple(int(v * (0.97 + d)) for v in c)
-    rng = np.random.default_rng(5)
-    for _ in range(40):
-        x, y = int(rng.integers(0, gw)), int(rng.integers(0, int(gh * 0.35)))
-        px[x, y] = (250, 240, 220)
-    d = ImageDraw.Draw(img)
-    # Top left, clear of the home clock and date and of the caller's portrait on call screens.
-    d.ellipse([6, 9, 14, 17], fill=hexc("F8E6C0"))
-    ridge = [(0, 128), (14, 118), (26, 122), (40, 108), (52, 116), (66, 104), (80, 114), (92, 110), (92, 140), (0, 140)]
-    d.polygon(ridge, fill=hexc("4A3F5E"))
-    d.rectangle([44, 96, 46, 124], fill=hexc("3A3150"))
-    d.rectangle([42, 94, 48, 97], fill=hexc("3A3150"))
-    d.point((45, 92), fill=hexc("F4D27A"))
-    for k in range(14):
-        x0 = k * 7 + int(rng.integers(0, 3))
-        h = int(rng.integers(10, 26))
-        d.rectangle([x0, 140 - h, x0 + 6, 140], fill=hexc("2F2A44"))
-        for wy in range(140 - h + 2, 139, 3):
-            for wx in (x0 + 1, x0 + 4):
-                if rng.random() < 0.45:
-                    d.point((wx, wy), fill=hexc("F4C66A"))
-    d.rectangle([0, 140, gw, gh], fill=hexc("35406A"))
-    for y in range(142, gh, 3):
-        for x in range(0, gw, 2):
-            if rng.random() < 0.18:
-                d.point((x, y), fill=hexc("F0B27A") if y < 160 else hexc("8A8FB5"))
-    d.line([(0, 150), (92, 146)], fill=hexc("2A2640"), width=2)
-    for x in range(4, 92, 10):
-        d.line([(x, 146), (x, 152)], fill=hexc("2A2640"))
-        d.point((x, 145), fill=hexc("F4D27A"))
-    save(img.resize((gw * 5, gh * 5), Image.NEAREST), "wallpaper")
+    """The phone's background, on the home screen and behind a call: a plain dark gradient, a
+    little lighter at the top, with fine grain so it does not band."""
+    w, h = 460, 1000
+    yy, xx = np.mgrid[0:h, 0:w].astype(np.float32)
+    t = (yy / h)[..., None]
+    top, mid, low = np.array(hexc("3A3D4A"), np.float32), np.array(hexc("23242D"), np.float32), np.array(hexc("0F1014"), np.float32)
+    grad = np.where(t < 0.45, top + (mid - top) * (t / 0.45), mid + (low - mid) * ((t - 0.45) / 0.55))
+    # A soft lift behind the clock and the caller's portrait.
+    glow = np.clip(1.0 - np.sqrt(((xx - w / 2) / (w * 0.8)) ** 2 + ((yy - h * 0.2) / (h * 0.3)) ** 2), 0, 1)[..., None]
+    grain = (np.random.default_rng(5).random((h, w)) - 0.5)[..., None] * 5.0
+    save(Image.fromarray(np.clip(grad + glow ** 2 * 14.0 + grain, 0, 255).astype(np.uint8), "RGB"), "wallpaper")
+
+
+def spotlight():
+    """The next morning's spotlight: a dark sheet with a soft clear hole in its middle. The UI
+    stretches it to a square far larger than the screen and puts the hole on the stamp's spot."""
+    s = 1024
+    yy, xx = np.mgrid[0:s, 0:s].astype(np.float32)
+    r = np.sqrt((xx - s / 2 + 0.5) ** 2 + (yy - s / 2 + 0.5) ** 2) / (s / 2)
+    edge = np.clip((r - 0.066) / (0.12 - 0.066), 0, 1)
+    edge = edge * edge * (3 - 2 * edge)
+    rgba = np.zeros((s, s, 4), np.float32)
+    rgba[..., 0], rgba[..., 1], rgba[..., 2] = 13, 10, 17
+    rgba[..., 3] = edge * 212
+    save(Image.fromarray(rgba.astype(np.uint8), "RGBA"), "spotlight")
 
 
 def run():
@@ -798,6 +792,7 @@ def run():
     phone_hand()
     call_buttons()
     vignette()
+    spotlight()
     icons()
     portraits()
     documents()

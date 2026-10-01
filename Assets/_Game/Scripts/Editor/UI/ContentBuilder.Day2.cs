@@ -5,8 +5,9 @@ using UnityEngine;
 namespace DontCallMe.Editor.UI
 {
     /// <summary>
-    /// Day 2, Wednesday 7 October, rent day (Medium): "Choi Hyunwoo, the landlord's son" says his
-    /// father went into hospital this morning and asks for the rent on a new account. Both truths
+    /// Day 2, Wednesday 7 October, rent day. Its first case (Medium): "Choi Hyunwoo, the landlord's
+    /// son" says his father went into hospital this morning and asks for the rent on a new account.
+    /// The day's other case is "Minjun's broken phone" (ContentBuilder.Day2Brother.cs). Both truths
     /// share the caller, the story and the ask; three clues tell them apart, and none of them is a
     /// pile of reports any more:
     /// <list type="bullet">
@@ -38,7 +39,7 @@ namespace DontCallMe.Editor.UI
             d.startTime = "16:20";
             d.intro = L("Rent day. You meant to send it to Mr. Choi after class, like every month.", "월세 내는 날. 매달 그랬듯 수업 끝나고 최 사장님께 보낼 생각이었다.");
             d.ringDelay = 7f;
-            d.variants = new List<DayVariant> { scam, legit };
+            d.variants = new List<DayVariant> { scam, legit, BrotherVariant(true), BrotherVariant(false) };
             d.echoes = Day2Echoes();
             d.nextDateLabel = DateLabel(today.AddDays(1));
             d.builtWith = Version;
@@ -63,12 +64,7 @@ namespace DontCallMe.Editor.UI
             n.warningTitle = L("RENT DAY: CHECK THE NEW ACCOUNT", "월세 날: 새 계좌를 확인하라");
             n.warningText = L("Tenants across Mapo report calls about a \"new rent account\" around rent day. Not every bad account has reports yet, so check who is behind it: is the account in the name of your landlord or someone your lease names? Is the caller's number in your lease?",
                               "마포 곳곳에서 월세 날 무렵 '새 월세 계좌'를 안내하는 전화가 잇따르고 있다. 나쁜 계좌라고 다 신고가 있는 건 아니다. 누구 계좌인지 확인하라. 예금주가 집주인이나 계약서에 적힌 사람인가? 발신 번호가 계약서에 있는가?");
-            n.local = new List<NewsItem>
-            {
-                new NewsItem { title = L("Water tank cleaning tomorrow", "내일 물탱크 청소"), text = L("Villas on Poeun-ro will be without water on Thursday, 10:00-12:00.", "포은로 일대 빌라가 목요일 10:00~12:00 단수된다.") },
-                new NewsItem { title = L("Mangwon market by night", "망원시장 야시장"), text = L("The market stays open until 23:00 this Saturday, with street food and live music.", "이번 주 토요일 밤 11시까지 문을 열고 길거리 음식과 공연을 선보인다.") },
-                new NewsItem { title = L("Midterms", "중간고사"), text = L("Hanbit University's library opens around the clock from Friday.", "한빛대학교 도서관이 금요일부터 24시간 개방된다.") },
-            };
+            n.local = Day2Local();
 
             // ---- the truth: in the residents' chat, on the calendar and in what CheckFirst knows
             if (scam)
@@ -91,7 +87,7 @@ namespace DontCallMe.Editor.UI
                 directory.accounts.Add(new DirAccount { bank = bank, number = account, holder = L("CHOI HYUNWOO", "최현우"), note = L("Personal account, opened 2016", "개인 계좌 · 2016년 개설") });
             }
 
-            var v = StoreVariant(scam ? "scam" : "legit", Day2Dir, scam ? "Day2_Scam" : "Day2_Legit", Day2Call(scam), phone, room, directory);
+            var v = StoreVariant(scam ? "scam" : "legit", CaseRent, Day2Dir, scam ? "Day2_Scam" : "Day2_Legit", Day2Call(scam), phone, room, directory);
             v.clues = scam
                 ? new List<ClueDef>
                 {
@@ -127,6 +123,14 @@ namespace DontCallMe.Editor.UI
             v.ruleSource = PaperSource(8);
             return v;
         }
+
+        /// <summary>Wednesday's local news, the same whichever case the day brings.</summary>
+        static List<NewsItem> Day2Local() => new List<NewsItem>
+        {
+            News(L("Water tank cleaning tomorrow", "내일 물탱크 청소"), L("Villas on Poeun-ro will be without water on Thursday, 10:00-12:00.", "포은로 일대 빌라가 목요일 10:00~12:00 단수된다.")),
+            News(L("Mangwon market by night", "망원시장 야시장"), L("The market stays open until 23:00 this Saturday, with street food and live music.", "이번 주 토요일 밤 11시까지 문을 열고 길거리 음식과 공연을 선보인다.")),
+            News(L("Midterms", "중간고사"), L("Hanbit University's library opens around the clock from Friday.", "한빛대학교 도서관이 금요일부터 24시간 개방된다.")),
+        };
 
         // ================================================================ the call
 
@@ -329,7 +333,16 @@ namespace DontCallMe.Editor.UI
         static List<DayEcho> Day2Echoes()
         {
             SetDay(2, "16:20");
-            return new List<DayEcho>
+            var echoes = new List<DayEcho>(OfCase(CaseProtected, Day1ProtectedEchoes()));
+            echoes.AddRange(PaperEchoes(true));
+            echoes.AddRange(SaleEchoes(true));
+            return echoes;
+        }
+
+        /// <summary>After "the protected account".</summary>
+        static DayEcho[] Day1ProtectedEchoes()
+        {
+            return new[]
             {
                 // Sent the ₩1,200,000
                 EchoCard(1, Truth.Any, Sent, L("The bank said the ₩1,200,000 is probably gone for good.", "은행에서는 120만 원을 되찾기 어려울 거라고 했다.")),

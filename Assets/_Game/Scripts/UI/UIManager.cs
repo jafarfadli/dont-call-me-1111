@@ -363,7 +363,11 @@ namespace DontCallMe.UI
             Confirm(title, text, yes, no, () =>
             {
                 Loc.Current = lang;
-                int day = FindAnyObjectByType<DayDirector>()?.Day?.day ?? GameRun.FirstDay;
+                var dayDirector = FindAnyObjectByType<DayDirector>();
+                int day = dayDirector?.Day?.day ?? GameRun.FirstDay;
+                // The same case and truth again, not another one of the day's cases.
+                if (dayDirector?.Plan?.variant != null)
+                    GameRun.ForceNextVariant(dayDirector.Plan.variant.id);
                 MusicPlayer.Current?.Stop(0.8f);
                 Fade.FadeOut(0.8f, () => SceneFlow.PlayDay(day));
             });
@@ -372,9 +376,9 @@ namespace DontCallMe.UI
         // ---------------------------------------------------------------- day and case cards
 
         /// <summary>The black DAY card; <paramref name="onDone"/> runs once it has faded into the room.</summary>
-        public DayCardView ShowDayCard(DayData day, IReadOnlyList<string> extraLines, Action onDone)
+        public DayCardView ShowDayCard(DayData day, string intro, IReadOnlyList<string> extraLines, Action onDone)
         {
-            var view = new DayCardView(day, extraLines, () =>
+            var view = new DayCardView(day, intro, extraLines, () =>
             {
                 card = null;
                 onDone?.Invoke();

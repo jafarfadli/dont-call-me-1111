@@ -9,7 +9,7 @@ using UnityEngine;
 namespace DontCallMe.Flow
 {
     /// <summary>
-    /// Runs one day in the Room scene: picks the day's truth and sets out its evidence (with what
+    /// Runs one day in the Room scene: picks the day's case and truth and sets out its evidence (with what
     /// earlier days left behind, see <see cref="DaySetup"/>), then the DAY card, the player seated at
     /// the desk while yesterday's aftermath buzzes in, the forced call, the CASE OPENED card once the
     /// caller has made the ask and starts holding the line, the investigation against the caller's
@@ -24,7 +24,7 @@ namespace DontCallMe.Flow
 
         [Tooltip("The day played when the Room scene is opened directly (the run picks it otherwise).")]
         [SerializeField] DayData day;
-        [Tooltip("Development: \"scam\" or \"legit\" plays that truth instead of a random one.")]
+        [Tooltip("Development: a variant id (\"scam\", \"legit\", \"sale_scam\"...) plays that case and truth instead of a picked one.")]
         [SerializeField] string forceVariant = "";
         [SerializeField] UIManager ui;
         [SerializeField] CallDirector director;
@@ -85,7 +85,7 @@ namespace DontCallMe.Flow
         }
 
         /// <summary>
-        /// Picks the day and its truth and composes its evidence, once. The UI calls this while it
+        /// Picks the day, its case and its truth and composes its evidence, once. The UI calls this while it
         /// wakes up, so the phone and the room show this day's content from the first frame.
         /// </summary>
         public DayPlan Prepare()
@@ -98,7 +98,9 @@ namespace DontCallMe.Flow
             if (data == null)
                 return null;
             var earlier = GameRun.Before(data.day);
-            var variant = DaySetup.Pick(data, earlier, catalog, forceVariant);
+            // A variant asked for by a tool (once) comes before the scene's own.
+            string once = GameRun.TakeForcedVariant();
+            var variant = DaySetup.Pick(data, earlier, catalog, string.IsNullOrEmpty(once) ? forceVariant : once);
             Plan = DaySetup.Compose(data, variant, earlier, catalog);
             Debug.Log($"[DayDirector] Day {data.day}: {variant?.id ?? "no case"}" + (earlier.Count > 0 ? $", after {earlier.Count} earlier day(s)" : ""));
             return Plan;
@@ -149,7 +151,7 @@ namespace DontCallMe.Flow
             MarkUnread();
 
             bool shown = false;
-            dayCard = ui.ShowDayCard(today, Plan.dayCardLines, () => shown = true);
+            dayCard = ui.ShowDayCard(today, Plan.Intro, Plan.dayCardLines, () => shown = true);
             float wait = 0f;
             float readTime = 7f + 2.5f * Plan.dayCardLines.Count;
             while (!shown)
@@ -350,6 +352,7 @@ namespace DontCallMe.Flow
             result.cluesFound.AddRange(clues.FoundIds);
             SceneFlow.LastResult = result;
             GameRun.Record(Record(result));
+            GameRun.MarkPlayed(Plan.day.day, Plan.variant.Scenario);
             StartCoroutine(Outro());
         }
 

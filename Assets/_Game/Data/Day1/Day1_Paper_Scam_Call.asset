@@ -1,0 +1,316 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfd03999caeea4a5788ed68a4194a80e, type: 3}
+  m_Name: Day1_Paper_Scam_Call
+  m_EditorClassIdentifier: DontCallMe::DontCallMe.Data.ConversationData
+  title: "Day 1 \xB7 The subscription fee (scam)"
+  isScam: 1
+  revealAtEnd: 0
+  caller:
+    displayName: Oh Sangchul
+    number: 010-8265-3317
+    inContacts: 0
+    portrait: pt_branch
+    voice: Grandpa (English (US))
+  claims:
+  - He is Oh Sangchul, manager of the Seoul Daily's Mapo branch.
+  - From October the branch takes the subscription fee by transfer, not at the door.
+  - "October to December costs \u20A954,000: Nuri Bank 110-457-803312, in his name."
+  - If it isn't paid by 17:00, the paper stops coming tomorrow.
+  nodes:
+  - id: start
+    lines:
+    - speaker: 0
+      text: Hello, is this the student in 302, Mangwon Heights? This is Oh Sangchul,
+        the manager of the Seoul Daily's Mapo branch.
+      spoken: Hello, is this the student in three oh two, Mangwon Heights? This is
+        Oh Sangchul, the manager of the Seoul Daily's Mapo branch.
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    - speaker: 0
+      text: Your father took out the paper for you in March and paid up to September.
+        From October, the fee hasn't been paid.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    hasDecision: 1
+    decision:
+      kind: 0
+      prompt: How do you answer?
+      patienceSeconds: 45
+      a:
+        label: I didn't know that. How much is it?
+        playerLine: I didn't know that. How much is it?
+        next: amount
+      b:
+        label: Shouldn't you call my dad about that?
+        playerLine: Shouldn't you call my dad about that?
+        next: dad
+      pressure:
+      - atPatience: 0.5
+        text: Hello? Student? Are you there?
+        spoken: 
+    next: 
+    holds: 0
+  - id: amount
+    lines:
+    - speaker: 0
+      text: Eighteen thousand won a month. Most readers pay three months at a time.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    hasDecision: 0
+    decision:
+      kind: 0
+      prompt: 
+      patienceSeconds: 60
+      a:
+        label: 
+        playerLine: 
+        next: 
+      b:
+        label: 
+        playerLine: 
+        next: 
+      pressure: []
+    next: ask
+    holds: 0
+  - id: dad
+    lines:
+    - speaker: 0
+      text: I tried him this morning and he didn't pick up. And the paper comes to
+        your door, student.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    hasDecision: 0
+    decision:
+      kind: 0
+      prompt: 
+      patienceSeconds: 60
+      a:
+        label: 
+        playerLine: 
+        next: 
+      b:
+        label: 
+        playerLine: 
+        next: 
+      pressure: []
+    next: ask
+    holds: 0
+  - id: ask
+    lines:
+    - speaker: 0
+      text: We don't collect at the door any more. From this month it's by bank transfer,
+        and I'm phoning every reader myself this week.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    - speaker: 0
+      text: October to December comes to 54,000 won. Please send it to Nuri Bank
+        110-457-803312. The account is in my name, Oh Sangchul.
+      spoken: October to December comes to fifty four thousand won. Please send it
+        to Nuri Bank, one one zero, four five seven, eight zero three three one two.
+        The account is in my name, Oh Sangchul.
+      facts:
+      - kind: 1
+        value: 110-457-803312
+        label: 
+      - kind: 5
+        value: 54,000
+        label: 
+      deliver: []
+      pauseAfter: 0.4
+    - speaker: 0
+      text: I close the branch's books at five. Whoever hasn't paid by then comes
+        off tomorrow's delivery list.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    - speaker: 0
+      text: I'll stay on the line while you send it.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    hasDecision: 0
+    decision:
+      kind: 0
+      prompt: 
+      patienceSeconds: 60
+      a:
+        label: 
+        playerLine: 
+        next: 
+      b:
+        label: 
+        playerLine: 
+        next: 
+      pressure: []
+    next: 
+    holds: 1
+  endings:
+  - id: refuse
+    verdict: 1
+    timedOut: 0
+    moneyDelta: 0
+    lines: []
+    consequence: 'You hung up. Today''s paper had the notice: the Mapo branch has
+      a new manager, and Oh Sangchul no longer collects for the Seoul Daily.'
+  - id: timeout
+    verdict: 1
+    timedOut: 1
+    moneyDelta: 0
+    lines:
+    - speaker: 0
+      text: It's five. I'm taking you off the list.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    consequence: 'He gave up at five. The paper came the next morning all the same:
+      he had nothing to do with it any more.'
+  - id: go_along
+    verdict: 0
+    timedOut: 0
+    moneyDelta: -54000
+    lines:
+    - speaker: 0
+      text: Received. Thank you, student. Keep reading!
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    consequence: "The \u20A954,000 went to Oh Sangchul, who had not worked for the
+      Seoul Daily since September. The notice was in the paper on your desk."
+  actions:
+  - kind: 0
+    target: 110-457-803312
+    endingId: go_along
+    bank: Nuri Bank
+    amount: 54000
+  hangUpEndingId: refuse
+  timeoutEndingId: timeout
+  caseInfo:
+    caseTitle: The subscription fee
+    claimedIdentity: Oh Sangchul, manager of the Seoul Daily's Mapo branch
+    ask: "Pay the paper's October to December fee, \u20A954,000, into Nuri Bank 110-457-803312"
+    deadline: 17:00
+    deadlineReason: before the branch closes its books
+    objective: 'Is he really the one who collects for your newspaper this month?
+      Check before 17:00, then give your verdict on the call: pay the fee, or hang
+      up.'
+  questions:
+  - label: Ask whose name is on the account
+    playerLine: Whose name is on that account?
+    answer:
+    - speaker: 0
+      text: Mine. Oh Sangchul. A branch is its manager's own business, student, so
+        the account is in my name.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    endingId: 
+  - label: Ask why nobody comes to the door any more
+    playerLine: Why don't you collect at the door any more?
+    answer:
+    - speaker: 0
+      text: Head office changed it from October. It was in the paper last week.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    endingId: 
+  - label: Ask for the branch office's number
+    playerLine: What's the number of the branch office?
+    answer:
+    - speaker: 0
+      text: 'This mobile, student. The office line was cut when the branch moved:
+        010-8265-3317.'
+      spoken: This mobile, student. The office line was cut when the branch moved.
+        zero one zero, eight two six five, three three one seven.
+      facts:
+      - kind: 0
+        value: 010-8265-3317
+        label: Branch
+      deliver: []
+      pauseAfter: 0.4
+    endingId: 
+  - label: Say you'll ask your father first
+    playerLine: Let me ask my dad first.
+    answer:
+    - speaker: 0
+      text: Of course. But I close the books at five, and starting again later means
+        a new sign-up.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    endingId: 
+  beats:
+  - at: 16:33
+    line:
+      speaker: 0
+      text: Student? Still there? Take your time, but I do close at five.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+  - at: 16:41
+    line:
+      speaker: 0
+      text: I have forty more readers to call today. Has it gone through?
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+  - at: 16:48
+    line:
+      speaker: 0
+      text: Twelve minutes, student. I'd hate to stop the paper your father chose
+        for you.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+  - at: 16:54
+    line:
+      speaker: 0
+      text: Six minutes, student.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+  - at: 16:57
+    line:
+      speaker: 0
+      text: Three minutes. Shall I take you off the list, then?
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+  verdict:
+    goAlong: Pay the fee
+    goAlongDetail: 
+    goAlongEndingId: 
+    refuse: Hang up
+    refuseDetail: Say no and end the call
+    goAlongLine: All right, I'm sending it now.
+    refuseLine: I'm not paying this over the phone. Goodbye.

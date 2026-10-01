@@ -24,6 +24,8 @@ MonoBehaviour:
   ringDelay: 6
   variants:
   - id: scam
+    scenario: parcel
+    intro: 
     conversation: {fileID: 11400000, guid: dd8f3009526ae4ecea1b3cc941188dfb, type: 2}
     phone: {fileID: 11400000, guid: 4a2be0ca92ed64286bd3594736a8d095, type: 2}
     room: {fileID: 11400000, guid: 34704f64ca23c402bbd5d03136cf3325, type: 2}
@@ -137,6 +139,8 @@ MonoBehaviour:
       nothing is due.
     ruleSource: Seoul Daily, 9 Oct
   - id: legit
+    scenario: parcel
+    intro: 
     conversation: {fileID: 11400000, guid: 5a17a919d848b411b8f363cb15b0d857, type: 2}
     phone: {fileID: 11400000, guid: f6a73e558567c4210a3307ef4d373a6f, type: 2}
     room: {fileID: 11400000, guid: ab53550557ffd4d9ea32ed20fee2339f, type: 2}
@@ -245,8 +249,183 @@ MonoBehaviour:
     rule: Real duty shows up in the courier's own notice, with an account in the
       courier's name. When they match the call, paying is safe.
     ruleSource: Seoul Daily, 9 Oct
+  - id: dentist_scam
+    scenario: dentist
+    intro: Midterms are next week. The water came back at noon, and the dentist has
+      been on your calendar all week.
+    conversation: {fileID: 11400000, guid: fbb1536a265ee4e55b194eb4f67d6623, type: 2}
+    phone: {fileID: 11400000, guid: bb51c3ae7f27c463db21875e2c9fab88, type: 2}
+    room: {fileID: 11400000, guid: ed600582d27bd4797b723a093b326d25, type: 2}
+    directory: {fileID: 11400000, guid: bd018b9f824d3449d9e0b47481a80ff3, type: 2}
+    clues:
+    - id: calendar
+      text: Your calendar says you moved the dentist this morning, to Thursday the
+        22nd. There is no appointment today to pay a deposit for.
+      where: the calendar on the wall
+      guide: 
+      when:
+      - kind: 0
+        target: Calendar
+    papers:
+    - outcome: 1
+      headline: Fake "deposit" calls follow a booking app leak
+      subhead: The callers knew the appointment. They didn't know it had been moved.
+      body: 'Patients of clinics across Mapo were phoned on Thursday by a "coordinator"
+        who knew their name and the time of their appointment. Evening slots, she
+        said, now needed a 30,000 won deposit before 5 p.m.
+
+
+        The details
+        came from last week''s leak at the booking app DocDay. The list was a week
+        old: patients who had since moved or cancelled were called about appointments
+        they no longer had. The deposits went into a payment company''s virtual account,
+        which hides the name of whoever is behind it.
+
+
+        "We do take deposits,"
+        a Mapo dentist said, "and we tell the patient so when they book. If you didn''t
+        arrange it yourself, it isn''t ours."'
+      verdictNote: You hung up. Your own calendar said the appointment had been moved
+        to the 22nd.
+      print: {fileID: 0}
+    - outcome: 0
+      headline: A deposit for an appointment that had been moved
+      subhead: A Mangwon student paid 30,000 won to hold a slot she no longer had.
+      body: 'Patients of clinics across Mapo were phoned on Thursday by a "coordinator"
+        who knew their name and the time of their appointment. Evening slots, she
+        said, now needed a 30,000 won deposit before 5 p.m.
+
+
+        A 22-year-old
+        student paid. She had moved her appointment that very morning and written
+        the new date on her calendar. The details came from last week''s leak at
+        the booking app DocDay. The list was a week old: patients who had since moved
+        or cancelled were called about appointments they no longer had. The deposits
+        went into a payment company''s virtual account, which hides the name of whoever
+        is behind it.
+
+
+        "We do take deposits," a Mapo dentist said, "and
+        we tell the patient so when they book. If you didn''t arrange it yourself,
+        it isn''t ours."'
+      verdictNote: 'Your calendar said it: you had moved the dentist to the 22nd
+        that morning.'
+      print: {fileID: 0}
+    - outcome: 3
+      headline: '"Pay by five or lose your slot"'
+      subhead: Clinic patients were phoned with week-old booking data.
+      body: 'Patients of clinics across Mapo were phoned on Thursday by a "coordinator"
+        who knew their name and the time of their appointment. Evening slots, she
+        said, now needed a 30,000 won deposit before 5 p.m.
+
+
+        The details
+        came from last week''s leak at the booking app DocDay. The list was a week
+        old: patients who had since moved or cancelled were called about appointments
+        they no longer had. The deposits went into a payment company''s virtual account,
+        which hides the name of whoever is behind it.
+
+
+        "We do take deposits,"
+        a Mapo dentist said, "and we tell the patient so when they book. If you didn''t
+        arrange it yourself, it isn''t ours."'
+      verdictNote: Nothing was sent, but you never decided. One look at your calendar
+        would have settled it.
+      print: {fileID: 0}
+    ruleTitle: What did you arrange yourself?
+    rule: 'A caller who knows your appointment is not proof. Your own notes say what
+      you arranged: if they don''t match the call, don''t pay.'
+    ruleSource: Seoul Daily, 9 Oct
+  - id: dentist_legit
+    scenario: dentist
+    intro: Midterms are next week. The water came back at noon, and the dentist has
+      been on your calendar all week.
+    conversation: {fileID: 11400000, guid: d7cf431af2c95492ca3559cdea8ae9bd, type: 2}
+    phone: {fileID: 11400000, guid: bd854073f426d4558a48e6820ab4bdcf, type: 2}
+    room: {fileID: 11400000, guid: 298f59e7a9b334aec8af9623c659f732, type: 2}
+    directory: {fileID: 11400000, guid: 51c305321039f44a0bece2f7cdd84830, type: 2}
+    clues:
+    - id: calendar
+      text: 'Your own note for today says it: dentist at 18:30, and the clinic rings
+        this afternoon for a 30,000 won deposit.'
+      where: the calendar on the wall
+      guide: 
+      when:
+      - kind: 0
+        target: Calendar
+    papers:
+    - outcome: 0
+      headline: No-show deposits reach the neighbourhood dentist
+      subhead: Clinics now phone evening patients for a deposit, and say so when
+        the patient books.
+      body: 'One patient in five did not turn up for an evening appointment last
+        year, Mapo''s dentists say. Since September many neighbourhood clinics take
+        a deposit by phone on the day, usually 30,000 won, which comes off the bill.
+
+
+        "We
+        tell every patient when they book that we will ring," said Moon Jihye, coordinator
+        at Saebom Dental in Mangwon-dong. "The ones who wrote it down pay in a minute.
+        The ones who didn''t take me for a scammer."
+
+
+        After last week''s
+        leak at the booking app DocDay, the Mapo Consumer Centre says a caller who
+        knows your appointment proves nothing by that alone. What counts is what
+        you arranged yourself.'
+      verdictNote: 'It was your dentist, and you checked: your own note had the time,
+        the amount and the call.'
+      print: {fileID: 0}
+    - outcome: 1
+      headline: Clinics lose evening patients to scam fears
+      subhead: A real deposit call sounds just like a fake one.
+      body: 'One patient in five did not turn up for an evening appointment last
+        year, Mapo''s dentists say. Since September many neighbourhood clinics take
+        a deposit by phone on the day, usually 30,000 won, which comes off the bill.
+
+
+        "We
+        tell every patient when they book that we will ring," said Moon Jihye, coordinator
+        at Saebom Dental in Mangwon-dong. "The ones who wrote it down pay in a minute.
+        The ones who didn''t take me for a scammer." On Thursday three of her evening
+        patients hung up and lost their slots.
+
+
+        After last week''s leak
+        at the booking app DocDay, the Mapo Consumer Centre says a caller who knows
+        your appointment proves nothing by that alone. What counts is what you arranged
+        yourself.'
+      verdictNote: 'This one was real: your own calendar note said the clinic would
+        ring for a 30,000 won deposit.'
+      print: {fileID: 0}
+    - outcome: 3
+      headline: The evening slots went at five
+      subhead: Patients who never decided were moved three weeks back.
+      body: 'One patient in five did not turn up for an evening appointment last
+        year, Mapo''s dentists say. Since September many neighbourhood clinics take
+        a deposit by phone on the day, usually 30,000 won, which comes off the bill.
+
+
+        "We
+        tell every patient when they book that we will ring," said Moon Jihye, coordinator
+        at Saebom Dental in Mangwon-dong. "The ones who wrote it down pay in a minute.
+        The ones who didn''t take me for a scammer."
+
+
+        After last week''s
+        leak at the booking app DocDay, the Mapo Consumer Centre says a caller who
+        knows your appointment proves nothing by that alone. What counts is what
+        you arranged yourself.'
+      verdictNote: It was your dentist, and the note was on your calendar. Deciding
+        in time matters too.
+      print: {fileID: 0}
+    ruleTitle: Your own note is evidence too
+    rule: When your own note says the same as the caller (the time, the amount, the
+      call itself), the request is real. Check, then pay.
+    ruleSource: Seoul Daily, 9 Oct
   echoes:
   - afterDay: 2
+    scenario: rent
     truth: 1
     outcomes: 1
     kind: 3
@@ -261,6 +440,7 @@ MonoBehaviour:
     outgoing: 0
     notify: 0
   - afterDay: 2
+    scenario: rent
     truth: 1
     outcomes: 2
     kind: 3
@@ -275,6 +455,7 @@ MonoBehaviour:
     outgoing: 0
     notify: 0
   - afterDay: 2
+    scenario: rent
     truth: 1
     outcomes: 8
     kind: 3
@@ -289,6 +470,7 @@ MonoBehaviour:
     outgoing: 0
     notify: 0
   - afterDay: 2
+    scenario: rent
     truth: 1
     outcomes: 15
     kind: 0
@@ -304,6 +486,7 @@ MonoBehaviour:
     outgoing: 0
     notify: 1
   - afterDay: 2
+    scenario: rent
     truth: 1
     outcomes: 2
     kind: 0
@@ -317,6 +500,7 @@ MonoBehaviour:
     outgoing: 0
     notify: 0
   - afterDay: 2
+    scenario: rent
     truth: 1
     outcomes: 1
     kind: 0
@@ -331,6 +515,7 @@ MonoBehaviour:
     outgoing: 0
     notify: 1
   - afterDay: 2
+    scenario: rent
     truth: 1
     outcomes: 1
     kind: 1
@@ -344,6 +529,7 @@ MonoBehaviour:
     outgoing: 0
     notify: 0
   - afterDay: 2
+    scenario: rent
     truth: 1
     outcomes: 10
     kind: 1
@@ -357,6 +543,7 @@ MonoBehaviour:
     outgoing: 0
     notify: 0
   - afterDay: 2
+    scenario: rent
     truth: 2
     outcomes: 1
     kind: 3
@@ -370,6 +557,7 @@ MonoBehaviour:
     outgoing: 0
     notify: 0
   - afterDay: 2
+    scenario: rent
     truth: 2
     outcomes: 10
     kind: 3
@@ -384,6 +572,7 @@ MonoBehaviour:
     outgoing: 0
     notify: 0
   - afterDay: 2
+    scenario: rent
     truth: 2
     outcomes: 15
     kind: 2
@@ -397,6 +586,7 @@ MonoBehaviour:
     outgoing: 0
     notify: 0
   - afterDay: 2
+    scenario: rent
     truth: 2
     outcomes: 1
     kind: 0
@@ -410,6 +600,7 @@ MonoBehaviour:
     outgoing: 0
     notify: 1
   - afterDay: 2
+    scenario: rent
     truth: 2
     outcomes: 10
     kind: 0
@@ -425,6 +616,7 @@ MonoBehaviour:
     outgoing: 0
     notify: 1
   - afterDay: 2
+    scenario: rent
     truth: 2
     outcomes: 10
     kind: 1
@@ -438,6 +630,7 @@ MonoBehaviour:
     outgoing: 0
     notify: 0
   - afterDay: 2
+    scenario: rent
     truth: 2
     outcomes: 15
     kind: 0
@@ -451,5 +644,349 @@ MonoBehaviour:
     amount: 0
     outgoing: 0
     notify: 0
+  - afterDay: 2
+    scenario: brother
+    truth: 0
+    outcomes: 15
+    kind: 1
+    from: CHOI YOUNGSIK
+    sender: 
+    avatar: 
+    when: Yesterday 15:10
+    title: "October rent \xB7 Nuri 110-771-209944"
+    text: 
+    amount: -450000
+    outgoing: 0
+    notify: 0
+  - afterDay: 2
+    scenario: brother
+    truth: 1
+    outcomes: 15
+    kind: 0
+    from: family
+    sender: Minjun
+    avatar: pt_minjun
+    when: Yesterday 15:52
+    title: 
+    text: Midterm prison until ten tonight. Phone's on silent, so text me, don't
+      call.
+    amount: 0
+    outgoing: 0
+    notify: 0
+  - afterDay: 2
+    scenario: brother
+    truth: 1
+    outcomes: 15
+    kind: 0
+    from: family
+    sender: Mom
+    avatar: pt_mom
+    when: Yesterday 15:58
+    title: 
+    text: Fighting, son! Eat a proper dinner.
+    amount: 0
+    outgoing: 0
+    notify: 0
+  - afterDay: 2
+    scenario: brother
+    truth: 2
+    outcomes: 15
+    kind: 0
+    from: family
+    sender: Minjun
+    avatar: pt_minjun
+    when: Yesterday 15:22
+    title: 
+    text: Dropped my phone on the stairs and the screen is dead. Writing this from
+      the dorm PC. I'm taking it to the service centre with my roommate Dohyun, so
+      if a strange number calls, it's me on his phone!
+    amount: 0
+    outgoing: 0
+    notify: 0
+  - afterDay: 2
+    scenario: brother
+    truth: 2
+    outcomes: 15
+    kind: 0
+    from: family
+    sender: Mom
+    avatar: pt_mom
+    when: Yesterday 15:31
+    title: 
+    text: Again?! That's the second one this year. I'm in a meeting till six, ask
+      your sister.
+    amount: 0
+    outgoing: 0
+    notify: 0
+  - afterDay: 2
+    scenario: brother
+    truth: 1
+    outcomes: 1
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: The "Minjun" on the phone was a copied voice. The real one was in the library
+      all afternoon.
+    amount: 0
+    outgoing: 0
+    notify: 0
+  - afterDay: 2
+    scenario: brother
+    truth: 1
+    outcomes: 1
+    kind: 0
+    from: family
+    sender: 
+    avatar: 
+    when: Yesterday 17:10
+    title: 
+    text: Minjun, did Dohyun get the money? Is your phone fixed?
+    amount: 0
+    outgoing: 1
+    notify: 0
+  - afterDay: 2
+    scenario: brother
+    truth: 1
+    outcomes: 1
+    kind: 0
+    from: family
+    sender: Minjun
+    avatar: pt_minjun
+    when: Yesterday 17:14
+    title: 
+    text: ?? What money? My phone is fine. Who is Dohyun??
+    amount: 0
+    outgoing: 0
+    notify: 1
+  - afterDay: 2
+    scenario: brother
+    truth: 1
+    outcomes: 1
+    kind: 0
+    from: family
+    sender: Mom
+    avatar: pt_mom
+    when: Yesterday 17:20
+    title: 
+    text: Jiwoo, call the bank and 112 right now. I'm stepping out of my meeting.
+    amount: 0
+    outgoing: 0
+    notify: 0
+  - afterDay: 2
+    scenario: brother
+    truth: 1
+    outcomes: 2
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: Yesterday's "Minjun" was a copied voice. You asked the real one in the
+      family chat.
+    amount: 0
+    outgoing: 0
+    notify: 0
+  - afterDay: 2
+    scenario: brother
+    truth: 1
+    outcomes: 2
+    kind: 0
+    from: family
+    sender: 
+    avatar: 
+    when: Yesterday 16:50
+    title: 
+    text: Minjun, did you just call me from someone else's phone?
+    amount: 0
+    outgoing: 1
+    notify: 0
+  - afterDay: 2
+    scenario: brother
+    truth: 1
+    outcomes: 2
+    kind: 0
+    from: family
+    sender: Minjun
+    avatar: pt_minjun
+    when: Yesterday 16:53
+    title: 
+    text: No?? I'm in the library. Why
+    amount: 0
+    outgoing: 0
+    notify: 0
+  - afterDay: 2
+    scenario: brother
+    truth: 1
+    outcomes: 2
+    kind: 0
+    from: family
+    sender: 
+    avatar: 
+    when: Yesterday 16:54
+    title: 
+    text: Someone with your voice wanted 280,000 won for a broken phone.
+    amount: 0
+    outgoing: 1
+    notify: 0
+  - afterDay: 2
+    scenario: brother
+    truth: 1
+    outcomes: 2
+    kind: 0
+    from: family
+    sender: Minjun
+    avatar: pt_minjun
+    when: Yesterday 16:55
+    title: 
+    text: WHAT. That's creepy. Good thing you asked!!
+    amount: 0
+    outgoing: 0
+    notify: 1
+  - afterDay: 2
+    scenario: brother
+    truth: 1
+    outcomes: 8
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: Yesterday's "Minjun" gave up at five. The real one never knew.
+    amount: 0
+    outgoing: 0
+    notify: 0
+  - afterDay: 2
+    scenario: brother
+    truth: 2
+    outcomes: 1
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: Minjun's phone is fixed. He owes you 280,000 won and a bag of snacks.
+    amount: 0
+    outgoing: 0
+    notify: 0
+  - afterDay: 2
+    scenario: brother
+    truth: 2
+    outcomes: 1
+    kind: 0
+    from: family
+    sender: Minjun
+    avatar: pt_minjun
+    when: Yesterday 17:48
+    title: 
+    text: "Phone's alive!! Thank you noona \u2665 Paying you back on the 25th."
+    amount: 0
+    outgoing: 0
+    notify: 1
+  - afterDay: 2
+    scenario: brother
+    truth: 2
+    outcomes: 10
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: That really was Minjun. His roommate lent him the money; you paid Dohyun
+      back last night.
+    amount: 0
+    outgoing: 0
+    notify: 0
+  - afterDay: 2
+    scenario: brother
+    truth: 2
+    outcomes: 10
+    kind: 0
+    from: family
+    sender: Minjun
+    avatar: pt_minjun
+    when: Yesterday 18:20
+    title: 
+    text: Noona... that really was me. Dohyun lent me the money. Can you send it
+      to him tonight?
+    amount: 0
+    outgoing: 0
+    notify: 1
+  - afterDay: 2
+    scenario: brother
+    truth: 2
+    outcomes: 10
+    kind: 0
+    from: family
+    sender: 
+    avatar: 
+    when: Yesterday 18:31
+    title: 
+    text: Sorry!! Sent it just now.
+    amount: 0
+    outgoing: 1
+    notify: 0
+  - afterDay: 2
+    scenario: brother
+    truth: 2
+    outcomes: 10
+    kind: 1
+    from: LEE DOHYUN
+    sender: 
+    avatar: 
+    when: Yesterday 18:30
+    title: "Minjun's repair \xB7 Hanbit 620-204-771035"
+    text: 
+    amount: -280000
+    outgoing: 0
+    notify: 0
+  - afterDay: 1
+    scenario: paper
+    truth: 2
+    outcomes: 10
+    kind: 1
+    from: OH SANGCHUL
+    sender: 
+    avatar: 
+    when: Yesterday 08:10
+    title: Seoul Daily, October to December
+    text: 
+    amount: -54000
+    outgoing: 0
+    notify: 0
+  - afterDay: 1
+    scenario: sale
+    truth: 2
+    outcomes: 15
+    kind: 1
+    from: BAE SUJIN
+    sender: 
+    avatar: 
+    when: Tue 16:07
+    title: Monitor (Neighbour Market)
+    text: 
+    amount: 600000
+    outgoing: 0
+    notify: 0
+  - afterDay: 1
+    scenario: sale
+    truth: 2
+    outcomes: 10
+    kind: 1
+    from: BAE SUJIN
+    sender: 
+    avatar: 
+    when: Yesterday 08:20
+    title: "Overpayment returned \xB7 Hanbit 620-481-207356"
+    text: 
+    amount: -540000
+    outgoing: 0
+    notify: 0
   nextDateLabel: Friday, 9 October
-  builtWith: 7
+  builtWith: 8

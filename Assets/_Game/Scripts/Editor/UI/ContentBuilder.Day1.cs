@@ -6,10 +6,11 @@ using UnityEngine;
 namespace DontCallMe.Editor.UI
 {
     /// <summary>
-    /// Day 1, Tuesday 6 October (Easy): "Manager Jeon" of Nuri Bank's "account protection team" (M6).
-    /// Always a scam, and the first day without the guide. Two clues, both on the computer: the
-    /// "protected account" is a private person's, and the caller's number is an internet phone with
-    /// a pile of reports.
+    /// Day 1, Tuesday 6 October, the first day without the guide. Its first case (Easy): "Manager
+    /// Jeon" of Nuri Bank's "account protection team" (M6). Always a scam. Two clues, both on the
+    /// computer: the "protected account" is a private person's, and the caller's number is an
+    /// internet phone with a pile of reports. The day's other cases are "the subscription fee"
+    /// (ContentBuilder.Day1Paper.cs) and "the extra zero" (ContentBuilder.Day1Sale.cs).
     /// </summary>
     public static partial class ContentBuilder
     {
@@ -35,16 +36,12 @@ namespace DontCallMe.Editor.UI
             n.warningTitle = L("WARNING: there is no \"safe account\"", "경고: '안전계좌'는 없다");
             n.warningText = L("Banks, prosecutors and the Financial Supervisory Service never ask you to move money to a \"protected\" or \"safe\" account. Before you send money, look up the account and the caller's number: who owns them, and has anyone reported them?",
                               "은행, 검찰, 금융감독원은 절대 '보호계좌'나 '안전계좌'로 돈을 옮기라고 하지 않는다. 돈을 보내기 전에 계좌와 발신 번호를 조회하라. 주인은 누구인지, 신고된 적은 없는지.");
-            n.local = new List<NewsItem>
-            {
-                new NewsItem { title = L("Gas inspections next week", "다음 주 가스 점검"), text = L("Mapo City Gas checks villas in Mangwon-dong from 12 Oct. Inspectors carry ID and never collect money.", "마포도시가스가 12일부터 망원동 빌라를 점검한다. 점검원은 신분증을 지니며 돈을 받지 않는다.") },
-                new NewsItem { title = L("Water tank cleaning", "물탱크 청소"), text = L("Several villas on Poeun-ro will be without water on Thursday morning.", "포은로 일대 빌라 여러 곳이 목요일 오전 단수된다.") },
-                new NewsItem { title = L("Subway fares", "지하철 요금"), text = L("The base fare stays at 1,550 won through the end of the year.", "기본요금 1,550원이 연말까지 유지된다.") },
-            };
+            n.local = Day1Local();
 
             var v = new DayVariant
             {
                 id = "scam",
+                scenario = CaseProtected,
                 conversation = Store(Day1Call(), Localized(CallPath)),
                 phone = Store(HouseholdPhone(), Localized(PhonePath)),
                 room = Store(room, Localized(RoomPath)),
@@ -75,12 +72,20 @@ namespace DontCallMe.Editor.UI
             d.intro = L("Your first semester living on your own. Classes are over, the room is quiet, and your phone is on the desk.",
                         "처음으로 혼자 사는 학기. 수업은 끝났고, 방은 조용하고, 휴대폰은 책상 위에 있다.");
             d.ringDelay = 7f;
-            d.variants = new List<DayVariant> { v };
+            d.variants = new List<DayVariant> { v, PaperVariant(true), PaperVariant(false), SaleVariant(true), SaleVariant(false) };
             d.echoes = Day1Echoes();
             d.nextDateLabel = DateLabel(today.AddDays(1));
             d.builtWith = Version;
             return Store(d, Localized(DayPath));
         }
+
+        /// <summary>Tuesday's local news, the same whichever case the day brings.</summary>
+        static List<NewsItem> Day1Local() => new List<NewsItem>
+        {
+            News(L("Gas inspections next week", "다음 주 가스 점검"), L("Mapo City Gas checks villas in Mangwon-dong from 12 Oct. Inspectors carry ID and never collect money.", "마포도시가스가 12일부터 망원동 빌라를 점검한다. 점검원은 신분증을 지니며 돈을 받지 않는다.")),
+            News(L("Water tank cleaning", "물탱크 청소"), L("Several villas on Poeun-ro will be without water on Thursday morning.", "포은로 일대 빌라 여러 곳이 목요일 오전 단수된다.")),
+            News(L("Subway fares", "지하철 요금"), L("The base fare stays at 1,550 won through the end of the year.", "기본요금 1,550원이 연말까지 유지된다.")),
+        };
 
         /// <summary>What Monday's "gas bill" call (Day 0) left behind.</summary>
         static List<DayEcho> Day1Echoes()

@@ -306,8 +306,11 @@ def calendar(w=768, h=1152):
     return save(calendar_image(w, h), "T_Calendar")
 
 
-def calendar_image(w=768, h=1152, lang="en"):
-    """The pharmacy calendar with Jiwoo's notes on it, in English or (lang="ko", for the board close-up) Korean."""
+def calendar_image(w=768, h=1152, lang="en", dentist_moved_to=None):
+    """The pharmacy calendar with Jiwoo's notes on it, in English or (lang="ko", for the board close-up) Korean.
+
+    dentist_moved_to: the day Jiwoo moved the dentist to (Day 3's "dentist" case): the 8th is crossed
+    out and that day is circled instead."""
     ko = lang == "ko"
     cv = Canvas(w, h, ss=2, bg=hexc("F7F2E6"))
     red, blue = hexc("C8392F"), hexc("2F5A9A")
@@ -358,6 +361,14 @@ def calendar_image(w=768, h=1152, lang="en"):
     cv.line(wobble([(x + 36 * math.cos(a), y + 26 + 30 * math.sin(a)) for a in np.linspace(0, 6.6, 40)], 1.2, rng),
             BLUE_PEN, 2.2)
     note(x, y, -40, "Dentist", "치과", BLUE_PEN)
+    if dentist_moved_to:
+        moved = np.random.default_rng(8)
+        cv.line(wobble([(x - 38, y + 58), (x + 40, y - 4)], 1.0, moved), BLUE_PEN, 3.0)
+        cv.line(wobble([(x - 44, y + 81), (x + 30, y + 79)] if not ko else [(x - 28, y + 73), (x + 28, y + 71)], 0.8, moved), BLUE_PEN, 2.4)
+        x, y = cell_xy(dentist_moved_to)
+        cv.line(wobble([(x + 36 * math.cos(a), y + 26 + 30 * math.sin(a)) for a in np.linspace(0.4, 7.0, 40)], 1.2, moved),
+                BLUE_PEN, 2.2)
+        note(x, y, -40, "Dentist", "치과", BLUE_PEN)
     x, y = cell_xy(14)
     note(x, y, -40, "Gas check", "가스점검", BLUE_PEN)
     x, y = cell_xy(17)

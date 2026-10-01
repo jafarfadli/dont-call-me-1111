@@ -12,21 +12,27 @@ namespace DontCallMe.Editor.UI
 {
     /// <summary>
     /// Writes the game's content as assets: the four days of the run (Data/Day0..Day3) and the
-    /// catalog that lists them.
+    /// catalog that lists them. Days 1 to 3 each bring one of several cases (a file per case):
     /// <list type="bullet">
     /// <item>Day 0 (tutorial): "the gas company's billing team" wants an unpaid bill. Always a scam; the guide walks through every place to check.</item>
-    /// <item>Day 1 (Easy, 2 clues): "Nuri Bank's protection team" wants the savings moved. Always a scam.</item>
-    /// <item>Day 2 (Medium, 3 clues): the landlord's son asks for the rent on a new account. Scam or legit.</item>
-    /// <item>Day 3 (Hard, 4 clues): a courier's customs desk asks for the duty on a parcel. Scam or legit.</item>
+    /// <item>Day 1: "Nuri Bank's protection team" wants the savings moved (always a scam, 2 clues on the computer);
+    /// the newspaper's branch manager collects the subscription fee (1 clue, in the newspaper); the buyer of
+    /// Jiwoo's old monitor wants an overpayment back (1 clue, in the bank app).</item>
+    /// <item>Day 2: the landlord's son asks for the rent on a new account (3 clues); "Minjun" calls from a
+    /// roommate's phone for a repair (1 clue, in the family chat).</item>
+    /// <item>Day 3: a courier's customs desk asks for the duty on a parcel (4 clues); the dentist asks for a
+    /// deposit for tonight's appointment (1 clue, on the calendar).</item>
     /// </list>
-    /// The player has three phone apps (Contacts, Chats, Nuri Bank) and four things in the room
-    /// (newspaper, calendar, desk drawer, and the computer that looks up who owns a number or an
-    /// account); every clue is in one of them. Every day's phone, room and directory grow from one
-    /// household timeline (ContentBuilder.Household.cs): a message sent on Monday reads "Mon 22:47"
-    /// on Day 1 and is still there on Day 3. Each variant adds its own evidence on top. Everything
-    /// is built twice, in English and in Korean (<see cref="L"/>): the Korean assets sit in a "ko"
-    /// folder next to the English ones and are listed in Resources/DayCatalog_ko. Rerun to reset
-    /// edits; then run the voice pipeline for new or changed lines.
+    /// Every case but the first of Day 1 is a scam or its legit twin. The player has three phone
+    /// apps (Contacts, Chats, Nuri Bank) and four things in the room (newspaper, calendar, desk
+    /// drawer, and the computer that looks up who owns a number or an account); every clue is in
+    /// one of them, and in the one-clue cases the computer cannot tell the twins apart. Every day's
+    /// phone, room and directory grow from one household timeline (ContentBuilder.Household.cs): a
+    /// message sent on Monday reads "Mon 22:47" on Day 1 and is still there on Day 3. Each variant
+    /// adds its own evidence on top. Everything is built twice, in English and in Korean
+    /// (<see cref="L"/>): the Korean assets sit in a "ko" folder next to the English ones and are
+    /// listed in Resources/DayCatalog_ko. Rerun to reset edits; then run the voice pipeline for new
+    /// or changed lines.
     /// </summary>
     public static partial class ContentBuilder
     {
@@ -44,13 +50,23 @@ namespace DontCallMe.Editor.UI
         const string PapersJson = "Tools/ArtGen/papers.json";
         const string PrintsDir = "Assets/_Game/Art/Textures/Papers";
 
-        // The voices (macOS `say`) of the callers, per language (Day 0's is in ContentBuilder.Day0.cs).
+        // The cases (DayVariant.scenario): a scam and its legit twin share one, and echoes name the case they follow.
+        const string CaseGas = "gas";
+        const string CaseProtected = "protected";
+        const string CasePaper = "paper";
+        const string CaseSale = "sale";
+        const string CaseRent = "rent";
+        const string CaseBrother = "brother";
+        const string CaseParcel = "parcel";
+        const string CaseDentist = "dentist";
+
+        // The voices (macOS `say`) of the callers, per language (the other cases' are in their own files).
         static string VoiceJeon => L("Daniel", "Rocko (Korean (South Korea))");
         static string VoiceHyunwoo => L("Reed (English (US))", "Reed (Korean (South Korea))");
         static string VoiceCustoms => L("Shelley (English (UK))", "Yuna");
 
         /// <summary>Bump when the built content changes, so open projects rebuild it (and its voices) by themselves.</summary>
-        public const int Version = 7;
+        public const int Version = 8;
 
         /// <summary>The language being built.</summary>
         static Lang lang = Lang.En;
@@ -142,12 +158,13 @@ namespace DontCallMe.Editor.UI
             return data;
         }
 
-        /// <summary>A day's truth, with its call and evidence stored as assets named after the day and variant.</summary>
-        static DayVariant StoreVariant(string id, string dir, string prefix, ConversationData call, PhoneContent phone, RoomContent room, WorldDirectory directory)
+        /// <summary>One truth of a day's case, with its call and evidence stored as assets named after the day, the case and the truth.</summary>
+        static DayVariant StoreVariant(string id, string scenario, string dir, string prefix, ConversationData call, PhoneContent phone, RoomContent room, WorldDirectory directory)
         {
             return new DayVariant
             {
                 id = id,
+                scenario = scenario,
                 conversation = Store(call, Localized($"{dir}/{prefix}_Call.asset")),
                 phone = Store(phone, Localized($"{dir}/{prefix}_Phone.asset")),
                 room = Store(room, Localized($"{dir}/{prefix}_Room.asset")),
@@ -390,7 +407,30 @@ namespace DontCallMe.Editor.UI
         static EndPaper Paper(Outcome outcome, string headline, string subhead, string body, string note) =>
             new EndPaper { outcome = outcome, headline = headline, subhead = subhead, body = body, verdictNote = note };
 
+        static NewsItem News(string title, string text) => new NewsItem { title = title, text = text };
+
+        /// <summary>
+        /// The front page of a day's paper when no earlier day was played (the Room scene opened
+        /// directly); otherwise yesterday's case, as it went, takes its place.
+        /// </summary>
+        static void FrontPage(RoomContent room, EndPaper paper)
+        {
+            var n = room.newspaper;
+            n.headline = paper.headline;
+            n.subhead = paper.subhead;
+            n.body = new List<string>(paper.body.Split(new[] { "\n\n" }, StringSplitOptions.RemoveEmptyEntries));
+        }
+
         // Echoes: what an earlier day left behind.
+
+        /// <summary>Marks the echoes as following one case of their day, so another case that day leaves them out.</summary>
+        static DayEcho[] OfCase(string scenario, params DayEcho[] echoes)
+        {
+            foreach (var e in echoes)
+                e.scenario = scenario;
+            return echoes;
+        }
+
         static DayEcho Echo(int afterDay, Truth truth, OutcomeMask outcomes, EchoKind kind) =>
             new DayEcho { afterDay = afterDay, truth = truth, outcomes = outcomes, kind = kind };
 
@@ -420,6 +460,17 @@ namespace DontCallMe.Editor.UI
         {
             var e = Echo(afterDay, truth, outcomes, EchoKind.DayCard);
             e.text = text;
+            return e;
+        }
+
+        /// <summary>Money that came in (+) or went out (-) after that day: a line in the bank history, and the balance with it.</summary>
+        static DayEcho EchoBank(int afterDay, Truth truth, OutcomeMask outcomes, string counterparty, string when, string memo, long amount)
+        {
+            var e = Echo(afterDay, truth, outcomes, EchoKind.BankTransaction);
+            e.from = counterparty;
+            e.when = when;
+            e.title = memo;
+            e.amount = amount;
             return e;
         }
 

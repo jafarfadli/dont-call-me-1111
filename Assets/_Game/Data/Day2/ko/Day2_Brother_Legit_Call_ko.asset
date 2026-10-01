@@ -1,0 +1,346 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfd03999caeea4a5788ed68a4194a80e, type: 3}
+  m_Name: Day2_Brother_Legit_Call_ko
+  m_EditorClassIdentifier: DontCallMe::DontCallMe.Data.ConversationData
+  title: "2\uC77C\uCC28 \xB7 \uBBFC\uC900\uC774\uC758 \uAE68\uC9C4 \uD3F0 (\uC9C4\uC9DC)"
+  isScam: 0
+  revealAtEnd: 0
+  caller:
+    displayName: "\uBBFC\uC900\uC774"
+    number: 010-9046-2715
+    inContacts: 0
+    portrait: pt_unknown
+    voice: Eddy (Korean (South Korea))
+  claims:
+  - "\uBBFC\uC900\uC774\uB77C\uACE0 \uD558\uBA70, \uB8F8\uBA54\uC774\uD2B8 \uD3F0\uC73C\uB85C
+    \uAC74\uB2E4\uACE0 \uD55C\uB2E4."
+  - "\uC810\uC2EC \uBA39\uACE0 \uD3F0\uC744 \uB5A8\uC5B4\uB728\uB824 \uC561\uC815\uC774
+    \uB098\uAC14\uB2E4\uACE0 \uD55C\uB2E4."
+  - "\uC218\uB9AC\uBE44 28\uB9CC \uC6D0\uC744 \uC774\uB3C4\uD604 \uBA85\uC758 \uD55C\uBE5B\uC740\uD589
+    620-204-771035\uB85C \uBCF4\uB0B4 \uB2EC\uB77C\uACE0 \uD55C\uB2E4."
+  - "\uC11C\uBE44\uC2A4\uC13C\uD130 \uC811\uC218\uAC00 17\uC2DC\uC5D0 \uB05D\uB09C\uB2E4\uACE0
+    \uD55C\uB2E4."
+  nodes:
+  - id: start
+    lines:
+    - speaker: 0
+      text: "\uB204\uB098? \uB098\uC57C, \uBBFC\uC900\uC774. \uB4E4\uB824? \uC5EC\uAE30
+        \uC804\uD654\uAC00 \uC798 \uC548 \uD130\uC838."
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    - speaker: 0
+      text: "\uBC88\uD638 \uBCF4\uACE0 \uB180\uB77C\uC9C0 \uB9C8. \uC810\uC2EC \uBA39\uACE0
+        \uACC4\uB2E8\uC5D0\uC11C \uD3F0 \uB5A8\uC5B4\uB728\uB824\uC11C \uC561\uC815\uC774
+        \uB098\uAC14\uC5B4. \uC774\uAC70 \uB8F8\uBA54\uC774\uD2B8 \uB3C4\uD604\uC774
+        \uD3F0\uC774\uC57C."
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    hasDecision: 1
+    decision:
+      kind: 0
+      prompt: "\uC5B4\uB5BB\uAC8C \uB300\uB2F5\uD560\uAE4C?"
+      patienceSeconds: 45
+      a:
+        label: "\uB610? \uB2E4\uCE5C \uB370\uB294 \uC5C6\uC5B4?"
+        playerLine: "\uB610? \uB2E4\uCE5C \uB370\uB294 \uC5C6\uC5B4?"
+        next: okay
+      b:
+        label: "\uBAA9\uC18C\uB9AC\uAC00 \uC880 \uB2E4\uB978\uB370."
+        playerLine: "\uBAA9\uC18C\uB9AC\uAC00 \uC880 \uB2E4\uB978\uB370."
+        next: voice
+      pressure:
+      - atPatience: 0.5
+        text: "\uB204\uB098? \uC5EC\uBCF4\uC138\uC694?"
+        spoken: 
+    next: 
+    holds: 0
+  - id: okay
+    lines:
+    - speaker: 0
+      text: "\uB09C \uBA40\uCA61\uD574. \uD3F0\uC774 \uBB38\uC81C\uC9C0."
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    hasDecision: 0
+    decision:
+      kind: 0
+      prompt: 
+      patienceSeconds: 60
+      a:
+        label: 
+        playerLine: 
+        next: 
+      b:
+        label: 
+        playerLine: 
+        next: 
+      pressure: []
+    next: ask
+    holds: 0
+  - id: voice
+    lines:
+    - speaker: 0
+      text: "\uB3C4\uD604\uC774 \uD3F0\uC774\uB77C \uADF8\uB798, \uB098\uB3C4 \uC774\uC0C1\uD558\uAC8C
+        \uB4E4\uB824. \uADF8\uB9AC\uACE0 \uC6D4\uC694\uC77C\uBD80\uD130 \uAC10\uAE30
+        \uAE30\uC6B4\uB3C4 \uC788\uACE0."
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    hasDecision: 0
+    decision:
+      kind: 0
+      prompt: 
+      patienceSeconds: 60
+      a:
+        label: 
+        playerLine: 
+        next: 
+      b:
+        label: 
+        playerLine: 
+        next: 
+      pressure: []
+    next: ask
+    holds: 0
+  - id: ask
+    lines:
+    - speaker: 0
+      text: "\uC9C0\uAE08 \uC11C\uBE44\uC2A4\uC13C\uD130\uC778\uB370, \uC561\uC815\uC774
+        28\uB9CC \uC6D0\uC774\uB798. \uC9C0\uAE08 \uACB0\uC81C\uD558\uBA74 \uC624\uB298
+        \uC548\uC5D0 \uD574 \uC900\uB300."
+      spoken: "\uC9C0\uAE08 \uC11C\uBE44\uC2A4\uC13C\uD130\uC778\uB370, \uC561\uC815\uC774
+        \uC774\uC2ED\uD314\uB9CC \uC6D0\uC774\uB798. \uC9C0\uAE08 \uACB0\uC81C\uD558\uBA74
+        \uC624\uB298 \uC548\uC5D0 \uD574 \uC900\uB300."
+      facts:
+      - kind: 5
+        value: 280,000
+        label: 
+      deliver: []
+      pauseAfter: 0.4
+    - speaker: 0
+      text: "\uC740\uD589 \uC571\uC774 \uADF8 \uD3F0\uC5D0 \uC788\uC5B4\uC11C \uB0B4\uAC00
+        \uACB0\uC81C\uB97C \uBABB \uD574. \uB3C4\uD604\uC774\uD55C\uD14C \uBCF4\uB0B4
+        \uC904 \uC218 \uC788\uC5B4? \uB3C4\uD604\uC774\uAC00 \uCE74\uB4DC\uB85C \uAE01\uC5B4
+        \uC8FC\uAE30\uB85C \uD588\uC5B4."
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    - speaker: 0
+      text: "\uD55C\uBE5B\uC740\uD589 620-204-771035, \uC774\uB3C4\uD604."
+      spoken: "\uD55C\uBE5B\uC740\uD589 \uC721\uC774\uACF5, \uC774\uACF5\uC0AC, \uCE60\uCE60\uC77C\uACF5\uC0BC\uC624,
+        \uC774\uB3C4\uD604."
+      facts:
+      - kind: 1
+        value: 620-204-771035
+        label: 
+      deliver: []
+      pauseAfter: 0.4
+    - speaker: 0
+      text: "\uC811\uC218\uAC00 5\uC2DC\uC5D0 \uB05D\uB09C\uB300. 25\uC77C\uC5D0
+        \uAF2D \uAC1A\uC744\uAC8C, \uC9C4\uC9DC\uC57C. \uB04A\uC9C0 \uC54A\uACE0
+        \uAE30\uB2E4\uB9B4\uAC8C."
+      spoken: "\uC811\uC218\uAC00 \uB2E4\uC12F \uC2DC\uC5D0 \uB05D\uB09C\uB300. \uC774\uC2ED\uC624
+        \uC77C\uC5D0 \uAF2D \uAC1A\uC744\uAC8C, \uC9C4\uC9DC\uC57C. \uB04A\uC9C0
+        \uC54A\uACE0 \uAE30\uB2E4\uB9B4\uAC8C."
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    hasDecision: 0
+    decision:
+      kind: 0
+      prompt: 
+      patienceSeconds: 60
+      a:
+        label: 
+        playerLine: 
+        next: 
+      b:
+        label: 
+        playerLine: 
+        next: 
+      pressure: []
+    next: 
+    holds: 1
+  endings:
+  - id: refuse
+    verdict: 1
+    timedOut: 0
+    moneyDelta: 0
+    lines: []
+    consequence: "\uCE5C\uB3D9\uC0DD\uC758 \uC804\uD654\uB97C \uB04A\uC5B4 \uBC84\uB838\uB2E4.
+      \uBBFC\uC900\uC774\uB294 15:22\uC5D0 \uAC00\uC871 \uCC44\uD305\uBC29\uC5D0
+      \uB8F8\uBA54\uC774\uD2B8 \uD3F0\uC73C\uB85C \uC804\uD654\uD558\uACA0\uB2E4\uACE0
+      \uC368 \uB450\uC5C8\uB2E4."
+  - id: timeout
+    verdict: 1
+    timedOut: 1
+    moneyDelta: 0
+    lines:
+    - speaker: 0
+      text: "5\uC2DC\uC57C, \uC811\uC218 \uB05D\uB0AC\uB300. \uB0B4\uAC00 \uC54C\uC544\uC11C
+        \uD574 \uBCFC\uAC8C. \uB04A\uC5B4, \uB204\uB098."
+      spoken: "\uB2E4\uC12F \uC2DC\uC57C, \uC811\uC218 \uB05D\uB0AC\uB300. \uB0B4\uAC00
+        \uC54C\uC544\uC11C \uD574 \uBCFC\uAC8C. \uB04A\uC5B4, \uB204\uB098."
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    consequence: "5\uC2DC\uAC00 \uC9C0\uB0AC\uB2E4. \uBBFC\uC900\uC774\uC758 \uD3F0\uC740
+      \uADF8\uB0A0 \uBC24\uC5D0\uB3C4 \uACE0\uC7A5 \uB09C \uCC44\uC600\uB2E4."
+  - id: go_along
+    verdict: 0
+    timedOut: 0
+    moneyDelta: -280000
+    lines:
+    - speaker: 0
+      text: "\uB3C4\uD604\uC774\uD55C\uD14C \uB4E4\uC5B4\uC654\uB300! \uB204\uB098\uAC00
+        \uCD5C\uACE0\uC57C. \uD1A0\uC694\uC77C\uC5D0 \uAC04\uC2DD \uAF2D \uC0AC \uAC08\uAC8C."
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    consequence: "28\uB9CC \uC6D0\uC740 \uBBFC\uC900\uC774\uC758 \uB8F8\uBA54\uC774\uD2B8\uC5D0\uAC8C
+      \uB4E4\uC5B4\uAC14\uACE0, \uD3F0\uC740 6\uC2DC \uC804\uC5D0 \uACE0\uCCD0\uC84C\uB2E4.
+      \uBAA8\uB974\uB294 \uBC88\uD638\uB294 \uBBFC\uC900\uC774\uAC00 \uAC00\uC871
+      \uCC44\uD305\uBC29\uC5D0 \uC9C1\uC811 \uB0A8\uAE34 \uAE00\uB85C \uC124\uBA85\uC774
+      \uB410\uB2E4."
+  actions:
+  - kind: 0
+    target: 620-204-771035
+    endingId: go_along
+    bank: "\uD55C\uBE5B\uC740\uD589"
+    amount: 280000
+  hangUpEndingId: refuse
+  timeoutEndingId: timeout
+  caseInfo:
+    caseTitle: "\uBBFC\uC900\uC774\uC758 \uAE68\uC9C4 \uD3F0"
+    claimedIdentity: "\uB8F8\uBA54\uC774\uD2B8 \uD3F0\uC73C\uB85C \uAC74 \uB0A8\uB3D9\uC0DD
+      \uBBFC\uC900\uC774"
+    ask: "\uC218\uB9AC\uBE44 28\uB9CC \uC6D0\uC744 \uC774\uB3C4\uD604 \uBA85\uC758
+      \uD55C\uBE5B\uC740\uD589 620-204-771035\uB85C \uC1A1\uAE08"
+    deadline: 17:00
+    deadlineReason: "\uC11C\uBE44\uC2A4\uC13C\uD130 \uC811\uC218 \uB9C8\uAC10 \uC804"
+    objective: "\uC815\uB9D0 \uBBFC\uC900\uC774\uC77C\uAE4C? 17:00 \uC804\uAE4C\uC9C0
+      \uD655\uC778\uD55C \uB4A4, \uD1B5\uD654 \uD654\uBA74\uC5D0\uC11C \uD310\uC815\uC744
+      \uB0B4\uB9AC\uC790: \uB3C8\uC744 \uBCF4\uB0BC\uC9C0, \uC804\uD654\uB97C \uB04A\uC744\uC9C0."
+  questions:
+  - label: "\uD1A0\uC694\uC77C \uC598\uAE30 \uB54C \uBB50\uB77C\uACE0 \uD588\uB294\uC9C0
+      \uBB3B\uAE30"
+    playerLine: "\uD1A0\uC694\uC77C\uC5D0 \uC790\uACE0 \uAC00\uB3C4 \uB418\uB0D0\uACE0
+      \uD588\uC744 \uB54C \uB0B4\uAC00 \uBB50\uB7AC\uC9C0?"
+    answer:
+    - speaker: 0
+      text: "\uAC04\uC2DD \uC0AC \uC624\uBA74 \uB41C\uB2E4\uBA70. \uC0AC \uAC08\uAC8C,
+        \uB204\uB098. \uB9CE\uC774."
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    endingId: 
+  - label: "\uC65C \uC5C4\uB9C8\uD55C\uD14C \uB9D0 \uC548 \uD558\uB294\uC9C0 \uBB3B\uAE30"
+    playerLine: "\uC5C4\uB9C8\uD55C\uD14C \uB9D0\uD558\uC9C0 \uADF8\uB798?"
+    answer:
+    - speaker: 0
+      text: "\uC5C4\uB9C8 6\uC2DC\uAE4C\uC9C0 \uD68C\uC758\uB798, \uD1A1\uBC29\uC5D0
+        \uADF8\uB807\uAC8C \uC37C\uC796\uC544. \uADF8\uB9AC\uACE0 \uB098 \uC8FD\uC5B4.
+        \uC62C\uD574\uB9CC \uB450 \uBC88\uC9F8\uC57C."
+      spoken: "\uC5C4\uB9C8 \uC5EC\uC12F \uC2DC\uAE4C\uC9C0 \uD68C\uC758\uB798, \uD1A1\uBC29\uC5D0
+        \uADF8\uB807\uAC8C \uC37C\uC796\uC544. \uADF8\uB9AC\uACE0 \uB098 \uC8FD\uC5B4.
+        \uC62C\uD574\uB9CC \uB450 \uBC88\uC9F8\uC57C."
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    endingId: 
+  - label: "\uB3C4\uD604\uC774\uAC00 \uB204\uAD6C\uC778\uC9C0 \uBB3B\uAE30"
+    playerLine: "\uB3C4\uD604\uC774\uAC00 \uB204\uAD70\uB370?"
+    answer:
+    - speaker: 0
+      text: "\uB0B4 \uB8F8\uBA54\uC774\uD2B8 \uC774\uB3C4\uD604. \uAC19\uC740 \uACFC\uC57C.
+        \uACC4\uC88C\uB3C4 \uB3C4\uD604\uC774 \uAC70\uACE0."
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    endingId: 
+  - label: "\uAC00\uC871 \uCC44\uD305\uBC29\uC5D0 \uBB3C\uC5B4\uBCF4\uACA0\uB2E4\uACE0
+      \uD558\uAE30"
+    playerLine: "\uAC00\uC871 \uD1A1\uBC29\uC5D0 \uBB3C\uC5B4\uBCFC\uAC8C."
+    answer:
+    - speaker: 0
+      text: "\uADF8\uB798. \uAE30\uC219\uC0AC \uB098\uC624\uAE30 \uC804\uC5D0 \uAC70\uAE30
+        \uC368 \uB1A8\uC5B4. \uBD10 \uBD10."
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    endingId: 
+  beats:
+  - at: 16:33
+    line:
+      speaker: 0
+      text: "\uB204\uB098? \uBCF4\uB0B4\uACE0 \uC788\uC5B4?"
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+  - at: 16:40
+    line:
+      speaker: 0
+      text: "\uCE74\uC6B4\uD130 \uC9C1\uC6D0\uC774 \uC790\uAFB8 \uCCD0\uB2E4\uBD10.
+        \uB204\uB098, \uC81C\uBC1C."
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+  - at: 16:47
+    line:
+      speaker: 0
+      text: "\uB3C4\uD604\uC774 5\uC2DC\uC5D0 \uC218\uC5C5 \uC788\uB300. \uC624\uB798
+        \uBABB \uAE30\uB2E4\uB9B0\uB300."
+      spoken: "\uB3C4\uD604\uC774 \uB2E4\uC12F \uC2DC\uC5D0 \uC218\uC5C5 \uC788\uB300.
+        \uC624\uB798 \uBABB \uAE30\uB2E4\uB9B0\uB300."
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+  - at: 16:53
+    line:
+      speaker: 0
+      text: "7\uBD84 \uB0A8\uC558\uC5B4. \uC811\uC218 \uCC3D\uAD6C \uB2EB\uB294\uB300."
+      spoken: "\uCE60 \uBD84 \uB0A8\uC558\uC5B4. \uC811\uC218 \uCC3D\uAD6C \uB2EB\uB294\uB300."
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+  - at: 16:57
+    line:
+      speaker: 0
+      text: "3\uBD84 \uB0A8\uC558\uC5B4! \uB204\uB098!"
+      spoken: "\uC0BC \uBD84 \uB0A8\uC558\uC5B4! \uB204\uB098!"
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+  verdict:
+    goAlong: "\uB3C8 \uBCF4\uB0B4\uAE30"
+    goAlongDetail: 
+    goAlongEndingId: 
+    refuse: "\uC804\uD654 \uB04A\uAE30"
+    refuseDetail: "\uAC70\uC808\uD558\uACE0 \uD1B5\uD654 \uC885\uB8CC"
+    goAlongLine: "\uC54C\uC558\uC5B4, \uC9C0\uAE08 \uB3C4\uD604\uC774\uD55C\uD14C
+      \uBCF4\uB0BC\uAC8C."
+    refuseLine: "\uBBFC\uC900\uC774\uD55C\uD14C \uC9C1\uC811 \uBB3C\uC5B4\uBCFC\uAC8C.
+      \uB04A\uB294\uB2E4."

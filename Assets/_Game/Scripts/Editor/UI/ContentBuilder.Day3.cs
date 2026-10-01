@@ -5,8 +5,9 @@ using UnityEngine;
 namespace DontCallMe.Editor.UI
 {
     /// <summary>
-    /// Day 3, Thursday 8 October (Hard): "Yoon Seora from Hangang Express's customs desk" says the
-    /// monitor Jiwoo ordered from AliStar is held at Incheon for unpaid duty and VAT. She knows the
+    /// Day 3, Thursday 8 October. Its first case (Hard): "Yoon Seora from Hangang Express's customs
+    /// desk" says the monitor Jiwoo ordered from AliStar is held at Incheon for unpaid duty and VAT.
+    /// The day's other case is "the dentist's deposit" (ContentBuilder.Day3Dentist.cs). She knows the
     /// item and the tracking number in both truths (last month's AliStar leak, in today's paper),
     /// and nothing has any reports. Four clues:
     /// <list type="bullet">
@@ -42,7 +43,7 @@ namespace DontCallMe.Editor.UI
             d.intro = L("Midterms are next week. The water came back at noon, and the monitor you ordered should arrive any day now.",
                         "중간고사는 다음 주. 단수는 정오에 끝났고, 주문한 모니터는 곧 도착할 것이다.");
             d.ringDelay = 6f;
-            d.variants = new List<DayVariant> { scam, legit };
+            d.variants = new List<DayVariant> { scam, legit, DentistVariant(true), DentistVariant(false) };
             d.echoes = Day3Echoes();
             d.nextDateLabel = DateLabel(today.AddDays(1));
             d.builtWith = Version;
@@ -102,7 +103,7 @@ namespace DontCallMe.Editor.UI
                 directory.accounts.Add(new DirAccount { bank = bank, number = account, holder = L("HANGANG EXPRESS (CUSTOMS)", "한강익스프레스(관세)"), note = L("Virtual account issued to Hangang Express Co., Ltd.", "(주)한강익스프레스에 발급된 가상계좌") });
             }
 
-            var v = StoreVariant(scam ? "scam" : "legit", Day3Dir, scam ? "Day3_Scam" : "Day3_Legit", Day3Call(scam), phone, room, directory);
+            var v = StoreVariant(scam ? "scam" : "legit", CaseParcel, Day3Dir, scam ? "Day3_Scam" : "Day3_Legit", Day3Call(scam), phone, room, directory);
             string courierPlace = L("Chats → Hangang Express, or the calendar on the wall", "채팅 → 한강익스프레스, 또는 벽에 걸린 달력");
             string shopPlace = L("Chats → AliStar", "채팅 → 알리스타");
             string numberPlace = L("Desk drawer → Delivery slip, or Computer → Check a phone number", "책상 서랍 → 택배 송장, 또는 컴퓨터 → 전화번호 조회");
@@ -336,11 +337,22 @@ namespace DontCallMe.Editor.UI
             };
         }
 
-        // ================================================================ what Day 2 left behind
+        // ================================================================ what the earlier days left behind
 
         static List<DayEcho> Day3Echoes()
         {
             SetDay(3, "16:25");
+            var echoes = new List<DayEcho>(OfCase(CaseRent, Day2RentEchoes()));
+            echoes.AddRange(BrotherEchoes());
+            // Tuesday's cases: only the money that moved after the call is still to be seen.
+            echoes.AddRange(PaperEchoes(false));
+            echoes.AddRange(SaleEchoes(false));
+            return echoes;
+        }
+
+        /// <summary>After "the new rent account".</summary>
+        static DayEcho[] Day2RentEchoes()
+        {
             string warning = L("Everyone: someone is calling tenants pretending to be my son. I am NOT in hospital, and the rent account has NOT changed: Nuri Bank 110-771-209944, as always. – Choi, 1F",
                                "여러분, 누가 제 아들인 척 세입자들에게 전화하고 있어요. 저는 입원하지 않았고, 월세 계좌도 바뀌지 않았습니다. 늘 그렇듯 누리은행 110-771-209944예요. - 1층 최");
 
@@ -370,7 +382,7 @@ namespace DontCallMe.Editor.UI
             hyunwoo.text = L("Looks after the building while Mr. Choi recovers", "최 사장님 회복 동안 건물 관리");
 
             string landlordPaid = L("CHOI YOUNGSIK", "최영식"), october = L("October rent", "10월 월세");
-            return new List<DayEcho>
+            return new[]
             {
                 // The "son" was a scammer: the landlord warns everyone; the real rent still has to be paid.
                 EchoCard(2, Truth.Scam, Sent, L("Mr. Choi never asked for a new account. You paid him the real rent this morning, again.", "최 사장님은 새 계좌를 요청한 적이 없었다. 오늘 아침 진짜 월세를 다시 보냈다.")),

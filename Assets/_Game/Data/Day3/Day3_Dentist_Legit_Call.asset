@@ -1,0 +1,296 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfd03999caeea4a5788ed68a4194a80e, type: 3}
+  m_Name: Day3_Dentist_Legit_Call
+  m_EditorClassIdentifier: DontCallMe::DontCallMe.Data.ConversationData
+  title: "Day 3 \xB7 The dentist's deposit (legit)"
+  isScam: 0
+  revealAtEnd: 0
+  caller:
+    displayName: Moon Jihye
+    number: 010-5127-4406
+    inContacts: 0
+    portrait: pt_dental
+    voice: Karen
+  claims:
+  - She is Moon Jihye, the coordinator at Saebom Dental.
+  - My appointment is today at 18:30.
+  - "Evening slots need a \u20A930,000 deposit: Nuri Bank 5620-71-336029."
+  - Slots that are not confirmed by 17:00 go to someone else.
+  nodes:
+  - id: start
+    lines:
+    - speaker: 0
+      text: Hello, is this Kim Jiwoo? This is Moon Jihye, the coordinator at Saebom
+        Dental.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    - speaker: 0
+      text: I'm calling about your appointment today, at half past six.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    hasDecision: 1
+    decision:
+      kind: 0
+      prompt: How do you answer?
+      patienceSeconds: 40
+      a:
+        label: Yes? Is there a problem?
+        playerLine: Yes? Is there a problem?
+        next: why
+      b:
+        label: How did you get this number?
+        playerLine: How did you get this number?
+        next: number
+      pressure:
+      - atPatience: 0.5
+        text: Hello? Ms. Kim?
+        spoken: 
+    next: 
+    holds: 0
+  - id: why
+    lines:
+    - speaker: 0
+      text: No problem at all. It's just a confirmation call.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    hasDecision: 0
+    decision:
+      kind: 0
+      prompt: 
+      patienceSeconds: 60
+      a:
+        label: 
+        playerLine: 
+        next: 
+      b:
+        label: 
+        playerLine: 
+        next: 
+      pressure: []
+    next: ask
+    holds: 0
+  - id: number
+    lines:
+    - speaker: 0
+      text: It's the number on your booking, Ms. Kim. We call every evening patient
+        on the day.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    hasDecision: 0
+    decision:
+      kind: 0
+      prompt: 
+      patienceSeconds: 60
+      a:
+        label: 
+        playerLine: 
+        next: 
+      b:
+        label: 
+        playerLine: 
+        next: 
+      pressure: []
+    next: ask
+    holds: 0
+  - id: ask
+    lines:
+    - speaker: 0
+      text: Evening slots are short, so we take a 30,000 won deposit to hold them.
+        It comes off your bill tonight.
+      spoken: Evening slots are short, so we take a thirty thousand won deposit to
+        hold them. It comes off your bill tonight.
+      facts:
+      - kind: 5
+        value: 30,000
+        label: 
+      deliver: []
+      pauseAfter: 0.4
+    - speaker: 0
+      text: 'Please send it to our payment account: Nuri Bank 5620-71-336029.'
+      spoken: Please send it to our payment account. Nuri Bank, five six two zero,
+        seven one, three three six zero two nine.
+      facts:
+      - kind: 1
+        value: 5620-71-336029
+        label: 
+      deliver: []
+      pauseAfter: 0.4
+    - speaker: 0
+      text: At five we release every slot that isn't confirmed. I'll hold while you
+        send it.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    hasDecision: 0
+    decision:
+      kind: 0
+      prompt: 
+      patienceSeconds: 60
+      a:
+        label: 
+        playerLine: 
+        next: 
+      b:
+        label: 
+        playerLine: 
+        next: 
+      pressure: []
+    next: 
+    holds: 1
+  endings:
+  - id: refuse
+    verdict: 1
+    timedOut: 0
+    moneyDelta: 0
+    lines: []
+    consequence: You hung up on your own dentist. Your calendar note said they would
+      ring for a 30,000 won deposit this afternoon.
+  - id: timeout
+    verdict: 1
+    timedOut: 1
+    moneyDelta: 0
+    lines:
+    - speaker: 0
+      text: It's five, Ms. Kim. I have to give the slot to the next patient. Call
+        us to book again.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    consequence: Five o'clock passed. The clinic gave your slot away; the next one
+      is in three weeks.
+  - id: go_along
+    verdict: 0
+    timedOut: 0
+    moneyDelta: -30000
+    lines:
+    - speaker: 0
+      text: Thank you, it's in. See you at half past six, Ms. Kim.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    consequence: "The deposit held your slot. The wisdom tooth came out at 18:30,
+      and the \u20A930,000 came off the bill."
+  actions:
+  - kind: 0
+    target: 5620-71-336029
+    endingId: go_along
+    bank: Nuri Bank
+    amount: 30000
+  hangUpEndingId: refuse
+  timeoutEndingId: timeout
+  caseInfo:
+    caseTitle: The dentist's deposit
+    claimedIdentity: Moon Jihye, coordinator at Saebom Dental
+    ask: "Pay a \u20A930,000 deposit for tonight's appointment into Nuri Bank 5620-71-336029"
+    deadline: 17:00
+    deadlineReason: before unconfirmed slots are released
+    objective: 'Is this really your dentist, about an appointment you really have?
+      Check before 17:00, then give your verdict on the call: pay the deposit, or
+      hang up.'
+  questions:
+  - label: Ask which day and time she has you down for
+    playerLine: Which day and time do you have me down for?
+    answer:
+    - speaker: 0
+      text: Today, Thursday the eighth, at half past six.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    endingId: 
+  - label: Ask what the appointment is for
+    playerLine: What am I booked in for?
+    answer:
+    - speaker: 0
+      text: Your lower-right wisdom tooth, with Dr. Jang. You booked it on the 28th.
+      spoken: Your lower-right wisdom tooth, with Dr. Jang. You booked it on the
+        twenty eighth.
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    endingId: 
+  - label: Ask whose name is on the account
+    playerLine: Whose name is on that account?
+    answer:
+    - speaker: 0
+      text: It's a virtual account from our payment company, Gaon Pay. It's issued
+        for your booking.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    endingId: 
+  - label: Offer to pay at the desk tonight
+    playerLine: Can't I just pay at the desk tonight?
+    answer:
+    - speaker: 0
+      text: I'm afraid not for evening slots, Ms. Kim. Too many people didn't turn
+        up, so it has to be before five.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+    endingId: 
+  beats:
+  - at: 16:36
+    line:
+      speaker: 0
+      text: Ms. Kim? Shall I keep your slot?
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+  - at: 16:43
+    line:
+      speaker: 0
+      text: I have someone on the waiting list for half past six. Are you sending
+        it?
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+  - at: 16:50
+    line:
+      speaker: 0
+      text: Ten minutes until we release the evening slots.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+  - at: 16:55
+    line:
+      speaker: 0
+      text: Five minutes, Ms. Kim. The next free slot is in three weeks.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+  verdict:
+    goAlong: Pay the deposit
+    goAlongDetail: 
+    goAlongEndingId: 
+    refuse: Hang up
+    refuseDetail: Say no and end the call
+    goAlongLine: Okay, I'm sending the deposit now.
+    refuseLine: I'm not paying a deposit over the phone. Goodbye.
