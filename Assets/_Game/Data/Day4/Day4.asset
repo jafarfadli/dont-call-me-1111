@@ -1,0 +1,1582 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ea1fbb0ab59d4c84a59e909f29a5c4f, type: 3}
+  m_Name: Day4
+  m_EditorClassIdentifier: DontCallMe::DontCallMe.Data.DayData
+  day: 4
+  tutorial: 0
+  dateLabel: Friday, 9 October
+  weekday: Fri
+  shortLabel: "Day 4 \xB7 Fri 9 Oct"
+  place: Mangwon-dong, Seoul
+  startTime: 16:20
+  intro: 'Hangul Day: no classes. Yuna flew to Fukuoka this morning with her cousin
+    Somin, for the long weekend.'
+  ringDelay: 6
+  help: 3
+  level: 4
+  newToday: 'Video calls. A face can be faked too: watch the lips against the voice,
+    and ask the caller to wave a hand slowly in front of the face. Click the face
+    to note what you see.'
+  variants:
+  - id: scam
+    scenario: yuna
+    intro: 
+    conversation: {fileID: 11400000, guid: b2d3d8f2e864d44bbba13a21d915e399, type: 2}
+    phone: {fileID: 11400000, guid: e691eb984ffdd49b5bdd67a800ff9a09, type: 2}
+    room: {fileID: 11400000, guid: 29b645951fbd445f2af84eadfa91cffd, type: 2}
+    directory: {fileID: 11400000, guid: 862960d67b1b446468bf9a6c191747a4, type: 2}
+    clues:
+    - id: face
+      text: 'Her lips trailed her voice and the edges of her face shimmered: a face
+        put on by software.'
+      where: "Video call \u2192 circle her face"
+      guide: 
+      when:
+      - kind: 7
+        target: video_face
+    - id: wave
+      text: 'When she waved, her face stayed on top of her hand: only her fingertips
+        showed.'
+      where: "Video call \u2192 ask her to wave, then circle it"
+      guide: 
+      when:
+      - kind: 7
+        target: video_wave
+    - id: yuna_chat
+      text: Yuna sent you a photo from a ramen queue at 15:58, from her own phone.
+      where: "Chats \u2192 Yuna"
+      guide: 
+      when:
+      - kind: 7
+        target: chat_yuna
+    - id: quiz
+      text: 'She dodged a question only Yuna could answer: what you ate after class
+        yesterday.'
+      where: "The call \u2192 ask what you ate yesterday"
+      guide: 
+      when:
+      - kind: 7
+        target: call_quiz
+    marks:
+    - id: video_face
+      claim: yuna
+      also: []
+      place: 7
+      key: face
+    - id: video_wave
+      claim: yuna
+      also: []
+      place: 7
+      key: wave
+    - id: chat_yuna
+      claim: stolen
+      also: []
+      place: 4
+      key: yuna|Ramen queue, 40 minutes. Worth it??
+    - id: call_quiz
+      claim: yuna
+      also: []
+      place: 8
+      key: Jiwoo, I'm stuck in Japan without a wallet and you're giving me a quiz?
+    - id: chat_landed
+      claim: yuna
+      also: []
+      place: 4
+      key: yuna|Landed in Fukuoka!!
+    - id: cal_trip
+      claim: stolen
+      also: []
+      place: 2
+      key: "Hangul Day \xB7 Yuna in Fukuoka till Sun"
+    - id: contact_yuna
+      claim: yuna
+      also: []
+      place: 6
+      key: 010-7780-1123
+    - id: check_number
+      claim: yuna
+      also: []
+      place: 3
+      key: 010-4870-2263
+    - id: check_account
+      claim: stolen
+      also: []
+      place: 3
+      key: 620-418-905372
+    papers:
+    - outcome: 1
+      headline: '"It''s me": friends'' faces copied onto video calls'
+      subhead: The faces were familiar. The friends were eating ramen in Fukuoka.
+      body: '"Can you see me? It''s me." On Hangul Day, students in Mapo took video
+        calls from friends travelling abroad: a familiar face, a stolen bag, a hotel
+        to pay before five, into a cousin''s account.
+
+
+        Police say the faces
+        were made from the friends'' public travel videos and laid over the callers
+        in real time. The phone and the account belonged to a real woman who had
+        lent both for a "side job", so a lookup showed nothing wrong.
+
+
+        "Ask
+        for a slow wave in front of the face," a Mapo police officer said. "A pasted
+        face stays on top of the hand. And ask your friend in the chat you already
+        share."'
+      verdictNote: You hung up. The real Yuna had just sent you a photo from her
+        own phone.
+      print: {fileID: 0}
+    - outcome: 0
+      headline: 650,000 won for a bag that was never stolen
+      subhead: A Mangwon student paid her "friend's" hotel. Her friend was in a ramen
+        queue.
+      body: '"Can you see me? It''s me." On Hangul Day, students in Mapo took video
+        calls from friends travelling abroad: a familiar face, a stolen bag, a hotel
+        to pay before five, into a cousin''s account.
+
+
+        A 22-year-old student
+        sent 650,000 won. Her friend, on holiday in Fukuoka, had sent her a photo
+        from a ramen queue twenty minutes before the call. Police say the faces were
+        made from the friends'' public travel videos and laid over the callers in
+        real time. The phone and the account belonged to a real woman who had lent
+        both for a "side job", so a lookup showed nothing wrong.
+
+
+        "Ask for
+        a slow wave in front of the face," a Mapo police officer said. "A pasted
+        face stays on top of the hand. And ask your friend in the chat you already
+        share."'
+      verdictNote: 'Her own chat had the answer: Yuna had sent a photo from her own
+        phone at 15:58.'
+      print: {fileID: 0}
+    - outcome: 3
+      headline: The face was hers. The call was not.
+      subhead: Students in Mapo were video-called by copied faces on Hangul Day.
+      body: '"Can you see me? It''s me." On Hangul Day, students in Mapo took video
+        calls from friends travelling abroad: a familiar face, a stolen bag, a hotel
+        to pay before five, into a cousin''s account.
+
+
+        Police say the faces
+        were made from the friends'' public travel videos and laid over the callers
+        in real time. The phone and the account belonged to a real woman who had
+        lent both for a "side job", so a lookup showed nothing wrong.
+
+
+        "Ask
+        for a slow wave in front of the face," a Mapo police officer said. "A pasted
+        face stays on top of the hand. And ask your friend in the chat you already
+        share."'
+      verdictNote: Nothing was sent, but you never decided. A wave, or one look at
+        your chat, would have told you.
+      print: {fileID: 0}
+    ruleTitle: A face can be copied too
+    rule: A friend's face on a video call can be faked from her public videos. Watch
+      the lips against the voice, ask for a slow wave in front of the face, and ask
+      her in the chat you already share.
+    ruleSource: Seoul Daily, 10 Oct
+  - id: legit
+    scenario: yuna
+    intro: 
+    conversation: {fileID: 11400000, guid: a0a45106200054ec78acd394894fca4d, type: 2}
+    phone: {fileID: 11400000, guid: 75f42ead35e35423ca5bda11be956d0b, type: 2}
+    room: {fileID: 11400000, guid: ab16fda28f5514e31ad5d4b8dec9dab9, type: 2}
+    directory: {fileID: 11400000, guid: 68e872ffd2e7f432fad22e5aa2f4742d, type: 2}
+    clues:
+    - id: face
+      text: Her lips moved with her words, and the picture held steady.
+      where: "Video call \u2192 circle her face"
+      guide: 
+      when:
+      - kind: 7
+        target: video_face
+    - id: wave
+      text: When she waved, her hand covered her face as it passed.
+      where: "Video call \u2192 ask her to wave, then circle it"
+      guide: 
+      when:
+      - kind: 7
+        target: video_wave
+    - id: yuna_chat
+      text: 'Yuna wrote to you from the hotel lobby PC at 15:47: her bag was snatched,
+        and she would call from Somin''s phone.'
+      where: "Chats \u2192 Yuna"
+      guide: 
+      when:
+      - kind: 7
+        target: chat_yuna
+    - id: quiz
+      text: 'She knew what you ate after class yesterday: tteokbokki, and your burnt
+        tongue.'
+      where: "The call \u2192 ask what you ate yesterday"
+      guide: 
+      when:
+      - kind: 7
+        target: call_quiz
+    marks:
+    - id: video_face
+      claim: yuna
+      also: []
+      place: 7
+      key: face
+    - id: video_wave
+      claim: yuna
+      also: []
+      place: 7
+      key: wave
+    - id: chat_yuna
+      claim: stolen
+      also: []
+      place: 4
+      key: yuna|Jiwoo!! Someone snatched my bag at Hakata station. Phone, wallet,
+        cards, all gone. Writing from the hotel lobby PC. I'll video call you from
+        Somin's phone!!
+    - id: call_quiz
+      claim: yuna
+      also: []
+      place: 8
+      key: Tteokbokki at the market, and you burned your tongue on the fish cake.
+    - id: chat_landed
+      claim: yuna
+      also: []
+      place: 4
+      key: yuna|Landed in Fukuoka!!
+    - id: cal_trip
+      claim: stolen
+      also: []
+      place: 2
+      key: "Hangul Day \xB7 Yuna in Fukuoka till Sun"
+    - id: contact_yuna
+      claim: yuna
+      also: []
+      place: 6
+      key: 010-7780-1123
+    - id: check_number
+      claim: yuna
+      also: []
+      place: 3
+      key: 010-4870-2263
+    - id: check_account
+      claim: stolen
+      also: []
+      place: 3
+      key: 620-418-905372
+    papers:
+    - outcome: 0
+      headline: A stolen bag, and a friend who checked first
+      subhead: She had written from the hotel lobby before she called. Her friend
+        read it, then paid.
+      body: 'After a month of faked faces, a real video call for help can look exactly
+        like a fake one. A student on holiday in Fukuoka found that out on Hangul
+        Day, when her bag was snatched at Hakata station and she called her friend
+        in Seoul from her cousin''s phone.
+
+
+        "She asked me to wave in front
+        of my face, read my message, and sent the money," she said. "We kept the
+        room."
+
+
+        Police advise friends to do two things before sending money:
+        ask for a slow wave in front of the face, and look for a message from the
+        friend''s own account. "If both are right, help," an officer said.'
+      verdictNote: 'It really was Yuna, and you checked: her face held when she waved,
+        and her own message explained the strange number.'
+      print: {fileID: 0}
+    - outcome: 1
+      headline: '"She hung up on me": when the real friend calls'
+      subhead: A student robbed in Fukuoka could not convince her best friend.
+      body: 'After a month of faked faces, a real video call for help can look exactly
+        like a fake one. A student on holiday in Fukuoka found that out on Hangul
+        Day, when her bag was snatched at Hakata station and she called her friend
+        in Seoul from her cousin''s phone.
+
+
+        "She hung up," she said. "I
+        don''t blame her. But I had written it in our chat before I called." Her
+        cousin borrowed the money from the hotel''s owner.
+
+
+        Police advise
+        friends to do two things before sending money: ask for a slow wave in front
+        of the face, and look for a message from the friend''s own account. "If both
+        are right, help," an officer said.'
+      verdictNote: 'This one was real: her lips matched her voice, and she had written
+        in your chat that she would call from Somin''s phone.'
+      print: {fileID: 0}
+    - outcome: 3
+      headline: The room went at five
+      subhead: A student in Fukuoka waited on the line for a friend who never decided.
+      body: 'After a month of faked faces, a real video call for help can look exactly
+        like a fake one. A student on holiday in Fukuoka found that out on Hangul
+        Day, when her bag was snatched at Hakata station and she called her friend
+        in Seoul from her cousin''s phone.
+
+
+        "I held on until five," she
+        said. "It was all in our chat." She and her cousin spent the night at an
+        internet cafe.
+
+
+        Police advise friends to do two things before sending
+        money: ask for a slow wave in front of the face, and look for a message from
+        the friend''s own account. "If both are right, help," an officer said.'
+      verdictNote: It really was Yuna, and the answer was in your chat and on her
+        face. Deciding in time matters too.
+      print: {fileID: 0}
+    ruleTitle: Test the face, then help
+    rule: 'The same checks clear a real call: her lips matched her voice, her hand
+      covered her face, and she had written in your chat herself.'
+    ruleSource: Seoul Daily, 10 Oct
+  echoes:
+  - afterDay: 3
+    scenario: parcel
+    truth: 1
+    outcomes: 15
+    kind: 0
+    from: hangang
+    sender: Hangang Express
+    avatar: av_courier
+    when: Today 10:12
+    title: 
+    text: '[Hangang Express] Delivered: monitor, left at the door of 302.'
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 1
+  - afterDay: 3
+    scenario: parcel
+    truth: 2
+    outcomes: 1
+    kind: 0
+    from: hangang
+    sender: Hangang Express
+    avatar: av_courier
+    when: Today 10:12
+    title: 
+    text: '[Hangang Express] Delivered: monitor, left at the door of 302.'
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 1
+  - afterDay: 3
+    scenario: parcel
+    truth: 2
+    outcomes: 10
+    kind: 0
+    from: hangang
+    sender: Hangang Express
+    avatar: av_courier
+    when: Yesterday 17:05
+    title: 
+    text: '[Hangang Express] The customs duty was not paid by 17:00: your monitor
+      is going back to the sender.'
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 3
+    scenario: parcel
+    truth: 1
+    outcomes: 1
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: "Yesterday's \"customs\" call was a scam: the \u20A956,600 is gone. Your
+      monitor arrived this morning, its taxes long paid."
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 3
+    scenario: parcel
+    truth: 1
+    outcomes: 2
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: 'Your monitor arrived this morning. Nothing was ever due: yesterday''s
+      caller was one digit off the courier''s number.'
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 3
+    scenario: parcel
+    truth: 1
+    outcomes: 8
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: Yesterday's "customs" caller gave up at five. Your monitor arrived this
+      morning anyway.
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 3
+    scenario: parcel
+    truth: 2
+    outcomes: 1
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: The duty went through in time. Your new monitor arrived this morning.
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 3
+    scenario: parcel
+    truth: 2
+    outcomes: 10
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: 'The duty wasn''t paid in time: your monitor is on its way back to Incheon.'
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 3
+    scenario: dentist
+    truth: 1
+    outcomes: 15
+    kind: 4
+    from: 
+    sender: 
+    avatar: 
+    when: Thu 8
+    title: Dentist, 18:30
+    text: "Dentist 18:30 \u2192 MOVED to Thu 22nd. I called them this morning"
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 8
+    image: {fileID: 2800000, guid: 85b9d7165696b48dd943a037e6fb4782, type: 3}
+    notify: 0
+  - afterDay: 3
+    scenario: dentist
+    truth: 1
+    outcomes: 15
+    kind: 4
+    from: 
+    sender: 
+    avatar: 
+    when: Thu 22
+    title: 
+    text: Dentist 18:30, wisdom tooth (moved from the 8th)
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 22
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 3
+    scenario: dentist
+    truth: 2
+    outcomes: 15
+    kind: 4
+    from: 
+    sender: 
+    avatar: 
+    when: Thu 8
+    title: Dentist, 18:30
+    text: 'Dentist 18:30, wisdom tooth. Deposit 30,000 won: they ring this afternoon,
+      it comes off the bill'
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 8
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 3
+    scenario: dentist
+    truth: 1
+    outcomes: 1
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: "Yesterday's \"clinic\" never had your booking: the \u20A930,000 went to
+      a stranger. Your real appointment is still on the 22nd."
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 3
+    scenario: dentist
+    truth: 1
+    outcomes: 2
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: Your appointment is still on the 22nd, where you moved it. Yesterday's
+      "deposit" call was not from the clinic.
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 3
+    scenario: dentist
+    truth: 1
+    outcomes: 8
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: Yesterday's "clinic" gave up at five. Your appointment is still on the
+      22nd.
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 3
+    scenario: dentist
+    truth: 2
+    outcomes: 1
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: The wisdom tooth came out last night. Soup for lunch again today.
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 3
+    scenario: dentist
+    truth: 2
+    outcomes: 10
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: The clinic gave your slot away. The next free one is in three weeks.
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: rent
+    truth: 1
+    outcomes: 15
+    kind: 0
+    from: villa
+    sender: Landlord Choi
+    avatar: pt_landlord
+    when: Wed 13:40
+    title: 
+    text: "Thank you all for keeping the stairs so clean! I'm fixing the light on
+      the second floor now. See you at the water tank cleaning tomorrow. \u2013 Choi,
+      1F"
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: rent
+    truth: 1
+    outcomes: 15
+    kind: 0
+    from: villa
+    sender: Landlord Choi
+    avatar: pt_landlord
+    when: Wed 15:52
+    title: 
+    text: 'The light is fixed. Rent as always, please: Nuri Bank 110-771-209944.'
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: rent
+    truth: 2
+    outcomes: 15
+    kind: 0
+    from: villa
+    sender: Landlord Choi
+    avatar: pt_landlord
+    when: Wed 08:10
+    title: 
+    text: "Good morning everyone. I'm going into Severance Hospital today for my
+      knee, back next week. My son Hyunwoo will look after the building and collect
+      this month's rent: Nuri Bank 110-771-202358 (Choi Hyunwoo). He'll call you
+      today. Thank you! \u2013 Choi, 1F"
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: rent
+    truth: 2
+    outcomes: 15
+    kind: 0
+    from: villa
+    sender: 201
+    avatar: pt_unknown
+    when: Wed 08:42
+    title: 
+    text: Get well soon, Mr. Choi!
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: rent
+    truth: 2
+    outcomes: 15
+    kind: 4
+    from: 
+    sender: 
+    avatar: 
+    when: Wed 7
+    title: 
+    text: Mr. Choi in hospital this week. His son Hyunwoo collects the rent (see
+      the residents' chat)
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 7
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: rent
+    truth: 1
+    outcomes: 15
+    kind: 0
+    from: villa
+    sender: Landlord Choi
+    avatar: pt_landlord
+    when: Wed 19:02
+    title: 
+    text: "Everyone: someone is calling tenants pretending to be my son. I am NOT
+      in hospital, and the rent account has NOT changed: Nuri Bank 110-771-209944,
+      as always. \u2013 Choi, 1F"
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: rent
+    truth: 1
+    outcomes: 2
+    kind: 0
+    from: villa
+    sender: Landlord Choi
+    avatar: pt_landlord
+    when: Wed 19:05
+    title: 
+    text: 302 hung up on him. Well done!
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: rent
+    truth: 1
+    outcomes: 1
+    kind: 0
+    from: landlord
+    sender: Landlord Choi
+    avatar: pt_landlord
+    when: Wed 19:10
+    title: Landlord Choi
+    text: Jiwoo, I heard what happened. I'm so sorry. Please report it to the police.
+      Take until the end of the month for the rent.
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: rent
+    truth: 1
+    outcomes: 1
+    kind: 1
+    from: CHOI YOUNGSIK
+    sender: 
+    avatar: 
+    when: Yesterday 09:20
+    title: October rent
+    text: 
+    amount: -450000
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: rent
+    truth: 1
+    outcomes: 10
+    kind: 1
+    from: CHOI YOUNGSIK
+    sender: 
+    avatar: 
+    when: Wed 19:30
+    title: October rent
+    text: 
+    amount: -450000
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: rent
+    truth: 2
+    outcomes: 15
+    kind: 2
+    from: 010-2280-6614
+    sender: Hyunwoo (landlord's son)
+    avatar: pt_hyunwoo
+    when: 
+    title: 
+    text: Looks after the building while Mr. Choi recovers
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: rent
+    truth: 2
+    outcomes: 1
+    kind: 0
+    from: hyunwoo
+    sender: Hyunwoo (landlord's son)
+    avatar: pt_hyunwoo
+    when: Wed 18:02
+    title: Hyunwoo (landlord's son)
+    text: Thanks for the rent, Jiwoo-ssi! Dad says hi from the ward :)
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: rent
+    truth: 2
+    outcomes: 10
+    kind: 0
+    from: hyunwoo
+    sender: Hyunwoo (landlord's son)
+    avatar: pt_hyunwoo
+    when: Wed 17:20
+    title: Hyunwoo (landlord's son)
+    text: Hi Jiwoo-ssi, it's Hyunwoo from the first floor. I understand you were
+      careful. Dad's message is in the residents' chat. Please send the rent when
+      you can.
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: rent
+    truth: 2
+    outcomes: 10
+    kind: 1
+    from: CHOI HYUNWOO
+    sender: 
+    avatar: 
+    when: Yesterday 09:20
+    title: October rent (late)
+    text: 
+    amount: -450000
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: rent
+    truth: 2
+    outcomes: 15
+    kind: 0
+    from: villa
+    sender: Landlord Choi
+    avatar: pt_landlord
+    when: Yesterday 10:15
+    title: 
+    text: Thank you all for the get-well messages. The hospital food is terrible,
+      haha
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: brother
+    truth: 0
+    outcomes: 15
+    kind: 1
+    from: CHOI YOUNGSIK
+    sender: 
+    avatar: 
+    when: Wed 15:10
+    title: "October rent \xB7 Nuri 110-771-209944"
+    text: 
+    amount: -450000
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: brother
+    truth: 1
+    outcomes: 15
+    kind: 0
+    from: family
+    sender: Mom
+    avatar: pt_mom
+    when: Wed 15:52
+    title: 
+    text: 'Minjun just texted me from his phone, in the library: midterms till ten
+      tonight, phone on silent. Text him, don''t call!'
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: brother
+    truth: 2
+    outcomes: 15
+    kind: 0
+    from: family
+    sender: Mom
+    avatar: pt_mom
+    when: Wed 15:31
+    title: 
+    text: 'Minjun just called me from his roommate Dohyun''s phone: he dropped his
+      phone on the stairs and the screen is dead. He''s taking it to the service
+      centre. I''m in a meeting till six. Jiwoo, can you help him?'
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: brother
+    truth: 1
+    outcomes: 1
+    kind: 0
+    from: family
+    sender: 
+    avatar: 
+    when: Wed 17:10
+    title: 
+    text: Minjun, did Dohyun get the money? Is your phone fixed?
+    amount: 0
+    outgoing: 1
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: brother
+    truth: 1
+    outcomes: 1
+    kind: 0
+    from: family
+    sender: Minjun
+    avatar: pt_minjun
+    when: Wed 17:14
+    title: 
+    text: ?? What money? My phone is fine. Who is Dohyun??
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: brother
+    truth: 1
+    outcomes: 1
+    kind: 0
+    from: family
+    sender: Mom
+    avatar: pt_mom
+    when: Wed 17:20
+    title: 
+    text: Jiwoo, call the bank and 112 right now. I'm stepping out of my meeting.
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: brother
+    truth: 1
+    outcomes: 2
+    kind: 0
+    from: family
+    sender: 
+    avatar: 
+    when: Wed 16:50
+    title: 
+    text: Minjun, did you just call me from someone else's phone?
+    amount: 0
+    outgoing: 1
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: brother
+    truth: 1
+    outcomes: 2
+    kind: 0
+    from: family
+    sender: Minjun
+    avatar: pt_minjun
+    when: Wed 16:53
+    title: 
+    text: No?? I'm in the library. Why
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: brother
+    truth: 1
+    outcomes: 2
+    kind: 0
+    from: family
+    sender: 
+    avatar: 
+    when: Wed 16:54
+    title: 
+    text: Someone with your voice wanted 280,000 won for a broken phone.
+    amount: 0
+    outgoing: 1
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: brother
+    truth: 1
+    outcomes: 2
+    kind: 0
+    from: family
+    sender: Minjun
+    avatar: pt_minjun
+    when: Wed 16:55
+    title: 
+    text: WHAT. That's creepy. Good thing you asked!!
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: brother
+    truth: 2
+    outcomes: 1
+    kind: 0
+    from: family
+    sender: Minjun
+    avatar: pt_minjun
+    when: Wed 17:48
+    title: 
+    text: "Phone's alive!! Thank you noona \u2665 Paying you back on the 25th."
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: brother
+    truth: 2
+    outcomes: 10
+    kind: 0
+    from: family
+    sender: Minjun
+    avatar: pt_minjun
+    when: Wed 18:20
+    title: 
+    text: Noona... that really was me. Dohyun lent me the money. Can you send it
+      to him tonight?
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: brother
+    truth: 2
+    outcomes: 10
+    kind: 0
+    from: family
+    sender: 
+    avatar: 
+    when: Wed 18:31
+    title: 
+    text: Sorry!! Sent it just now.
+    amount: 0
+    outgoing: 1
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: brother
+    truth: 2
+    outcomes: 10
+    kind: 1
+    from: LEE DOHYUN
+    sender: 
+    avatar: 
+    when: Wed 18:30
+    title: "Minjun's repair \xB7 Hanbit 620-204-771035"
+    text: 
+    amount: -280000
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 0
+    scenario: 
+    truth: 0
+    outcomes: 1
+    kind: 0
+    from: villa
+    sender: 
+    avatar: 
+    when: Mon 17:20
+    title: 
+    text: I think I just paid that fake gas bill... 18,420 won.
+    amount: 0
+    outgoing: 1
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 0
+    scenario: 
+    truth: 0
+    outcomes: 1
+    kind: 0
+    from: villa
+    sender: Landlord Choi
+    avatar: pt_landlord
+    when: Mon 17:31
+    title: 
+    text: Oh no. Report it to 1332 right away, and look things up before you pay
+      next time.
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 0
+    scenario: 
+    truth: 0
+    outcomes: 2
+    kind: 0
+    from: villa
+    sender: 
+    avatar: 
+    when: Mon 17:20
+    title: 
+    text: The "gas company" called me too. I checked my bill and hung up. It was
+      010-7359-2046.
+    amount: 0
+    outgoing: 1
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 0
+    scenario: 
+    truth: 0
+    outcomes: 2
+    kind: 0
+    from: villa
+    sender: Landlord Choi
+    avatar: pt_landlord
+    when: Mon 17:31
+    title: 
+    text: Well done, 302! That is how to do it.
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 1
+    scenario: protected
+    truth: 0
+    outcomes: 1
+    kind: 0
+    from: family
+    sender: Mom
+    avatar: pt_mom
+    when: Tue 21:30
+    title: 
+    text: "Jiwoo-ya, Dad told me. Don't blame yourself, these people are professionals.
+      We'll help with tuition \u2665"
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 1
+    scenario: protected
+    truth: 0
+    outcomes: 1
+    kind: 0
+    from: family
+    sender: 
+    avatar: 
+    when: Tue 21:34
+    title: 
+    text: Thanks Mom... I should have looked up the account first.
+    amount: 0
+    outgoing: 1
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 1
+    scenario: protected
+    truth: 0
+    outcomes: 2
+    kind: 0
+    from: yuna
+    sender: 
+    avatar: 
+    when: Tue 17:30
+    title: 
+    text: A fake bank called me today!! They wanted 1.2 million
+    amount: 0
+    outgoing: 1
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 1
+    scenario: protected
+    truth: 0
+    outcomes: 2
+    kind: 0
+    from: yuna
+    sender: Yuna
+    avatar: pt_yuna
+    when: Tue 17:31
+    title: 
+    text: WHAT. Good thing you hung up!!
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 1
+    scenario: protected
+    truth: 0
+    outcomes: 2
+    kind: 0
+    from: villa
+    sender: 
+    avatar: 
+    when: Tue 17:50
+    title: 
+    text: The 'protection team' called me too. Hung up. It's 070-8844-2019.
+    amount: 0
+    outgoing: 1
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 1
+    scenario: protected
+    truth: 0
+    outcomes: 2
+    kind: 0
+    from: villa
+    sender: 201
+    avatar: pt_unknown
+    when: Tue 18:10
+    title: 
+    text: Same number! Thanks 302, reported it.
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 1
+    scenario: protected
+    truth: 0
+    outcomes: 8
+    kind: 0
+    from: villa
+    sender: 201
+    avatar: pt_unknown
+    when: Tue 18:10
+    title: 
+    text: 'That ''protection team'' is still calling people. It''s 070-8844-2019:
+      just hang up.'
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 1
+    scenario: paper
+    truth: 2
+    outcomes: 10
+    kind: 1
+    from: OH SANGCHUL
+    sender: 
+    avatar: 
+    when: Wed 08:10
+    title: Seoul Daily, October to December
+    text: 
+    amount: -54000
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 1
+    scenario: paper
+    truth: 1
+    outcomes: 1
+    kind: 0
+    from: family
+    sender: Dad
+    avatar: pt_dad
+    when: Tue 19:40
+    title: 
+    text: The Seoul Daily called me back. That man hasn't worked for them since September.
+      Report it to 112, Jiwoo. And read the front page next time!
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 1
+    scenario: paper
+    truth: 1
+    outcomes: 1
+    kind: 0
+    from: family
+    sender: 
+    avatar: 
+    when: Tue 19:44
+    title: 
+    text: I know... The notice was right there on my desk.
+    amount: 0
+    outgoing: 1
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 1
+    scenario: paper
+    truth: 1
+    outcomes: 2
+    kind: 0
+    from: family
+    sender: 
+    avatar: 
+    when: Tue 17:20
+    title: 
+    text: Dad, someone called to collect the newspaper fee. The paper itself said
+      he was let go, so I hung up.
+    amount: 0
+    outgoing: 1
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 1
+    scenario: paper
+    truth: 1
+    outcomes: 2
+    kind: 0
+    from: family
+    sender: Dad
+    avatar: pt_dad
+    when: Tue 17:35
+    title: 
+    text: Well done. So you do read it! I pay by giro, you don't owe anyone a thing.
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 1
+    scenario: paper
+    truth: 2
+    outcomes: 1
+    kind: 0
+    from: family
+    sender: Dad
+    avatar: pt_dad
+    when: Tue 18:10
+    title: 
+    text: The branch texted me that you paid the paper. Thank you! I owe you a dinner.
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 1
+    scenario: paper
+    truth: 2
+    outcomes: 10
+    kind: 0
+    from: family
+    sender: Dad
+    avatar: pt_dad
+    when: Tue 18:30
+    title: 
+    text: Jiwoo, the branch manager called me. He's real, it was in today's paper.
+      Send him the fee tomorrow morning, will you?
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 1
+    scenario: sale
+    truth: 0
+    outcomes: 15
+    kind: 4
+    from: 
+    sender: 
+    avatar: 
+    when: Sat 10
+    title: 
+    text: Monitor buyer comes at 11:00 (Neighbour Market, 60,000 won paid ahead)
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 10
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 1
+    scenario: sale
+    truth: 2
+    outcomes: 15
+    kind: 1
+    from: BAE SUJIN
+    sender: 
+    avatar: 
+    when: Tue 16:07
+    title: Monitor (Neighbour Market)
+    text: 
+    amount: 600000
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 1
+    scenario: sale
+    truth: 2
+    outcomes: 10
+    kind: 1
+    from: BAE SUJIN
+    sender: 
+    avatar: 
+    when: Wed 08:20
+    title: "Overpayment returned \xB7 Hanbit 620-481-207356"
+    text: 
+    amount: -540000
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 1
+    scenario: sale
+    truth: 1
+    outcomes: 1
+    kind: 0
+    from: yuna
+    sender: 
+    avatar: 
+    when: Tue 18:05
+    title: 
+    text: I just sent 540,000 won to a fake monitor buyer. I didn't even look at
+      my bank first.
+    amount: 0
+    outgoing: 1
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 1
+    scenario: sale
+    truth: 1
+    outcomes: 1
+    kind: 0
+    from: yuna
+    sender: Yuna
+    avatar: pt_yuna
+    when: Tue 18:07
+    title: 
+    text: NO. Report it right now, 112 and your bank!! I'm coming over with tteokbokki.
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 1
+    scenario: sale
+    truth: 1
+    outcomes: 2
+    kind: 0
+    from: yuna
+    sender: 
+    avatar: 
+    when: Tue 17:25
+    title: 
+    text: Someone tried the "I paid you too much" trick on my monitor listing!
+    amount: 0
+    outgoing: 1
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 1
+    scenario: sale
+    truth: 1
+    outcomes: 2
+    kind: 0
+    from: yuna
+    sender: Yuna
+    avatar: pt_yuna
+    when: Tue 17:27
+    title: 
+    text: The classic!! Did you check your bank first?
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 1
+    scenario: sale
+    truth: 1
+    outcomes: 2
+    kind: 0
+    from: yuna
+    sender: 
+    avatar: 
+    when: Tue 17:28
+    title: 
+    text: Obviously. Nothing there.
+    amount: 0
+    outgoing: 1
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  nextDateLabel: Saturday, 10 October
+  builtWith: 15

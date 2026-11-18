@@ -63,6 +63,7 @@ namespace DontCallMe.UI
             d.Add(chips);
             if (!string.IsNullOrEmpty(c.memo))
                 d.Add(UIKit.Text(c.memo, "detail__line", "t-center"));
+            Markable.Attach(d, Phone.UI, MarkPlace.Contacts, c.number, $"{c.name} · {c.number}" + (string.IsNullOrEmpty(c.memo) ? "" : $" ({c.memo})"), Loc.T("Contacts"));
             var chat = Data.chats.Find(t => t.title == c.name);
             if (chat != null)
             {
@@ -265,7 +266,11 @@ namespace DontCallMe.UI
 
             public void AddMessage(ChatMessage m, bool scroll = true)
             {
-                Content.Add(Bubbles.Message(m.text, m.outgoing, m.avatar ?? thread.avatar, thread.group ? m.sender : null, m.when, m.photoCaption, m.facts));
+                var msg = Bubbles.Message(m.text, m.outgoing, m.avatar ?? thread.avatar, thread.group ? m.sender : null, m.when, m.photoCaption, m.facts);
+                string said = string.IsNullOrEmpty(m.text) ? Loc.T("[Photo]") + " " + m.photoCaption : m.text;
+                string who = m.outgoing ? Loc.T("You") : string.IsNullOrEmpty(m.sender) ? thread.title : m.sender;
+                Markable.Attach(msg, app.Phone.UI, MarkPlace.Chats, $"{thread.id}|{m.text ?? m.photoCaption}", $"{who}, {m.when}: \"{said}\"", Loc.T("Chats") + " · " + thread.title);
+                Content.Add(msg);
                 if (scroll)
                     UIKit.ScrollToEnd(Body);
             }

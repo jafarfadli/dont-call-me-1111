@@ -23,6 +23,12 @@ MonoBehaviour:
     \uB05D\uB0AC\uACE0, \uBC29\uC740 \uC870\uC6A9\uD558\uACE0, \uD734\uB300\uD3F0\uC740
     \uCC45\uC0C1 \uC704\uC5D0 \uC788\uB2E4."
   ringDelay: 7
+  help: 1
+  level: 1
+  newToday: "\uC774\uC81C \uC544\uBB34\uAC83\uB3C4 \uBE5B\uB098\uC9C0 \uC54A\uB294\uB2E4.
+    \uC5B4\uB514\uB97C \uBCFC\uC9C0\uB294 \uB178\uD2B8\uAC00 \uC54C\uB824 \uC8FC\uC9C0\uB9CC,
+    \uBB34\uC5C7\uC5D0 \uB3D9\uADF8\uB77C\uBBF8\uB97C \uCE60\uC9C0\uB294 \uC9C1\uC811
+    \uCC3E\uC544\uC57C \uD55C\uB2E4."
   variants:
   - id: scam
     scenario: protected
@@ -39,8 +45,8 @@ MonoBehaviour:
       where: "\uCEF4\uD4E8\uD130 \u2192 \uACC4\uC88C \uC870\uD68C"
       guide: 
       when:
-      - kind: 2
-        target: 110-900-551207
+      - kind: 7
+        target: check_account
       - kind: 3
         target: 110-900-551207
     - id: caller_number
@@ -50,8 +56,57 @@ MonoBehaviour:
       where: "\uCEF4\uD4E8\uD130 \u2192 \uC804\uD654\uBC88\uD638 \uC870\uD68C"
       guide: 
       when:
-      - kind: 2
-        target: 070-8844-2019
+      - kind: 7
+        target: check_number
+      - kind: 7
+        target: contact_bank
+      - kind: 7
+        target: check_bank
+    - id: script
+      text: "\uC624\uB298 \uC544\uCE68 \uC2E0\uBB38\uC774 \uC774 \uC804\uD654\uB97C
+        \uADF8\uB300\uB85C \uC18C\uAC1C\uD588\uB2E4. '\uBCF4\uD638\uD300', \uACC4\uC88C\uC5D0
+        \uC811\uC18D\uD55C \uB0AF\uC120 \uC0AC\uB78C, '\uBCF4\uD638\uACC4\uC88C'."
+      where: "\uCC45\uC0C1 \uC704 \uC2E0\uBB38"
+      guide: 
+      when:
+      - kind: 7
+        target: news_script
+    marks:
+    - id: check_number
+      claim: bank
+      also: []
+      place: 3
+      key: 070-8844-2019
+    - id: contact_bank
+      claim: bank
+      also: []
+      place: 6
+      key: 1599-0000
+    - id: check_bank
+      claim: bank
+      also: []
+      place: 3
+      key: 1599-0000
+    - id: news_script
+      claim: login
+      also: []
+      place: 0
+      key: "\uB9C8\uD3EC '\uACC4\uC88C\uBCF4\uD638\uD300' \uC804\uD654 \uC8FC\uC758"
+    - id: tx_rent
+      claim: login
+      also: []
+      place: 5
+      key: "\uCD5C\uC601\uC2DD|-450000"
+    - id: check_account
+      claim: protected
+      also: []
+      place: 3
+      key: 110-900-551207
+    - id: news_warning
+      claim: protected
+      also: []
+      place: 0
+      key: warning
     papers:
     - outcome: 1
       headline: "\uB9DD\uC6D0\uB3D9\uC5D0 '\uBCF4\uD638\uD300' \uC0AC\uAE30 \uC804\uD654
@@ -157,8 +212,25 @@ MonoBehaviour:
       where: "\uCC45\uC0C1 \uC704 \uC2E0\uBB38"
       guide: 
       when:
-      - kind: 0
-        target: Newspaper
+      - kind: 7
+        target: news_notice
+    marks:
+    - id: news_notice
+      claim: manager
+      also:
+      - account
+      place: 0
+      key: warning
+    - id: check_number
+      claim: manager
+      also: []
+      place: 3
+      key: 010-8265-3317
+    - id: check_account
+      claim: account
+      also: []
+      place: 3
+      key: 110-457-803312
     papers:
     - outcome: 1
       headline: "\uC804 \uC9C0\uAD6D\uC7A5, \uADF8\uB9CC\uB454 \uB4A4\uC5D0\uB3C4
@@ -263,8 +335,25 @@ MonoBehaviour:
       where: "\uCC45\uC0C1 \uC704 \uC2E0\uBB38"
       guide: 
       when:
-      - kind: 0
-        target: Newspaper
+      - kind: 7
+        target: news_notice
+    marks:
+    - id: news_notice
+      claim: manager
+      also:
+      - account
+      place: 0
+      key: warning
+    - id: check_number
+      claim: manager
+      also: []
+      place: 3
+      key: 010-8265-3317
+    - id: check_account
+      claim: account
+      also: []
+      place: 3
+      key: 110-457-803312
     papers:
     - outcome: 0
       headline: "\uB9C8\uD3EC\uC9C0\uAD6D, \uBC29\uBB38 \uC218\uAE08 \uB300\uC2E0
@@ -363,8 +452,47 @@ MonoBehaviour:
       where: "\uD734\uB300\uD3F0 \u2192 \uB204\uB9AC\uC740\uD589"
       guide: 
       when:
-      - kind: 5
-        target: 
+      - kind: 7
+        target: bank_today
+      - kind: 7
+        target: bank_balance
+    marks:
+    - id: cal_buyer
+      claim: buyer
+      also: []
+      place: 2
+      key: "\uBAA8\uB2C8\uD130 \uAD6C\uB9E4\uC790 11\uC2DC \uBC29\uBB38 (\uC774\uC6C3\uB9C8\uCF13,
+        6\uB9CC \uC6D0 \uC120\uC785\uAE08)"
+    - id: check_number
+      claim: buyer
+      also: []
+      place: 3
+      key: 010-3378-9024
+    - id: check_account
+      claim: buyer
+      also: []
+      place: 3
+      key: 620-481-207356
+    - id: bank_balance
+      claim: sent
+      also: []
+      place: 5
+      key: balance|110-302-558814
+    - id: tx_bulbs
+      claim: sent
+      also: []
+      place: 5
+      key: "\uD55C\uAC15\uBAB0|-12900"
+    - id: news_warning
+      claim: sent
+      also: []
+      place: 0
+      key: warning
+    - id: bank_today
+      claim: sent
+      also: []
+      place: 5
+      key: today|none
     papers:
     - outcome: 1
       headline: "'\uB3C8\uC744 \uB354 \uBCF4\uB0C8\uC5B4\uC694': \uB4E4\uC5B4\uC624\uC9C0\uB3C4
@@ -463,8 +591,45 @@ MonoBehaviour:
       where: "\uD734\uB300\uD3F0 \u2192 \uB204\uB9AC\uC740\uD589"
       guide: 
       when:
-      - kind: 5
-        target: 
+      - kind: 7
+        target: tx_deposit
+    marks:
+    - id: cal_buyer
+      claim: buyer
+      also: []
+      place: 2
+      key: "\uBAA8\uB2C8\uD130 \uAD6C\uB9E4\uC790 11\uC2DC \uBC29\uBB38 (\uC774\uC6C3\uB9C8\uCF13,
+        6\uB9CC \uC6D0 \uC120\uC785\uAE08)"
+    - id: check_number
+      claim: buyer
+      also: []
+      place: 3
+      key: 010-3378-9024
+    - id: check_account
+      claim: buyer
+      also: []
+      place: 3
+      key: 620-481-207356
+    - id: bank_balance
+      claim: sent
+      also: []
+      place: 5
+      key: balance|110-302-558814
+    - id: tx_bulbs
+      claim: sent
+      also: []
+      place: 5
+      key: "\uD55C\uAC15\uBAB0|-12900"
+    - id: news_warning
+      claim: sent
+      also: []
+      place: 0
+      key: warning
+    - id: tx_deposit
+      claim: sent
+      also: []
+      place: 5
+      key: "\uBC30\uC218\uC9C4|600000"
     papers:
     - outcome: 0
       headline: "0 \uD558\uB098 \uB354 \uBCF4\uB0B8 \uAD6C\uB9E4\uC790, \uD655\uC778\uD558\uACE0
@@ -564,6 +729,9 @@ MonoBehaviour:
       \uB610 \uB0C8\uB2E4. 18,420\uC6D0\uC774 \uC0AC\uB77C\uC84C\uB2E4."
     amount: 0
     outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
     notify: 0
   - afterDay: 0
     scenario: 
@@ -579,6 +747,9 @@ MonoBehaviour:
       \uAC83 \uAC19\uC544\uC694\u2026 18,420\uC6D0."
     amount: 0
     outgoing: 1
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
     notify: 0
   - afterDay: 0
     scenario: 
@@ -594,6 +765,9 @@ MonoBehaviour:
       \uBCF4\uB0B4\uAE30 \uC804\uC5D0 \uAF2D \uC870\uD68C\uD574 \uBCF4\uACE0\uC694."
     amount: 0
     outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
     notify: 1
   - afterDay: 0
     scenario: 
@@ -609,6 +783,9 @@ MonoBehaviour:
       \uD655\uC778\uD558\uACE0 \uC804\uD654\uB97C \uB04A\uC5C8\uB2E4."
     amount: 0
     outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
     notify: 0
   - afterDay: 0
     scenario: 
@@ -625,6 +802,9 @@ MonoBehaviour:
       010-7359-2046\uC774\uC5D0\uC694."
     amount: 0
     outgoing: 1
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
     notify: 0
   - afterDay: 0
     scenario: 
@@ -639,6 +819,9 @@ MonoBehaviour:
     text: "302\uD638 \uC798\uD588\uC5B4\uC694! \uADF8\uB807\uAC8C \uD558\uB294 \uAC81\uB2C8\uB2E4."
     amount: 0
     outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
     notify: 1
   - afterDay: 0
     scenario: 
@@ -654,6 +837,9 @@ MonoBehaviour:
       \uAC00\uC2A4\uB294 \uBA40\uCA61\uD788 \uB098\uC628\uB2E4."
     amount: 0
     outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
     notify: 0
   nextDateLabel: "10\uC6D4 7\uC77C \uC218\uC694\uC77C"
-  builtWith: 8
+  builtWith: 15

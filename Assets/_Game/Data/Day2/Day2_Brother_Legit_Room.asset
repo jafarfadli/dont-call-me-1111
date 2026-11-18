@@ -37,8 +37,8 @@ MonoBehaviour:
     warningTitle: FAMILY ON A STRANGE NUMBER? ASK THEM YOURSELF
     warningText: Scammers copy a voice from a few seconds of video and call from
       "a friend's phone". The phone and the account they name can belong to a real
-      person, so a lookup settles nothing. Ask your relative where you always talk
-      to them.
+      person, so a lookup settles nothing. Ask someone else in the family, in the
+      chat you always use.
     print: {fileID: 0}
     local:
     - title: Water tank cleaning tomorrow
@@ -173,6 +173,9 @@ MonoBehaviour:
     - day: 8
       label: Thu 8
       text: Dentist, 18:30
+    - day: 9
+      label: Fri 9
+      text: "Hangul Day \xB7 Yuna in Fukuoka till Sun"
     - day: 13
       label: Tue 13
       text: Midterms start

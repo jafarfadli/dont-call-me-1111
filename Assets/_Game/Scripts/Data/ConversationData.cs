@@ -21,8 +21,8 @@ namespace DontCallMe.Data
         [Tooltip("Template/demo only: say right or wrong when the conversation ends. In the game the truth comes in the next morning's paper.")]
         public bool revealAtEnd = true;
         public CallerInfo caller = new CallerInfo();
-        [Tooltip("What the caller claims, in short (for reference and tools).")]
-        public List<string> claims = new List<string>();
+        [Tooltip("What the caller claims, at most three: they go into the case notebook as they are said (ConvLine.claim), and the player stamps each true or false.")]
+        public List<ClaimDef> claims = new List<ClaimDef>();
         public List<ConvNode> nodes = new List<ConvNode>();
         public List<ConvEnding> endings = new List<ConvEnding>();
         public List<ActionTrigger> actions = new List<ActionTrigger>();
@@ -39,8 +39,52 @@ namespace DontCallMe.Data
         [Tooltip("The verdicts offered on the call while the caller holds (go along, refuse).")]
         public VerdictInfo verdict = new VerdictInfo();
 
+        [Tooltip("A video call: the caller's face on the phone (empty face: a voice call).")]
+        public VideoCall video = new VideoCall();
+
+        public bool IsVideo => video != null && !string.IsNullOrEmpty(video.face);
+
         public ConvNode FindNode(string id) => nodes.Find(n => n.id == id);
         public ConvEnding FindEnding(string id) => endings.Find(e => e.id == id);
+        public ClaimDef FindClaim(string id) => claims.Find(c => c.id == id);
+    }
+
+    /// <summary>
+    /// Something the caller says that the player can check: who they are, what happened, where the
+    /// money goes. One false claim is enough to hang up; when everything checkable is true, the call
+    /// is real.
+    /// </summary>
+    [Serializable]
+    public class ClaimDef
+    {
+        public string id;
+        [Tooltip("As the notebook quotes it, short and in the caller's voice, e.g. \"I'm Choi Hyunwoo, the landlord's son.\"")]
+        public string text;
+        [Tooltip("Whether the claim is true in this truth of the case (every claim of a legit caller is).")]
+        public bool truth;
+        [Tooltip("The next morning's red-pen note: what was true, and where it could be seen.")]
+        [TextArea(1, 3)] public string note;
+        [Tooltip("The trick behind the claim when it is false (a TrickDef.id): stamping it FALSE wins that trick card.")]
+        public string trick;
+    }
+
+    /// <summary>
+    /// The caller's face on a video call, as frames in UI/Sprites: <c>&lt;face&gt;</c> (still),
+    /// <c>_talk</c>, <c>_talk2</c> (the mouth open), <c>_blink</c>, <c>_wave1</c> to <c>_wave3</c> (a hand
+    /// passing in front of the face); a faked face also has <c>_fake_wave1</c> to <c>_fake_wave3</c>
+    /// (the face drawn over the hand) and <c>_fake_glitch</c>. The face and the wave can be circled
+    /// for the notebook (<see cref="MarkPlace.Video"/>, keys "face" and "wave").
+    /// </summary>
+    [Serializable]
+    public class VideoCall
+    {
+        public string face;
+        [Tooltip("Someone else's face put on the caller by software: the lips trail the voice, the edges shimmer, and a hand in front of the face does not cover it.")]
+        public bool faked;
+        [Tooltip("What circling the face files in the notebook: what the player sees as the caller talks.")]
+        [TextArea(1, 3)] public string faceNote;
+        [Tooltip("What circling the wave files: what happened when the hand passed in front of the face.")]
+        [TextArea(1, 3)] public string waveNote;
     }
 
     [Serializable]
@@ -131,6 +175,10 @@ namespace DontCallMe.Data
         [Tooltip("Something that arrives as the line is spoken: a chat message or a deposit.")]
         public List<Delivery> deliver = new List<Delivery>();
         public float pauseAfter = 0.4f;
+        [Tooltip("The claim (ClaimDef.id) this line makes: it goes into the notebook when the line is said.")]
+        public string claim;
+        [Tooltip("Video calls: what the caller does on camera as the line is said, e.g. \"wave\" (a hand slowly in front of the face).")]
+        public string act;
 
         public string Spoken => string.IsNullOrEmpty(spoken) ? text : spoken;
 

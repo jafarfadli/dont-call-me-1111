@@ -64,6 +64,8 @@ namespace DontCallMe.UI
             var n = UI.Room.newspaper;
             var sheet = UIKit.Div("news");
             var scroll = new ScrollView(ScrollViewMode.Vertical);
+            // An ink ring reaches past the item it circles: never a sideways scroll for it.
+            scroll.horizontalScrollerVisibility = ScrollerVisibility.Hidden;
             scroll.AddToClassList("news__scroll");
             var c = scroll.contentContainer;
 
@@ -77,7 +79,7 @@ namespace DontCallMe.UI
             date.Add(UIKit.Text(Loc.T("MANGWON · MAPO · SEOUL")));
             date.Add(UIKit.Text(n.price));
             c.Add(date);
-            c.Add(UIKit.Text(n.headline, "news__headline"));
+            c.Add(Circleable(UIKit.Text(n.headline, "news__headline"), "headline", n.headline));
             c.Add(UIKit.Text(n.subhead, "news__subhead"));
 
             var cols = UIKit.Div("news__cols");
@@ -86,7 +88,7 @@ namespace DontCallMe.UI
                 main.Add(UIKit.Image(n.photo, "news__photo"));
             main.Add(UIKit.Text(n.caption, "news__caption"));
             foreach (string p in n.body)
-                main.Add(UIKit.Text(p, "news__body"));
+                main.Add(Circleable(UIKit.Text(p, "news__body"), p, p));
             cols.Add(main);
 
             var side = UIKit.Div("news__side");
@@ -95,13 +97,17 @@ namespace DontCallMe.UI
                 var box = UIKit.Div("news__box");
                 box.Add(UIKit.Text(n.warningTitle, "news__box-title"));
                 box.Add(UIKit.Text(n.warningText, "news__box-text"));
+                Markable.Attach(box, UI, MarkPlace.Newspaper, "warning", $"{n.warningTitle}: {n.warningText}", Where);
                 side.Add(box);
             }
             side.Add(UIKit.Text(Loc.T("LOCAL NEWS"), "news__box-title"));
             foreach (var item in n.local)
             {
-                side.Add(UIKit.Text(item.title, "news__item-title"));
-                side.Add(UIKit.Text(item.text, "news__item-text"));
+                var news = UIKit.Div("news__item");
+                news.Add(UIKit.Text(item.title, "news__item-title"));
+                news.Add(UIKit.Text(item.text, "news__item-text"));
+                Markable.Attach(news, UI, MarkPlace.Newspaper, item.title, $"{item.title}: {item.text}", Where);
+                side.Add(news);
             }
             cols.Add(side);
             c.Add(cols);
@@ -114,6 +120,7 @@ namespace DontCallMe.UI
                     var box = UIKit.Div("news__ad");
                     box.Add(UIKit.Text(ad.title, "news__ad-title"));
                     box.Add(UIKit.Text(ad.text, "news__ad-text"));
+                    Markable.Attach(box, UI, MarkPlace.Newspaper, ad.title, $"{ad.title}: {ad.text}", Where);
                     ads.Add(box);
                 }
                 c.Add(ads);
@@ -123,6 +130,16 @@ namespace DontCallMe.UI
         }
 
         public override void OnOpen() => Sfx.Play(Sfx.Paper);
+
+        static string Where => Loc.T("Newspaper");
+
+        /// <summary>A line of text that can be circled sits in a box of its own: a label cannot hold the ink ring.</summary>
+        VisualElement Circleable(Label text, string key, string quote)
+        {
+            var box = UIKit.Div();
+            box.Add(text);
+            return Markable.Attach(box, UI, MarkPlace.Newspaper, key, quote, Where) ? box : text;
+        }
     }
 
     // ==================================================================== desk drawer
@@ -178,10 +195,13 @@ namespace DontCallMe.UI
             ClueEvents.Raise(ClueEvent.DocumentViewed, d.title);
             doc.Clear();
             var scroll = new ScrollView(ScrollViewMode.Vertical);
+            // An ink ring reaches past the item it circles: never a sideways scroll for it.
+            scroll.horizontalScrollerVisibility = ScrollerVisibility.Hidden;
             scroll.style.flexGrow = 1;
             var c = scroll.contentContainer;
             c.Add(UIKit.Text(d.issuer?.ToUpperInvariant(), "doc__issuer"));
             c.Add(UIKit.Text(d.title, "doc__title"));
+            string where = Loc.T("Desk drawer") + " · " + d.title;
             foreach (var f in d.fields)
             {
                 var row = UIKit.Div("doc__field");
@@ -190,12 +210,29 @@ namespace DontCallMe.UI
                     row.Add(UIKit.Chip(f.value, f.factKind));
                 else
                     row.Add(UIKit.Text(f.value, "doc__value"));
+                Markable.Attach(row, UI, MarkPlace.Drawer, $"{d.title}|{f.label}", $"{f.label}: {f.value}", where);
                 c.Add(row);
             }
             if (!string.IsNullOrEmpty(d.body))
-                c.Add(UIKit.Text(d.body, "doc__body"));
+            {
+                // Line by line, so one line of the small print can be circled.
+                var body = UIKit.Div("doc__body");
+                foreach (string line in d.body.Split('\n'))
+                {
+                    // In a box of its own: a label cannot hold the ink ring.
+                    var l = UIKit.Div();
+                    l.Add(UIKit.Text(line, "doc__line"));
+                    Markable.Attach(l, UI, MarkPlace.Drawer, $"{d.title}|{line}", line, where);
+                    body.Add(l);
+                }
+                c.Add(body);
+            }
             if (d.image != null)
-                c.Add(UIKit.Image(d.image, "doc__image"));
+            {
+                var image = UIKit.Image(d.image, "doc__image");
+                Markable.Attach(image, UI, MarkPlace.Drawer, $"{d.title}|image", d.title, where);
+                c.Add(image);
+            }
             doc.Add(scroll);
             if (!string.IsNullOrEmpty(d.stamp))
             {
@@ -229,12 +266,15 @@ namespace DontCallMe.UI
             side.Add(UIKit.Text(cal.todayLabel, "calendar__today"));
             side.Add(UIKit.Text(Loc.T("WRITTEN ON IT"), "section"));
             var scroll = new ScrollView(ScrollViewMode.Vertical);
+            // An ink ring reaches past the item it circles: never a sideways scroll for it.
+            scroll.horizontalScrollerVisibility = ScrollerVisibility.Hidden;
             scroll.style.flexGrow = 1;
             foreach (var entry in cal.entries)
             {
                 var row = UIKit.Div("calendar__row", entry.day == cal.today ? "calendar__row--today" : entry.day < cal.today ? "calendar__row--past" : null);
                 row.Add(UIKit.Text(entry.label, "calendar__date"));
                 row.Add(UIKit.Text(entry.text, "calendar__note"));
+                Markable.Attach(row, UI, MarkPlace.Calendar, entry.text, $"{entry.label}: {entry.text}", Loc.T("Calendar"));
                 scroll.contentContainer.Add(row);
             }
             side.Add(scroll);
@@ -281,6 +321,8 @@ namespace DontCallMe.UI
             window.Add(bar);
 
             var scroll = new ScrollView(ScrollViewMode.Vertical);
+            // An ink ring reaches past the item it circles: never a sideways scroll for it.
+            scroll.horizontalScrollerVisibility = ScrollerVisibility.Hidden;
             scroll.AddToClassList("browser__page");
             var page = scroll.contentContainer;
             var head = UIKit.Div("check__head");
@@ -412,6 +454,9 @@ namespace DontCallMe.UI
                 foreach (string r in reports)
                     card.Add(UIKit.Text(r, "check-card__report"));
             card.Add(UIKit.Text(Loc.T("No reports doesn't mean safe: new numbers and accounts start clean. Check that the owner is who the caller says."), "check-card__tip"));
+            string found = $"{what}: {owner}" + (string.IsNullOrEmpty(note) ? "" : $" · {note}") +
+                           (count > 1 ? " · " + Loc.F("{0} reports", count) : count == 1 ? " · " + Loc.T("1 report") : "");
+            Markable.Attach(card, UI, MarkPlace.Computer, accountMode ? account.number : number.number, found, Loc.T("Computer · CheckFirst"));
             result.Add(card);
         }
     }

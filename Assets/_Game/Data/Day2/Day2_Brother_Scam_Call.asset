@@ -22,10 +22,18 @@ MonoBehaviour:
     portrait: pt_unknown
     voice: Eddy (English (US))
   claims:
-  - He says he is Minjun, calling from his roommate's phone.
-  - He dropped his phone after lunch and the screen is dead.
-  - "The repair costs \u20A9280,000: send it to Lee Dohyun, Hanbit Bank 620-204-771035."
-  - The service centre stops taking repairs at 17:00.
+  - id: minjun
+    text: '"It''s me, Minjun, on my roommate''s phone."'
+    truth: 0
+    note: False. Mom wrote at 15:52 that Minjun had just texted her from his own
+      phone, in the library. And he dodged your Saturday question.
+    trick: borrowed_phone
+  - id: broken
+    text: "\"My screen is dead. The repair is \u20A9280,000.\""
+    truth: 0
+    note: False. His phone worked well enough to text Mom from the library. A lookup
+      of Dohyun proves nothing either way.
+    trick: emergency
   nodes:
   - id: start
     lines:
@@ -35,6 +43,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: minjun
+      act: 
     - speaker: 0
       text: Don't freak out about the number. I dropped my phone on the stairs after
         lunch and the screen is dead. This is my roommate Dohyun's phone.
@@ -42,6 +52,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     hasDecision: 1
     decision:
       kind: 0
@@ -69,6 +81,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     hasDecision: 0
     decision:
       kind: 0
@@ -94,6 +108,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     hasDecision: 0
     decision:
       kind: 0
@@ -123,6 +139,8 @@ MonoBehaviour:
         label: 
       deliver: []
       pauseAfter: 0.4
+      claim: broken
+      act: 
     - speaker: 0
       text: My banking app is on the dead phone, so I can't pay. Can you send it
         to Dohyun? He'll pay with his card.
@@ -130,6 +148,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     - speaker: 0
       text: Hanbit Bank 620-204-771035, Lee Dohyun.
       spoken: Hanbit Bank, six two zero, two zero four, seven seven one zero three
@@ -140,6 +160,8 @@ MonoBehaviour:
         label: 
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     - speaker: 0
       text: They stop taking repairs at five. I'll pay you back on the 25th, I swear.
         I'll hold on.
@@ -148,6 +170,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     hasDecision: 0
     decision:
       kind: 0
@@ -170,8 +194,8 @@ MonoBehaviour:
     timedOut: 0
     moneyDelta: 0
     lines: []
-    consequence: 'You hung up. The real Minjun had written in the family chat at
-      15:52: in the library, phone on silent.'
+    consequence: You hung up. Mom had written at 15:52 that the real Minjun was in
+      the library, texting from his own phone.
   - id: timeout
     verdict: 1
     timedOut: 1
@@ -183,6 +207,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     consequence: The caller gave up at five. The real Minjun was in the library the
       whole time.
   - id: go_along
@@ -196,6 +222,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     consequence: "The \u20A9280,000 went to an account in Lee Dohyun's name and was
       gone within minutes. The real Minjun was in the library, his phone on silent."
   actions:
@@ -224,6 +252,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     endingId: 
   - label: Ask why he doesn't ask Mom
     playerLine: Why don't you ask Mom?
@@ -234,6 +264,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     endingId: 
   - label: Ask who Dohyun is
     playerLine: Who is Dohyun?
@@ -244,16 +276,20 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     endingId: 
-  - label: Say you'll ask him in the family chat
-    playerLine: I'll ask you in the family chat.
+  - label: Say you'll check the family chat first
+    playerLine: I'll check the family chat first.
     answer:
     - speaker: 0
-      text: My phone is dead, I can't read it! Just send it, please, there's no time.
+      text: Don't drag Mom into this, noona. Please, there's no time.
       spoken: 
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     endingId: 
   beats:
   - at: 16:33
@@ -264,6 +300,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
   - at: 16:40
     line:
       speaker: 0
@@ -272,6 +310,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
   - at: 16:47
     line:
       speaker: 0
@@ -280,6 +320,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
   - at: 16:53
     line:
       speaker: 0
@@ -288,6 +330,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
   - at: 16:57
     line:
       speaker: 0
@@ -296,6 +340,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
   verdict:
     goAlong: Send the money
     goAlongDetail: 
@@ -304,3 +350,8 @@ MonoBehaviour:
     refuseDetail: Say no and end the call
     goAlongLine: Okay, I'm sending it to Dohyun now.
     refuseLine: I'll ask Minjun myself. Bye.
+  video:
+    face: 
+    faked: 0
+    faceNote: 
+    waveNote: 

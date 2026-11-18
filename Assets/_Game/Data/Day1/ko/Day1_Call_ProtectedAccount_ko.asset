@@ -22,15 +22,29 @@ MonoBehaviour:
     portrait: pt_jeon
     voice: Rocko (Korean (South Korea))
   claims:
-  - "\uB204\uB9AC\uC740\uD589 '\uACC4\uC88C\uBCF4\uD638\uD300'\uC758 \uC804 \uACFC\uC7A5\uC774\uB77C\uACE0
-    \uD55C\uB2E4."
-  - "20\uBD84 \uC804\uC5D0 \uBD80\uC0B0\uC5D0\uC11C \uB204\uAD70\uAC00 \uB0B4 \uACC4\uC88C\uC5D0
-    \uC811\uC18D\uD588\uB2E4\uACE0 \uD55C\uB2E4."
-  - "17\uC2DC '\uBCF4\uC548 \uCD08\uAE30\uD654' \uC804\uAE4C\uC9C0 \uB3C8\uC744 '\uBCF4\uD638\uACC4\uC88C'\uB85C
-    \uC62E\uACA8\uC57C \uD55C\uB2E4\uACE0 \uD55C\uB2E4."
-  - "\uBCF4\uD638\uACC4\uC88C: \uB204\uB9AC\uC740\uD589 110-900-551207"
-  - "\uC804\uD654\uB97C \uB04A\uC9C0 \uB9D0\uACE0 \uC544\uBB34\uC5D0\uAC8C\uB3C4
-    \uB9D0\uD558\uC9C0 \uB9D0\uB77C\uACE0 \uD55C\uB2E4."
+  - id: bank
+    text: "\"\uB204\uB9AC\uC740\uD589 \uC804 \uACFC\uC7A5\uC785\uB2C8\uB2E4.\""
+    truth: 0
+    note: "\uAC70\uC9D3. 070-8844-2019\uB294 \uC0AC\uAE30 \uC2E0\uACE0 7\uAC74\uC774
+      \uC788\uB294 \uBBF8\uB4F1\uB85D \uC778\uD130\uB137\uC804\uD654\uB2E4. \uB204\uB9AC\uC740\uD589
+      \uBC88\uD638\uB294 \uC5F0\uB77D\uCC98\uC5D0 \uC788\uB294 1599-0000 \uD558\uB098\uBFD0\uC774\uB2E4."
+    trick: bank_call
+  - id: login
+    text: "\"\uBD80\uC0B0\uC5D0\uC11C \uB204\uAD70\uAC00 \uACE0\uAC1D\uB2D8 \uACC4\uC88C\uC5D0
+      \uC811\uC18D\uD588\uC2B5\uB2C8\uB2E4.\""
+    truth: 0
+    note: "\uAC70\uC9D3. \uC544\uCE68 \uC2E0\uBB38\uC774 \uADF8\uB300\uB85C \uC18C\uAC1C\uD55C
+      \uC0AC\uAE30 \uC218\uBC95\uC774\uACE0, \uC740\uD589 \uB0B4\uC5ED\uC5D0\uB3C4
+      \uC774\uC0C1\uD55C \uAC74 \uC5C6\uC5C8\uB2E4."
+    trick: break_in
+  - id: protected
+    text: "\"\uC608\uAE08\uC744 \uBCF4\uD638\uACC4\uC88C\uB85C \uC62E\uACA8\uC57C
+      \uD569\uB2C8\uB2E4.\""
+    truth: 0
+    note: "\uAC70\uC9D3. \uC2E0\uBB38 \uACBD\uACE0\uB300\uB85C \uADF8\uB7F0 \uACC4\uC88C\uB294
+      \uC5C6\uB2E4. '\uBCF4\uD638\uACC4\uC88C'\uC758 \uC8FC\uC778\uC740 \uC815\uBBF8\uB780\uC774\uACE0
+      \uC0AC\uAE30 \uC2E0\uACE0\uAC00 \uC788\uC5C8\uB2E4."
+    trick: safe_account
   nodes:
   - id: start
     lines:
@@ -41,6 +55,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: bank
+      act: 
     - speaker: 0
       text: "20\uBD84 \uC804\uC5D0 \uBD80\uC0B0\uC5D0\uC11C \uB4F1\uB85D\uB418\uC9C0
         \uC54A\uC740 \uAE30\uAE30\uB85C \uACE0\uAC1D\uB2D8 \uACC4\uC88C\uC5D0 \uB85C\uADF8\uC778\uD55C
@@ -49,6 +65,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: login
+      act: 
     hasDecision: 1
     decision:
       kind: 0
@@ -84,6 +102,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     hasDecision: 0
     decision:
       kind: 0
@@ -110,6 +130,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     - speaker: 0
       text: "\uC800\uD76C\uB294 \uACE0\uAC1D\uC13C\uD130\uAC00 \uC544\uB2C8\uB77C
         \uBCF4\uD638\uD300\uC774\uB77C \uC9C1\uD1B5 \uBC88\uD638\uB85C \uC5F0\uB77D\uB4DC\uB9BD\uB2C8\uB2E4."
@@ -120,6 +142,8 @@ MonoBehaviour:
         label: "\uBC1C\uC2E0 \uBC88\uD638"
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     hasDecision: 0
     decision:
       kind: 0
@@ -148,6 +172,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: protected
+      act: 
     - speaker: 0
       text: "\uBCF4\uD638\uACC4\uC88C\uB85C 120\uB9CC \uC6D0\uC744 \uC774\uCCB4\uD574
         \uC8FC\uC138\uC694. \uB204\uB9AC\uC740\uD589 110-900-551207\uC785\uB2C8\uB2E4."
@@ -163,6 +189,8 @@ MonoBehaviour:
         label: 
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     - speaker: 0
       text: "\uC804\uD654 \uB04A\uC9C0 \uB9C8\uC2DC\uACE0 \uC544\uBB34\uC5D0\uAC8C\uB3C4
         \uB9D0\uD558\uC9C0 \uB9C8\uC138\uC694. \uC0AC\uAE30 \uC870\uC9C1\uC774 \uACE0\uAC1D\uB2D8
@@ -171,6 +199,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     - speaker: 0
       text: "\uC740\uD589 \uC571 \uC5EC\uC2DC\uB294 \uB3D9\uC548 \uAE30\uB2E4\uB9AC\uACA0\uC2B5\uB2C8\uB2E4.
         5\uC2DC \uC804\uC5D0 \uB05D\uB0B4\uC57C \uD569\uB2C8\uB2E4."
@@ -179,6 +209,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     hasDecision: 0
     decision:
       kind: 0
@@ -216,6 +248,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     - speaker: 0
       text: "\uC88B\uC2B5\uB2C8\uB2E4. \uACC4\uC88C\uAC00 \uB3D9\uACB0\uB420 \uAC81\uB2C8\uB2E4.
         \uD145 \uBE44\uC5B4\uB3C4 \uC800\uD76C\uD55C\uD14C \uC5F0\uB77D\uD558\uC9C0
@@ -224,6 +258,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     consequence: "\uC0C1\uB300\uB294 \uB2E4\uC12F \uC2DC\uC5D0 \uD3EC\uAE30\uD588\uB2E4.
       \uC783\uC740 \uAC74 \uC5C6\uC9C0\uB9CC \uACB0\uC815\uC744 \uB0B4\uB9AC\uC9C0
       \uBABB\uD588\uACE0, \uC544\uBB34\uB3C4 \uADF8 \uBC88\uD638\uB97C \uC2E0\uACE0\uD558\uC9C0
@@ -240,6 +276,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     - speaker: 0
       text: "\uB0B4\uC77C \uCD08\uAE30\uD654 \uC804\uAE4C\uC9C0\uB294 \uC544\uBB34\uC5D0\uAC8C\uB3C4
         \uB9D0\uD558\uC9C0 \uB9C8\uC138\uC694."
@@ -247,6 +285,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     consequence: "120\uB9CC \uC6D0\uC740 \uC815\uBBF8\uB780 \uBA85\uC758 \uACC4\uC88C\uB85C
       \uB4E4\uC5B4\uAC00 \uBA87 \uBD84 \uB9CC\uC5D0 \uC778\uCD9C\uB410\uB2E4. \uB204\uB9AC\uC740\uD589\uC5D0
       '\uBCF4\uD638\uACC4\uC88C'\uB294 \uC5C6\uB2E4."
@@ -285,12 +325,16 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     - speaker: 0
       text: "\uC81C\uBC1C \uC800\uB791 \uD1B5\uD654\uB97C \uC720\uC9C0\uD574 \uC8FC\uC138\uC694."
       spoken: 
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     endingId: 
   - label: "\uB204\uAD6C \uACC4\uC88C\uC778\uC9C0 \uBB3B\uAE30"
     playerLine: "\uBCF4\uD638\uACC4\uC88C\uB294 \uB204\uAD6C \uBA85\uC758\uC608\uC694?"
@@ -303,6 +347,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     endingId: 
   - label: "\uC65C 070 \uBC88\uD638\uB85C \uC804\uD654\uD588\uB294\uC9C0 \uBB3B\uAE30"
     playerLine: "\uC65C 070 \uBC88\uD638\uB85C \uC804\uD654\uD558\uC2E0 \uAC70\uC608\uC694?"
@@ -315,6 +361,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     endingId: 
   beats:
   - at: 16:34
@@ -326,6 +374,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
   - at: 16:40
     line:
       speaker: 0
@@ -336,6 +386,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
   - at: 16:47
     line:
       speaker: 0
@@ -346,6 +398,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
   - at: 16:53
     line:
       speaker: 0
@@ -356,6 +410,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
   - at: 16:57
     line:
       speaker: 0
@@ -365,6 +421,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
   verdict:
     goAlong: "\uB3C8 \uBCF4\uB0B4\uAE30"
     goAlongDetail: 
@@ -374,3 +432,8 @@ MonoBehaviour:
     goAlongLine: "\uC54C\uACA0\uC5B4\uC694\u2026 \uC9C0\uAE08 \uBCF4\uB0BC\uAC8C\uC694."
     refuseLine: "\uC544\uBB34\uAC83\uB3C4 \uC548 \uBCF4\uB0BC \uAC70\uC608\uC694.
       \uB04A\uC744\uAC8C\uC694."
+  video:
+    face: 
+    faked: 0
+    faceNote: 
+    waveNote: 

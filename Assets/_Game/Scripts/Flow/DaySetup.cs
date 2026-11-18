@@ -33,11 +33,16 @@ namespace DontCallMe.Flow
     /// </summary>
     public static class DaySetup
     {
+        /// <summary>The last day the legit rule may land on: the finale (Day 4) stays a real coin toss.</summary>
+        public const int LegitBy = 3;
+
         /// <summary>
         /// The day's case and its truth. The case the player has finished least often comes first, so
-        /// another week brings another case; among those, the case and then its truth are random. A
-        /// run always has at least one legit caller: on the last day that has a legit variant, if
-        /// every earlier day was a scam, that day is legit.
+        /// another week brings another case; among equals the day's list order decides, so a first
+        /// week always plays each day's first case (its clues ramp 2, 3, 4) and the one-clue cases
+        /// come in later weeks. The truth is random. A run always has at least one legit caller: on
+        /// the last day up to <see cref="LegitBy"/> that has a legit variant, if every earlier day
+        /// was a scam, that day is legit.
         /// </summary>
         public static DayVariant Pick(DayData day, List<DayRecord> earlier, DayCatalog catalog, string force = null)
         {
@@ -52,27 +57,24 @@ namespace DontCallMe.Flow
             if (day.variants.Count == 1)
                 return day.variants[0];
             var pool = day.variants;
-            if (pool.Exists(v => !v.IsScam) && earlier.Count == day.day - GameRun.FirstDay && earlier.TrueForAll(r => r.scam) && !LegitLater(day, catalog))
+            if (day.day <= LegitBy && pool.Exists(v => !v.IsScam) && earlier.Count == day.day - GameRun.FirstDay && earlier.TrueForAll(r => r.scam) && !LegitLater(day, catalog))
                 pool = pool.FindAll(v => !v.IsScam);
             int least = int.MaxValue;
             foreach (var v in pool)
                 least = Mathf.Min(least, GameRun.TimesPlayed(day.day, v.Scenario));
-            // Each case is as likely as the next, whether it has one truth or two.
-            var cases = new List<string>();
-            foreach (var v in pool)
-                if (GameRun.TimesPlayed(day.day, v.Scenario) == least && !cases.Contains(v.Scenario))
-                    cases.Add(v.Scenario);
-            string scenario = cases[Random.Range(0, cases.Count)];
+            // The first case in the day's list among the least played ones.
+            string scenario = pool.Find(v => GameRun.TimesPlayed(day.day, v.Scenario) == least).Scenario;
             var truths = pool.FindAll(v => v.Scenario == scenario);
             return truths[Random.Range(0, truths.Count)];
         }
 
+        /// <summary>Is there a later day, up to <see cref="LegitBy"/>, that can still bring a legit caller?</summary>
         static bool LegitLater(DayData day, DayCatalog catalog)
         {
             if (catalog == null)
                 return false;
             foreach (var d in catalog.days)
-                if (d != null && d.day > day.day && d.variants.Exists(v => !v.IsScam))
+                if (d != null && d.day > day.day && d.day <= LegitBy && d.variants.Exists(v => !v.IsScam))
                     return true;
             return false;
         }
@@ -173,9 +175,26 @@ namespace DontCallMe.Flow
                     else
                         phone.chats.Remove(t);
                     phone.chats.Insert(0, t);
-                    InsertInOrder(t.messages, new ChatMessage { sender = e.outgoing ? null : e.sender, avatar = e.avatar, when = e.when, text = e.text, outgoing = e.outgoing }, m => m.when);
-                    if (!e.outgoing)
+                    InsertInOrder(t.messages, new ChatMessage { sender = e.outgoing ? null : e.sender, avatar = e.avatar, when = e.when, text = e.text, outgoing = e.outgoing, photoCaption = e.photoCaption }, m => m.when);
+                    // Only what came in since yesterday is new; an older message is just still there.
+                    if (!e.outgoing && Age(e.when) < 2 * 1440)
                         plan.unreadChats.Add(e.from);
+                    break;
+                }
+                case EchoKind.Note:
+                {
+                    var cal = plan.room.calendar;
+                    int i = string.IsNullOrEmpty(e.title) ? -1 : cal.entries.FindIndex(x => x.day == e.date && x.text == e.title);
+                    var entry = new CalendarEntry { day = e.date, label = e.when, text = e.text };
+                    if (i >= 0)
+                        cal.entries[i] = entry;
+                    else
+                    {
+                        int at = cal.entries.FindIndex(x => x.day > e.date);
+                        cal.entries.Insert(at < 0 ? cal.entries.Count : at, entry);
+                    }
+                    if (e.image != null)
+                        cal.image = e.image;
                     break;
                 }
                 case EchoKind.BankTransaction:

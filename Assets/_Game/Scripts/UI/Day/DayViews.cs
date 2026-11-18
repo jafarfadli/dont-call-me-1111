@@ -7,8 +7,9 @@ using UnityEngine.UIElements;
 namespace DontCallMe.UI
 {
     /// <summary>
-    /// The black card that opens a day: DAY 1, the date, time and place, a line of intro (the day's,
-    /// or the one of the case being played) and what is still on Jiwoo's mind from the days before.
+    /// The black card that opens a day: DAY 1, the date, time and place, the difficulty in stars, a
+    /// line of intro (the day's, or the one of the case being played), what is still on Jiwoo's mind
+    /// from the days before, and NEW TODAY: what the notebook stops doing for the player today.
     /// Click (or wait) to continue; it fades into the room.
     /// </summary>
     public class DayCardView
@@ -28,11 +29,26 @@ namespace DontCallMe.UI
             inner.Add(UIKit.Div("daycard__rule"));
             inner.Add(UIKit.Text(day.dateLabel, "daycard__date"));
             inner.Add(UIKit.Text($"{day.startTime}  ·  {day.place}", "daycard__place"));
+            if (day.level > 0)
+            {
+                // How hard today is: filled stars out of DayData.TopLevel.
+                int top = Mathf.Max(DayData.TopLevel, day.level);
+                var stars = UIKit.Text(new string('★', day.level) + new string('☆', top - day.level), "daycard__level");
+                stars.tooltip = Loc.F("Difficulty {0} of {1}", day.level, top);
+                inner.Add(stars);
+            }
             if (!string.IsNullOrEmpty(intro))
                 inner.Add(UIKit.Text(intro, "daycard__intro"));
             if (extraLines != null)
                 foreach (string line in extraLines)
                     inner.Add(UIKit.Text(line, "daycard__echo"));
+            if (!string.IsNullOrEmpty(day.newToday))
+            {
+                var news = UIKit.Div("daycard__new");
+                news.Add(UIKit.Text(Loc.T("NEW TODAY"), "daycard__new-tag"));
+                news.Add(UIKit.Text(day.newToday, "daycard__new-text"));
+                inner.Add(news);
+            }
             inner.Add(UIKit.Text(Loc.T("click to continue"), "daycard__hint"));
             Root.Add(inner);
             Root.RegisterCallback<ClickEvent>(_ => Close());

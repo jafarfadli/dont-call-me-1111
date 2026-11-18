@@ -29,6 +29,19 @@ namespace DontCallMe.Editor.UI
         static string DentistAccountSpoken => L("five six two zero, seven one, three three six zero two nine", "오육이공, 칠일, 삼삼육공이구");
         static string VoiceDental => L("Karen", "Shelley (Korean (South Korea))");
 
+        /// <summary>The dentist as the calendar has had it all week.</summary>
+        static string DentistNote => L("Dentist, 18:30", "치과 18:30");
+
+        // What Jiwoo wrote on the calendar on Thursday morning; Friday's calendar still shows it.
+        static string DentistToday(bool scam) => scam
+            ? L("Dentist 18:30 → MOVED to Thu 22nd. I called them this morning", "치과 18:30 → 22일(목)로 변경. 오늘 아침에 전화함")
+            : L("Dentist 18:30, wisdom tooth. Deposit 30,000 won: they ring this afternoon, it comes off the bill", "치과 18:30, 사랑니. 예약금 3만 원: 오후에 전화 온댔음, 진료비에서 빠짐");
+        static string DentistMoved => L("Dentist 18:30, wisdom tooth (moved from the 8th)", "치과 18:30, 사랑니 (8일에서 옮김)");
+
+        // What the caller says when asked what the booking is for.
+        static string BookingWrong => L("It just says a check-up here, Ms. Kim. The doctor will go through it with you.", "여기는 그냥 검진이라고만 나와 있어요. 자세한 건 원장님이 설명해 주실 거예요.");
+        static string BookingRight => L("Your lower-right wisdom tooth, with Dr. Jang. You booked it on the 28th.", "오른쪽 아래 사랑니 발치요, 장 원장님 진료고요. 28일에 예약하셨어요.");
+
         static DayVariant DentistVariant(bool scam)
         {
             SetDay(3, "16:25");
@@ -51,19 +64,16 @@ namespace DontCallMe.Editor.UI
             };
 
             // ---- the truth: what Jiwoo wrote on her calendar this morning
+            string today8 = DentistToday(scam);
+            string movedTo = DentistMoved;
+            Renote(room, 8, today8);
             if (scam)
             {
-                Renote(room, 8, L("Dentist 18:30 → MOVED to Thu 22nd. I called them this morning", "치과 18:30 → 22일(목)로 변경. 오늘 아침에 전화함"));
-                Note(room, DentistMovedTo, L("Dentist 18:30, wisdom tooth (moved from the 8th)", "치과 18:30, 사랑니 (8일에서 옮김)"));
+                Note(room, DentistMovedTo, movedTo);
                 // The calendar's picture with the 8th crossed out and the 22nd circled (ui_art.py).
                 var moved = Tex("board_calendar_moved");
                 if (moved != null)
                     room.calendar.image = moved;
-            }
-            else
-            {
-                Renote(room, 8, L("Dentist 18:30, wisdom tooth. Deposit 30,000 won: they ring this afternoon, it comes off the bill",
-                                  "치과 18:30, 사랑니. 예약금 3만 원: 오후에 전화 온댔음, 진료비에서 빠짐"));
             }
 
             // ---- what the computer knows: a mobile in the name she gives, and an account that hides its owner
@@ -77,15 +87,32 @@ namespace DontCallMe.Editor.UI
             var v = StoreVariant(scam ? "dentist_scam" : "dentist_legit", CaseDentist, Day3Dir, scam ? "Day3_Dentist_Scam" : "Day3_Dentist_Legit", DentistCall(scam), phone, room, directory);
             v.intro = L("Midterms are next week. The water came back at noon, and the dentist has been on your calendar all week.",
                         "중간고사는 다음 주. 단수는 정오에 끝났고, 달력에는 일주일 내내 치과 예약이 적혀 있었다.");
+            v.marks = new List<MarkDef>
+            {
+                MarkCheck("check_number", "clinic", DentistNumber),
+                MarkNews("news_leak", "clinic", L("Booking app leak", "예약 앱 정보 유출")),
+                // Your own note settles all three: whether there is an appointment, the deposit, and the call.
+                MarkNote("cal_today", "appointment", today8).Also("deposit", "clinic"),
+                MarkCall("call_booking", "clinic", scam ? BookingWrong : BookingRight),
+                MarkCheck("check_account", "deposit", DentistAccount),
+                MarkNews("news_warning", "deposit", "warning"),
+            };
+            if (scam)
+                v.marks.Add(MarkNote("cal_moved", "appointment", movedTo).Also("deposit", "clinic"));
             v.clues = new List<ClueDef>
             {
                 scam
                     ? Clue("calendar", L("Your calendar says you moved the dentist this morning, to Thursday the 22nd. There is no appointment today to pay a deposit for.",
                                          "달력을 보니 오늘 아침 치과 예약을 22일(목)로 옮겼다. 오늘은 예약금을 낼 예약 자체가 없다."),
-                           AtCalendar, new ClueWhen(ClueEvent.PanelOpened, "Calendar"))
+                           AtCalendar, Circled("cal_today"), Circled("cal_moved"))
                     : Clue("calendar", L("Your own note for today says it: dentist at 18:30, and the clinic rings this afternoon for a 30,000 won deposit.",
                                          "오늘 날짜에 내가 직접 적어 두었다. 치과 18:30, 그리고 오후에 예약금 3만 원 전화가 온다고."),
-                           AtCalendar, new ClueWhen(ClueEvent.PanelOpened, "Calendar")),
+                           AtCalendar, Circled("cal_today")),
+                scam
+                    ? Clue("booking", L("She didn't know what you're booked in for: \"a check-up\", when your calendar says wisdom tooth.", "무슨 진료인지 몰랐다. '검진'이라고 했지만 달력에는 사랑니라고 적혀 있다."),
+                           AtBookingQuestion, Circled("call_booking"))
+                    : Clue("booking", L("She knew your booking: the lower-right wisdom tooth, with Dr. Jang.", "예약 내용을 알고 있었다. 오른쪽 아래 사랑니, 장 원장님."),
+                           AtBookingQuestion, Circled("call_booking")),
             };
             v.papers = scam ? DentistScamPapers() : DentistLegitPapers();
             v.ruleTitle = scam ? L("What did you arrange yourself?", "내가 정한 건 무엇이었나") : L("Your own note is evidence too", "내 메모도 증거다");
@@ -98,6 +125,8 @@ namespace DontCallMe.Editor.UI
             return v;
         }
 
+        static string AtBookingQuestion => L("The call → ask what the appointment is for", "통화 → 무슨 진료인지 물어보기");
+
         // ================================================================ the call
 
         static ConversationData DentistCall(bool scam)
@@ -107,12 +136,17 @@ namespace DontCallMe.Editor.UI
             c.isScam = scam;
             c.revealAtEnd = false;
             c.caller = new CallerInfo { displayName = L("Moon Jihye", "문지혜"), number = DentistNumber, inContacts = false, portrait = "pt_dental", voice = VoiceDental };
-            c.claims = new List<string>
+            c.claims = new List<ClaimDef>
             {
-                L("She is Moon Jihye, the coordinator at Saebom Dental.", "새봄치과 문지혜 실장이라고 한다."),
-                L("My appointment is today at 18:30.", "오늘 18:30에 예약이 잡혀 있다고 한다."),
-                L($"Evening slots need a ₩30,000 deposit: Nuri Bank {DentistAccount}.", $"저녁 진료는 예약금 3만 원이 필요하다고 한다: 누리은행 {DentistAccount}"),
-                L("Slots that are not confirmed by 17:00 go to someone else.", "17시까지 확정하지 않은 예약은 다른 환자에게 넘어간다고 한다."),
+                Claim("clinic", L("\"I'm Moon Jihye, from Saebom Dental.\"", "\"새봄치과 문지혜 실장입니다.\""), !scam,
+                      scam ? L("False. The name and the number are real, but a leaked booking list is all the caller had: she didn't even know what you're booked in for.", "거짓. 이름과 번호는 진짜지만, 상대가 가진 건 유출된 예약 명단뿐이었다. 무슨 진료인지도 몰랐다.")
+                           : L("True. Your own note said the clinic would ring this afternoon, and she knew your booking.", "사실. 오후에 치과에서 전화가 온다고 내가 직접 적어 두었고, 상대는 예약 내용을 알고 있었다.")).Via(TrickBorrowedName),
+                Claim("appointment", L("\"Your appointment is today at 18:30.\"", "\"오늘 18:30 예약 맞으시죠.\""), !scam,
+                      scam ? L("False. You moved it to the 22nd this morning, and wrote it on the calendar.", "거짓. 오늘 아침 22일로 옮기고 달력에 적어 두었다.")
+                           : L("True. Today's note on your calendar: dentist at 18:30.", "사실. 달력의 오늘 메모: 치과 18:30.")).Via(TrickLeakedList),
+                Claim("deposit", L("\"Evening slots need a ₩30,000 deposit.\"", "\"저녁 진료는 예약금 3만 원이 필요해요.\""), !scam,
+                      scam ? L("False for you: there was no appointment today to hold. The payment company's account never says whose it is.", "당신에겐 거짓이었다. 오늘은 잡을 예약 자체가 없었다. 결제대행사 계좌는 누구 것인지 알려 주지 않는다.")
+                           : L("True. Your own note: a 30,000 won deposit that comes off the bill.", "사실. 내 메모에 예약금 3만 원, 진료비에서 빠진다고 적혀 있다.")).Via(TrickDeposit),
             };
             c.nodes = new List<ConvNode>
             {
@@ -121,9 +155,9 @@ namespace DontCallMe.Editor.UI
                       L("Yes? Is there a problem?", "네, 무슨 일이세요?"), "why",
                       L("How did you get this number?", "제 번호는 어떻게 아셨어요?"), "number",
                       P(0.5f, L("Hello? Ms. Kim?", "여보세요? 김지우 님?"))),
-                    Caller(L("Hello, is this Kim Jiwoo? This is Moon Jihye, the coordinator at Saebom Dental.", "안녕하세요, 김지우 님 맞으시죠? 새봄치과 문지혜 실장입니다.")),
+                    Caller(L("Hello, is this Kim Jiwoo? This is Moon Jihye, the coordinator at Saebom Dental.", "안녕하세요, 김지우 님 맞으시죠? 새봄치과 문지혜 실장입니다.")).Says("clinic"),
                     Caller(L("I'm calling about your appointment today, at half past six.", "오늘 저녁 6시 30분 예약 건으로 연락드렸어요."),
-                           L(null, "오늘 저녁 여섯 시 삼십 분 예약 건으로 연락드렸어요."))),
+                           L(null, "오늘 저녁 여섯 시 삼십 분 예약 건으로 연락드렸어요.")).Says("appointment")),
                 Node("why", "ask",
                     Caller(L("No problem at all. It's just a confirmation call.", "문제는 아니고요, 예약 확인 전화예요."))),
                 Node("number", "ask",
@@ -131,7 +165,7 @@ namespace DontCallMe.Editor.UI
                 Hold("ask",
                     Caller(L("Evening slots are short, so we take a 30,000 won deposit to hold them. It comes off your bill tonight.", "저녁 시간은 자리가 적어서 예약금 3만 원을 받고 있어요. 오늘 진료비에서 그대로 빠집니다."),
                            L("Evening slots are short, so we take a thirty thousand won deposit to hold them. It comes off your bill tonight.", "저녁 시간은 자리가 적어서 예약금 삼만 원을 받고 있어요. 오늘 진료비에서 그대로 빠집니다."),
-                           F(FactKind.Amount, "30,000")),
+                           F(FactKind.Amount, "30,000")).Says("deposit"),
                     Caller(L($"Please send it to our payment account: Nuri Bank {DentistAccount}.", $"결제 계좌로 보내 주세요. 누리은행 {DentistAccount}입니다."),
                            L($"Please send it to our payment account. Nuri Bank, {DentistAccountSpoken}.", $"결제 계좌로 보내 주세요. 누리은행 {DentistAccountSpoken}입니다."),
                            F(FactKind.Account, DentistAccount)),
@@ -163,8 +197,8 @@ namespace DontCallMe.Editor.UI
                          L(null, "오늘, 팔 일 목요일 저녁 여섯 시 삼십 분이요."))),
                 Q(L("Ask what the appointment is for", "무슨 진료인지 묻기"), L("What am I booked in for?", "제가 무슨 진료로 예약했죠?"), null,
                   scam
-                      ? Caller(L("It just says a check-up here, Ms. Kim. The doctor will go through it with you.", "여기는 그냥 검진이라고만 나와 있어요. 자세한 건 원장님이 설명해 주실 거예요."))
-                      : Caller(L("Your lower-right wisdom tooth, with Dr. Jang. You booked it on the 28th.", "오른쪽 아래 사랑니 발치요, 장 원장님 진료고요. 28일에 예약하셨어요."),
+                      ? Caller(BookingWrong)
+                      : Caller(BookingRight,
                                L("Your lower-right wisdom tooth, with Dr. Jang. You booked it on the twenty eighth.", "오른쪽 아래 사랑니 발치요, 장 원장님 진료고요. 이십팔 일에 예약하셨어요."))),
                 Q(L("Ask whose name is on the account", "누구 명의 계좌인지 묻기"), L("Whose name is on that account?", "그 계좌는 누구 명의예요?"), null,
                   Caller(L("It's a virtual account from our payment company, Gaon Pay. It's issued for your booking.", "결제대행사 가온페이의 가상계좌예요. 고객님 예약 건으로 발급된 거고요."))),

@@ -86,6 +86,45 @@
     margin-top: 8px;
 }
 
+.daycard__level {
+    font-size: 34px;
+    color: #F5C23E;
+    letter-spacing: 8px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+    margin-top: 14px;
+}
+
+.daycard__new {
+    flex-direction: row;
+    align-items: center;
+    margin-top: 34px;
+    max-width: 900px;
+    padding: 12px 18px;
+    border-width: 2px;
+    border-color: #F5C23E;
+    border-radius: 8px;
+    background-color: rgba(245, 194, 62, 0.08);
+}
+
+.daycard__new-tag {
+    flex-shrink: 0;
+    font-size: 18px;
+    letter-spacing: 3px;
+    color: #17121A;
+    background-color: #F5C23E;
+    border-radius: 4px;
+    padding: 3px 9px 1px 9px;
+    margin-right: 16px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+}
+
+.daycard__new-text {
+    flex-shrink: 1;
+    font-size: 24px;
+    color: #F6EEDC;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+}
+
 .daycard__intro {
     font-size: 32px;
     color: #F6EEDC;
@@ -685,14 +724,463 @@
 
 .case-files { width: 1240px; }
 
+/* Case Files' pages: This week, Cases, Trick cards. */
+
+.files-tabs {
+    flex-direction: row;
+    margin: 14px 0 10px 0;
+    border-bottom-width: 3px;
+    border-color: var(--ink);
+}
+
+.btn.files-tab {
+    min-height: 0;
+    margin: 0 8px -3px 0;
+    padding: 8px 22px 6px 22px;
+    font-size: 21px;
+    color: var(--muted);
+    background-image: none;
+    background-color: rgba(26, 22, 32, 0.06);
+    border-width: 3px;
+    border-bottom-width: 0;
+    border-color: rgba(26, 22, 32, 0.25);
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+}
+
+.btn.files-tab:hover { color: var(--ink); background-color: rgba(26, 22, 32, 0.1); scale: 1 1; }
+.btn.files-tab:active { background-image: none; translate: 0 0; }
+
+.btn.files-tab--on {
+    color: var(--ink);
+    background-color: var(--paper-light);
+    border-color: var(--ink);
+}
+
+.btn.files-tab--on:hover { background-color: var(--paper-light); }
+
+.files-body { max-height: 590px; }
+
+.btn.files-log {
+    min-height: 0;
+    align-self: center;
+    padding: 4px 6px;
+    font-size: 15px;
+    color: var(--muted);
+    background-image: none;
+    border-bottom-width: 2px;
+    border-color: var(--muted);
+}
+
+.btn.files-log:hover { color: var(--ink); border-color: var(--ink); scale: 1 1; }
+.btn.files-log:active { background-image: none; translate: 0 0; }
+
+.casebook__day {
+    font-size: 16px;
+    letter-spacing: 1px;
+    color: var(--muted);
+    margin: 14px 0 4px 6px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+}
+
+.casebook__row {
+    flex-direction: row;
+    align-items: center;
+    padding: 8px 8px;
+    border-bottom-width: 2px;
+    border-color: rgba(43, 36, 48, 0.2);
+}
+
+.casebook__row--unseen .casebook__title { color: var(--muted); }
+
+.casebook__portrait { width: 52px; height: 52px; margin-right: 16px; }
+
+.casebook__title {
+    flex-grow: 1;
+    flex-shrink: 1;
+    font-size: 26px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DoHyeon-Regular.asset");
+}
+
+.casebook__truths { flex-direction: row; margin: 0 18px; }
+
+.casebook__truth {
+    width: 92px;
+    margin-left: 10px;
+    padding: 2px 0 3px 0;
+    font-size: 20px;
+    letter-spacing: 2px;
+    -unity-text-align: middle-center;
+    border-width: 3px;
+    border-radius: 6px;
+    rotate: -3deg;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DoHyeon-Regular.asset");
+}
+
+.casebook__truth--scam { color: #C9483A; border-color: #C9483A; }
+.casebook__truth--real { color: #3F7F3A; border-color: #3F7F3A; }
+
+.casebook__truth--down {
+    color: #F2E4C4;
+    background-color: #3B3F52;
+    border-color: #3B3F52;
+    rotate: 0deg;
+}
+
+.casebook__count {
+    width: 210px;
+    font-size: 18px;
+    -unity-text-align: middle-right;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+}
+
+.casebook__note {
+    margin: 14px 6px 4px 6px;
+    font-size: 22px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/Gaegu-Bold.asset");
+}
+
+.tricks__grid {
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 6px;
+}
+
+.trick-card {
+    width: 350px;
+    min-height: 232px;
+    margin: 0 14px 14px 0;
+    padding: 12px 16px 14px 16px;
+    background-color: var(--paper-light);
+    border-width: 3px;
+    border-color: var(--ink);
+    border-radius: 10px;
+}
+
+.trick-card__no {
+    font-size: 14px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+}
+
+.trick-card__name {
+    font-size: 27px;
+    margin: 2px 0 6px 0;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DoHyeon-Regular.asset");
+}
+
+.trick-card__how { font-size: 16px; color: var(--ink-soft); }
+
+.trick-card__label {
+    margin-top: 10px;
+    font-size: 13px;
+    letter-spacing: 2px;
+    color: #C9483A;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+}
+
+.trick-card__tell {
+    font-size: 17px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+}
+
+.trick-card__caught {
+    margin-top: 10px;
+    font-size: 13px;
+    color: var(--muted);
+}
+
+.trick-card--down {
+    background-color: #3B3F52;
+    border-color: #2B2430;
+    align-items: center;
+    justify-content: center;
+}
+
+.trick-card--down .trick-card__no { color: #C9C2B3; align-self: flex-start; }
+
+.trick-card__mark {
+    font-size: 84px;
+    color: #F2E4C4;
+    margin-top: 6px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DoHyeon-Regular.asset");
+}
+
+.trick-card__hint { font-size: 16px; color: #C9C2B3; }
+
+/* The next morning, after the red pen: the case's twin and the cards won today. */
+
+.end-after {
+    margin-top: 6px;
+    opacity: 0;
+    translate: 0 8px;
+    transition-property: opacity, translate;
+    transition-duration: 0.35s;
+}
+
+.end-after--in { opacity: 1; translate: 0 0; }
+
+.end-twin {
+    font-size: 15px;
+    color: var(--muted);
+    margin: 2px 4px;
+}
+
+.trick-won {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 6px 0 2px 0;
+    padding: 6px 10px;
+    background-color: #3B3F52;
+    border-radius: 8px;
+}
+
+.trick-won__tag {
+    font-size: 14px;
+    letter-spacing: 2px;
+    padding: 2px 8px 1px 8px;
+    margin-right: 10px;
+    color: #17121A;
+    background-color: #F5C23E;
+    border-radius: 4px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+}
+
+.trick-won__names { flex-direction: row; flex-wrap: wrap; flex-shrink: 1; }
+
+.trick-won__name {
+    font-size: 19px;
+    color: #F8EFDA;
+    margin-right: 14px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DoHyeon-Regular.asset");
+}
+
+.trick-won__where { font-size: 14px; color: #C9C2B3; }
+
+.week-collection {
+    margin: 4px 4px 0 4px;
+    font-size: 16px;
+    color: var(--muted);
+}
+
 .week-row--closed { opacity: 0.5; }
 
-.week-row__btn {
-    min-height: 54px;
-    min-width: 150px;
-    margin: 0 0 0 14px;
-    padding: 6px 16px 14px 16px;
+
+/* ---------------------------------------------------------------- day select (title screen) */
+
+.day-select { width: 1240px; }
+
+.day-select__note {
+    margin: 8px 0 0 4px;
+    font-size: 19px;
+    color: var(--ink-soft);
+}
+
+.day-select__note--demo {
+    align-self: flex-start;
+    padding: 3px 10px 2px 10px;
+    color: #17121A;
+    background-color: #F5C23E;
+    border-radius: 4px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+}
+
+/* The DEMO switch's note, at the bottom of the title screen. */
+.demo-toast {
+    position: absolute;
+    left: 50%;
+    bottom: 70px;
+    translate: -50% 20px;
+    padding: 10px 22px 8px 22px;
+    font-size: 22px;
+    color: #17121A;
+    background-color: #F5C23E;
+    border-width: 3px;
+    border-color: #17121A;
+    border-radius: 8px;
+    opacity: 0;
+    transition-property: opacity, translate;
+    transition-duration: 0.3s;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+}
+
+.demo-toast--in { opacity: 1; translate: -50% 0; }
+
+.day-select__pages {
+    flex-direction: row;
+    margin: 18px -8px 6px -8px;
+}
+
+/* One day: a page torn off the wall calendar. */
+.day-pick {
+    flex-grow: 1;
+    flex-basis: 0;
+    min-height: 420px;
+    margin: 0 8px;
+    background-color: var(--paper-light);
+    border-width: 3px;
+    border-color: var(--ink);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.day-pick__top {
+    min-height: 44px;
+    justify-content: center;
+    padding: 6px 12px 4px 14px;
+    background-color: #C9483A;
+}
+
+.day-pick__date {
+    font-size: 17px;
+    color: #FBF4E4;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+}
+
+.day-pick__head {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.day-pick__new {
+    font-size: 14px;
+    letter-spacing: 2px;
+    padding: 3px 8px 1px 8px;
+    color: #17121A;
+    background-color: #F5C23E;
+    border-radius: 4px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+}
+
+.day-pick__body {
+    flex-grow: 1;
+    padding: 10px 16px 14px 16px;
+}
+
+.day-pick__day {
+    font-size: 58px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DoHyeon-Regular.asset");
+    letter-spacing: 2px;
+}
+
+.day-pick__level {
+    font-size: 26px;
+    letter-spacing: 6px;
+    color: #A86A08;
+    margin-top: -4px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+}
+
+.day-pick__help {
     font-size: 18px;
+    color: var(--ink-soft);
+    margin-top: 2px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+}
+
+.day-pick__week {
+    flex-direction: row;
+    align-items: center;
+    min-height: 84px;
+    margin: 14px 0 10px 0;
+    padding: 8px 10px;
+    background-color: rgba(26, 22, 32, 0.07);
+    border-radius: 8px;
+}
+
+.day-pick__week--played {
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.day-pick__who {
+    flex-direction: row;
+    align-items: center;
+}
+
+.day-pick__portrait { width: 46px; height: 46px; flex-shrink: 0; }
+
+.day-pick__case {
+    margin-top: 4px;
+    font-size: 19px;
+    white-space: normal;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DoHyeon-Regular.asset");
+}
+
+.day-pick__mark { width: 30px; height: 30px; margin-left: 6px; flex-shrink: 0; }
+
+.day-pick__lock { width: 30px; height: 30px; margin-right: 10px; flex-shrink: 0; }
+
+.day-pick__why {
+    flex-shrink: 1;
+    font-size: 17px;
+    white-space: normal;
+    color: var(--ink-soft);
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset");
+}
+
+.day-pick__count {
+    font-size: 17px;
+    color: var(--ink-soft);
+    margin-top: 2px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+}
+
+.btn.day-pick__btn {
+    min-height: 58px;
+    margin: 12px 0 0 0;
+    padding: 6px 16px 14px 16px;
+    font-size: 20px;
+}
+
+/* Where this week goes on. */
+.day-pick--next { border-color: #3F7F3A; border-width: 4px; }
+.day-pick--next .day-pick__top { background-color: #3F7F3A; }
+
+/* Not open yet: the page is grey and its details fade. */
+.day-pick--locked { background-color: #DDD3C0; border-color: #6B6470; }
+.day-pick--locked .day-pick__top { background-color: #6B6470; }
+.day-pick--locked .day-pick__day,
+.day-pick--locked .day-pick__level,
+.day-pick--locked .day-pick__help,
+.day-pick--locked .day-pick__counts { opacity: 0.55; }
+
+/* The next morning: the day the first finish opened. */
+.day-opened {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 6px 0 2px 0;
+    padding: 6px 10px;
+    background-color: rgba(63, 127, 58, 0.12);
+    border-width: 2px;
+    border-color: #3F7F3A;
+    border-radius: 8px;
+}
+
+.day-opened__tag {
+    font-size: 14px;
+    letter-spacing: 2px;
+    padding: 2px 8px 1px 8px;
+    margin-right: 10px;
+    color: #FBF4E4;
+    background-color: #3F7F3A;
+    border-radius: 4px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+}
+
+.day-opened__text {
+    flex-shrink: 1;
+    font-size: 16px;
+    color: var(--ink);
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset");
 }
 
 /* ---------------------------------------------------------------- the next morning */
@@ -879,6 +1367,66 @@
     color: var(--red);
 }
 
+/* The notebook, checked by the paper: each claim with the player's stamp, then the red pen. */
+.end-claim {
+    flex-direction: column;
+    /* .end-clue (also on the line) starts its children; the pen row must span the card. */
+    align-items: stretch;
+    padding: 6px 4px 8px 4px;
+    border-top-width: 1px;
+    border-color: rgba(26, 22, 32, 0.2);
+}
+
+.end-claim__top {
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.end-claim__n {
+    width: 24px;
+    flex-shrink: 0;
+    font-size: 19px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DoHyeon-Regular.asset");
+}
+
+.end-claim__quote {
+    flex-grow: 1;
+    flex-shrink: 1;
+    font-size: 17px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset");
+}
+
+.end-claim__stamp {
+    margin-left: 10px;
+    padding: 2px 8px 0 8px;
+    font-size: 16px;
+    letter-spacing: 1px;
+    color: var(--muted);
+    border-width: 2px;
+    border-color: var(--muted);
+    border-radius: 5px;
+    rotate: -6deg;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DoHyeon-Regular.asset");
+}
+
+.end-claim__stamp--true { color: #3F7F3A; border-color: #3F7F3A; }
+.end-claim__stamp--false { color: var(--red); border-color: var(--red); }
+
+.end-claim__pen {
+    flex-direction: row;
+    align-items: flex-start;
+    margin: 4px 0 0 24px;
+}
+
+.end-claim__note {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+    font-size: 16px;
+    color: var(--red);
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset");
+}
+
 .end-rule {
     margin-top: 18px;
     rotate: -1deg;
@@ -961,7 +1509,7 @@
 .week-row {
     flex-direction: row;
     align-items: center;
-    padding: 10px 8px;
+    padding: 7px 8px;
     border-bottom-width: 2px;
     border-color: rgba(43, 36, 48, 0.25);
     opacity: 0;

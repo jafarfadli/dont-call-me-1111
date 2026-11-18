@@ -15,6 +15,11 @@ namespace DontCallMe.Data
 
         public List<DayData> days = new List<DayData>();
 
+        [Tooltip("The trick cards: one per scam trick, won by stamping a claim that uses it FALSE.")]
+        public List<TrickDef> tricks = new List<TrickDef>();
+
+        public TrickDef Trick(string id) => tricks.Find(t => t.id == id);
+
         static DayCatalog cached;
         static Lang cachedLang;
 
@@ -33,5 +38,20 @@ namespace DontCallMe.Data
         public int Count => days.Count;
 
         public DayData Get(int day) => days.Find(d => d != null && d.day == day);
+    }
+
+    /// <summary>
+    /// A trick card: one way scammers lie (the borrowed name, the new account...). The player wins
+    /// it by stamping a false claim that uses it FALSE, and keeps it across weeks.
+    /// </summary>
+    [System.Serializable]
+    public class TrickDef
+    {
+        public string id;
+        public string name;
+        [Tooltip("How the trick works, in a sentence.")]
+        [TextArea(2, 3)] public string how;
+        [Tooltip("How to see through it, in a sentence.")]
+        [TextArea(2, 3)] public string tell;
     }
 }

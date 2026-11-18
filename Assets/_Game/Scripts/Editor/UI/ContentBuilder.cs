@@ -59,6 +59,7 @@ namespace DontCallMe.Editor.UI
         const string CaseBrother = "brother";
         const string CaseParcel = "parcel";
         const string CaseDentist = "dentist";
+        const string CaseYuna = "yuna";
 
         // The voices (macOS `say`) of the callers, per language (the other cases' are in their own files).
         static string VoiceJeon => L("Daniel", "Rocko (Korean (South Korea))");
@@ -66,7 +67,7 @@ namespace DontCallMe.Editor.UI
         static string VoiceCustoms => L("Shelley (English (UK))", "Yuna");
 
         /// <summary>Bump when the built content changes, so open projects rebuild it (and its voices) by themselves.</summary>
-        public const int Version = 8;
+        public const int Version = 15;
 
         /// <summary>The language being built.</summary>
         static Lang lang = Lang.En;
@@ -110,6 +111,7 @@ namespace DontCallMe.Editor.UI
             EnsureFolder(Day1Dir);
             EnsureFolder(Day2Dir);
             EnsureFolder(Day3Dir);
+            EnsureFolder(Day4Dir);
             EnsureFolder(ResourcesDir);
 
             var built = new List<(Lang, List<DayData>)>();
@@ -117,10 +119,11 @@ namespace DontCallMe.Editor.UI
             {
                 lang = l;
                 if (l == Lang.Ko)
-                    foreach (string dir in new[] { Day0Dir, Day1Dir, Day2Dir, Day3Dir })
+                    foreach (string dir in new[] { Day0Dir, Day1Dir, Day2Dir, Day3Dir, Day4Dir })
                         EnsureFolder(dir + "/ko");
                 var catalog = ScriptableObject.CreateInstance<DayCatalog>();
-                catalog.days = new List<DayData> { BuildDay0(), BuildDay1(), BuildDay2(), BuildDay3() };
+                catalog.days = new List<DayData> { BuildDay0(), BuildDay1(), BuildDay2(), BuildDay3(), BuildDay4() };
+                catalog.tricks = Tricks();
                 Store(catalog, CatalogFor(l));
                 built.Add((l, catalog.days));
             }
@@ -404,6 +407,73 @@ namespace DontCallMe.Editor.UI
         static ClueDef Clue(string id, string text, string where, params ClueWhen[] when) =>
             new ClueDef { id = id, text = text, where = where, when = new List<ClueWhen>(when) };
 
+        // ---------------------------------------------------------------- the case notebook
+
+        /// <summary>A claim the caller makes; <paramref name="note"/> is the next morning's red-pen line.</summary>
+        static ClaimDef Claim(string id, string text, bool truth, string note) => new ClaimDef { id = id, text = text, truth = truth, note = note };
+
+        /// <summary>The line makes this claim: it goes into the notebook when it is said.</summary>
+        static ConvLine Says(this ConvLine line, string claim)
+        {
+            line.claim = claim;
+            return line;
+        }
+
+        /// <summary>A clue is found when this mark is circled.</summary>
+        static ClueWhen Circled(string markId) => new ClueWhen(ClueEvent.Marked, markId);
+
+        static MarkDef Mark(string id, string claim, MarkPlace place, string key) => new MarkDef { id = id, claim = claim, place = place, key = key };
+
+        /// <summary>A field of a drawer document, by its label.</summary>
+        static MarkDef MarkField(string id, string claim, string document, string label) => Mark(id, claim, MarkPlace.Drawer, $"{document}|{label}");
+
+        /// <summary>One line of a drawer document's small print.</summary>
+        static MarkDef MarkLine(string id, string claim, string document, string line) => Mark(id, claim, MarkPlace.Drawer, $"{document}|{line}");
+
+        /// <summary>A drawer document's scanned picture (a receipt).</summary>
+        static MarkDef MarkImage(string id, string claim, string document) => Mark(id, claim, MarkPlace.Drawer, $"{document}|image");
+
+        static MarkDef MarkChat(string id, string claim, string thread, string text) => Mark(id, claim, MarkPlace.Chats, $"{thread}|{text}");
+
+        static MarkDef MarkTx(string id, string claim, string counterparty, long amount) => Mark(id, claim, MarkPlace.Bank, $"{counterparty}|{amount}");
+
+        /// <summary>One of Jiwoo's account cards in the bank app, with its balance.</summary>
+        static MarkDef MarkBalance(string id, string claim, string account) => Mark(id, claim, MarkPlace.Bank, $"balance|{account}");
+
+        /// <summary>A note on the calendar, by what it says.</summary>
+        static MarkDef MarkNote(string id, string claim, string text) => Mark(id, claim, MarkPlace.Calendar, text);
+
+        /// <summary>The computer's lookup of a number or an account.</summary>
+        static MarkDef MarkCheck(string id, string claim, string number) => Mark(id, claim, MarkPlace.Computer, number);
+
+        static MarkDef MarkContact(string id, string claim, string number) => Mark(id, claim, MarkPlace.Contacts, number);
+
+        /// <summary>The newspaper: "warning", "headline", or a local item's or an ad's title.</summary>
+        static MarkDef MarkNews(string id, string claim, string key) => Mark(id, claim, MarkPlace.Newspaper, key);
+
+        /// <summary>On a video call: "face" (the caller's face as they talk), or "wave" (once a line with Act("wave") has been said).</summary>
+        static MarkDef MarkVideo(string id, string claim, string key) => Mark(id, claim, MarkPlace.Video, key);
+
+        /// <summary>A caller's answer in the transcript, by the line as said (circled with a small button on a Write day).</summary>
+        static MarkDef MarkCall(string id, string claim, string line) => Mark(id, claim, MarkPlace.Call, line);
+
+        /// <summary>The bank history's "Today: nothing received yet" row (shown only when no money came in today).</summary>
+        static MarkDef MarkNoneToday(string id, string claim) => Mark(id, claim, MarkPlace.Bank, "today|none");
+
+        /// <summary>The item settles these claims too: it is filed under each of them as well.</summary>
+        static MarkDef Also(this MarkDef mark, params string[] claims)
+        {
+            mark.also.AddRange(claims);
+            return mark;
+        }
+
+        /// <summary>What the caller does on camera while saying the line (a video call), e.g. "wave".</summary>
+        static ConvLine Act(this ConvLine line, string act)
+        {
+            line.act = act;
+            return line;
+        }
+
         static EndPaper Paper(Outcome outcome, string headline, string subhead, string body, string note) =>
             new EndPaper { outcome = outcome, headline = headline, subhead = subhead, body = body, verdictNote = note };
 
@@ -461,6 +531,39 @@ namespace DontCallMe.Editor.UI
             var e = Echo(afterDay, truth, outcomes, EchoKind.DayCard);
             e.text = text;
             return e;
+        }
+
+        /// <summary>
+        /// A calendar note that day left: put in place of the note on the same date that reads
+        /// <paramref name="replaces"/>, or added. <paramref name="picture"/> (a sprite name) becomes
+        /// the calendar's picture when the note changes what is drawn on it.
+        /// </summary>
+        static DayEcho EchoNote(int afterDay, Truth truth, OutcomeMask outcomes, int dom, string text, string replaces = null, string picture = null)
+        {
+            var e = Echo(afterDay, truth, outcomes, EchoKind.Note);
+            e.date = dom;
+            var d = new DateTime(2026, 10, dom);
+            e.when = L($"{d.ToString("ddd", CultureInfo.InvariantCulture)} {dom}", $"{dom}일 ({KoWeekday(d).Substring(0, 1)})");
+            e.text = text;
+            e.title = replaces;
+            if (!string.IsNullOrEmpty(picture))
+                e.image = Tex(picture);
+            return e;
+        }
+
+        /// <summary>
+        /// What an earlier day left that is still there days later: the chats, the notes, the money
+        /// and the contacts, but not the day card's line; and nothing pops up again.
+        /// </summary>
+        static IEnumerable<DayEcho> StillThere(IEnumerable<DayEcho> echoes)
+        {
+            foreach (var e in echoes)
+            {
+                if (e.kind == EchoKind.DayCard)
+                    continue;
+                e.notify = false;
+                yield return e;
+            }
         }
 
         /// <summary>Money that came in (+) or went out (-) after that day: a line in the bank history, and the balance with it.</summary>

@@ -151,11 +151,19 @@ namespace DontCallMe.Editor.Audio
                 string path = AssetDatabase.GUIDToAssetPath(guid);
                 if (!(AssetImporter.GetAtPath(path) is AudioImporter importer))
                     continue;
+                // The default is what the web build gets (the importer takes no override for WebGL). A
+                // browser plays a streamed clip through a media element, which cannot loop without a gap
+                // or start two layers on the same sample, so there the loops are decoded when they load.
                 var s = importer.defaultSampleSettings;
-                s.loadType = AudioClipLoadType.Streaming;
+                s.loadType = AudioClipLoadType.DecompressOnLoad;
+                s.preloadAudioData = true;
                 s.compressionFormat = AudioCompressionFormat.Vorbis;
                 s.quality = 0.7f;
                 importer.defaultSampleSettings = s;
+                // On the desktop the loops stream from disk.
+                var desktop = s;
+                desktop.loadType = AudioClipLoadType.Streaming;
+                importer.SetOverrideSampleSettings(BuildTargetGroup.Standalone, desktop);
                 importer.loadInBackground = true;
                 importer.SaveAndReimport();
             }

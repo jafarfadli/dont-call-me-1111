@@ -1,11 +1,13 @@
-"""Voice lines for the callers, generated with the macOS `say` voices and shaped like a phone line.
+"""Voice lines for the callers, spoken by ElevenLabs voices (or macOS `say` voices) and shaped like a phone line.
 
 Input : Tools/Audio/voice_lines.json, written by Unity (Tools → Don't Call Me → Audio → Export Voice Lines):
         [{"voice": "Daniel", "text": "Hello, is this Kim Jiwoo? ..."}, ...]
 Output: Assets/_Game/Audio/Voices/<voice>/<hash>.wav  (22.05 kHz mono)
         Assets/_Game/Audio/Voices/manifest.json         [{"voice", "text", "file"}]  → Unity's VoiceBank
 
-Each line goes through `say`, then a telephone band-pass (300 Hz to 3.4 kHz with a presence lift),
+A caller whose voice is in ELEVEN is spoken by that ElevenLabs voice (needs ELEVENLABS_API_KEY in the
+environment when a line has to be rendered; clips already made need no key). Any other voice goes through `say`.
+Each line then goes through a telephone band-pass (300 Hz to 3.4 kHz with a presence lift),
 light compression and a little line hiss, and is trimmed and levelled. Lines already generated with
 the same voice and text are kept, so re-running only renders what changed.
 
@@ -17,6 +19,9 @@ import os
 import subprocess
 import sys
 import tempfile
+import time
+import urllib.error
+import urllib.request
 import wave
 
 import numpy as np
@@ -35,18 +40,70 @@ RATES = {"Daniel": 186, "Samantha": 178, "Karen": 176, "Moira": 170, "Tessa": 17
          "Grandpa (Korean (South Korea))": 215, "Eddy (Korean (South Korea))": 240}
 
 
+# The game's voice ids (the conversation's caller.voice, named after the macOS voices they replaced) spoken by
+# ElevenLabs voices. One English and one native Korean voice per caller.
+ELEVEN = {
+    "Samantha": "XrExE9yKIg1WjnnlVkGX",                          # Matilda: Team Leader Baek, gas billing (Day 0)
+    "Sandy (Korean (South Korea))": "iWLjl1zCuqXRkW6494ve",      # Jisoo
+    # Chosen, not rendered yet (about 18,600 characters): uncomment when the account's limit allows.
+    # "Daniel": "cjVigY5qzO86Huf0OWal",                          # Eric: Manager Jeon, the protected account
+    # "Rocko (Korean (South Korea))": "s07IwTCOrCDCaETjUVjx",    # Hyunbin
+    # "Grandpa (English (US))": "pqHfZKP75CvOlQylNhV4",          # Bill: Oh Sangchul, the subscription fee
+    # "Grandpa (Korean (South Korea))": "AgA5UKT9OrVg7jxVBZd4",  # Sung-ho
+    # "Tessa": "cgSgspJ2msm6clMCkdW9",                           # Jessica: Bae Sujin, the extra zero
+    # "Flo (Korean (South Korea))": "5I7B1di44aCL15NkP0jn",      # Kanna
+    # "Reed (English (US))": "iP95p4xoKVk53GoZ742B",             # Chris: Choi Hyunwoo, the rent
+    # "Reed (Korean (South Korea))": "CxErO97xpQgQXYmapDKX",     # Theo
+    # "Eddy (English (US))": "TX3LPaxmHKxFdv7VOQHJ",             # Liam: Minjun
+    # "Eddy (Korean (South Korea))": "m3gJBS8OofDJfycyA2Ip",     # Taehyung
+    # "Shelley (English (UK))": "Xb7hH8MSUJpSbSDYk0k2",          # Alice: Yoon Seora, the parcel
+    # "Yuna": "mYk0rAapHek2oTw18z8x",                            # Salang
+    # "Karen": "EXAVITQu4vr4xnSDxMaL",                           # Sarah: Moon Jihye, the dentist
+    # "Shelley (Korean (South Korea))": "QPFsEL6IBxlT15xfiD6C",  # Hana Lee
+}
+ELEVEN_MODEL = "eleven_multilingual_v2"
+ELEVEN_SETTINGS = {"stability": 0.4, "similarity_boost": 0.8, "style": 0.3}
+ELEVEN_TAKE = 1   # bump to render every ElevenLabs line again (new settings)
+
+
 def slug(voice):
     return "".join(c for c in voice if c.isalnum()) or "voice"
 
 
 def file_for(voice, text):
-    h = hashlib.sha1(f"{voice}|{text}".encode("utf-8")).hexdigest()[:12]
+    key = f"{voice}|{text}"
+    if voice in ELEVEN:
+        key += f"|{ELEVEN[voice]}|{ELEVEN_MODEL}|{ELEVEN_TAKE}"
+    h = hashlib.sha1(key.encode("utf-8")).hexdigest()[:12]
     return os.path.join(OUT, slug(voice), h + ".wav")
 
 
 def say(voice, text, path_aiff):
     rate = RATES.get(voice) or RATES.get(voice.split(" ")[0], 180)
     subprocess.run(["say", "-v", voice, "-r", str(rate), "-o", path_aiff, text], check=True)
+
+
+def eleven(voice, text):
+    """The line as ElevenLabs speaks it, mono float at SR."""
+    key = os.environ.get("ELEVENLABS_API_KEY")
+    if not key:
+        sys.exit("tts.py: ELEVENLABS_API_KEY is not set, and lines for ElevenLabs voices need rendering. "
+                 "Run it from a shell that has the key (Unity's menu does not).")
+    lang = "ko" if any("\uac00" <= c <= "\ud7a3" for c in text) else "en"
+    body = json.dumps({"text": text, "model_id": ELEVEN_MODEL, "language_code": lang,
+                       "voice_settings": ELEVEN_SETTINGS}).encode()
+    url = f"https://api.elevenlabs.io/v1/text-to-speech/{ELEVEN[voice]}?output_format=pcm_{SR}"
+    for attempt in range(4):
+        req = urllib.request.Request(url, data=body, headers={"xi-api-key": key, "Content-Type": "application/json"})
+        try:
+            with urllib.request.urlopen(req, timeout=120) as r:
+                return np.frombuffer(r.read(), "<i2").astype(np.float64) / 32768
+        except urllib.error.HTTPError as e:
+            detail = e.read()[:300].decode("utf-8", "replace")
+            if e.code in (429, 500, 502, 503) and attempt < 3:
+                time.sleep(2 + 4 * attempt)
+                continue
+            sys.exit(f"tts.py: ElevenLabs {e.code} for {voice!r}: {detail}")
 
 
 def to_wav(path_aiff, path_wav):
@@ -109,10 +166,14 @@ def main():
             voice, text = item["voice"], item["text"].strip()
             path = file_for(voice, text)
             if force or not os.path.exists(path):
-                aiff, raw = os.path.join(tmp, "l.aiff"), os.path.join(tmp, "l.wav")
-                say(voice, text, aiff)
-                to_wav(aiff, raw)
-                x = trim(phone_line(trim(read(raw)), seed=i)) * 0.85
+                if voice in ELEVEN:
+                    spoken = eleven(voice, text)
+                else:
+                    aiff, raw = os.path.join(tmp, "l.aiff"), os.path.join(tmp, "l.wav")
+                    say(voice, text, aiff)
+                    to_wav(aiff, raw)
+                    spoken = read(raw)
+                x = trim(phone_line(trim(spoken), seed=i)) * 0.85
                 write(path, x)
                 made += 1
             else:

@@ -63,6 +63,9 @@ namespace DontCallMe.UI
         /// <summary>The tutorial day's guide card (hidden until a step is shown).</summary>
         public TutorialCard Tutorial { get; private set; }
         public CaseFile CurrentCase { get; set; }
+        /// <summary>Today's case notebook, from the moment the call comes in (null before).</summary>
+        public CaseNotebook Notebook { get; private set; }
+        public NotebookView NotebookView { get; private set; }
         public bool InputLocked { get; private set; }
         public bool Paused => pauseMenu != null;
         /// <summary>A case call is on: the phone is for investigating, the verdict is given on the call.</summary>
@@ -203,6 +206,8 @@ namespace DontCallMe.UI
             Hud.SetHintsVisible(!PhoneView.IsUp && openPanel == null && card == null && (player == null || !player.IsSeated));
             Hud.SetButtonsVisible(!PhoneView.IsUp);
 
+            PlaceNotebook();
+
             bool locked = PhoneView.IsUp || openPanel != null || modal != null || endingCard != null || card != null || Paused;
             if (locked != InputLocked)
             {
@@ -260,6 +265,10 @@ namespace DontCallMe.UI
             var kb = Keyboard.current;
             if (kb == null || typing || modal != null || endingCard != null || card != null || Paused)
                 return;
+            if (kb.spaceKey.wasPressedThisFrame && director != null && director.IsCallActive)
+                director.SkipLine();
+            if (kb.nKey.wasPressedThisFrame && NotebookView != null)
+                NotebookView.Toggle();
             if (kb.digit1Key.wasPressedThisFrame || kb.numpad1Key.wasPressedThisFrame)
                 Choose(0);
             if (kb.digit2Key.wasPressedThisFrame || kb.numpad2Key.wasPressedThisFrame)
@@ -436,7 +445,7 @@ namespace DontCallMe.UI
                 return;
             openPanel = p;
             ClueEvents.Raise(ClueEvent.PanelOpened, id.ToString());
-            p.Root.EnableInClassList("room-panel--guided", Tutorial.IsOn);
+            p.Root.EnableInClassList("room-panel--guided", LeftColumnInUse);
             panelLayer.Add(p.Root);
             dim.AddToClassList("dim--on");
             p.Root.schedule.Execute(() => p.Root.AddToClassList("room-panel--open")).ExecuteLater(20);
@@ -454,6 +463,43 @@ namespace DontCallMe.UI
             p.Root.RemoveFromClassList("room-panel--open");
             p.Root.schedule.Execute(() => p.Root.RemoveFromHierarchy()).ExecuteLater(220);
             PanelClosed?.Invoke(p.Id);
+        }
+
+        // ---------------------------------------------------------------- the case notebook
+
+        /// <summary>Puts today's notebook at the left edge (the day director calls this when the call comes in).</summary>
+        public void ShowNotebook(CaseNotebook notebook, NotebookView view)
+        {
+            HideNotebook();
+            Notebook = notebook;
+            NotebookView = view;
+            // Over the panels, so a claim and its evidence are on screen together; under the cards.
+            overlayLayer.Insert(0, view.Root);
+            PlaceNotebook();
+        }
+
+        public void HideNotebook()
+        {
+            NotebookView?.Root.RemoveFromHierarchy();
+            NotebookView = null;
+            Notebook = null;
+        }
+
+        /// <summary>The guide's note or the notebook takes the left edge: room panels open beside it.</summary>
+        bool LeftColumnInUse => Tutorial.IsOn || (NotebookView != null && !NotebookView.Folded);
+
+        /// <summary>Under the guide's note when it is up, else under the deadline.</summary>
+        void PlaceNotebook()
+        {
+            if (NotebookView == null)
+                return;
+            float top = 196f;
+            if (Tutorial.IsOn && !float.IsNaN(Tutorial.Root.layout.yMax))
+                top = Tutorial.Root.layout.yMax + 14f;
+            NotebookView.Root.style.top = top;
+            if (!float.IsNaN(root.layout.height) && root.layout.height > top + 120f)
+                NotebookView.Root.style.maxHeight = root.layout.height - top - 20f;
+            openPanel?.Root.EnableInClassList("room-panel--guided", LeftColumnInUse);
         }
 
         // ---------------------------------------------------------------- modals, toasts, endings
@@ -588,14 +634,18 @@ namespace DontCallMe.UI
             return opacity > 0.05f;
         }
 
-        public void ShowPrompt(string text, Vector2 screenPosition)
+        /// <summary>The prompt next to the cursor, saying whether a click opens the object or walks over to it first.</summary>
+        public void ShowPrompt(string text, Vector2 screenPosition, PromptReach reach = PromptReach.Near)
         {
             if (root?.panel == null || InputLocked)
                 return;
             var panelPos = RuntimePanelUtils.ScreenToPanel(root.panel, new Vector2(screenPosition.x, Screen.height - screenPosition.y));
-            Hud.ShowPrompt(Loc.T(text), panelPos);
+            Hud.ShowPrompt(Loc.T(text), panelPos, reach);
         }
 
         public void HidePrompt() => Hud?.HidePrompt();
+
+        /// <summary>A click that could not reach its object: the prompt shakes.</summary>
+        public void NudgePrompt() => Hud?.NudgePrompt();
     }
 }

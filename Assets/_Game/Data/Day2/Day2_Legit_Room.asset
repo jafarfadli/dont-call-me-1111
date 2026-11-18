@@ -177,6 +177,9 @@ MonoBehaviour:
     - day: 8
       label: Thu 8
       text: Dentist, 18:30
+    - day: 9
+      label: Fri 9
+      text: "Hangul Day \xB7 Yuna in Fukuoka till Sun"
     - day: 13
       label: Tue 13
       text: Midterms start

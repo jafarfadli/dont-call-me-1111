@@ -52,15 +52,21 @@ namespace DontCallMe.Editor.UI
             var v = StoreVariant(scam ? "paper_scam" : "paper_legit", CasePaper, Day1Dir, scam ? "Day1_Paper_Scam" : "Day1_Paper_Legit", PaperCall(scam), phone, room, directory);
             v.intro = L("Classes are over. On the desk lies the Seoul Daily your dad signed you up for in March: it comes every morning.",
                         "수업은 끝났다. 책상 위에는 3월에 아빠가 구독 신청해 준 서울데일리가 놓여 있다. 매일 아침 오는 신문이다.");
+            v.marks = new List<MarkDef>
+            {
+                MarkNews("news_notice", "manager", "warning").Also("account"),
+                MarkCheck("check_number", "manager", PaperNumber),
+                MarkCheck("check_account", "account", PaperAccount),
+            };
             v.clues = new List<ClueDef>
             {
                 scam
                     ? Clue("notice", L("Today's Seoul Daily prints a notice: the Mapo branch has a new manager since 1 October, Oh Sangchul no longer works for the paper, and the fee is paid by giro slip only, never by a transfer over the phone.",
                                        "오늘 자 서울데일리에 알림이 실렸다. 10월 1일부로 마포지국장이 바뀌었고, 오상철 씨는 더 이상 신문사와 관계가 없으며, 구독료는 지로로만 받고 전화로 이체를 요구하지 않는다고."),
-                           AtPaper, new ClueWhen(ClueEvent.PanelOpened, "Newspaper"))
+                           AtPaper, Circled("news_notice"))
                     : Clue("notice", L("Today's Seoul Daily prints the notice itself: this week branch manager Oh Sangchul phones readers for the October to December fee, 54,000 won, into the very account he gave you.",
                                        "오늘 자 서울데일리에 직접 알림이 실렸다. 이번 주 오상철 지국장이 전화로 10~12월 구독료 54,000원을 안내하며, 그가 불러 준 바로 그 계좌로 받는다고."),
-                           AtPaper, new ClueWhen(ClueEvent.PanelOpened, "Newspaper")),
+                           AtPaper, Circled("news_notice")),
             };
             v.papers = scam ? PaperScamPapers() : PaperLegitPapers();
             v.ruleTitle = scam ? L("A real name is not permission", "진짜 이름이 곧 자격은 아니다") : L("The company's own notice settles it", "회사가 낸 알림이 답이다");
@@ -82,12 +88,14 @@ namespace DontCallMe.Editor.UI
             c.isScam = scam;
             c.revealAtEnd = false;
             c.caller = new CallerInfo { displayName = L("Oh Sangchul", "오상철"), number = PaperNumber, inContacts = false, portrait = "pt_branch", voice = VoiceBranch };
-            c.claims = new List<string>
+            c.claims = new List<ClaimDef>
             {
-                L("He is Oh Sangchul, manager of the Seoul Daily's Mapo branch.", "서울데일리 마포지국장 오상철이라고 한다."),
-                L("From October the branch takes the subscription fee by transfer, not at the door.", "10월부터 지국이 구독료를 방문 수금 대신 계좌이체로 받는다고 한다."),
-                L($"October to December costs ₩54,000: Nuri Bank {PaperAccount}, in his name.", $"10~12월 구독료 54,000원: 누리은행 {PaperAccount}, 본인 명의"),
-                L("If it isn't paid by 17:00, the paper stops coming tomorrow.", "17시까지 내지 않으면 내일부터 신문이 끊긴다고 한다."),
+                Claim("manager", L("\"I'm the manager of the Seoul Daily's Mapo branch.\"", "\"서울데일리 마포지국장입니다.\""), !scam,
+                      scam ? L("False. Today's paper says Oh Sangchul no longer works for the Seoul Daily and may not collect fees.", "거짓. 오늘 자 신문에 따르면 오상철 씨는 더 이상 서울데일리와 관계가 없고 구독료를 받을 수 없다.")
+                           : L("True. Today's paper names him as the branch manager who phones readers this week.", "사실. 오늘 자 신문이 이번 주 독자에게 전화하는 지국장으로 그를 직접 소개했다.")).Via(TrickBorrowedName),
+                Claim("account", L("\"The fee goes to my account by transfer now.\"", "\"이제 구독료는 제 계좌로 이체받아요.\""), !scam,
+                      scam ? L("False. The account really is his, as CheckFirst shows, but the paper takes its fee by giro slip only.", "거짓. 체크퍼스트대로 계좌는 정말 그의 것이지만, 신문사는 구독료를 지로로만 받는다.")
+                           : L("True. The paper's own notice gives this very account and amount.", "사실. 신문사가 낸 알림에 바로 이 계좌와 금액이 나와 있다.")).Via(TrickNewAccount),
             };
             c.nodes = new List<ConvNode>
             {
@@ -99,7 +107,7 @@ namespace DontCallMe.Editor.UI
                     Caller(L("Hello, is this the student in 302, Mangwon Heights? This is Oh Sangchul, the manager of the Seoul Daily's Mapo branch.",
                              "여보세요, 망원하이츠 302호 학생 맞지요? 서울데일리 마포지국장 오상철입니다."),
                            L("Hello, is this the student in three oh two, Mangwon Heights? This is Oh Sangchul, the manager of the Seoul Daily's Mapo branch.",
-                             "여보세요, 망원하이츠 삼백이 호 학생 맞지요? 서울데일리 마포지국장 오상철입니다.")),
+                             "여보세요, 망원하이츠 삼백이 호 학생 맞지요? 서울데일리 마포지국장 오상철입니다.")).Says("manager"),
                     Caller(L("Your father took out the paper for you in March and paid up to September. From October, the fee hasn't been paid.",
                              "3월에 아버님이 학생 앞으로 신문을 신청하시면서 9월분까지 내셨어요. 10월부터는 구독료가 안 들어왔고요."),
                            L(null, "삼월에 아버님이 학생 앞으로 신문을 신청하시면서 구월분까지 내셨어요. 시월부터는 구독료가 안 들어왔고요."))),
@@ -114,7 +122,7 @@ namespace DontCallMe.Editor.UI
                              $"10월부터 12월까지 5만 4천 원이에요. 누리은행 {PaperAccount}로 보내 주세요. 예금주는 저, 오상철입니다."),
                            L($"October to December comes to fifty four thousand won. Please send it to Nuri Bank, {PaperAccountSpoken}. The account is in my name, Oh Sangchul.",
                              $"시월부터 십이월까지 오만 사천 원이에요. 누리은행 {PaperAccountSpoken}로 보내 주세요. 예금주는 저, 오상철입니다."),
-                           F(FactKind.Account, PaperAccount), F(FactKind.Amount, "54,000")),
+                           F(FactKind.Account, PaperAccount), F(FactKind.Amount, "54,000")).Says("account"),
                     Caller(L("I close the branch's books at five. Whoever hasn't paid by then comes off tomorrow's delivery list.",
                              "지국 장부를 5시에 마감해요. 그때까지 안 들어온 집은 내일 배달 명단에서 빠집니다."),
                            L(null, "지국 장부를 다섯 시에 마감해요. 그때까지 안 들어온 집은 내일 배달 명단에서 빠집니다.")),
@@ -281,8 +289,7 @@ namespace DontCallMe.Editor.UI
                 // The real manager, paid late: the fee went out on Wednesday morning.
                 EchoBank(1, Truth.Legit, Kept, L("OH SANGCHUL", "오상철"), Oct(7, "08:10"), L("Seoul Daily, October to December", "서울데일리 10~12월 구독료"), -PaperFee),
             };
-            if (nextDay)
-                list.AddRange(new[]
+            list.AddRange(new[]
                 {
                     EchoCard(1, Truth.Scam, Sent, L("Yesterday's \"branch manager\" had been let go in September. Your ₩54,000 is gone.", "어제의 '지국장'은 9월에 그만둔 사람이었다. 54,000원은 돌아오지 않는다.")),
                     EchoChat(1, Truth.Scam, Sent, FamilyChat, dad, "pt_dad", Oct(6, "19:40"),
@@ -307,7 +314,9 @@ namespace DontCallMe.Editor.UI
                              L("Jiwoo, the branch manager called me. He's real, it was in today's paper. Send him the fee tomorrow morning, will you?",
                                "지우야, 지국장님한테 전화 왔다. 진짜 맞다, 오늘 신문에도 났어. 내일 아침에 구독료 꼭 보내 드려라."), true),
                 });
-            return OfCase(CasePaper, list.ToArray());
+            // Later days keep the chats and the money, not the day card's line.
+            var all = OfCase(CasePaper, list.ToArray());
+            return nextDay ? all : StillThere(all);
         }
     }
 }

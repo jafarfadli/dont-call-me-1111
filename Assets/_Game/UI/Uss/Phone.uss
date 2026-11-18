@@ -676,6 +676,103 @@
 .call__hang .call-btn { width: 126px; height: 126px; }
 .call__hang .call-btn > .icon { width: 64px; height: 64px; }
 
+/* A video call: the caller's face fills the screen, Jiwoo's own picture sits in a corner, the
+   name and timer go to the top left and the buttons shrink to the bottom. */
+
+.video {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: #2A2530;
+    -unity-background-scale-mode: scale-and-crop;
+}
+
+/* The region over the face: circled for the notebook. Matches where ui_art.py draws it. */
+.video__face {
+    position: absolute;
+    left: 27%;
+    right: 25%;
+    top: 15%;
+    height: 40%;
+}
+
+.video__self {
+    position: absolute;
+    right: 12px;
+    top: 12px;
+    width: 76px;
+    height: 100px;
+    border-width: 3px;
+    border-color: #F4EAD2;
+    border-radius: 10px;
+    background-color: #3A3342;
+    -unity-background-scale-mode: scale-and-crop;
+}
+
+/* The name and the timer in a dark box, readable over any picture. */
+.call__info--video {
+    top: 10px;
+    left: 10px;
+    right: auto;
+    max-width: 250px;
+    align-items: flex-start;
+    padding: 6px 12px 8px 12px;
+    border-radius: 10px;
+    background-color: rgba(20, 16, 24, 0.6);
+}
+
+.call--video .call__name { font-size: 32px; -unity-text-align: middle-left; }
+.call--video .call__label,
+.call--video .call__number,
+.call--video .call__timer {
+    -unity-text-outline-width: 1px;
+    -unity-text-outline-color: rgba(20, 16, 24, 0.9);
+}
+
+.video__moments {
+    position: absolute;
+    left: 10px;
+    top: 150px;
+}
+
+.video__moment {
+    width: 92px;
+    padding: 4px;
+    border-radius: 8px;
+    background-color: rgba(20, 16, 24, 0.7);
+    align-items: center;
+}
+
+.video__still {
+    width: 84px;
+    height: 112px;
+    border-radius: 6px;
+    -unity-background-scale-mode: scale-and-crop;
+}
+
+.video__caption {
+    margin-top: 3px;
+    font-size: 13px;
+    color: #F4EAD2;
+    -unity-text-align: middle-center;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+}
+
+.call--video .call__buttons { bottom: 16px; }
+.call--video .call__grid { margin-bottom: 4px; }
+.call--video .call__small .call-btn { width: 72px; height: 72px; }
+.call--video .call__small .call-btn > .icon { width: 36px; height: 36px; }
+.call--video .call__hang .call-btn { width: 88px; height: 88px; }
+.call--video .call__hang .call-btn > .icon { width: 46px; height: 46px; }
+.call--video .call__small Label,
+.call--video .call__hang Label {
+    font-size: 15px;
+    -unity-text-outline-width: 1px;
+    -unity-text-outline-color: rgba(20, 16, 24, 0.9);
+}
+
 /* slide to answer */
 
 .slide {

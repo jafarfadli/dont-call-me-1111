@@ -1,3 +1,4 @@
+using System;
 using DontCallMe.Data;
 using DontCallMe.Flow;
 using UnityEngine;
@@ -61,15 +62,30 @@ namespace DontCallMe.UI
                     card.Add(UIKit.Text(a.name, "bank-card__name"));
                     card.Add(UIKit.Text(a.number, "bank-card__number"));
                     card.Add(UIKit.Text(FactText.Won(a.balance), "bank-card__balance"));
+                    Markable.Attach(card, app.Phone.UI, MarkPlace.Bank, $"balance|{a.number}", $"{a.name} {a.number}: {FactText.Won(a.balance)}", Loc.T("Nuri Bank"));
                     Content.Add(card);
                 }
                 Section(Loc.T("History"));
+                // Nothing has come in today: the history says so at the top, so the absence can be circled.
+                if (!data.transactions.Exists(t => IsToday(t.when) && t.amount > 0))
+                {
+                    var row = UIKit.Div("list-row", "list-row--today");
+                    var text = UIKit.Div("list-row__text");
+                    text.Add(UIKit.Text(Loc.Today, "list-row__title"));
+                    text.Add(UIKit.Text(Loc.T("Nothing received yet today"), "list-row__subtitle"));
+                    row.Add(text);
+                    Markable.Attach(row, app.Phone.UI, MarkPlace.Bank, "today|none", Loc.T("Today: nothing received yet"), Loc.T("Nuri Bank") + " · " + Loc.T("History"));
+                    Content.Add(row);
+                }
                 foreach (var t in data.transactions)
-                    TxRow(t, Content);
+                    TxRow(t, Content, app.Phone.UI);
                 Content.Add(UIKit.Text(Loc.T("Transfers show the recipient's name before you confirm."), "t-muted", "t-center"));
             }
 
-            static void TxRow(BankTransaction t, VisualElement parent)
+            static bool IsToday(string when) =>
+                !string.IsNullOrEmpty(when) && (when.StartsWith("Today", StringComparison.Ordinal) || when.StartsWith("오늘", StringComparison.Ordinal));
+
+            static void TxRow(BankTransaction t, VisualElement parent, UIManager ui)
             {
                 // Who and how much on one line, when and what for on the line under it.
                 var row = UIKit.Div("list-row");
@@ -80,6 +96,9 @@ namespace DontCallMe.UI
                 text.Add(top);
                 text.Add(UIKit.Text(t.when + (string.IsNullOrEmpty(t.memo) ? "" : $" · {t.memo}"), "list-row__subtitle"));
                 row.Add(text);
+                string amount = (t.amount > 0 ? "+" : "") + FactText.Won(t.amount);
+                Markable.Attach(row, ui, MarkPlace.Bank, $"{t.counterparty}|{t.amount}", $"{t.counterparty} {amount} · {t.when}" + (string.IsNullOrEmpty(t.memo) ? "" : $" · {t.memo}"),
+                                Loc.T("Nuri Bank") + " · " + Loc.T("History"));
                 parent.Add(row);
             }
         }

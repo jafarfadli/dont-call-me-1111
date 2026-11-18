@@ -91,47 +91,106 @@ namespace DontCallMe.UI
     }
 
     /// <summary>
-    /// The title screen's Case Files: every day of the week as a line. A finished day shows who
-    /// really called, what the player did and the clues found, and can be played again; the next
-    /// day can be started; the days after it stay closed. New week clears them all.
+    /// The title screen's Case Files, in three pages:
+    /// <list type="bullet">
+    /// <item>This week: every day as a line. A finished day shows who really called, what the
+    /// player did and the clues found. Days are started from the title screen's day select
+    /// (<see cref="DaySelectView"/>). New week clears this week's lines.</item>
+    /// <item>Cases: every case with its truths, the ones not seen yet face down (<see cref="CaseBook"/>).</item>
+    /// <item>Trick cards: the cards won by catching false claims (<see cref="TrickCards"/>).</item>
+    /// </list>
+    /// The cases and the cards are kept across weeks.
     /// </summary>
     public class CaseFilesView
     {
-        public VisualElement Root { get; }
+        public enum Page { Week, Cases, Tricks }
 
-        public CaseFilesView(Action onBack, Action<int> onPlay, Action onNewWeek)
+        public VisualElement Root { get; }
+        public Page Current { get; private set; }
+
+        readonly DayCatalog catalog;
+        readonly VisualElement tabs;
+        readonly ScrollView body;
+
+        public CaseFilesView(Action onBack, Action onNewWeek)
         {
             Root = UIKit.Div("menu-card", "paper", "case-files");
             var head = UIKit.Div("pause__head");
             head.Add(UIKit.Icon("ic_case", "pause__icon"));
             head.Add(UIKit.Text(Loc.T("CASE FILES"), "menu-card__title"));
             Root.Add(head);
-            Root.Add(UIKit.Div("rule"));
 
-            var catalog = DayCatalog.Load();
-            int next = GameRun.NextDay;
+            catalog = DayCatalog.Load();
+            var (seen, truths) = CaseBook.Count(catalog);
+            var (won, cards) = TrickCards.Count(catalog);
+            tabs = UIKit.Div("files-tabs");
+            tabs.Add(Tab(Page.Week, Loc.T("This week")));
+            tabs.Add(Tab(Page.Cases, Loc.F("Cases  {0}/{1}", seen, truths)));
+            tabs.Add(Tab(Page.Tricks, Loc.F("Trick cards  {0}/{1}", won, cards)));
+            Root.Add(tabs);
+
+            body = new ScrollView(ScrollViewMode.Vertical);
+            body.AddToClassList("files-body");
+            body.horizontalScrollerVisibility = ScrollerVisibility.Hidden;
+            Root.Add(body);
+
+            var buttons = UIKit.Div("modal__buttons");
+            // For playtests: hands over what was logged (PlaytestLog).
+            var log = UIKit.Btn(Loc.T("Save playtest log"), PlaytestLog.Export, "files-log");
+            log.tooltip = Loc.T("What you did each day, for the people testing the game");
+            buttons.Add(log);
+            buttons.Add(UIKit.Div("grow"));
+            buttons.Add(UIKit.Btn(Loc.T("New week"), onNewWeek));
+            buttons.Add(UIKit.Btn(Loc.T("Back"), onBack, "btn--blue"));
+            Root.Add(buttons);
+            Show(Page.Week);
+        }
+
+        Button Tab(Page page, string text)
+        {
+            var b = UIKit.Btn(text, () =>
+            {
+                Sfx.Play(Sfx.Paper, 0.5f);
+                Show(page);
+            }, "files-tab");
+            b.userData = page;
+            return b;
+        }
+
+        public void Show(Page page)
+        {
+            Current = page;
+            foreach (var t in tabs.Children())
+                t.EnableInClassList("files-tab--on", t.userData is Page p && p == page);
+            body.Clear();
+            body.scrollOffset = Vector2.zero;
+            if (page == Page.Cases)
+                body.Add(CaseBook.Page(catalog));
+            else if (page == Page.Tricks)
+                body.Add(TrickCards.Page(catalog));
+            else
+                body.Add(Week());
+        }
+
+        VisualElement Week()
+        {
             var table = UIKit.Div("week-table");
             if (catalog != null)
                 foreach (var day in catalog.days)
                     if (day != null)
-                        table.Add(Row(day, GameRun.Get(day.day), day.day == next, onPlay));
-            Root.Add(table);
-
-            var buttons = UIKit.Div("modal__buttons");
-            buttons.Add(UIKit.Btn(Loc.T("New week"), onNewWeek));
-            buttons.Add(UIKit.Btn(Loc.T("Back"), onBack, "btn--blue"));
-            Root.Add(buttons);
+                        table.Add(Row(day, GameRun.Get(day.day)));
+            return table;
         }
 
-        static VisualElement Row(DayData day, DayRecord record, bool isNext, Action<int> onPlay)
+        static VisualElement Row(DayData day, DayRecord record)
         {
             var variant = record != null ? day.Variant(record.variant) : null;
             var conv = variant?.conversation;
-            var row = UIKit.Div("week-row", "week-row--in", record == null && !isNext ? "week-row--closed" : null);
+            var row = UIKit.Div("week-row", "week-row--in", record == null ? "week-row--closed" : null);
             row.Add(UIKit.Portrait(conv != null ? conv.caller.portrait : null, "week-row__portrait"));
             var name = UIKit.Div("week-row__name");
             name.Add(UIKit.Text(Loc.F("DAY {0}  ·  {1}", day.day, day.dateLabel), "week-row__day"));
-            name.Add(UIKit.Text(conv != null ? conv.caseInfo.caseTitle : isNext ? Loc.T("Not played yet") : Loc.T("Closed"), "week-row__title"));
+            name.Add(UIKit.Text(conv != null ? conv.caseInfo.caseTitle : Loc.T("Not played this week"), "week-row__title"));
             row.Add(name);
             if (record != null)
             {
@@ -145,11 +204,6 @@ namespace DontCallMe.UI
             else
             {
                 row.Add(UIKit.Div("grow"));
-            }
-            if (record != null || isNext)
-            {
-                int n = day.day;
-                row.Add(UIKit.Btn(record != null ? Loc.T("Play again") : Loc.T("Play"), () => onPlay(n), "week-row__btn", record != null ? null : "btn--green"));
             }
             return row;
         }

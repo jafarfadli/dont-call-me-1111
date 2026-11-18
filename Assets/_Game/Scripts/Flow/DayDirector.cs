@@ -46,6 +46,7 @@ namespace DontCallMe.Flow
         ConversationData Conv => Plan?.Conversation;
 
         ClueTracker clues;
+        CaseNotebook notebook;
         float deadline;
         float holdStart;
         float rangAt;
@@ -139,6 +140,7 @@ namespace DontCallMe.Flow
         {
             var today = Plan.day;
             Current = Phase.Intro;
+            PlaytestLog.BeginDay(today, Plan.variant);
             Subscribe();
             clues = new ClueTracker(Plan.variant.clues);
             ShowPaperOnDesk(Plan.room.newspaper.print);
@@ -153,7 +155,7 @@ namespace DontCallMe.Flow
             bool shown = false;
             dayCard = ui.ShowDayCard(today, Plan.Intro, Plan.dayCardLines, () => shown = true);
             float wait = 0f;
-            float readTime = 7f + 2.5f * Plan.dayCardLines.Count;
+            float readTime = 7f + 2.5f * Plan.dayCardLines.Count + (string.IsNullOrEmpty(today.newToday) ? 0f : 4f);
             while (!shown)
             {
                 wait += Time.deltaTime;
@@ -194,7 +196,51 @@ namespace DontCallMe.Flow
 
             Current = Phase.OnCall;
             rangAt = GameClock.Minutes;
+            OpenNotebook();
             director.StartCall(Conv);
+        }
+
+        /// <summary>The case notebook goes up with the call: its claims arrive as the caller says them.</summary>
+        void OpenNotebook()
+        {
+            var conv = Conv;
+            notebook = new CaseNotebook(conv, Plan.variant.marks, Plan.day.help);
+            string who = ui.Phone.FindContact(conv.caller.number)?.name ?? Loc.T("Unknown caller");
+            ui.ShowNotebook(notebook, new NotebookView(notebook, Plan.day.day, conv.caseInfo, conv.caller, who, Hints(Plan.variant)));
+        }
+
+        /// <summary>
+        /// Per claim, the places where one of its clues can be circled (the notebook shows them on
+        /// easier days). A claim no clue settles (true either way) gets the places of what is filed
+        /// under it instead, so no claim's line is left without one.
+        /// </summary>
+        static Dictionary<string, List<MarkPlace>> Hints(DayVariant variant)
+        {
+            var hints = new Dictionary<string, List<MarkPlace>>();
+            void Add(string claimId, MarkPlace place)
+            {
+                if (!hints.TryGetValue(claimId, out var places))
+                    hints[claimId] = places = new List<MarkPlace>();
+                if (!places.Contains(place))
+                    places.Add(place);
+            }
+            foreach (var clue in variant.clues)
+                foreach (var w in clue.when)
+                {
+                    if (w.kind != ClueEvent.Marked)
+                        continue;
+                    var mark = variant.marks.Find(m => m.id == w.target);
+                    if (mark == null)
+                        continue;
+                    foreach (string claimId in mark.Claims)
+                        Add(claimId, mark.place);
+                }
+            var settled = new HashSet<string>(hints.Keys);
+            foreach (var mark in variant.marks)
+                foreach (string claimId in mark.Claims)
+                    if (!settled.Contains(claimId))
+                        Add(claimId, mark.place);
+            return hints;
         }
 
         /// <summary>The folded paper on the desk shows today's issue (its front page is yesterday's case).</summary>
@@ -259,6 +305,7 @@ namespace DontCallMe.Flow
             deadline = GameClock.Parse(conv.caseInfo.deadline);
             holdStart = GameClock.Minutes;
             Current = Phase.Investigating;
+            PlaytestLog.Log("investigate");
             ui.PhoneView.Raise(false);
             if (player.IsSeated && standSpot != null)
                 player.StandUp(standSpot.position);
@@ -350,9 +397,24 @@ namespace DontCallMe.Flow
                 minutesTaken = Mathf.RoundToInt((decidedMinutes >= 0f ? decidedMinutes : GameClock.Minutes) - rangAt),
             };
             result.cluesFound.AddRange(clues.FoundIds);
+            if (notebook != null)
+            {
+                result.stamps.AddRange(notebook.SavedStamps());
+                result.marks.AddRange(notebook.SavedMarks());
+                result.noted.AddRange(notebook.SavedNoted());
+                // Every false claim stamped FALSE wins the card of its trick.
+                foreach (var claim in Conv.claims)
+                    if (!claim.truth && notebook.StampOf(claim.id) == Stamp.False && GameRun.CatchTrick(claim.trick, Plan.day.day, Plan.variant.Scenario))
+                        result.newTricks.Add(claim.trick);
+            }
+            // Finishing a day for the first time opens the next one for good (the day select).
+            int nextDay = Plan.day.day + 1;
+            var catalog = DayCatalog.Load();
+            result.opensDay = catalog != null && catalog.Get(nextDay) != null && !GameRun.Unlocked(nextDay) ? nextDay : -1;
+            PlaytestLog.EndDay(result, notebook);
             SceneFlow.LastResult = result;
             GameRun.Record(Record(result));
-            GameRun.MarkPlayed(Plan.day.day, Plan.variant.Scenario);
+            GameRun.MarkPlayed(Plan.day.day, Plan.variant.Scenario, Plan.variant.IsScam);
             StartCoroutine(Outro());
         }
 
@@ -375,6 +437,9 @@ namespace DontCallMe.Flow
                 callTime = GameClock.Format(rangAt),
             };
             r.clues.AddRange(result.cluesFound);
+            r.stamps.AddRange(result.stamps);
+            r.marks.AddRange(result.marks);
+            r.noted.AddRange(result.noted);
             var transfer = conv.actions.Find(a => a.kind == ActionKind.Transfer);
             if (result.moneyDelta != 0 && transfer != null)
             {

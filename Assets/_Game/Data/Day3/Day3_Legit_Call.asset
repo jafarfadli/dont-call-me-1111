@@ -19,13 +19,27 @@ MonoBehaviour:
     displayName: Yoon Seora
     number: 1588-5520
     inContacts: 0
-    portrait: pt_hr
+    portrait: pt_courier
     voice: Shelley (English (UK))
   claims:
-  - She is Yoon Seora from Hangang Express's customs clearance desk.
-  - My AliStar monitor (HX-5520-1183-KR) is held at Incheon customs.
-  - "Duty and VAT of \u20A956,600 haven't been paid."
-  - Pay into Nuri Bank 5620-44-018830 before 17:00, or it goes back to the seller.
+  - id: courier
+    text: '"I''m from Hangang Express''s customs desk."'
+    truth: 1
+    note: True. 1588-5520 is the number on your delivery slip, the courier's only
+      line.
+    trick: borrowed_name
+  - id: held
+    text: '"Your monitor is held at customs for unpaid duty."'
+    truth: 1
+    note: True. The courier's own notice says it is held, and AliStar's message says
+      taxes were not included.
+    trick: held_parcel
+  - id: account
+    text: '"Pay it into our customs account."'
+    truth: 1
+    note: True. It is a virtual account in the name HANGANG EXPRESS (CUSTOMS), the
+      same one the notice gives.
+    trick: new_account
   nodes:
   - id: start
     lines:
@@ -36,6 +50,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: courier
+      act: 
     - speaker: 0
       text: 'I''m calling about your parcel from AliStar: the 27-inch monitor, tracking
         number HX-5520-1183-KR.'
@@ -47,6 +63,8 @@ MonoBehaviour:
         label: Tracking
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     hasDecision: 1
     decision:
       kind: 0
@@ -74,6 +92,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: held
+      act: 
     hasDecision: 0
     decision:
       kind: 0
@@ -99,6 +119,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     - speaker: 0
       text: It's held at Incheon customs because the import duty and VAT haven't
         been paid.
@@ -106,6 +128,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: held
+      act: 
     hasDecision: 0
     decision:
       kind: 0
@@ -135,6 +159,8 @@ MonoBehaviour:
         label: 
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     - speaker: 0
       text: 'Please pay it into our customs account: Nuri Bank 5620-44-018830.'
       spoken: Please pay it into our customs account. Nuri Bank, five six two zero,
@@ -145,6 +171,8 @@ MonoBehaviour:
         label: 
       deliver: []
       pauseAfter: 0.4
+      claim: account
+      act: 
     - speaker: 0
       text: The desk closes at five. After that the parcel goes back to the seller,
         and you pay the return shipping.
@@ -152,12 +180,16 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     - speaker: 0
       text: I'll stay on the line while you pay.
       spoken: 
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     hasDecision: 0
     decision:
       kind: 0
@@ -193,6 +225,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     consequence: Five o'clock passed. The monitor went back to Incheon.
   - id: go_along
     verdict: 0
@@ -206,6 +240,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     consequence: The duty went to Hangang Express's customs account. The monitor
       arrived on Friday.
   actions:
@@ -236,6 +272,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     endingId: 
   - label: Ask why you owe duty
     playerLine: Why do I have to pay duty?
@@ -247,6 +285,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     endingId: 
   - label: Ask about the notice Hangang Express sent you
     playerLine: What about the notice you sent me this morning?
@@ -258,6 +298,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     endingId: 
   - label: Ask for a number to call back
     playerLine: What number can I call you back on?
@@ -273,6 +315,8 @@ MonoBehaviour:
         label: Call back
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     endingId: 
   beats:
   - at: 16:39
@@ -283,6 +327,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
   - at: 16:46
     line:
       speaker: 0
@@ -291,6 +337,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
   - at: 16:52
     line:
       speaker: 0
@@ -299,6 +347,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
   - at: 16:57
     line:
       speaker: 0
@@ -307,6 +357,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
   verdict:
     goAlong: Pay the duty
     goAlongDetail: 
@@ -315,3 +367,8 @@ MonoBehaviour:
     refuseDetail: Say no and end the call
     goAlongLine: Okay, I'm paying it now.
     refuseLine: I'm not paying anything over the phone. Goodbye.
+  video:
+    face: 
+    faked: 0
+    faceNote: 
+    waveNote: 

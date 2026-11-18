@@ -24,6 +24,9 @@ namespace DontCallMe.Editor.UI
         const string CourierChat = "hangang";
         const string ShopChat = "alistar";
 
+        /// <summary>Jiwoo's everyday account (the bank app's first card).</summary>
+        const string EverydayAccount = "110-302-558814";
+
         // Names that clues and other days look things up by: keep them in one place.
         static string NuriBank => L("Nuri Bank", "누리은행");
         static string HanbitBank => L("Hanbit Bank", "한빛은행");
@@ -31,6 +34,13 @@ namespace DontCallMe.Editor.UI
         static string LeaseTitle => L("Lease contract · Unit 302", "임대차 계약서 · 302호");
         static string SlipTitle => L("Delivery slip", "택배 송장");
         static string GasBillTitle => L("Gas bill · September", "도시가스 고지서 · 9월");
+        static string GasBillPaid => L("Paid", "납부");
+        static string Holiday => L("Substitute holiday", "대체공휴일");
+        // Yuna's long weekend in Fukuoka (Day 4's case).
+        static string YunaLanded => L("Landed in Fukuoka!!", "후쿠오카 도착!!");
+        static string YunaTripNote => L("Hangul Day · Yuna in Fukuoka till Sun", "한글날 · 유나 일요일까지 후쿠오카");
+        static string LandlordGasWarning => L($"Don't send anything! Mapo City Gas never phones for money. The real number is on your bill: {GasOfficialNumber}. - Choi, 1F",
+                                              $"절대 보내지 마세요! 마포도시가스는 전화로 돈을 요구하지 않아요. 진짜 번호는 고지서에 있는 {GasOfficialNumber}이에요. - 1층 최");
         static string VillaTitle => L("Mangwon Heights residents", "망원하이츠 입주민");
         static string Office => L("Office", "관리사무소");
         static string Landlord => L("Landlord Choi", "집주인 최 사장님");
@@ -41,7 +51,7 @@ namespace DontCallMe.Editor.UI
         static string AtLease => L("Desk drawer → Lease contract", "책상 서랍 → 임대차 계약서");
         static string AtVillaChat => L("Chats → Mangwon Heights residents", "채팅 → 망원하이츠 입주민");
         static string AtFamilyChat => L("Chats → Our family", "채팅 → 우리 가족");
-        static string AtCalendar => L("the calendar on the wall", "벽에 걸린 달력");
+        static string AtCalendar => L("the calendar by the door", "문 옆 달력");
         static string AtPaper => L("the newspaper on the desk", "책상 위 신문");
         static string AtGasBill => L("Desk drawer → Gas bill", "책상 서랍 → 도시가스 고지서");
         static string AtBank => L("Phone → Nuri Bank", "휴대폰 → 누리은행");
@@ -81,6 +91,7 @@ namespace DontCallMe.Editor.UI
                 new Contact { name = Landlord, number = "010-5512-3380", memo = L("Choi Youngsik · 1F · rent due on the 7th", "최영식 · 1층 · 월세 매달 7일"), portrait = "pt_landlord" },
                 new Contact { name = L("Manager Han (cafe)", "한 매니저 (카페)"), number = "010-5530-8812", memo = L("Mangwon Roasters", "망원로스터스"), portrait = "pt_cafe" },
                 new Contact { name = NuriBank, number = "1599-0000", memo = L("Customer centre, the number on my card", "고객센터, 카드에 적힌 번호"), portrait = "app_bank" },
+                new Contact { name = GasCompany, number = GasOfficialNumber, memo = L("Customer centre, the number on the gas bill", "고객센터, 가스 고지서에 적힌 번호"), portrait = "app_contacts" },
                 new Contact { name = L("Mangwon Heights office", "망원하이츠 관리사무소"), number = "02-555-0192", memo = L("Building management", "건물 관리"), portrait = "app_contacts" },
             };
 
@@ -125,9 +136,7 @@ namespace DontCallMe.Editor.UI
                  L("Did anyone else get a call about a 'protected account'? Hung up on them.", "혹시 '보호계좌' 어쩌고 하는 전화 받으신 분 있나요? 바로 끊었어요."));
             Chat(villa, 10, 5, "11:48", L("401", "401호"), "pt_unknown",
                  L("Now someone \"from the gas company\" called me about an unpaid bill. They wanted a transfer today!", "이번엔 '가스 회사'라면서 요금이 미납됐다는 전화가 왔어요. 오늘 안에 이체하라던데요!"));
-            Chat(villa, 10, 5, "12:05", Landlord, "pt_landlord",
-                 L($"Don't send anything! Mapo City Gas never phones for money. The real number is on your bill: {GasOfficialNumber}. - Choi, 1F",
-                   $"절대 보내지 마세요! 마포도시가스는 전화로 돈을 요구하지 않아요. 진짜 번호는 고지서에 있는 {GasOfficialNumber}이에요. - 1층 최"));
+            Chat(villa, 10, 5, "12:05", Landlord, "pt_landlord", LandlordGasWarning);
             Chat(villa, 10, 6, "14:05", Office, "app_contacts",
                  L("Water tank cleaning on Thursday 10:00-12:00. Please keep some water aside.", "목요일 10:00~12:00 물탱크 청소가 있습니다. 미리 물을 받아 두세요."));
             Chat(villa, 10, 8, "12:15", Office, "app_contacts", L("The water is back on. Thank you for your patience!", "단수가 끝났습니다. 협조해 주셔서 감사합니다!"));
@@ -138,6 +147,9 @@ namespace DontCallMe.Editor.UI
             Mine(yuna, 4, "19:01", L("I owe you 55,000 won, sending it on payday", "5만 5천 원 월급날 보낼게"));
             Chat(yuna, 10, 7, "12:14", yunaName, "pt_yuna", L("Tteokbokki after class tomorrow?", "내일 수업 끝나고 떡볶이 ㄱ?"));
             Mine(yuna, 7, "12:20", L("Yes!! 5pm?", "콜!! 5시?"));
+            Chat(yuna, 10, 8, "22:40", yunaName, "pt_yuna", L("Flight's at 7 tomorrow!! Fukuoka with my cousin Somin till Sunday. Ramen photos incoming", "내일 7시 비행기!! 사촌 소민이랑 일요일까지 후쿠오카. 라멘 사진 기대해"));
+            Mine(yuna, 8, "22:44", L("Jealous!! Bring me back something", "부럽다!! 선물 사 와"));
+            Chat(yuna, 10, 9, "09:20", yunaName, "pt_yuna", YunaLanded, L("Fukuoka airport, the arrivals hall", "후쿠오카 공항 입국장"));
 
             string han = L("Manager Han", "한 매니저");
             var cafe = Thread("cafe", L("Mangwon Roasters crew", "망원로스터스 크루"), "pt_cafe", true);
@@ -203,7 +215,7 @@ namespace DontCallMe.Editor.UI
             NewestFirst(p.bank.transactions);
             p.bank.accounts = new List<BankAccount>
             {
-                new BankAccount { name = L("Nuri Everyday", "누리 입출금통장"), number = "110-302-558814", balance = everyday },
+                new BankAccount { name = L("Nuri Everyday", "누리 입출금통장"), number = EverydayAccount, balance = everyday },
                 new BankAccount { name = L("Tuition savings", "등록금 적금"), number = "110-302-558990", balance = 3000000 },
             };
             return p;
@@ -255,7 +267,7 @@ namespace DontCallMe.Editor.UI
                         L("4 Oct · \"'Collection account' of a fake billing team.\"", "10월 4일 · \"가짜 요금팀의 '수납 계좌'\""),
                     },
                 },
-                new DirAccount { bank = NuriBank, number = "110-302-558814", holder = L("KIM JIWOO", "김지우"), note = personal },
+                new DirAccount { bank = NuriBank, number = EverydayAccount, holder = L("KIM JIWOO", "김지우"), note = personal },
                 new DirAccount { bank = NuriBank, number = "110-302-558990", holder = L("KIM JIWOO", "김지우"), note = L("Savings account", "적금 계좌") },
                 new DirAccount { bank = NuriBank, number = "110-845-100233", holder = L("PARK HYEJIN", "박혜진"), note = personal },
                 new DirAccount { bank = NuriBank, number = "110-771-209944", holder = L("CHOI YOUNGSIK", "최영식"), note = L("Personal account, opened 2011", "개인 계좌 · 2011년 개설") },
@@ -350,7 +362,7 @@ namespace DontCallMe.Editor.UI
                     {
                         Field(L("Customer", "고객"), L("Kim Jiwoo · Mangwon Heights 302", "김지우 · 망원하이츠 302호")),
                         Field(L("Amount", "금액"), L("18,420 won", "18,420원")),
-                        Field(L("Paid", "납부"), L("28 Sep (auto-pay)", "9월 28일 (자동이체)")),
+                        Field(GasBillPaid, L("28 Sep (auto-pay)", "9월 28일 (자동이체)")),
                         Field(L("Customer centre", "고객센터"), GasOfficialNumber, FactKind.Phone),
                     },
                     body = L("Safety inspection this month: Wednesday 14 October. Our inspectors carry an ID card and never ask for money.",
@@ -385,9 +397,10 @@ namespace DontCallMe.Editor.UI
                 todayLabel = L($"Today: {DateLabel(today)}", $"오늘: {DateLabel(today)}"),
                 today = today.Day,
             };
-            Note(r, 5, L("Substitute holiday", "대체공휴일"));
+            Note(r, 5, Holiday);
             Note(r, 7, L("Rent day! 450,000 won to Mr. Choi", "월세 날! 최 사장님께 45만 원"));
-            Note(r, 8, L("Dentist, 18:30", "치과 18:30"));
+            Note(r, 8, DentistNote);
+            Note(r, 9, YunaTripNote);
             Note(r, 13, L("Midterms start", "중간고사 시작"));
             Note(r, 14, L("Gas safety check, 10:00-17:00", "가스 안전점검 10:00~17:00"));
             Note(r, 17, L("Mom's birthday: call + gift", "엄마 생신: 전화 + 선물"));

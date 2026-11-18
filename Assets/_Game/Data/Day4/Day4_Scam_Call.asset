@@ -1,0 +1,367 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfd03999caeea4a5788ed68a4194a80e, type: 3}
+  m_Name: Day4_Scam_Call
+  m_EditorClassIdentifier: DontCallMe::DontCallMe.Data.ConversationData
+  title: "Day 4 \xB7 Yuna's stolen bag (scam)"
+  isScam: 1
+  revealAtEnd: 0
+  caller:
+    displayName: Yuna
+    number: 010-4870-2263
+    inContacts: 0
+    portrait: pt_unknown
+    voice: Flo (English (US))
+  claims:
+  - id: yuna
+    text: '"It''s me, Yuna, on Somin''s phone."'
+    truth: 0
+    note: 'False. The face was pasted on: its lips trailed the voice and it stayed
+      on top of the hand when it waved. The real Yuna was in a ramen queue with her
+      own phone.'
+    trick: borrowed_face
+  - id: stolen
+    text: '"My bag was snatched at Hakata station an hour ago."'
+    truth: 0
+    note: False. At 15:58 Yuna sent you a photo from a ramen queue, from her own
+      phone. A lookup of Somin proves nothing either way.
+    trick: stranded
+  nodes:
+  - id: start
+    lines:
+    - speaker: 0
+      text: Jiwoo! Can you see me? It's me, Yuna! I'm on Somin's phone.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+      claim: yuna
+      act: 
+    - speaker: 0
+      text: Someone snatched my bag at Hakata station an hour ago. My phone, my wallet,
+        my cards, everything.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+      claim: stolen
+      act: 
+    hasDecision: 1
+    decision:
+      kind: 0
+      prompt: How do you answer?
+      patienceSeconds: 45
+      a:
+        label: Oh no! Are you okay?
+        playerLine: Oh no! Are you okay?
+        next: okay
+      b:
+        label: Why a video call?
+        playerLine: Why a video call?
+        next: why
+      pressure:
+      - atPatience: 0.5
+        text: Jiwoo? Can you hear me?
+        spoken: 
+    next: 
+    holds: 0
+  - id: okay
+    lines:
+    - speaker: 0
+      text: I'm fine, just shaky. Somin is right here with me.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+      claim: 
+      act: 
+    hasDecision: 0
+    decision:
+      kind: 0
+      prompt: 
+      patienceSeconds: 60
+      a:
+        label: 
+        playerLine: 
+        next: 
+      b:
+        label: 
+        playerLine: 
+        next: 
+      pressure: []
+    next: ask
+    holds: 0
+  - id: why
+    lines:
+    - speaker: 0
+      text: So you can see it's really me! Everyone says there are scams everywhere.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+      claim: 
+      act: 
+    hasDecision: 0
+    decision:
+      kind: 0
+      prompt: 
+      patienceSeconds: 60
+      a:
+        label: 
+        playerLine: 
+        next: 
+      b:
+        label: 
+        playerLine: 
+        next: 
+      pressure: []
+    next: ask
+    holds: 0
+  - id: ask
+    lines:
+    - speaker: 0
+      text: The hotel wants both nights paid by five or they give the room away,
+        and I booked with the card that was in my bag.
+      spoken: The hotel wants both nights paid by five or they give the room away,
+        and I booked with the card that was in my bag.
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+      claim: 
+      act: 
+    - speaker: 0
+      text: Somin paid for the flights and her card is maxed out. Can you send 650,000
+        won to her account?
+      spoken: Somin paid for the flights and her card is maxed out. Can you send
+        six hundred and fifty thousand won to her account?
+      facts:
+      - kind: 5
+        value: 650,000
+        label: 
+      deliver: []
+      pauseAfter: 0.4
+      claim: 
+      act: 
+    - speaker: 0
+      text: Hanbit Bank 620-418-905372, Kim Somin.
+      spoken: Hanbit Bank, six two zero, four one eight, nine zero five three seven
+        two. Kim Somin.
+      facts:
+      - kind: 1
+        value: 620-418-905372
+        label: 
+      deliver: []
+      pauseAfter: 0.4
+      claim: 
+      act: 
+    - speaker: 0
+      text: I'll pay you back on Monday, I promise. I'll stay on the line.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+      claim: 
+      act: 
+    hasDecision: 0
+    decision:
+      kind: 0
+      prompt: 
+      patienceSeconds: 60
+      a:
+        label: 
+        playerLine: 
+        next: 
+      b:
+        label: 
+        playerLine: 
+        next: 
+      pressure: []
+    next: 
+    holds: 1
+  endings:
+  - id: refuse
+    verdict: 1
+    timedOut: 0
+    moneyDelta: 0
+    lines: []
+    consequence: You hung up. The real Yuna had sent you a photo from a ramen queue
+      at 15:58, from her own phone.
+  - id: timeout
+    verdict: 1
+    timedOut: 1
+    moneyDelta: 0
+    lines:
+    - speaker: 0
+      text: Forget it. Thanks a lot.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+      claim: 
+      act: 
+    consequence: The caller gave up at five. The real Yuna was eating ramen the whole
+      time.
+  - id: go_along
+    verdict: 0
+    timedOut: 0
+    moneyDelta: -650000
+    lines:
+    - speaker: 0
+      text: Got it! Thanks, Jiwoo. I'll call you later.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+      claim: 
+      act: 
+    consequence: "The \u20A9650,000 went to an account in Kim Somin's name and was
+      gone within minutes. The real Yuna had her phone, her bag and no idea."
+  actions:
+  - kind: 0
+    target: 620-418-905372
+    endingId: go_along
+    bank: Hanbit Bank
+    amount: 650000
+  hangUpEndingId: refuse
+  timeoutEndingId: timeout
+  caseInfo:
+    caseTitle: Yuna's stolen bag
+    claimedIdentity: Yuna, your friend, on a video call from her cousin's phone
+    ask: "Send \u20A9650,000 for the hotel to Kim Somin: Hanbit Bank 620-418-905372"
+    deadline: 17:00
+    deadlineReason: before the hotel gives the room away
+    objective: 'Is that really Yuna? Check before 17:00, then give your verdict on
+      the call: send the money, or hang up.'
+  questions:
+  - label: Ask her to wave a hand in front of her face
+    playerLine: Can you wave your hand slowly in front of your face? Humour me.
+    answer:
+    - speaker: 0
+      text: Seriously? Fine, like this.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+      claim: 
+      act: wave
+    - speaker: 0
+      text: There. Happy now? The signal here is terrible.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+      claim: 
+      act: 
+    endingId: 
+  - label: Ask what you ate on Thursday
+    playerLine: What did we eat after class yesterday?
+    answer:
+    - speaker: 0
+      text: Jiwoo, I'm stuck in Japan without a wallet and you're giving me a quiz?
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+      claim: 
+      act: 
+    endingId: 
+  - label: Ask her to write to you in your chat
+    playerLine: Can you write to me in our chat first?
+    answer:
+    - speaker: 0
+      text: My phone is in the bag, Jiwoo! That's the whole problem.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+      claim: 
+      act: 
+    endingId: 
+  - label: Ask who Somin is
+    playerLine: Somin is your cousin, right?
+    answer:
+    - speaker: 0
+      text: Yes! Kim Somin, my cousin. I told you on Thursday night.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+      claim: 
+      act: 
+    endingId: 
+  beats:
+  - at: 16:33
+    line:
+      speaker: 0
+      text: Jiwoo? Are you sending it? The man at the front desk keeps looking at
+        us.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+      claim: 
+      act: 
+  - at: 16:40
+    line:
+      speaker: 0
+      text: Somin says the room goes to someone else at five.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+      claim: 
+      act: 
+  - at: 16:47
+    line:
+      speaker: 0
+      text: Please, Jiwoo. We've got nowhere else to sleep tonight.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+      claim: 
+      act: 
+  - at: 16:53
+    line:
+      speaker: 0
+      text: Seven minutes. Please.
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+      claim: 
+      act: 
+  - at: 16:57
+    line:
+      speaker: 0
+      text: Three minutes! Jiwoo!
+      spoken: 
+      facts: []
+      deliver: []
+      pauseAfter: 0.4
+      claim: 
+      act: 
+  verdict:
+    goAlong: Send the money
+    goAlongDetail: 
+    goAlongEndingId: 
+    refuse: Hang up
+    refuseDetail: Say no and end the call
+    goAlongLine: Okay, I'm sending it to Somin now.
+    refuseLine: I'll talk to you in our chat, Yuna. Bye.
+  video:
+    face: vc_yuna
+    faked: 1
+    faceNote: Her lips keep moving after her voice stops, and the edges of her face
+      shimmer now and then.
+    waveNote: 'When her hand passed in front of her face, the face stayed on top
+      of the hand: only her fingertips showed above it.'

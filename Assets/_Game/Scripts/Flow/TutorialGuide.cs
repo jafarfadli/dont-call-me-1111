@@ -94,7 +94,8 @@ namespace DontCallMe.Flow
         /// <summary>What the place just checked showed stays on the note until the next find.</summary>
         void OnFound(ClueDef clue) => learned = clue.text;
 
-        int Total => Lead + Mathf.Max(0, clues.Count - 1) + 1;
+        /// <summary>The lead, the clues after the paper, stamping the claims, the verdict.</summary>
+        int Total => Lead + Mathf.Max(0, clues.Count - 1) + 2;
 
         void Update()
         {
@@ -130,10 +131,10 @@ namespace DontCallMe.Flow
                     else if (director.HasDecision)
                         Show(4, "Pick a reply: click it, or press 1 or 2.");
                     else
-                        Show(4, sawDecision ? "Listen to what the caller asks you to do." : "Listen. What the caller says appears next to the phone.");
+                        Show(4, sawDecision ? "Listen to what the caller asks you to do." : "Listen. What the caller says appears next to the phone, and each claim goes into your notebook on the left.");
                     break;
                 case DayDirector.Phase.CaseCard:
-                    Show(5, "This is the case: who the caller says they are and what they want. Click Start investigating.");
+                    Show(5, "This is the case. Her claims are in your notebook: you will check each one. Click Start investigating.");
                     break;
                 case DayDirector.Phase.Investigating:
                     spot = Investigate();
@@ -158,10 +159,19 @@ namespace DontCallMe.Flow
                 step++;
                 if (tracker != null && tracker.IsFound(clue.id))
                     continue;
-                var place = PlaceOf(clue);
+                var place = PlaceOf(clue, Marks);
                 ui.Tutorial.Show(step, Total, learned, Way(place) + clue.guide);
                 return place;
             }
+            // Every claim gets a stamp before the verdict.
+            var notebook = ui.Notebook;
+            if (notebook != null && notebook.Heard.Count > 0)
+                foreach (var claim in notebook.Heard)
+                    if (notebook.StampOf(claim.id) == Stamp.None && notebook.CanStamp(claim.id))
+                    {
+                        ui.Tutorial.Show(Total - 1, Total, learned, Loc.T("Now judge each claim in your notebook: click TRUE or FALSE under it. One false claim is enough to hang up."));
+                        return PanelId.None;
+                    }
             string last = ui.OpenPanelView != null ? "You have checked everything. Close this (Esc), then press Tab to raise your phone."
                         : ui.PhoneView.IsUp ? "You have checked everything. Give your verdict under the conversation: send the money, or hang up."
                                             : "You have checked everything. Press Tab to raise your phone and give your verdict.";
@@ -169,10 +179,12 @@ namespace DontCallMe.Flow
             return PanelId.None;
         }
 
-        static bool IsPaper(ClueDef clue) => PlaceOf(clue) == PanelId.Newspaper;
+        bool IsPaper(ClueDef clue) => PlaceOf(clue, Marks) == PanelId.Newspaper;
+
+        List<MarkDef> Marks => day.Plan?.variant?.marks ?? new List<MarkDef>();
 
         /// <summary>Where a clue is found: one of the room's panels, or None for the phone.</summary>
-        static PanelId PlaceOf(ClueDef clue)
+        static PanelId PlaceOf(ClueDef clue, List<MarkDef> marks)
         {
             if (clue.when.Count == 0)
                 return PanelId.None;
@@ -185,12 +197,22 @@ namespace DontCallMe.Flow
                     return PanelId.Drawer;
                 case ClueEvent.NumberChecked:
                     return PanelId.Computer;
+                case ClueEvent.Marked:
+                    var mark = marks.Find(m => m.id == first.target);
+                    return mark == null ? PanelId.None : mark.place switch
+                    {
+                        MarkPlace.Newspaper => PanelId.Newspaper,
+                        MarkPlace.Drawer => PanelId.Drawer,
+                        MarkPlace.Calendar => PanelId.Calendar,
+                        MarkPlace.Computer => PanelId.Computer,
+                        _ => PanelId.None,
+                    };
                 default:
                     return PanelId.None;
             }
         }
 
-        /// <summary>What stands between the player and the place, said first: a panel to close, the phone to lower or raise.</summary>
+        /// <summary>What stands between the player and the place, said first: a panel to close, the phone to lower or raise, a walk.</summary>
         string Way(PanelId place)
         {
             var open = ui.OpenPanelView;
@@ -198,7 +220,12 @@ namespace DontCallMe.Flow
             {
                 if (open != null)
                     return open.Id == place ? "" : Loc.T("Close this first (Esc).") + " ";
-                return ui.PhoneView.IsUp ? Loc.T("Lower the phone first (Tab).") + " " : "";
+                if (ui.PhoneView.IsUp)
+                    return Loc.T("Lower the phone first (Tab).") + " ";
+                if (interactor == null || interactor.InReach(place))
+                    return "";
+                return Loc.T(interactor.InView(place) ? "It is across the room: click it to walk over, or walk with WASD."
+                                                      : "It is behind you: drag to turn around, then click it to walk over.") + " ";
             }
             if (open != null || !ui.PhoneView.IsUp)
                 return Loc.T("Press Tab to raise your phone.") + " ";

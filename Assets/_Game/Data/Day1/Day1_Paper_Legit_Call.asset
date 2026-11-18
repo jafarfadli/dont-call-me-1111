@@ -22,10 +22,17 @@ MonoBehaviour:
     portrait: pt_branch
     voice: Grandpa (English (US))
   claims:
-  - He is Oh Sangchul, manager of the Seoul Daily's Mapo branch.
-  - From October the branch takes the subscription fee by transfer, not at the door.
-  - "October to December costs \u20A954,000: Nuri Bank 110-457-803312, in his name."
-  - If it isn't paid by 17:00, the paper stops coming tomorrow.
+  - id: manager
+    text: '"I''m the manager of the Seoul Daily''s Mapo branch."'
+    truth: 1
+    note: True. Today's paper names him as the branch manager who phones readers
+      this week.
+    trick: borrowed_name
+  - id: account
+    text: '"The fee goes to my account by transfer now."'
+    truth: 1
+    note: True. The paper's own notice gives this very account and amount.
+    trick: new_account
   nodes:
   - id: start
     lines:
@@ -37,6 +44,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: manager
+      act: 
     - speaker: 0
       text: Your father took out the paper for you in March and paid up to September.
         From October, the fee hasn't been paid.
@@ -44,6 +53,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     hasDecision: 1
     decision:
       kind: 0
@@ -71,6 +82,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     hasDecision: 0
     decision:
       kind: 0
@@ -96,6 +109,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     hasDecision: 0
     decision:
       kind: 0
@@ -121,6 +136,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     - speaker: 0
       text: October to December comes to 54,000 won. Please send it to Nuri Bank
         110-457-803312. The account is in my name, Oh Sangchul.
@@ -136,6 +153,8 @@ MonoBehaviour:
         label: 
       deliver: []
       pauseAfter: 0.4
+      claim: account
+      act: 
     - speaker: 0
       text: I close the branch's books at five. Whoever hasn't paid by then comes
         off tomorrow's delivery list.
@@ -143,12 +162,16 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     - speaker: 0
       text: I'll stay on the line while you send it.
       spoken: 
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     hasDecision: 0
     decision:
       kind: 0
@@ -184,6 +207,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     consequence: Five o'clock passed. Mr. Oh closed his books without your fee.
   - id: go_along
     verdict: 0
@@ -196,6 +221,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     consequence: The fee reached the branch manager, as the paper's own notice said
       it should. The Seoul Daily keeps coming until December.
   actions:
@@ -226,6 +253,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     endingId: 
   - label: Ask why nobody comes to the door any more
     playerLine: Why don't you collect at the door any more?
@@ -237,6 +266,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     endingId: 
   - label: Ask for the branch office's number
     playerLine: What's the number of the branch office?
@@ -251,6 +282,8 @@ MonoBehaviour:
         label: Branch
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     endingId: 
   - label: Say you'll ask your father first
     playerLine: Let me ask my dad first.
@@ -262,6 +295,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     endingId: 
   beats:
   - at: 16:33
@@ -272,6 +307,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
   - at: 16:41
     line:
       speaker: 0
@@ -280,6 +317,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
   - at: 16:48
     line:
       speaker: 0
@@ -289,6 +328,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
   - at: 16:54
     line:
       speaker: 0
@@ -297,6 +338,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
   - at: 16:57
     line:
       speaker: 0
@@ -305,6 +348,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
   verdict:
     goAlong: Pay the fee
     goAlongDetail: 
@@ -313,3 +358,8 @@ MonoBehaviour:
     refuseDetail: Say no and end the call
     goAlongLine: All right, I'm sending it now.
     refuseLine: I'm not paying this over the phone. Goodbye.
+  video:
+    face: 
+    faked: 0
+    faceNote: 
+    waveNote: 

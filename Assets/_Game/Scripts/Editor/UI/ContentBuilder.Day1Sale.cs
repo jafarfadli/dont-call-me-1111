@@ -28,6 +28,9 @@ namespace DontCallMe.Editor.UI
         static string Buyer => L("BAE SUJIN", "배수진");
         static string SaleMemo => L("Monitor (Neighbour Market)", "모니터 (이웃마켓)");
 
+        /// <summary>The sale on the calendar: the buyer collects the monitor on Saturday, in both truths and whatever happened on the call.</summary>
+        static string SalePickup => L("Monitor buyer comes at 11:00 (Neighbour Market, 60,000 won paid ahead)", "모니터 구매자 11시 방문 (이웃마켓, 6만 원 선입금)");
+
         static DayVariant SaleVariant(bool scam)
         {
             SetDay(1, "16:20");
@@ -44,7 +47,7 @@ namespace DontCallMe.Editor.UI
             n.local = Day1Local();
 
             // ---- the sale, on the calendar in both truths; the money, in the bank only when it was sent
-            Note(room, 10, L("Monitor buyer comes at 11:00 (Neighbour Market, 60,000 won paid ahead)", "모니터 구매자 11시 방문 (이웃마켓, 6만 원 선입금)"));
+            Note(room, 10, SalePickup);
             if (!scam)
                 AddTx(phone, 6, "16:07", Buyer, SaleMemo, SaleSent);
 
@@ -55,13 +58,24 @@ namespace DontCallMe.Editor.UI
             var v = StoreVariant(scam ? "sale_scam" : "sale_legit", CaseSale, Day1Dir, scam ? "Day1_Sale_Scam" : "Day1_Sale_Legit", SaleCall(scam), phone, room, directory);
             v.intro = L("Classes are over. Your old monitor is sold on Neighbour Market: the buyer pays 60,000 won today and picks it up on Saturday.",
                         "수업은 끝났다. 쓰던 모니터는 이웃마켓에서 팔렸다. 구매자가 오늘 6만 원을 보내고 토요일에 가지러 온다.");
+            v.marks = new List<MarkDef>
+            {
+                MarkNote("cal_buyer", "buyer", SalePickup),
+                MarkCheck("check_number", "buyer", SaleNumber),
+                MarkCheck("check_account", "buyer", SaleAccount),
+                MarkBalance("bank_balance", "sent", EverydayAccount),
+                MarkTx("tx_bulbs", "sent", L("Hangang Mall", "한강몰"), -12900),
+                MarkNews("news_warning", "sent", "warning"),
+            };
+            // Nothing came in today: the history's top row says so. Legit: the deposit is there instead.
+            v.marks.Add(scam ? MarkNoneToday("bank_today", "sent") : MarkTx("tx_deposit", "sent", Buyer, SaleSent));
             v.clues = new List<ClueDef>
             {
                 scam
                     ? Clue("deposit", L("Your bank history shows no deposit today. Nothing came from her, so there is nothing to send back.", "은행 내역에 오늘 들어온 돈이 없다. 상대가 보낸 돈이 없으니 돌려줄 돈도 없다."),
-                           AtBank, new ClueWhen(ClueEvent.BankOpened))
+                           AtBank, Circled("bank_today"), Circled("bank_balance"))
                     : Clue("deposit", L("Your bank history shows ₩600,000 from BAE SUJIN at 16:07, ten times the price. The extra ₩540,000 is hers.", "은행 내역에 16:07 '배수진' 이름으로 60만 원이 들어와 있다. 약속한 값의 열 배다. 더 들어온 54만 원은 상대의 돈이다."),
-                           AtBank, new ClueWhen(ClueEvent.BankOpened)),
+                           AtBank, Circled("tx_deposit")),
             };
             v.papers = scam ? SaleScamPapers() : SaleLegitPapers();
             v.ruleTitle = scam ? L("\"I sent you too much\"? Open your bank", "'더 보냈어요'? 통장부터 열어라") : L("Return it to the name it came from", "들어온 이름 그대로 돌려주라");
@@ -83,12 +97,13 @@ namespace DontCallMe.Editor.UI
             c.isScam = scam;
             c.revealAtEnd = false;
             c.caller = new CallerInfo { displayName = L("Bae Sujin", "배수진"), number = SaleNumber, inContacts = false, portrait = "pt_buyer", voice = VoiceBuyer };
-            c.claims = new List<string>
+            c.claims = new List<ClaimDef>
             {
-                L("She is Bae Sujin, the buyer of my old monitor on Neighbour Market.", "이웃마켓에서 내 모니터를 사기로 한 배수진이라고 한다."),
-                L("She meant to send ₩60,000 at 16:07 but typed ₩600,000.", "16:07에 6만 원을 보내려다 60만 원을 보냈다고 한다."),
-                L($"She wants the extra ₩540,000 back: Hanbit Bank {SaleAccount}, in her name.", $"더 보낸 54만 원을 돌려 달라고 한다: 한빛은행 {SaleAccount}, 본인 명의"),
-                L("It is her rent money, and her rent is due at 17:00.", "그 돈은 월세라서 17시까지 필요하다고 한다."),
+                Claim("buyer", L("\"I'm Bae Sujin, buying your monitor.\"", "\"모니터 사기로 한 배수진이에요.\""), true,
+                      L("True either way: the number and the account are hers. Who she is never settled it; what reached your bank did.", "어느 쪽이든 사실이었다. 번호와 계좌는 그녀의 것이다. 답은 그녀가 누구냐가 아니라 내 통장에 무엇이 들어왔느냐였다.")),
+                Claim("sent", L("\"I sent you ₩600,000 by mistake.\"", "\"실수로 60만 원을 보냈어요.\""), !scam,
+                      scam ? L("False. Your bank history shows no deposit today, and your balance never moved.", "거짓. 은행 내역에 오늘 들어온 돈이 없고, 잔액도 그대로였다.")
+                           : L("True. ₩600,000 from BAE SUJIN at 16:07 is in your bank history.", "사실. 16:07 배수진 이름으로 60만 원이 은행 내역에 들어와 있었다.")).Via(TrickExtraZero),
             };
             c.nodes = new List<ConvNode>
             {
@@ -97,9 +112,9 @@ namespace DontCallMe.Editor.UI
                       L("One zero too many? How much did you send?", "0을 하나 더요? 얼마를 보내셨는데요?"), "amount",
                       L("Oh. I haven't looked at my bank yet.", "아, 저 아직 통장을 안 봤는데요."), "look",
                       P(0.5f, L("Hello? Can you hear me?", "여보세요? 들리세요?"))),
-                    Caller(L("Hello, is this Jiwoo, with the monitor on Neighbour Market? It's Bae Sujin, the buyer.", "여보세요, 이웃마켓에 모니터 올리신 지우 님 맞으시죠? 구매하기로 한 배수진이에요.")),
+                    Caller(L("Hello, is this Jiwoo, with the monitor on Neighbour Market? It's Bae Sujin, the buyer.", "여보세요, 이웃마켓에 모니터 올리신 지우 님 맞으시죠? 구매하기로 한 배수진이에요.")).Says("buyer"),
                     Caller(L("I'm so sorry, I've done something stupid. I just paid you, and my finger slipped: one zero too many.", "정말 죄송한데 제가 실수를 했어요. 방금 입금하다가 손이 미끄러져서 0을 하나 더 눌렀지 뭐예요."),
-                           L(null, "정말 죄송한데 제가 실수를 했어요. 방금 입금하다가 손이 미끄러져서 영을 하나 더 눌렀지 뭐예요."))),
+                           L(null, "정말 죄송한데 제가 실수를 했어요. 방금 입금하다가 손이 미끄러져서 영을 하나 더 눌렀지 뭐예요.")).Says("sent")),
                 Node("amount", "ask",
                     Caller(L("Six hundred thousand won instead of sixty thousand.", "6만 원을 보낸다는 게 60만 원이 나갔어요."),
                            L(null, "육만 원을 보낸다는 게 육십만 원이 나갔어요."))),
@@ -259,12 +274,13 @@ namespace DontCallMe.Editor.UI
             string yuna = L("Yuna", "유나");
             var list = new List<DayEcho>
             {
+                // The pickup stays on the calendar.
+                EchoNote(1, Truth.Any, Any, 10, SalePickup),
                 // The buyer's money did come, whatever Jiwoo did; kept, it went back on Wednesday morning.
                 EchoBank(1, Truth.Legit, Any, Buyer, Oct(6, "16:07"), SaleMemo, SaleSent),
                 EchoBank(1, Truth.Legit, Kept, Buyer, Oct(7, "08:20"), L($"Overpayment returned · Hanbit {SaleAccount}", $"착오 입금 반환 · 한빛 {SaleAccount}"), -SaleReturn),
             };
-            if (nextDay)
-                list.AddRange(new[]
+            list.AddRange(new[]
                 {
                     EchoCard(1, Truth.Scam, Sent, L("Nothing had ever arrived from yesterday's \"buyer\". Your ₩540,000 is gone.", "어제의 '구매자'는 돈을 보낸 적이 없었다. 54만 원은 돌아오지 않는다.")),
                     EchoMine(1, Truth.Scam, Sent, "yuna", Oct(6, "18:05"), L("I just sent 540,000 won to a fake monitor buyer. I didn't even look at my bank first.", "나 방금 가짜 모니터 구매자한테 54만 원 보냈어. 통장도 안 보고…")),
@@ -281,7 +297,9 @@ namespace DontCallMe.Editor.UI
                     EchoCard(1, Truth.Legit, Sent, L("The buyer got her ₩540,000 back in time for her rent. She collects the monitor on Saturday.", "구매자는 54만 원을 제때 돌려받아 월세를 냈다. 모니터는 토요일에 가지러 온다.")),
                     EchoCard(1, Truth.Legit, Kept, L("The buyer really had sent ₩600,000. You returned the extra this morning, with an apology.", "구매자는 정말로 60만 원을 보냈었다. 오늘 아침 사과와 함께 차액을 돌려주었다.")),
                 });
-            return OfCase(CaseSale, list.ToArray());
+            // Later days keep the chats and the money, not the day card's line.
+            var all = OfCase(CaseSale, list.ToArray());
+            return nextDay ? all : StillThere(all);
         }
     }
 }

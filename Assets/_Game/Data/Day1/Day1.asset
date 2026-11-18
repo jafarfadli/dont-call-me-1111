@@ -22,6 +22,10 @@ MonoBehaviour:
   intro: Your first semester living on your own. Classes are over, the room is quiet,
     and your phone is on the desk.
   ringDelay: 7
+  help: 1
+  level: 1
+  newToday: Nothing glows any more. The notebook still says where to look; what to
+    circle there is up to you.
   variants:
   - id: scam
     scenario: protected
@@ -37,8 +41,8 @@ MonoBehaviour:
       where: "Computer \u2192 Check a bank account"
       guide: 
       when:
-      - kind: 2
-        target: 110-900-551207
+      - kind: 7
+        target: check_account
       - kind: 3
         target: 110-900-551207
     - id: caller_number
@@ -47,8 +51,56 @@ MonoBehaviour:
       where: "Computer \u2192 Check a phone number"
       guide: 
       when:
-      - kind: 2
-        target: 070-8844-2019
+      - kind: 7
+        target: check_number
+      - kind: 7
+        target: contact_bank
+      - kind: 7
+        target: check_bank
+    - id: script
+      text: 'This morning''s paper describes the call word for word: a "protection
+        team", a stranger in your account, a "protected account".'
+      where: the newspaper on the desk
+      guide: 
+      when:
+      - kind: 7
+        target: news_script
+    marks:
+    - id: check_number
+      claim: bank
+      also: []
+      place: 3
+      key: 070-8844-2019
+    - id: contact_bank
+      claim: bank
+      also: []
+      place: 6
+      key: 1599-0000
+    - id: check_bank
+      claim: bank
+      also: []
+      place: 3
+      key: 1599-0000
+    - id: news_script
+      claim: login
+      also: []
+      place: 0
+      key: '"Protection team" calls in Mapo'
+    - id: tx_rent
+      claim: login
+      also: []
+      place: 5
+      key: CHOI YOUNGSIK|-450000
+    - id: check_account
+      claim: protected
+      also: []
+      place: 3
+      key: 110-900-551207
+    - id: news_warning
+      claim: protected
+      also: []
+      place: 0
+      key: warning
     papers:
     - outcome: 1
       headline: '"Protection team" scam calls hit Mangwon'
@@ -138,8 +190,25 @@ MonoBehaviour:
       where: the newspaper on the desk
       guide: 
       when:
-      - kind: 0
-        target: Newspaper
+      - kind: 7
+        target: news_notice
+    marks:
+    - id: news_notice
+      claim: manager
+      also:
+      - account
+      place: 0
+      key: warning
+    - id: check_number
+      claim: manager
+      also: []
+      place: 3
+      key: 010-8265-3317
+    - id: check_account
+      claim: account
+      also: []
+      place: 3
+      key: 110-457-803312
     papers:
     - outcome: 1
       headline: Former branch manager kept "collecting" for the paper
@@ -227,8 +296,25 @@ MonoBehaviour:
       where: the newspaper on the desk
       guide: 
       when:
-      - kind: 0
-        target: Newspaper
+      - kind: 7
+        target: news_notice
+    marks:
+    - id: news_notice
+      claim: manager
+      also:
+      - account
+      place: 0
+      key: warning
+    - id: check_number
+      claim: manager
+      also: []
+      place: 3
+      key: 010-8265-3317
+    - id: check_account
+      claim: account
+      also: []
+      place: 3
+      key: 110-457-803312
     papers:
     - outcome: 0
       headline: Our Mapo branch stops knocking on doors
@@ -310,8 +396,46 @@ MonoBehaviour:
       where: "Phone \u2192 Nuri Bank"
       guide: 
       when:
-      - kind: 5
-        target: 
+      - kind: 7
+        target: bank_today
+      - kind: 7
+        target: bank_balance
+    marks:
+    - id: cal_buyer
+      claim: buyer
+      also: []
+      place: 2
+      key: Monitor buyer comes at 11:00 (Neighbour Market, 60,000 won paid ahead)
+    - id: check_number
+      claim: buyer
+      also: []
+      place: 3
+      key: 010-3378-9024
+    - id: check_account
+      claim: buyer
+      also: []
+      place: 3
+      key: 620-481-207356
+    - id: bank_balance
+      claim: sent
+      also: []
+      place: 5
+      key: balance|110-302-558814
+    - id: tx_bulbs
+      claim: sent
+      also: []
+      place: 5
+      key: Hangang Mall|-12900
+    - id: news_warning
+      claim: sent
+      also: []
+      place: 0
+      key: warning
+    - id: bank_today
+      claim: sent
+      also: []
+      place: 5
+      key: today|none
     papers:
     - outcome: 1
       headline: '"I paid you too much": sellers asked to return money that never
@@ -393,8 +517,44 @@ MonoBehaviour:
       where: "Phone \u2192 Nuri Bank"
       guide: 
       when:
-      - kind: 5
-        target: 
+      - kind: 7
+        target: tx_deposit
+    marks:
+    - id: cal_buyer
+      claim: buyer
+      also: []
+      place: 2
+      key: Monitor buyer comes at 11:00 (Neighbour Market, 60,000 won paid ahead)
+    - id: check_number
+      claim: buyer
+      also: []
+      place: 3
+      key: 010-3378-9024
+    - id: check_account
+      claim: buyer
+      also: []
+      place: 3
+      key: 620-481-207356
+    - id: bank_balance
+      claim: sent
+      also: []
+      place: 5
+      key: balance|110-302-558814
+    - id: tx_bulbs
+      claim: sent
+      also: []
+      place: 5
+      key: Hangang Mall|-12900
+    - id: news_warning
+      claim: sent
+      also: []
+      place: 0
+      key: warning
+    - id: tx_deposit
+      claim: sent
+      also: []
+      place: 5
+      key: BAE SUJIN|600000
     papers:
     - outcome: 0
       headline: One zero too many, and a seller who checked
@@ -475,6 +635,9 @@ MonoBehaviour:
     text: Yesterday you paid a "gas bill" that was already paid. 18,420 won, gone.
     amount: 0
     outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
     notify: 0
   - afterDay: 0
     scenario: 
@@ -489,6 +652,9 @@ MonoBehaviour:
     text: I think I just paid that fake gas bill... 18,420 won.
     amount: 0
     outgoing: 1
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
     notify: 0
   - afterDay: 0
     scenario: 
@@ -504,6 +670,9 @@ MonoBehaviour:
       next time.
     amount: 0
     outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
     notify: 1
   - afterDay: 0
     scenario: 
@@ -518,6 +687,9 @@ MonoBehaviour:
     text: Yesterday's "gas company" was a fake. You checked, and hung up.
     amount: 0
     outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
     notify: 0
   - afterDay: 0
     scenario: 
@@ -533,6 +705,9 @@ MonoBehaviour:
       010-7359-2046.
     amount: 0
     outgoing: 1
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
     notify: 0
   - afterDay: 0
     scenario: 
@@ -547,6 +722,9 @@ MonoBehaviour:
     text: Well done, 302! That is how to do it.
     amount: 0
     outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
     notify: 1
   - afterDay: 0
     scenario: 
@@ -561,6 +739,9 @@ MonoBehaviour:
     text: Yesterday's "gas company" gave up at five. The gas is still on.
     amount: 0
     outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
     notify: 0
   nextDateLabel: Wednesday, 7 October
-  builtWith: 8
+  builtWith: 15

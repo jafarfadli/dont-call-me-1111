@@ -45,6 +45,11 @@ MonoBehaviour:
     number: 1599-0000
     memo: "\uACE0\uAC1D\uC13C\uD130, \uCE74\uB4DC\uC5D0 \uC801\uD78C \uBC88\uD638"
     portrait: app_bank
+  - name: "\uB9C8\uD3EC\uB3C4\uC2DC\uAC00\uC2A4"
+    number: 02-555-0181
+    memo: "\uACE0\uAC1D\uC13C\uD130, \uAC00\uC2A4 \uACE0\uC9C0\uC11C\uC5D0 \uC801\uD78C
+      \uBC88\uD638"
+    portrait: app_contacts
   - name: "\uB9DD\uC6D0\uD558\uC774\uCE20 \uAD00\uB9AC\uC0AC\uBB34\uC18C"
     number: 02-555-0192
     memo: "\uAC74\uBB3C \uAD00\uB9AC"

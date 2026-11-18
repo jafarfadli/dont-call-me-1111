@@ -45,6 +45,10 @@ MonoBehaviour:
     number: 1599-0000
     memo: Customer centre, the number on my card
     portrait: app_bank
+  - name: Mapo City Gas
+    number: 02-555-0181
+    memo: Customer centre, the number on the gas bill
+    portrait: app_contacts
   - name: Mangwon Heights office
     number: 02-555-0192
     memo: Building management

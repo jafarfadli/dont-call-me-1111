@@ -16,146 +16,146 @@ MonoBehaviour:
   - voice: Samantha
     text: Hello, is this Kim Jiwoo at Mangwon Heights three oh two? This is Team
       Leader Baek from the billing team at Mapo City Gas.
-    clip: {fileID: 8300000, guid: 113c2bd5c46794be389dade735e40f59, type: 3}
+    clip: {fileID: 8300000, guid: 0f23f23956bed4dbbae7fa42076d2233, type: 3}
   - voice: Samantha
     text: Your September gas bill, eighteen thousand, four hundred and twenty won,
       has not been paid. The gas to your unit will be shut off at five o'clock today.
-    clip: {fileID: 8300000, guid: c49af7378597b4447a5f40b4eb750191, type: 3}
+    clip: {fileID: 8300000, guid: 261c21255143f4a60a3690da93da1e1e, type: 3}
   - voice: Samantha
     text: Ma'am? Can you hear me?
-    clip: {fileID: 8300000, guid: 0c3802ab58270432c8746d157beb00e5, type: 3}
+    clip: {fileID: 8300000, guid: be761a824292b475b9ed34df9e00498e, type: 3}
   - voice: Samantha
     text: The auto-payment failed, ma'am. It happens when a bank updates its system.
-    clip: {fileID: 8300000, guid: 41b5d6b5c294648208e03d921fb9dd00, type: 3}
+    clip: {fileID: 8300000, guid: 1df96d693d51340f6b9a5495ad473976, type: 3}
   - voice: Samantha
     text: The shut-off is automatic, ma'am. The system doesn't take holidays.
-    clip: {fileID: 8300000, guid: a320d0406b0fd4def80330dbdb798fab, type: 3}
+    clip: {fileID: 8300000, guid: aae6de8950c7640a7baf44b742f8b33b, type: 3}
   - voice: Samantha
     text: To stop it, please transfer eighteen thousand, four hundred and twenty
       won to our collection account. Hanbit Bank, six two zero, three three nine,
       one zero four seven seven two.
-    clip: {fileID: 8300000, guid: 8388a2b3821464a9592aa62fa21d44c2, type: 3}
+    clip: {fileID: 8300000, guid: e74b84cac309c4bd59958dc8f139a42a, type: 3}
   - voice: Samantha
     text: As soon as it arrives, I'll cancel the shut-off. I'll stay on the line
       while you send it.
-    clip: {fileID: 8300000, guid: 4ea258cd92d754b459dd989e92e66937, type: 3}
+    clip: {fileID: 8300000, guid: 28d1d2d0eeb504b8b944648e03e77130, type: 3}
   - voice: Samantha
     text: It's our collection officer's, Han Sungmin. On a holiday, payments go through
       his account.
-    clip: {fileID: 8300000, guid: 7a6620192797f4fef96ce3dca4ac3875, type: 3}
+    clip: {fileID: 8300000, guid: 7873f3c6b55f14ae9b30a2346e9b1f94, type: 3}
   - voice: Samantha
     text: The centre is closed today, ma'am, so I'm calling from my work mobile.
-    clip: {fileID: 8300000, guid: e4b32753acb1e43ee9274aee3b0af12c, type: 3}
+    clip: {fileID: 8300000, guid: 1a6f9ee7d5335474391ed79963bb5647, type: 3}
   - voice: Samantha
     text: Of course, ma'am, but please be quick. The shut-off order is already in
       the system.
-    clip: {fileID: 8300000, guid: 43aaa51c39b6944ef983976a4b63619a, type: 3}
+    clip: {fileID: 8300000, guid: 9bc7059e590ee47dcb72e6f3dd40cdfd, type: 3}
   - voice: Samantha
     text: Ma'am? Are you still there?
-    clip: {fileID: 8300000, guid: b48f255665e854157968ff3bd1384ffa, type: 3}
+    clip: {fileID: 8300000, guid: 18fc91f12748449cdbb56adf60215318, type: 3}
   - voice: Samantha
     text: I'm still holding, ma'am. The shut-off is set for five.
-    clip: {fileID: 8300000, guid: 06fe30358927e47bebfc6cfe9aa8ab8a, type: 3}
+    clip: {fileID: 8300000, guid: 7aa0cd67570564313b66d63b81bf0756, type: 3}
   - voice: Samantha
     text: One hour left, ma'am. After that I can't stop it.
-    clip: {fileID: 8300000, guid: 31ad30d241e5644bfa071a2650b2b02b, type: 3}
+    clip: {fileID: 8300000, guid: f250eef40c0544c4fbb95a80000e3bd1, type: 3}
   - voice: Samantha
     text: Twenty minutes. Please send it now.
-    clip: {fileID: 8300000, guid: 3a4c3b2519ea24f96aaddabe5daed67e, type: 3}
+    clip: {fileID: 8300000, guid: a5ee2f8874abf4e9a9b6935de39cdf41, type: 3}
   - voice: Samantha
     text: Five minutes, ma'am!
-    clip: {fileID: 8300000, guid: 5bdd5251c97fa4b66966966bbbc46cbf, type: 3}
+    clip: {fileID: 8300000, guid: 6786e48bd9ec046d4969902d934d2da0, type: 3}
   - voice: Samantha
     text: It's five o'clock, ma'am.
-    clip: {fileID: 8300000, guid: f83cfde847d224ee5a2eb6dac5d2f994, type: 3}
+    clip: {fileID: 8300000, guid: 5ad1070ee73ab428aa240fad6020a1ef, type: 3}
   - voice: Samantha
     text: Fine. Don't blame us when the gas goes off.
-    clip: {fileID: 8300000, guid: 687adf22512f941fdb1e58a1ba173474, type: 3}
+    clip: {fileID: 8300000, guid: ff8a9ead355554eaf858c0a0ffa2357f, type: 3}
   - voice: Samantha
     text: Thank you, ma'am. I've cancelled the shut-off.
-    clip: {fileID: 8300000, guid: 9f0ba2069a6744044b84cd3ee01b7da9, type: 3}
+    clip: {fileID: 8300000, guid: f6e33845180f44c52a92ce013d6d6c6e, type: 3}
   - voice: Samantha
     text: Enjoy the rest of your holiday.
-    clip: {fileID: 8300000, guid: 60285298ab6fa4baab3d493b918b497f, type: 3}
+    clip: {fileID: 8300000, guid: 8594f25249b934732ae5053be6ef1ddf, type: 3}
   - voice: Sandy (Korean (South Korea))
     text: "\uC5EC\uBCF4\uC138\uC694, \uB9DD\uC6D0\uD558\uC774\uCE20 \uC0BC\uBC31\uC774
       \uD638 \uAE40\uC9C0\uC6B0 \uACE0\uAC1D\uB2D8 \uB9DE\uC73C\uC2DC\uC8E0? \uB9C8\uD3EC\uB3C4\uC2DC\uAC00\uC2A4
       \uC694\uAE08\uD300 \uBC31 \uD300\uC7A5\uC785\uB2C8\uB2E4."
-    clip: {fileID: 8300000, guid: 7893979b8b42e4ee7bf86e41d907f2f5, type: 3}
+    clip: {fileID: 8300000, guid: 1e0c54bc51ebb4a4883d61b4f52f754d, type: 3}
   - voice: Sandy (Korean (South Korea))
     text: "\uAD6C\uC6D4 \uAC00\uC2A4 \uC694\uAE08 \uB9CC \uD314\uCC9C\uC0AC\uBC31\uC774\uC2ED
       \uC6D0\uC774 \uBBF8\uB0A9 \uC0C1\uD0DC\uC785\uB2C8\uB2E4. \uC624\uB298 \uC624\uD6C4
       \uB2E4\uC12F \uC2DC\uC5D0 \uB301\uC758 \uAC00\uC2A4 \uACF5\uAE09\uC774 \uCC28\uB2E8\uB420
       \uC608\uC815\uC774\uC5D0\uC694."
-    clip: {fileID: 8300000, guid: 2ae23b290ced34e72bfc394cc2b276af, type: 3}
+    clip: {fileID: 8300000, guid: bcb5c06cfb13e49adb29d218085b67d5, type: 3}
   - voice: Sandy (Korean (South Korea))
     text: "\uACE0\uAC1D\uB2D8? \uB4E4\uB9AC\uC138\uC694?"
-    clip: {fileID: 8300000, guid: 926ba313e426949a5b823e789e1ec369, type: 3}
+    clip: {fileID: 8300000, guid: 37bd424e605c249ed9c13e8911aaf008, type: 3}
   - voice: Sandy (Korean (South Korea))
     text: "\uC790\uB3D9\uC774\uCCB4\uAC00 \uC2E4\uD328\uD588\uC2B5\uB2C8\uB2E4, \uACE0\uAC1D\uB2D8.
       \uC740\uD589 \uC804\uC0B0 \uC810\uAC80 \uB54C \uC885\uC885 \uADF8\uB798\uC694."
-    clip: {fileID: 8300000, guid: 8b29aa57bd9c140ce877e7266c0e699e, type: 3}
+    clip: {fileID: 8300000, guid: 881a51065007443c1b44f73a3e07586f, type: 3}
   - voice: Sandy (Korean (South Korea))
     text: "\uCC28\uB2E8\uC740 \uC790\uB3D9\uC73C\uB85C \uC9C4\uD589\uB429\uB2C8\uB2E4,
       \uACE0\uAC1D\uB2D8. \uC804\uC0B0\uC740 \uACF5\uD734\uC77C\uC5D0\uB3C4 \uB3CC\uC544\uAC00\uAC70\uB4E0\uC694."
-    clip: {fileID: 8300000, guid: 7ad5b2ca612e14dcf9e9966557495732, type: 3}
+    clip: {fileID: 8300000, guid: e8a983909e05e4a0380050e037b981e6, type: 3}
   - voice: Sandy (Korean (South Korea))
     text: "\uCC28\uB2E8\uC744 \uB9C9\uC73C\uB824\uBA74 \uC218\uB0A9 \uACC4\uC88C\uB85C
       \uB9CC \uD314\uCC9C\uC0AC\uBC31\uC774\uC2ED \uC6D0\uC744 \uC774\uCCB4\uD574
       \uC8FC\uC138\uC694. \uD55C\uBE5B\uC740\uD589, \uC721\uC774\uACF5, \uC0BC\uC0BC\uAD6C,
       \uC77C\uACF5\uC0AC\uCE60\uCE60\uC774\uC785\uB2C8\uB2E4."
-    clip: {fileID: 8300000, guid: 77fd25d5d4c4048fd8f39a650e637b1f, type: 3}
+    clip: {fileID: 8300000, guid: b3b581a23dc474b72b9840a28bcfbed3, type: 3}
   - voice: Sandy (Korean (South Korea))
     text: "\uC785\uAE08\uC774 \uD655\uC778\uB418\uB294 \uB300\uB85C \uCC28\uB2E8\uC744
       \uCDE8\uC18C\uD574 \uB4DC\uB9B4\uAC8C\uC694. \uBCF4\uB0B4\uC2DC\uB294 \uB3D9\uC548
       \uAE30\uB2E4\uB9AC\uACA0\uC2B5\uB2C8\uB2E4."
-    clip: {fileID: 8300000, guid: f44d72b3829d6494dbb5af2dd0a46dc6, type: 3}
+    clip: {fileID: 8300000, guid: eb55f13f7de2e43cfbb30dec50c07232, type: 3}
   - voice: Sandy (Korean (South Korea))
     text: "\uC218\uB0A9 \uB2F4\uB2F9\uC790 \uD55C\uC131\uBBFC \uBA85\uC758\uC785\uB2C8\uB2E4.
       \uACF5\uD734\uC77C\uC5D0\uB294 \uB2F4\uB2F9\uC790 \uACC4\uC88C\uB85C \uBC1B\uACE0
       \uC788\uC5B4\uC694."
-    clip: {fileID: 8300000, guid: ec2afaaae0c8e4d4ea828ba792cf9d44, type: 3}
+    clip: {fileID: 8300000, guid: eb42976dde60d41bba7fb2c0a38a5f7b, type: 3}
   - voice: Sandy (Korean (South Korea))
     text: "\uC624\uB298\uC740 \uACE0\uAC1D\uC13C\uD130\uAC00 \uC26C\uB294 \uB0A0\uC774\uB77C
       \uC5C5\uBB34\uC6A9 \uD734\uB300\uD3F0\uC73C\uB85C \uC5F0\uB77D\uB4DC\uB838\uC5B4\uC694."
-    clip: {fileID: 8300000, guid: 9f3794a419e7441b6bba3d9f507aee40, type: 3}
+    clip: {fileID: 8300000, guid: 44b0bfaddf28644e28da4ff76d97024c, type: 3}
   - voice: Sandy (Korean (South Korea))
     text: "\uB124, \uD655\uC778\uD558\uC138\uC694. \uD558\uC9C0\uB9CC \uC11C\uB458\uB7EC
       \uC8FC\uC154\uC57C \uD574\uC694. \uCC28\uB2E8 \uC811\uC218\uAC00 \uC774\uBBF8
       \uB4E4\uC5B4\uAC00 \uC788\uC5B4\uC11C\uC694."
-    clip: {fileID: 8300000, guid: db2467fb22b084524a6f47db9c2f450f, type: 3}
+    clip: {fileID: 8300000, guid: bdd24d4f32acd4112a37ca437ed76855, type: 3}
   - voice: Sandy (Korean (South Korea))
     text: "\uACE0\uAC1D\uB2D8? \uB4E3\uACE0 \uACC4\uC138\uC694?"
-    clip: {fileID: 8300000, guid: a1c89712804c741328c4ebfdcf662759, type: 3}
+    clip: {fileID: 8300000, guid: 39a31ef695f9e487b856e8c0267fff5a, type: 3}
   - voice: Sandy (Korean (South Korea))
     text: "\uC544\uC9C1 \uAE30\uB2E4\uB9AC\uACE0 \uC788\uC2B5\uB2C8\uB2E4. \uCC28\uB2E8\uC740
       \uB2E4\uC12F \uC2DC\uB85C \uC7A1\uD600 \uC788\uC5B4\uC694."
-    clip: {fileID: 8300000, guid: e6711734673ca4792b949bca665ade92, type: 3}
+    clip: {fileID: 8300000, guid: 36a41beb25cc34f9ebff5e6204fd6f67, type: 3}
   - voice: Sandy (Korean (South Korea))
     text: "\uD55C \uC2DC\uAC04 \uB0A8\uC558\uC2B5\uB2C8\uB2E4. \uADF8 \uB4A4\uC5D4
       \uC800\uB3C4 \uB9C9\uC744 \uC218 \uC5C6\uC5B4\uC694."
-    clip: {fileID: 8300000, guid: c5e66850e415249a097d84e1db80e3b9, type: 3}
+    clip: {fileID: 8300000, guid: 0a3f8dab422e440e0b56e714603e8b26, type: 3}
   - voice: Sandy (Korean (South Korea))
     text: "\uC774\uC2ED \uBD84 \uB0A8\uC558\uC5B4\uC694. \uC9C0\uAE08 \uBCF4\uB0B4
       \uC8FC\uC138\uC694."
-    clip: {fileID: 8300000, guid: fdd60d160975b4619977c2ee3fde96f7, type: 3}
+    clip: {fileID: 8300000, guid: 829c90e9a52ae4ef49719c7d990d1754, type: 3}
   - voice: Sandy (Korean (South Korea))
     text: "\uC624 \uBD84 \uB0A8\uC558\uC2B5\uB2C8\uB2E4!"
-    clip: {fileID: 8300000, guid: 343254da0133c4dd78087a3a97a01621, type: 3}
+    clip: {fileID: 8300000, guid: dd471290a78e14be689a0000e283086a, type: 3}
   - voice: Sandy (Korean (South Korea))
     text: "\uB2E4\uC12F \uC2DC\uAC00 \uB410\uC2B5\uB2C8\uB2E4, \uACE0\uAC1D\uB2D8."
-    clip: {fileID: 8300000, guid: 1e8dc708e536b4a918eb51e6536ebe2a, type: 3}
+    clip: {fileID: 8300000, guid: 7a5456fa8efc64d06a054a86c6abba1c, type: 3}
   - voice: Sandy (Korean (South Korea))
     text: "\uC54C\uACA0\uC2B5\uB2C8\uB2E4. \uAC00\uC2A4\uAC00 \uB04A\uACA8\uB3C4
       \uC800\uD76C \uD0D3\uC740 \uD558\uC9C0 \uB9C8\uC138\uC694."
-    clip: {fileID: 8300000, guid: 018566113969a445ba5186d322a3eead, type: 3}
+    clip: {fileID: 8300000, guid: 8b3148da3dbc0475faf5c77e7df1cd1e, type: 3}
   - voice: Sandy (Korean (South Korea))
     text: "\uAC10\uC0AC\uD569\uB2C8\uB2E4, \uACE0\uAC1D\uB2D8. \uCC28\uB2E8\uC740
       \uCDE8\uC18C\uD574 \uB4DC\uB838\uC5B4\uC694."
-    clip: {fileID: 8300000, guid: 3dd280eebc3f54397bf123a7ca9de228, type: 3}
+    clip: {fileID: 8300000, guid: 8a1935031b9e542b4807fcbfa8198bb3, type: 3}
   - voice: Sandy (Korean (South Korea))
     text: "\uB0A8\uC740 \uC5F0\uD734 \uC798 \uBCF4\uB0B4\uC138\uC694."
-    clip: {fileID: 8300000, guid: 3bfb748ec3a174dd6be5f5c449d23f8f, type: 3}
+    clip: {fileID: 8300000, guid: 68bce9ef7a52c4df196b65d85659be97, type: 3}
   - voice: Daniel
     text: Hello, is this Kim Jiwoo? This is Manager Jeon from Nuri Bank's account
       protection team.
@@ -745,15 +745,15 @@ MonoBehaviour:
     text: Only if I bring snacks. I'm bringing snacks, noona. Lots.
     clip: {fileID: 8300000, guid: ddaa0edd193504e77a9ca44f9c208c88, type: 3}
   - voice: Eddy (English (US))
-    text: She's in a meeting till six, she said so in the chat. And she'd kill me.
-      It's the second one this year.
-    clip: {fileID: 8300000, guid: 4dd73957dcd414c068158748ceb5978e, type: 3}
+    text: I called her first. She's in a meeting till six, so she wrote it in the
+      family chat. Look.
+    clip: {fileID: 8300000, guid: 8305362f14e7143f89d044769cf54d98, type: 3}
   - voice: Eddy (English (US))
     text: My roommate, Lee Dohyun. Same department. The account is his.
     clip: {fileID: 8300000, guid: 6e1a2a2aafc964694aeb08a7ac3608a2, type: 3}
   - voice: Eddy (English (US))
-    text: Sure. I wrote there before I left the dorm. Look.
-    clip: {fileID: 8300000, guid: d001f9880b8844299a5307e363faa37b, type: 3}
+    text: Go ahead. I called Mom before you, she wrote it there.
+    clip: {fileID: 8300000, guid: 6ed315580437d4a9dafaf9e5430a8773, type: 3}
   - voice: Eddy (English (US))
     text: Noona? Are you sending it?
     clip: {fileID: 8300000, guid: 56027191e642f495dbec6a8f732458c8, type: 3}
@@ -782,8 +782,8 @@ MonoBehaviour:
     text: Don't tell Mom, please! She'd kill me. Just this once, noona.
     clip: {fileID: 8300000, guid: 58333182f55864ac89c862cbfbea37b5, type: 3}
   - voice: Eddy (English (US))
-    text: My phone is dead, I can't read it! Just send it, please, there's no time.
-    clip: {fileID: 8300000, guid: b8f0c239271754bfebc7822acbce4642, type: 3}
+    text: Don't drag Mom into this, noona. Please, there's no time.
+    clip: {fileID: 8300000, guid: 3d5122d5c80dc4a8f840fc84b0747469, type: 3}
   - voice: Eddy (English (US))
     text: Forget it. Thanks for nothing.
     clip: {fileID: 8300000, guid: efd92d85a5929454da292c20bbb7d3e5, type: 3}
@@ -927,18 +927,18 @@ MonoBehaviour:
       \uB204\uB098. \uB9CE\uC774."
     clip: {fileID: 8300000, guid: 9ed728a8a06924916806780a9432b570, type: 3}
   - voice: Eddy (Korean (South Korea))
-    text: "\uC5C4\uB9C8 \uC5EC\uC12F \uC2DC\uAE4C\uC9C0 \uD68C\uC758\uB798, \uD1A1\uBC29\uC5D0
-      \uADF8\uB807\uAC8C \uC37C\uC796\uC544. \uADF8\uB9AC\uACE0 \uB098 \uC8FD\uC5B4.
-      \uC62C\uD574\uB9CC \uB450 \uBC88\uC9F8\uC57C."
-    clip: {fileID: 8300000, guid: 4b8822d294e1a4099ab8999fbde4852f, type: 3}
+    text: "\uC5C4\uB9C8\uD55C\uD14C \uBA3C\uC800 \uC804\uD654\uD588\uC5B4. \uC5EC\uC12F
+      \uC2DC\uAE4C\uC9C0 \uD68C\uC758\uB77C\uC11C \uAC00\uC871 \uD1A1\uBC29\uC5D0
+      \uC368 \uB1A8\uB300. \uBD10 \uBD10."
+    clip: {fileID: 8300000, guid: a658e0478f50e49d69dbcfc02e597df7, type: 3}
   - voice: Eddy (Korean (South Korea))
     text: "\uB0B4 \uB8F8\uBA54\uC774\uD2B8 \uC774\uB3C4\uD604. \uAC19\uC740 \uACFC\uC57C.
       \uACC4\uC88C\uB3C4 \uB3C4\uD604\uC774 \uAC70\uACE0."
     clip: {fileID: 8300000, guid: 76d2259b62a664cdfa434bb80a23f802, type: 3}
   - voice: Eddy (Korean (South Korea))
-    text: "\uADF8\uB798. \uAE30\uC219\uC0AC \uB098\uC624\uAE30 \uC804\uC5D0 \uAC70\uAE30
-      \uC368 \uB1A8\uC5B4. \uBD10 \uBD10."
-    clip: {fileID: 8300000, guid: 7d2623c2fe1d44e2693d292d0c4e2740, type: 3}
+    text: "\uBD10 \uBD10. \uB204\uB098\uBCF4\uB2E4 \uC5C4\uB9C8\uD55C\uD14C \uBA3C\uC800
+      \uC804\uD654\uD588\uC5B4, \uAC70\uAE30 \uC368 \uB1A8\uB300."
+    clip: {fileID: 8300000, guid: 7882a1ddfaf8b4e49837675ea4ec3e4d, type: 3}
   - voice: Eddy (Korean (South Korea))
     text: "\uB204\uB098? \uBCF4\uB0B4\uACE0 \uC788\uC5B4?"
     clip: {fileID: 8300000, guid: 0545f7f9d759a4be981405d8f50c788e, type: 3}
@@ -973,9 +973,9 @@ MonoBehaviour:
       \uB098 \uC8FD\uC5B4. \uC774\uBC88 \uD55C \uBC88\uB9CC, \uB204\uB098."
     clip: {fileID: 8300000, guid: 56476484f3fb34f9198129e9063d712d, type: 3}
   - voice: Eddy (Korean (South Korea))
-    text: "\uD3F0\uC774 \uC8FD\uC5C8\uB294\uB370 \uADF8\uAC78 \uC5B4\uB5BB\uAC8C
-      \uBD10! \uADF8\uB0E5 \uBCF4\uB0B4 \uC918, \uC81C\uBC1C, \uC2DC\uAC04 \uC5C6\uC5B4."
-    clip: {fileID: 8300000, guid: 856ffbd474a2f4d25982551b111e937a, type: 3}
+    text: "\uC5C4\uB9C8\uAE4C\uC9C0 \uB04C\uC5B4\uB4E4\uC774\uC9C0 \uB9C8, \uB204\uB098.
+      \uC81C\uBC1C, \uC2DC\uAC04 \uC5C6\uC5B4."
+    clip: {fileID: 8300000, guid: c007b6d0431894c859a55a203dfbb24f, type: 3}
   - voice: Eddy (Korean (South Korea))
     text: "\uB410\uC5B4. \uB204\uB098 \uC9C4\uC9DC \uB108\uBB34\uD558\uB2E4."
     clip: {fileID: 8300000, guid: 8440c0c8591fa4b7d9589841a39c605b, type: 3}
@@ -1471,3 +1471,192 @@ MonoBehaviour:
     text: "\uAC10\uC0AC\uD569\uB2C8\uB2E4. \uC544, \uBCF4\uAD00\uB8CC\uB3C4 \uB530\uB85C
       \uC788\uC5B4\uC694. \uADF8\uAC74 \uB2E4\uC2DC \uC5F0\uB77D\uB4DC\uB9B4\uAC8C\uC694."
     clip: {fileID: 8300000, guid: 6ff89ec25d3644e92bd827d2ab9e48e9, type: 3}
+  - voice: Flo (English (US))
+    text: Jiwoo! Can you see me? It's me, Yuna! I'm on Somin's phone.
+    clip: {fileID: 8300000, guid: 542c833e374dc495aa87279af9592837, type: 3}
+  - voice: Flo (English (US))
+    text: Someone snatched my bag at Hakata station an hour ago. My phone, my wallet,
+      my cards, everything.
+    clip: {fileID: 8300000, guid: 892161d4bcdd541ddbb3248aaf70e0c7, type: 3}
+  - voice: Flo (English (US))
+    text: Jiwoo? Can you hear me?
+    clip: {fileID: 8300000, guid: 6883a25882a2f477ebc0e6547ba02a70, type: 3}
+  - voice: Flo (English (US))
+    text: I'm fine, just shaky. Somin is right here with me.
+    clip: {fileID: 8300000, guid: bef88fbf678694c9b9d102c47cc91caf, type: 3}
+  - voice: Flo (English (US))
+    text: So you can see it's really me! Everyone says there are scams everywhere.
+    clip: {fileID: 8300000, guid: 7294c5d3e7d114c77864c0bd18e44179, type: 3}
+  - voice: Flo (English (US))
+    text: The hotel wants both nights paid by five or they give the room away, and
+      I booked with the card that was in my bag.
+    clip: {fileID: 8300000, guid: 8117062acf808453d8f2ca5785b5a7a7, type: 3}
+  - voice: Flo (English (US))
+    text: Somin paid for the flights and her card is maxed out. Can you send six
+      hundred and fifty thousand won to her account?
+    clip: {fileID: 8300000, guid: 4d78236b58107419f909192740a6bcec, type: 3}
+  - voice: Flo (English (US))
+    text: Hanbit Bank, six two zero, four one eight, nine zero five three seven two.
+      Kim Somin.
+    clip: {fileID: 8300000, guid: 2eb6cdbe515904caea84de05e74ff87e, type: 3}
+  - voice: Flo (English (US))
+    text: I'll pay you back on Monday, I promise. I'll stay on the line.
+    clip: {fileID: 8300000, guid: f7b23e565072346de95f868078ce18e9, type: 3}
+  - voice: Flo (English (US))
+    text: Ha, you've been reading the warnings. Like this?
+    clip: {fileID: 8300000, guid: 19052e019ebb945f4bce3f252c302f5a, type: 3}
+  - voice: Flo (English (US))
+    text: Smart. Somin says hi.
+    clip: {fileID: 8300000, guid: 05ce9ea27a2ab4a549d4a2afe654645f, type: 3}
+  - voice: Flo (English (US))
+    text: Tteokbokki at the market, and you burned your tongue on the fish cake.
+    clip: {fileID: 8300000, guid: 546c518d761d746a89737644520be55b, type: 3}
+  - voice: Flo (English (US))
+    text: I already did! From the hotel lobby PC, before I called. Look.
+    clip: {fileID: 8300000, guid: a22ec87d6526b497b95184b1b7c57d88, type: 3}
+  - voice: Flo (English (US))
+    text: Yes! Kim Somin, my cousin. I told you on Thursday night.
+    clip: {fileID: 8300000, guid: 6fe61e435f5f645dcaba3130ca2c0bd1, type: 3}
+  - voice: Flo (English (US))
+    text: Jiwoo? Are you sending it? The man at the front desk keeps looking at us.
+    clip: {fileID: 8300000, guid: 70386adf9226e4b1c9600ac9093054f0, type: 3}
+  - voice: Flo (English (US))
+    text: Somin says the room goes to someone else at five.
+    clip: {fileID: 8300000, guid: b697b7d1aed024ed385ed5ee8ed6eb6e, type: 3}
+  - voice: Flo (English (US))
+    text: Please, Jiwoo. We've got nowhere else to sleep tonight.
+    clip: {fileID: 8300000, guid: 533cf5ed200484bd29027af0973189e0, type: 3}
+  - voice: Flo (English (US))
+    text: Seven minutes. Please.
+    clip: {fileID: 8300000, guid: 2267cd8ad42da40dfb9be4f4ce21aee9, type: 3}
+  - voice: Flo (English (US))
+    text: Three minutes! Jiwoo!
+    clip: {fileID: 8300000, guid: d9c35b3f459c2482b942e70632ae7c9c, type: 3}
+  - voice: Flo (English (US))
+    text: It's five. They gave the room away. We'll figure something out. Bye.
+    clip: {fileID: 8300000, guid: 5858ba100d3a5485abe111004db5ab97, type: 3}
+  - voice: Flo (English (US))
+    text: It came through! You're a lifesaver. Somin says she owes you dinner.
+    clip: {fileID: 8300000, guid: b1f93af51c6db401d99c10f3a7947f55, type: 3}
+  - voice: Flo (English (US))
+    text: Seriously? Fine, like this.
+    clip: {fileID: 8300000, guid: 919f909c9fac046d09e994548363e768, type: 3}
+  - voice: Flo (English (US))
+    text: There. Happy now? The signal here is terrible.
+    clip: {fileID: 8300000, guid: 8b2dcf529442c4e969c95b299cf0b45a, type: 3}
+  - voice: Flo (English (US))
+    text: Jiwoo, I'm stuck in Japan without a wallet and you're giving me a quiz?
+    clip: {fileID: 8300000, guid: be1c7f3d62a5d446095eb31dbdec33bb, type: 3}
+  - voice: Flo (English (US))
+    text: My phone is in the bag, Jiwoo! That's the whole problem.
+    clip: {fileID: 8300000, guid: caa5a8d38de56436ab61d49e4f8ac39d, type: 3}
+  - voice: Flo (English (US))
+    text: Forget it. Thanks a lot.
+    clip: {fileID: 8300000, guid: 932750656abf64b59b7e1a1f52cad71b, type: 3}
+  - voice: Flo (English (US))
+    text: Got it! Thanks, Jiwoo. I'll call you later.
+    clip: {fileID: 8300000, guid: 31702e2062bba48b99fbae2ac58ee959, type: 3}
+  - voice: Flo (Korean (South Korea))
+    text: "\uC9C0\uC6B0\uC57C! \uBCF4\uC5EC? \uB098\uC57C, \uC720\uB098! \uC18C\uBBFC\uC774
+      \uD3F0\uC774\uC57C."
+    clip: {fileID: 8300000, guid: 1ac2c77004f924542ad6f5b0fac4e2fd, type: 3}
+  - voice: Flo (Korean (South Korea))
+    text: "\uD55C \uC2DC\uAC04 \uC804\uC5D0 \uD558\uCE74\uD0C0\uC5ED\uC5D0\uC11C
+      \uB204\uAC00 \uB0B4 \uAC00\uBC29\uC744 \uB0A0\uCE58\uAE30\uD588\uC5B4. \uD3F0,
+      \uC9C0\uAC11, \uCE74\uB4DC \uC804\uBD80 \uB2E4."
+    clip: {fileID: 8300000, guid: d389fc275d749462d8386dc41d0832df, type: 3}
+  - voice: Flo (Korean (South Korea))
+    text: "\uC9C0\uC6B0\uC57C? \uB4E4\uB824?"
+    clip: {fileID: 8300000, guid: 3339202b3624e47cab5fe7c714900bae, type: 3}
+  - voice: Flo (Korean (South Korea))
+    text: "\uB09C \uAD1C\uCC2E\uC544, \uC880 \uB5A8\uB9B4 \uBFD0\uC774\uC57C. \uC18C\uBBFC\uC774\uAC00
+      \uC606\uC5D0 \uC788\uC5B4."
+    clip: {fileID: 8300000, guid: 46b8099c1667c40ebbfb3e01774eb894, type: 3}
+  - voice: Flo (Korean (South Korea))
+    text: "\uC9C4\uC9DC \uB098\uC778 \uAC70 \uBCF4\uB77C\uACE0! \uC694\uC998 \uC0AC\uAE30\uAC00
+      \uADF8\uB807\uAC8C \uB9CE\uB2E4\uC796\uC544."
+    clip: {fileID: 8300000, guid: e7f60805f274d4cb79c35a0ece50bc3f, type: 3}
+  - voice: Flo (Korean (South Korea))
+    text: "\uD638\uD154\uC5D0\uC11C \uB2E4\uC12F \uC2DC\uAE4C\uC9C0 \uC774\uD2C0
+      \uCE58\uB97C \uC548 \uB0B4\uBA74 \uBC29\uC744 \uB2E4\uB978 \uC0AC\uB78C\uD55C\uD14C
+      \uC900\uB300. \uC608\uC57D\uD55C \uCE74\uB4DC\uAC00 \uAC00\uBC29\uC5D0 \uC788\uC5C8\uAC70\uB4E0."
+    clip: {fileID: 8300000, guid: 5b18b5f160c034e979ceb058b1c47089, type: 3}
+  - voice: Flo (Korean (South Korea))
+    text: "\uBE44\uD589\uAE30 \uD45C\uB294 \uC18C\uBBFC\uC774\uAC00 \uB0C8\uB294\uB370
+      \uCE74\uB4DC \uD55C\uB3C4\uAC00 \uB2E4 \uCC3C\uC5B4. \uC18C\uBBFC\uC774 \uACC4\uC88C\uB85C
+      \uC721\uC2ED\uC624\uB9CC \uC6D0\uB9CC \uBCF4\uB0B4 \uC904 \uC218 \uC788\uC5B4?"
+    clip: {fileID: 8300000, guid: cd251e46fafd849f683133cff7b253ed, type: 3}
+  - voice: Flo (Korean (South Korea))
+    text: "\uD55C\uBE5B\uC740\uD589 \uC721\uC774\uACF5, \uC0AC\uC77C\uD314, \uAD6C\uACF5\uC624\uC0BC\uCE60\uC774,
+      \uAE40\uC18C\uBBFC."
+    clip: {fileID: 8300000, guid: 32e32cd5801984e2d855d77670f54858, type: 3}
+  - voice: Flo (Korean (South Korea))
+    text: "\uC6D4\uC694\uC77C\uC5D0 \uAF2D \uAC1A\uC744\uAC8C, \uC57D\uC18D\uD574.
+      \uB04A\uC9C0 \uC54A\uACE0 \uAE30\uB2E4\uB9B4\uAC8C."
+    clip: {fileID: 8300000, guid: 33cffc78df26f41a7a305200081a2ab5, type: 3}
+  - voice: Flo (Korean (South Korea))
+    text: "\uD558, \uB108 \uACBD\uACE0\uBB38 \uC77D\uC5C8\uAD6C\uB098. \uC774\uB807\uAC8C?"
+    clip: {fileID: 8300000, guid: 0675267e73f87465fbc35d9fabdfc126, type: 3}
+  - voice: Flo (Korean (South Korea))
+    text: "\uB611\uB611\uD558\uB124. \uC18C\uBBFC\uC774\uAC00 \uC548\uB155\uC774\uB798."
+    clip: {fileID: 8300000, guid: e2f44060830254c74b8d6d9fca324675, type: 3}
+  - voice: Flo (Korean (South Korea))
+    text: "\uC2DC\uC7A5 \uB5A1\uBCF6\uC774. \uB108 \uC5B4\uBB35 \uBA39\uB2E4\uAC00
+      \uD600 \uB370\uC5C8\uC796\uC544."
+    clip: {fileID: 8300000, guid: 9302d39d8f1cc43ef81fa51b167bf482, type: 3}
+  - voice: Flo (Korean (South Korea))
+    text: "\uBC8C\uC368 \uC37C\uC5B4! \uC804\uD654\uD558\uAE30 \uC804\uC5D0 \uD638\uD154
+      \uB85C\uBE44 PC\uB85C. \uBD10 \uBD10."
+    clip: {fileID: 8300000, guid: e05fd207305d442629e147e1ec1a02b3, type: 3}
+  - voice: Flo (Korean (South Korea))
+    text: "\uC751! \uAE40\uC18C\uBBFC, \uB0B4 \uC0AC\uCD0C. \uBAA9\uC694\uC77C \uBC24\uC5D0
+      \uB9D0\uD588\uC796\uC544."
+    clip: {fileID: 8300000, guid: 1d6a41c785a6c4ae6b2cb4ac8aaa5dde, type: 3}
+  - voice: Flo (Korean (South Korea))
+    text: "\uC9C0\uC6B0\uC57C? \uBCF4\uB0B4\uACE0 \uC788\uC5B4? \uD504\uB7F0\uD2B8
+      \uC9C1\uC6D0\uC774 \uACC4\uC18D \uC6B0\uB9AC \uCCD0\uB2E4\uBD10."
+    clip: {fileID: 8300000, guid: 7446e74d15a9d4f91ade4ac86d37de5a, type: 3}
+  - voice: Flo (Korean (South Korea))
+    text: "\uC18C\uBBFC\uC774\uAC00 \uB2E4\uC12F \uC2DC\uC5D0 \uBC29\uC774 \uB2E4\uB978
+      \uC0AC\uB78C\uD55C\uD14C \uAC04\uB300."
+    clip: {fileID: 8300000, guid: 1011adb43eb2841248d39723ba2a627d, type: 3}
+  - voice: Flo (Korean (South Korea))
+    text: "\uC81C\uBC1C, \uC9C0\uC6B0\uC57C. \uC624\uB298 \uBC24\uC5D0 \uC798 \uB370\uAC00
+      \uC5C6\uC5B4."
+    clip: {fileID: 8300000, guid: ab2994c416467434ca465f9803461b28, type: 3}
+  - voice: Flo (Korean (South Korea))
+    text: "\uCE60 \uBD84 \uB0A8\uC558\uC5B4. \uC81C\uBC1C."
+    clip: {fileID: 8300000, guid: 0468884ce53e24fc8a04ac6648571eb5, type: 3}
+  - voice: Flo (Korean (South Korea))
+    text: "\uC0BC \uBD84 \uB0A8\uC558\uC5B4! \uC9C0\uC6B0\uC57C!"
+    clip: {fileID: 8300000, guid: c7dd1077b40414a61b38bd61b9d826b3, type: 3}
+  - voice: Flo (Korean (South Korea))
+    text: "\uB2E4\uC12F \uC2DC\uC57C. \uBC29 \uB118\uC5B4\uAC14\uB300. \uC5B4\uB5BB\uAC8C\uB4E0
+      \uD574 \uBCFC\uAC8C. \uB04A\uC5B4."
+    clip: {fileID: 8300000, guid: 66cfbf37cc4de4cb5b0bff83e130d499, type: 3}
+  - voice: Flo (Korean (South Korea))
+    text: "\uB4E4\uC5B4\uC654\uC5B4! \uB124\uAC00 \uC0B4\uB838\uB2E4. \uC18C\uBBFC\uC774\uAC00
+      \uC800\uB141 \uC3DC\uB300."
+    clip: {fileID: 8300000, guid: 59d4e269498174a8ea27829c8376111d, type: 3}
+  - voice: Flo (Korean (South Korea))
+    text: "\uC9C4\uC2EC\uC774\uC57C? \uC54C\uC558\uC5B4, \uC774\uB807\uAC8C."
+    clip: {fileID: 8300000, guid: a8d9da7df8dde45daaf1587ff2737e5f, type: 3}
+  - voice: Flo (Korean (South Korea))
+    text: "\uB410\uC9C0? \uC774\uC81C \uB410\uC5B4? \uC5EC\uAE30 \uC2E0\uD638 \uC9C4\uC9DC
+      \uC548 \uC88B\uC544."
+    clip: {fileID: 8300000, guid: e11216a3aa371460b95fa12ea62fbca4, type: 3}
+  - voice: Flo (Korean (South Korea))
+    text: "\uC9C0\uC6B0\uC57C, \uB098 \uC9C0\uAC11\uB3C4 \uC5C6\uC774 \uC77C\uBCF8\uC5D0
+      \uAC07\uD614\uB294\uB370 \uC9C0\uAE08 \uD034\uC988\uB97C \uB0B4?"
+    clip: {fileID: 8300000, guid: 538fa51eddcbc43ad8586a4ffd00b244, type: 3}
+  - voice: Flo (Korean (South Korea))
+    text: "\uD3F0\uC774 \uAC00\uBC29\uC5D0 \uC788\uB2E4\uB2C8\uAE4C, \uC9C0\uC6B0\uC57C!
+      \uADF8\uAC8C \uBB38\uC81C\uC796\uC544."
+    clip: {fileID: 8300000, guid: dad2af3a8cee24a82a9d6492e83e59c6, type: 3}
+  - voice: Flo (Korean (South Korea))
+    text: "\uB410\uC5B4. \uC815\uB9D0 \uACE0\uB9D9\uB2E4."
+    clip: {fileID: 8300000, guid: cab389cd864b946e5b307fc7de2aa075, type: 3}
+  - voice: Flo (Korean (South Korea))
+    text: "\uB4E4\uC5B4\uC654\uB2E4! \uACE0\uB9C8\uC6CC, \uC9C0\uC6B0\uC57C. \uB098\uC911\uC5D0
+      \uC804\uD654\uD560\uAC8C."
+    clip: {fileID: 8300000, guid: 0e62edf68c9b349699f042c71c9184f9, type: 3}

@@ -22,6 +22,10 @@ MonoBehaviour:
   intro: 'A holiday Monday, your first autumn living on your own. This first call
     is practice: the yellow note shows you every place worth checking.'
   ringDelay: 7
+  help: 0
+  level: 0
+  newToday: The case notebook. Every claim the caller makes goes in it, and you check
+    them one by one.
   variants:
   - id: scam
     scenario: gas
@@ -40,70 +44,127 @@ MonoBehaviour:
       when:
       - kind: 0
         target: Newspaper
+      - kind: 7
+        target: news_warning
     - id: caller_number
       text: Her number is a prepaid phone opened three days ago, with four scam reports.
         It is not the gas company's.
       where: "Computer \u2192 Check a phone number"
-      guide: The computer shows who really owns a number. Click the glowing laptop,
-        then click her number under Check a phone number.
+      guide: 'Claim 1: is she really the gas company? The computer shows who owns
+        a number. Click the glowing laptop, click her number under Check a phone
+        number, then click the result to circle it.'
       when:
-      - kind: 2
-        target: 010-7359-2046
-    - id: account_owner
-      text: The "collection account" belongs to a private person, HAN SUNGMIN, not
-        to Mapo City Gas.
-      where: "Computer \u2192 Check a bank account"
-      guide: The computer shows whose account it is, too. Click the laptop, choose
-        Check a bank account, then click the account she gave you.
+      - kind: 7
+        target: check_number
+    - id: contacts
+      text: Mapo City Gas is saved in your contacts as 02-555-0181, the number on
+        the bill. The caller's number is not it.
+      where: "Phone \u2192 Contacts"
+      guide: A company you deal with is in your contacts. On the phone, open Apps,
+        then Contacts, open Mapo City Gas and click its card to circle the number.
       when:
-      - kind: 2
-        target: 620-339-104772
-      - kind: 3
-        target: 620-339-104772
+      - kind: 7
+        target: contact_gas
     - id: bill
       text: The gas bill in your drawer is stamped PAID (auto-pay, 28 September),
         and the company's real number on it is 02-555-0181.
       where: "Desk drawer \u2192 Gas bill"
-      guide: Your own papers are in the desk drawer. Open it and find the gas bill.
+      guide: 'Claim 2: is the bill unpaid? Your own papers are in the desk drawer.
+        Open it, find the gas bill and circle the line that says when it was paid.'
       when:
-      - kind: 1
-        target: "Gas bill \xB7 September"
-    - id: calendar
-      text: Your calendar says today is a public holiday. Offices are closed, yet
-        "the gas company" is calling.
-      where: the calendar on the wall
-      guide: The calendar on the wall shows what day it is and what you wrote down.
-        Click it.
-      when:
-      - kind: 0
-        target: Calendar
+      - kind: 7
+        target: bill_paid
     - id: bank
       text: Your bank history shows 18,420 won went to Mapo City Gas on 28 September.
         The bill is paid.
       where: "Phone \u2192 Nuri Bank"
-      guide: Your bank app shows what really left your account. On the phone, press
-        Apps, then open Nuri Bank.
+      guide: Your bank app shows what really left your account. On the phone, open
+        Apps, then Nuri Bank, and circle the payment to Mapo City Gas.
       when:
-      - kind: 5
-        target: 
+      - kind: 7
+        target: tx_gas
+    - id: account_owner
+      text: The "collection account" belongs to a private person, HAN SUNGMIN, not
+        to Mapo City Gas.
+      where: "Computer \u2192 Check a bank account"
+      guide: 'Claim 3: should the money go to her account? The computer shows whose
+        account it is. Open the laptop, choose Check a bank account, click her account
+        and circle the result.'
+      when:
+      - kind: 7
+        target: check_account
+      - kind: 3
+        target: 620-339-104772
+    - id: calendar
+      text: Your calendar says today is a public holiday. Offices are closed, yet
+        "the gas company" is calling.
+      where: the calendar by the door
+      guide: The calendar hangs on the board by the door and shows what day it is.
+        Click it and circle today's note.
+      when:
+      - kind: 7
+        target: cal_holiday
     - id: chat
       text: 'In the residents'' chat the landlord warns everyone: the gas company
         never phones for money.'
       where: "Chats \u2192 Mangwon Heights residents"
-      guide: People you know write to you themselves. Go back to Apps, open Chats
-        and read the residents' chat.
+      guide: People you know write to you themselves. On the phone, open Apps, then
+        Chats, read the residents' chat and circle what the landlord wrote.
       when:
-      - kind: 4
-        target: villa
-    - id: contacts
-      text: The caller is not in your contacts. A number you saved would show its
-        name when it rings.
-      where: "Phone \u2192 Contacts"
-      guide: 'A number you saved shows its name when it calls. Go back to Apps and
-        open Contacts: is she there?'
-      when:
-      - kind: 6
-        target: 
+      - kind: 7
+        target: chat_landlord
+    marks:
+    - id: news_warning
+      claim: company
+      also: []
+      place: 0
+      key: warning
+    - id: check_number
+      claim: company
+      also: []
+      place: 3
+      key: 010-7359-2046
+    - id: contact_gas
+      claim: company
+      also: []
+      place: 6
+      key: 02-555-0181
+    - id: bill_centre
+      claim: company
+      also: []
+      place: 1
+      key: "Gas bill \xB7 September|Customer centre"
+    - id: bill_paid
+      claim: unpaid
+      also: []
+      place: 1
+      key: "Gas bill \xB7 September|Paid"
+    - id: tx_gas
+      claim: unpaid
+      also: []
+      place: 5
+      key: Mapo City Gas|-18420
+    - id: check_account
+      claim: pay
+      also: []
+      place: 3
+      key: 620-339-104772
+    - id: cal_holiday
+      claim: pay
+      also: []
+      place: 2
+      key: Substitute holiday
+    - id: news_holiday
+      claim: pay
+      also: []
+      place: 0
+      key: Holiday today
+    - id: chat_landlord
+      claim: pay
+      also: []
+      place: 4
+      key: 'villa|Don''t send anything! Mapo City Gas never phones for money. The
+        real number is on your bill: 02-555-0181. - Choi, 1F'
     papers:
     - outcome: 1
       headline: Holiday "gas bill" calls were fake
@@ -178,4 +239,4 @@ MonoBehaviour:
     ruleSource: Seoul Daily, 6 Oct
   echoes: []
   nextDateLabel: Tuesday, 6 October
-  builtWith: 8
+  builtWith: 15

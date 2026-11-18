@@ -81,25 +81,63 @@ namespace DontCallMe.UI
 
     /// <summary>
     /// The call in progress: portrait, name, call timer, a shortcut to the apps and the red
-    /// hang-up button (off during a case: the verdict ends the call).
+    /// hang-up button (off during a case: the verdict ends the call). On a video call the caller's
+    /// face fills the screen (<see cref="VideoFeed"/>) with Jiwoo's own picture in a corner; the face
+    /// can be circled for the notebook, and so can the wave once the caller has waved.
     /// </summary>
     public class InCallView : PhoneScreen
     {
         public event Action HangUpClicked;
         public override bool LightStatus => false;
 
+        /// <summary>The caller's face; null on a voice call.</summary>
+        public VideoFeed Video { get; }
+
         readonly Label timer;
         readonly Label status;
         readonly VisualElement hangButton;
         readonly Label hangLabel;
+        readonly VisualElement moments;
         bool hangUpEnabled = true;
 
-        public InCallView(PhoneController phone, CallerInfo caller, string title, string statusText = null)
+        public InCallView(PhoneController phone, CallerInfo caller, string title, string statusText = null, VideoCall video = null)
             : base(phone, "", scroll: false, header: false)
         {
             var call = CallArt.Screen();
-            call.Add(CallArt.Avatar(caller, "call__avatar--small"));
-            var info = UIKit.Div("call__info", "call__info--active");
+            bool onVideo = video != null && !string.IsNullOrEmpty(video.face);
+            if (onVideo)
+            {
+                call.AddToClassList("call--video");
+                Video = new VideoFeed(video);
+                call.Add(Video.Root);
+                var self = UIKit.Div("video__self");
+                UIKit.SetImage(self, UISkin.Tex("pt_jiwoo"));
+                self.pickingMode = PickingMode.Ignore;
+                call.Add(self);
+                moments = UIKit.Div("video__moments");
+                call.Add(moments);
+                string where = Loc.T("Video call");
+                Markable.Attach(Video.Face, phone.UI, MarkPlace.Video, "face", video.faceNote, where);
+                Video.Waved += frame =>
+                {
+                    // What the wave showed stays on screen, small, to be circled.
+                    var moment = UIKit.Div("video__moment");
+                    var still = UIKit.Div("video__still");
+                    UIKit.SetImage(still, UISkin.Tex(frame));
+                    still.pickingMode = PickingMode.Ignore;
+                    moment.Add(still);
+                    var caption = UIKit.Text(Loc.F("The wave · {0}", GameClock.Now), "video__caption");
+                    caption.pickingMode = PickingMode.Ignore;
+                    moment.Add(caption);
+                    moments.Add(moment);
+                    Markable.Attach(moment, phone.UI, MarkPlace.Video, "wave", video.waveNote, where);
+                };
+            }
+            else
+            {
+                call.Add(CallArt.Avatar(caller, "call__avatar--small"));
+            }
+            var info = UIKit.Div("call__info", onVideo ? "call__info--video" : "call__info--active");
             status = UIKit.Text(statusText ?? Loc.T("ON CALL"), "call__label");
             info.Add(status);
             info.Add(CallArt.Name(title));

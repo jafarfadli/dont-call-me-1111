@@ -32,6 +32,10 @@ namespace DontCallMe.Editor.UI
 
             var d = ScriptableObject.CreateInstance<DayData>();
             d.day = 2;
+            d.help = NotebookHelp.Plain;
+            d.level = 2;
+            d.newToday = L("No more hints. Work out for yourself where each claim can be checked.",
+                           "이제 힌트는 없다. 주장마다 어디서 확인할 수 있을지 스스로 생각해야 한다.");
             d.dateLabel = DateLabel(today);
             d.shortLabel = ShortLabel(2, today);
             d.weekday = WeekdayLabel(today);
@@ -67,51 +71,61 @@ namespace DontCallMe.Editor.UI
             n.local = Day2Local();
 
             // ---- the truth: in the residents' chat, on the calendar and in what CheckFirst knows
+            string fixing = RentFixing, fixedIt = RentFixed, inHospital = RentInHospital, hospitalNote = RentHospitalNote;
             if (scam)
             {
-                AddChat(phone, VillaChat, 7, "13:40", Landlord, "pt_landlord",
-                        L("Thank you all for keeping the stairs so clean! I'm fixing the light on the second floor now. See you at the water tank cleaning tomorrow. – Choi, 1F",
-                          "계단 깨끗하게 써 주셔서 다들 고마워요! 지금 2층 전등 고치는 중이에요. 내일 물탱크 청소 때 봬요. - 1층 최"));
-                AddChat(phone, VillaChat, 7, "15:52", Landlord, "pt_landlord",
-                        L("The light is fixed. Rent as always, please: Nuri Bank 110-771-209944.", "전등 다 고쳤어요. 월세는 늘 보내던 누리은행 110-771-209944로 부탁해요."));
+                AddChat(phone, VillaChat, 7, "13:40", Landlord, "pt_landlord", fixing);
+                AddChat(phone, VillaChat, 7, "15:52", Landlord, "pt_landlord", fixedIt);
                 directory.accounts.Add(new DirAccount { bank = bank, number = account, holder = L("SEO JIYEON", "서지연"), note = L("Personal account, opened 12 days ago", "개인 계좌 · 개설 12일") });
                 directory.numbers.Add(new DirNumber { number = Day2ScamNumber, owner = L("Not registered", "미등록"), note = L("Prepaid phone, opened 6 days ago", "선불폰 · 개통 6일") });
             }
             else
             {
-                AddChat(phone, VillaChat, 7, "08:10", Landlord, "pt_landlord",
-                        L("Good morning everyone. I'm going into Severance Hospital today for my knee, back next week. My son Hyunwoo will look after the building and collect this month's rent: Nuri Bank 110-771-202358 (Choi Hyunwoo). He'll call you today. Thank you! – Choi, 1F",
-                          "다들 좋은 아침이에요. 무릎 때문에 오늘 세브란스에 입원해서 다음 주에 돌아옵니다. 그동안 아들 현우가 건물을 봐주고 이번 달 월세도 받을 거예요: 누리은행 110-771-202358 (최현우). 오늘 중으로 연락드릴 겁니다. 고마워요! - 1층 최"));
-                AddChat(phone, VillaChat, 7, "08:42", L("201", "201호"), "pt_unknown", L("Get well soon, Mr. Choi!", "사장님 빨리 쾌차하세요!"));
-                Note(room, 7, L("Mr. Choi in hospital this week. His son Hyunwoo collects the rent (see the residents' chat)", "최 사장님 이번 주 입원. 월세는 아들 현우 씨가 받음 (입주민 채팅 참고)"));
+                AddChat(phone, VillaChat, 7, "08:10", Landlord, "pt_landlord", inHospital);
+                AddChat(phone, VillaChat, 7, "08:42", L("201", "201호"), "pt_unknown", RentGetWell);
+                Note(room, 7, hospitalNote);
                 directory.accounts.Add(new DirAccount { bank = bank, number = account, holder = L("CHOI HYUNWOO", "최현우"), note = L("Personal account, opened 2016", "개인 계좌 · 2016년 개설") });
             }
 
+            string number = scam ? Day2ScamNumber : Day2LegitNumber;
             var v = StoreVariant(scam ? "scam" : "legit", CaseRent, Day2Dir, scam ? "Day2_Scam" : "Day2_Legit", Day2Call(scam), phone, room, directory);
+            v.marks = new List<MarkDef>
+            {
+                MarkField("lease_son", "son", LeaseTitle, L("Son's phone", "아들 연락처")),
+                MarkField("lease_absent", "son", LeaseTitle, L("If absent, contact", "부재 시 연락처")),
+                MarkCheck("check_number", "son", number),
+                MarkField("lease_account", "account", LeaseTitle, L("Rent account", "월세 계좌")),
+                MarkLine("lease_terms", "account", LeaseTitle, L("1. The rent account changes only with a written notice from the landlord.", "1. 월세 계좌는 임대인의 서면 통지로만 변경한다.")),
+                MarkCheck("check_account", "account", account),
+                MarkNote("cal_rent", "account", L("Rent day! 450,000 won to Mr. Choi", "월세 날! 최 사장님께 45만 원")),
+            };
+            v.marks.AddRange(scam
+                ? new[] { MarkChat("chat_fixing", "hospital", VillaChat, fixing), MarkChat("chat_fixed", "hospital", VillaChat, fixedIt) }
+                : new[] { MarkChat("chat_hospital", "hospital", VillaChat, inHospital), MarkNote("cal_hospital", "hospital", hospitalNote) });
             v.clues = scam
                 ? new List<ClueDef>
                 {
                     Clue("number", L("The caller's number isn't the son's: your lease gives 010-2280-6614, and CheckFirst shows the caller's as a prepaid phone opened six days ago.",
                                      "발신 번호는 아들 번호가 아니다. 계약서의 아들 번호는 010-2280-6614이고, 체크퍼스트에는 발신 번호가 6일 전 개통된 선불폰으로 나온다."),
                          L("Desk drawer → Lease contract, or Computer → Check a phone number", "책상 서랍 → 임대차 계약서, 또는 컴퓨터 → 전화번호 조회"),
-                         new ClueWhen(ClueEvent.DocumentViewed, LeaseTitle), new ClueWhen(ClueEvent.NumberChecked, Day2ScamNumber)),
+                         Circled("lease_son"), Circled("check_number")),
                     Clue("account_owner", L("The \"new rent account\" is in a stranger's name: SEO JIYEON.", "'새 월세 계좌'는 모르는 사람 명의다: 서지연."), AtAccountCheck,
-                         new ClueWhen(ClueEvent.NumberChecked, account), new ClueWhen(ClueEvent.RecipientShown, account)),
+                         Circled("check_account"), new ClueWhen(ClueEvent.RecipientShown, account)),
                     Clue("landlord", L("Mr. Choi was writing in the residents' chat this afternoon: at home, fixing a light, asking for the rent on the usual account.",
                                        "최 사장님은 오후에 입주민 채팅에 글을 올렸다. 집에서 전등을 고치고 있었고, 월세는 늘 보내던 계좌로 달라고 했다."), AtVillaChat,
-                         new ClueWhen(ClueEvent.ChatRead, VillaChat)),
+                         Circled("chat_fixing"), Circled("chat_fixed")),
                 }
                 : new List<ClueDef>
                 {
                     Clue("number", L("The caller's number, 010-2280-6614, is the son's number in your lease, registered to Choi Hyunwoo.", "발신 번호 010-2280-6614는 계약서에 적힌 아들 번호이고, 최현우 명의다."),
                          L("Desk drawer → Lease contract, or Computer → Check a phone number", "책상 서랍 → 임대차 계약서, 또는 컴퓨터 → 전화번호 조회"),
-                         new ClueWhen(ClueEvent.DocumentViewed, LeaseTitle), new ClueWhen(ClueEvent.NumberChecked, Day2LegitNumber)),
+                         Circled("lease_son"), Circled("check_number")),
                     Clue("account_owner", L("The new account is in Choi Hyunwoo's name, the son your lease names.", "새 계좌는 계약서에 적힌 아들 최현우 명의다."), AtAccountCheck,
-                         new ClueWhen(ClueEvent.NumberChecked, account), new ClueWhen(ClueEvent.RecipientShown, account)),
+                         Circled("check_account"), new ClueWhen(ClueEvent.RecipientShown, account)),
                     Clue("landlord", L("Mr. Choi wrote in the residents' chat this morning that he is in hospital and that Hyunwoo collects this month's rent on this account.",
                                        "최 사장님이 오늘 아침 입주민 채팅에 입원 소식과, 이번 달 월세는 현우 씨가 이 계좌로 받는다는 글을 올렸다."),
-                         L("Chats → Mangwon Heights residents, or the calendar on the wall", "채팅 → 망원하이츠 입주민, 또는 벽에 걸린 달력"),
-                         new ClueWhen(ClueEvent.ChatRead, VillaChat), new ClueWhen(ClueEvent.PanelOpened, "Calendar")),
+                         L("Chats → Mangwon Heights residents, or the calendar by the door", "채팅 → 망원하이츠 입주민, 또는 문 옆 달력"),
+                         Circled("chat_hospital"), Circled("cal_hospital")),
                 };
             v.papers = scam ? Day2ScamPapers() : Day2LegitPapers();
             v.ruleTitle = scam ? L("A new rent account? Check the lease", "새 월세 계좌? 계약서를 확인하라") : L("Checking works both ways", "확인은 양쪽 모두를 위한 것");
@@ -147,12 +161,17 @@ namespace DontCallMe.Editor.UI
             c.isScam = scam;
             c.revealAtEnd = false;
             c.caller = new CallerInfo { displayName = L("Choi Hyunwoo", "최현우"), number = number, inContacts = false, portrait = "pt_hyunwoo", voice = VoiceHyunwoo };
-            c.claims = new List<string>
+            c.claims = new List<ClaimDef>
             {
-                L("He is Choi Hyunwoo, the landlord's son.", "집주인 아들 최현우라고 한다."),
-                L("Mr. Choi went into hospital this morning (his knee).", "최 사장님이 오늘 아침 무릎 때문에 입원했다고 한다."),
-                L($"This month the rent goes to his account: {bank} {account}.", $"이번 달 월세는 자기 계좌로 보내 달라고 한다: {bank} {account}"),
-                L("He needs it before 17:00 to pay the hospital bill.", "병원비 때문에 17시 전까지 필요하다고 한다."),
+                Claim("son", L("\"I'm Choi Hyunwoo, the landlord's son.\"", "\"집주인 아들 최현우예요.\""), !scam,
+                      scam ? L("False. The son's number in your lease is 010-2280-6614, and this one was a prepaid phone opened six days ago.", "거짓. 계약서의 아들 번호는 010-2280-6614. 이 번호는 6일 전 개통된 선불폰이었다.")
+                           : L("True. He called from the son's number in your lease, registered to Choi Hyunwoo.", "사실. 계약서에 적힌 아들 번호로, 최현우 명의였다.")).Via(TrickStandIn),
+                Claim("hospital", L("\"Dad went into hospital this morning.\"", "\"아버지가 오늘 아침 입원하셨어요.\""), !scam,
+                      scam ? L("False. Mr. Choi was at home fixing the light on the second floor: the residents' chat, 13:40 and 15:52.", "거짓. 최 사장님은 집에서 2층 전등을 고치고 있었다. 입주민 채팅 13:40, 15:52.")
+                           : L("True. He wrote it in the residents' chat at 08:10, and you noted it on the calendar.", "사실. 08:10 입주민 채팅에 직접 썼고, 달력에도 적어 두었다.")).Via(TrickEmergency),
+                Claim("account", L("\"This month the rent goes to my account.\"", "\"이번 달 월세는 제 계좌로 보내 주세요.\""), !scam,
+                      scam ? L("False. CheckFirst shows the account belongs to SEO JIYEON, and the landlord never wrote that the account changed.", "거짓. 체크퍼스트에 따르면 계좌 주인은 서지연이고, 집주인은 계좌가 바뀐다고 쓴 적이 없다.")
+                           : L("True. The account is in Choi Hyunwoo's name, and his father announced it in writing, as your lease asks.", "사실. 계좌는 최현우 명의이고, 계약서대로 아버지가 글로 알렸다.")).Via(TrickNewAccount),
             };
             c.nodes = new List<ConvNode>
             {
@@ -162,9 +181,9 @@ namespace DontCallMe.Editor.UI
                       L("Sorry, who is this again?", "죄송한데, 누구시라고요?"), "who",
                       P(0.5f, L("Jiwoo-ssi? Can you hear me?", "지우 씨? 제 말 들리세요?"))),
                     Caller(L("Hello, is this Kim Jiwoo in 302? This is Choi Hyunwoo, Mr. Choi's son, from the first floor.", "안녕하세요, 302호 김지우 씨 맞으시죠? 1층 최 사장님 아들 최현우입니다."),
-                           L("Hello, is this Kim Jiwoo in three oh two? This is Choi Hyunwoo, Mr. Choi's son, from the first floor.", "안녕하세요, 삼백이 호 김지우 씨 맞으시죠? 일 층 최 사장님 아들 최현우입니다.")),
+                           L("Hello, is this Kim Jiwoo in three oh two? This is Choi Hyunwoo, Mr. Choi's son, from the first floor.", "안녕하세요, 삼백이 호 김지우 씨 맞으시죠? 일 층 최 사장님 아들 최현우입니다.")).Says("son"),
                     Caller(L("Sorry to call out of the blue. My father went into hospital this morning. It's his knee. Nothing serious, but he'll be there all week.",
-                             "갑자기 전화드려 죄송해요. 아버지가 오늘 아침에 입원하셨어요. 무릎 때문인데 큰일은 아니고, 이번 주 내내 병원에 계실 거예요."))),
+                             "갑자기 전화드려 죄송해요. 아버지가 오늘 아침에 입원하셨어요. 무릎 때문인데 큰일은 아니고, 이번 주 내내 병원에 계실 거예요.")).Says("hospital")),
                 Node("okay", "ask",
                     Caller(L("He's fine, thanks. Grumpy about the hospital food.", "네, 괜찮으세요. 병원 밥이 맛없다고 투덜대시긴 하지만요."))),
                 Node("who", "ask",
@@ -176,7 +195,7 @@ namespace DontCallMe.Editor.UI
                     Caller(L("Dad can't use his banking app from the hospital, so this month the rent comes to me.", "아버지가 병원에서 은행 앱을 못 쓰셔서, 이번 달 월세는 제가 받기로 했어요.")),
                     Caller(L($"Please send the ₩450,000 to my account: {bank} {account}.", $"월세 45만 원은 제 계좌로 보내 주세요. {bank} {account}입니다."),
                            L($"Please send the four hundred and fifty thousand won to my account. {bank}, {accountSpoken}.", $"월세 사십오만 원은 제 계좌로 보내 주세요. {bank}, {accountSpoken}입니다."),
-                           F(FactKind.Account, account), F(FactKind.Amount, "450,000")),
+                           F(FactKind.Account, account), F(FactKind.Amount, "450,000")).Says("account"),
                     Caller(L("I'm paying his hospital bill with the rents, and the billing desk closes at five. Could you send it before then? I'll hold.",
                              "월세로 병원비를 내야 하는데 원무과가 5시에 닫아요. 그 전에 보내 주실 수 있을까요? 기다릴게요."),
                            L(null, "월세로 병원비를 내야 하는데 원무과가 다섯 시에 닫아요. 그 전에 보내 주실 수 있을까요? 기다릴게요."))),
@@ -276,12 +295,21 @@ namespace DontCallMe.Editor.UI
 
         // ================================================================ the next morning
 
+        // What the residents' chat and the calendar said on Wednesday; the next days show it too.
+        static string RentFixing => L("Thank you all for keeping the stairs so clean! I'm fixing the light on the second floor now. See you at the water tank cleaning tomorrow. – Choi, 1F",
+                                      "계단 깨끗하게 써 주셔서 다들 고마워요! 지금 2층 전등 고치는 중이에요. 내일 물탱크 청소 때 봬요. - 1층 최");
+        static string RentFixed => L("The light is fixed. Rent as always, please: Nuri Bank 110-771-209944.", "전등 다 고쳤어요. 월세는 늘 보내던 누리은행 110-771-209944로 부탁해요.");
+        static string RentInHospital => L("Good morning everyone. I'm going into Severance Hospital today for my knee, back next week. My son Hyunwoo will look after the building and collect this month's rent: Nuri Bank 110-771-202358 (Choi Hyunwoo). He'll call you today. Thank you! – Choi, 1F",
+                                          "다들 좋은 아침이에요. 무릎 때문에 오늘 세브란스에 입원해서 다음 주에 돌아옵니다. 그동안 아들 현우가 건물을 봐주고 이번 달 월세도 받을 거예요: 누리은행 110-771-202358 (최현우). 오늘 중으로 연락드릴 겁니다. 고마워요! - 1층 최");
+        static string RentGetWell => L("Get well soon, Mr. Choi!", "사장님 빨리 쾌차하세요!");
+        static string RentHospitalNote => L("Mr. Choi in hospital this week. His son Hyunwoo collects the rent (see the residents' chat)", "최 사장님 이번 주 입원. 월세는 아들 현우 씨가 받음 (입주민 채팅 참고)");
+
         static List<EndPaper> Day2ScamPapers()
         {
             string lead = L("A man claiming to be the son of a Mangwon-dong landlord phoned tenants on rent day yesterday. His father was in hospital, he said, and this month's rent should go to a new account before 5 p.m.",
                             "어제 월세 날, 망원동의 한 집주인 아들을 자칭한 남성이 세입자들에게 전화를 걸었다. 그는 아버지가 입원했다며 이번 달 월세를 오후 5시 전까지 새 계좌로 보내 달라고 했다.");
-            string landlord = L("The real landlord, Choi Youngsik, 71, was not in hospital: he spent the afternoon organising a water tank cleaning. \"My son's number is in every lease,\" he said. \"And the rent account only changes when I write it down.\"",
-                                "진짜 집주인 최영식(71) 씨는 입원하지 않았다. 그는 오후 내내 물탱크 청소를 준비하고 있었다. 최 씨는 \"아들 번호는 모든 계약서에 적혀 있다\"며 \"월세 계좌는 내가 글로 써서 알릴 때만 바뀐다\"고 말했다.");
+            string landlord = L("The real landlord, Choi Youngsik, 71, was not in hospital: he spent the afternoon at home, fixing the light on the second floor. \"My son's number is in every lease,\" he said. \"And the rent account only changes when I write it down.\"",
+                                "진짜 집주인 최영식(71) 씨는 입원하지 않았다. 그는 오후 내내 집에서 2층 전등을 고치고 있었다. 최 씨는 \"아들 번호는 모든 계약서에 적혀 있다\"며 \"월세 계좌는 내가 글로 써서 알릴 때만 바뀐다\"고 말했다.");
             string report = L("Police ask anyone called by 010-4127-8830 to report it to 112.", "경찰은 010-4127-8830으로 전화를 받은 사람은 112에 신고해 달라고 당부했다.");
             return new List<EndPaper>
             {
@@ -336,6 +364,8 @@ namespace DontCallMe.Editor.UI
             var echoes = new List<DayEcho>(OfCase(CaseProtected, Day1ProtectedEchoes()));
             echoes.AddRange(PaperEchoes(true));
             echoes.AddRange(SaleEchoes(true));
+            // Monday's chats are still there.
+            echoes.AddRange(StillThere(Day1Echoes()));
             return echoes;
         }
 

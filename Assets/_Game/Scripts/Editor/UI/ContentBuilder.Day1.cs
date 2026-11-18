@@ -24,10 +24,11 @@ namespace DontCallMe.Editor.UI
             var n = room.newspaper;
             n.headline = L("Before you send, read the name", "송금 전, 받는 사람 이름을 확인하세요");
             n.subhead = L("Fake \"bank staff\" ask for transfers. Check whose account it is.", "가짜 '은행 직원'이 이체를 요구한다. 누구 계좌인지 확인하라.");
+            string script = L("Callers claiming to be from a bank's \"account protection team\" are telling customers in Mapo and Seodaemun that a stranger has logged into their account, and that their savings must be moved to a \"protected account\" until a security reset.",
+                              "은행 '계좌보호팀'을 사칭한 전화가 마포와 서대문 일대 고객들에게 '누군가 계좌에 접속했다'며 보안 초기화 전까지 예금을 '보호계좌'로 옮겨야 한다고 말하고 있다.");
             n.body = new List<string>
             {
-                L("Callers claiming to be from a bank's \"account protection team\" are telling customers in Mapo and Seodaemun that a stranger has logged into their account, and that their savings must be moved to a \"protected account\" until a security reset.",
-                  "은행 '계좌보호팀'을 사칭한 전화가 마포와 서대문 일대 고객들에게 '누군가 계좌에 접속했다'며 보안 초기화 전까지 예금을 '보호계좌'로 옮겨야 한다고 말하고 있다."),
+                script,
                 L("The callers sound professional, know customers' names and sometimes the last digits of their account. They ask the customer to stay on the line and not to tell anyone.",
                   "이들은 전문가처럼 말하고, 고객의 이름은 물론 계좌 끝자리까지 알고 있는 경우도 있다. 그리고 전화를 끊지 말고 아무에게도 알리지 말라고 한다."),
                 L("\"There is no such thing as a protected account,\" a Nuri Bank spokesperson said. \"Before you send anything, look up whose account it is. If it's a person's name, stop.\" Anyone can check an account or a phone number on CheckFirst (checkfirst.kr) in a few seconds.",
@@ -37,6 +38,12 @@ namespace DontCallMe.Editor.UI
             n.warningText = L("Banks, prosecutors and the Financial Supervisory Service never ask you to move money to a \"protected\" or \"safe\" account. Before you send money, look up the account and the caller's number: who owns them, and has anyone reported them?",
                               "은행, 검찰, 금융감독원은 절대 '보호계좌'나 '안전계좌'로 돈을 옮기라고 하지 않는다. 돈을 보내기 전에 계좌와 발신 번호를 조회하라. 주인은 누구인지, 신고된 적은 없는지.");
             n.local = Day1Local();
+            // The script also runs as a local item: the front page above is yesterday's case
+            // whenever Day 0 was played, and a mark must stay on screen on that path too.
+            string scriptTitle = L("\"Protection team\" calls in Mapo", "마포 '계좌보호팀' 전화 주의");
+            n.local.Insert(0, News(scriptTitle,
+                L("Callers claiming to be a bank's \"account protection team\" tell customers that a stranger has logged into their account, and that their savings must go to a \"protected account\" until a security reset.",
+                  "은행 '계좌보호팀'을 사칭한 전화가 '누군가 계좌에 접속했다'며 보안 초기화 전까지 예금을 '보호계좌'로 옮기라고 한다.")));
 
             var v = new DayVariant
             {
@@ -48,14 +55,26 @@ namespace DontCallMe.Editor.UI
                 directory = Store(HouseholdDirectory(), Localized(DirectoryPath)),
                 ruleTitle = L("Banks never \"protect\" your money", "은행은 돈을 '보호'해 주지 않는다"),
             };
+            v.marks = new List<MarkDef>
+            {
+                MarkCheck("check_number", "bank", "070-8844-2019"),
+                MarkContact("contact_bank", "bank", "1599-0000"),
+                MarkCheck("check_bank", "bank", "1599-0000"),
+                MarkNews("news_script", "login", scriptTitle),
+                MarkTx("tx_rent", "login", L("CHOI YOUNGSIK", "최영식"), -450000),
+                MarkCheck("check_account", "protected", ProtectedAccount),
+                MarkNews("news_warning", "protected", "warning"),
+            };
             v.clues = new List<ClueDef>
             {
                 Clue("account_owner", L("The \"protected account\" belongs to a private person, JEONG MIRAN, and has two fraud reports.", "'보호계좌'의 예금주는 개인 '정미란'이고, 사기 신고가 2건 있다."),
                      AtAccountCheck,
-                     new ClueWhen(ClueEvent.NumberChecked, ProtectedAccount), new ClueWhen(ClueEvent.RecipientShown, ProtectedAccount)),
+                     Circled("check_account"), new ClueWhen(ClueEvent.RecipientShown, ProtectedAccount)),
                 Clue("caller_number", L("The caller's number, 070-8844-2019, is an unregistered internet phone with seven scam reports. It isn't Nuri Bank's.", "발신 번호 070-8844-2019는 미등록 인터넷전화이고 사기 신고가 7건 있다. 누리은행 번호가 아니다."),
                      AtNumberCheck,
-                     new ClueWhen(ClueEvent.NumberChecked, "070-8844-2019")),
+                     Circled("check_number"), Circled("contact_bank"), Circled("check_bank")),
+                Clue("script", L("This morning's paper describes the call word for word: a \"protection team\", a stranger in your account, a \"protected account\".", "오늘 아침 신문이 이 전화를 그대로 소개했다. '보호팀', 계좌에 접속한 낯선 사람, '보호계좌'."),
+                     AtPaper, Circled("news_script")),
             };
             v.papers = Day1Papers();
             v.rule = L("A bank never moves your money to a \"safe\" or \"protected\" account. Look up the account and the caller's number first: a stranger's name on an \"official\" account means stop.",
@@ -64,6 +83,10 @@ namespace DontCallMe.Editor.UI
 
             var d = ScriptableObject.CreateInstance<DayData>();
             d.day = 1;
+            d.help = NotebookHelp.Hints;
+            d.level = 1;
+            d.newToday = L("Nothing glows any more. The notebook still says where to look; what to circle there is up to you.",
+                           "이제 아무것도 빛나지 않는다. 어디를 볼지는 노트가 알려 주지만, 무엇에 동그라미를 칠지는 직접 찾아야 한다.");
             d.dateLabel = DateLabel(today);
             d.shortLabel = ShortLabel(1, today);
             d.weekday = WeekdayLabel(today);
@@ -145,13 +168,17 @@ namespace DontCallMe.Editor.UI
             c.isScam = true;
             c.revealAtEnd = false;
             c.caller = new CallerInfo { displayName = L("Manager Jeon", "전 과장"), number = "070-8844-2019", inContacts = false, portrait = "pt_jeon", voice = VoiceJeon };
-            c.claims = new List<string>
+            c.claims = new List<ClaimDef>
             {
-                L("He is Manager Jeon from Nuri Bank's \"account protection team\".", "누리은행 '계좌보호팀'의 전 과장이라고 한다."),
-                L("Someone logged into my account from Busan twenty minutes ago.", "20분 전에 부산에서 누군가 내 계좌에 접속했다고 한다."),
-                L("My money has to go to a \"protected account\" until the 17:00 \"security reset\".", "17시 '보안 초기화' 전까지 돈을 '보호계좌'로 옮겨야 한다고 한다."),
-                L("Protected account: Nuri Bank 110-900-551207.", "보호계좌: 누리은행 110-900-551207"),
-                L("I should stay on the line and not tell anyone.", "전화를 끊지 말고 아무에게도 말하지 말라고 한다."),
+                Claim("bank", L("\"I'm Manager Jeon, from Nuri Bank.\"", "\"누리은행 전 과장입니다.\""), false,
+                      L("False. 070-8844-2019 is an unregistered internet phone with seven scam reports. Nuri Bank's only number is 1599-0000, the one in your contacts.",
+                        "거짓. 070-8844-2019는 사기 신고 7건이 있는 미등록 인터넷전화다. 누리은행 번호는 연락처에 있는 1599-0000 하나뿐이다.")).Via(TrickBankCall),
+                Claim("login", L("\"Someone logged into your account from Busan.\"", "\"부산에서 누군가 고객님 계좌에 접속했습니다.\""), false,
+                      L("False. This is the script the morning paper described word for word, and your bank history shows nothing unusual.",
+                        "거짓. 아침 신문이 그대로 소개한 사기 수법이고, 은행 내역에도 이상한 건 없었다.")).Via(TrickBreakIn),
+                Claim("protected", L("\"Your money must go to a protected account.\"", "\"예금을 보호계좌로 옮겨야 합니다.\""), false,
+                      L("False. There is no such thing, the paper's warning said. The \"protected account\" belongs to JEONG MIRAN and has fraud reports.",
+                        "거짓. 신문 경고대로 그런 계좌는 없다. '보호계좌'의 주인은 정미란이고 사기 신고가 있었다.")).Via(TrickSafeAccount),
             };
             c.nodes = new List<ConvNode>
             {
@@ -160,8 +187,8 @@ namespace DontCallMe.Editor.UI
                       L("Busan? I've been home all day.", "부산이요? 저 오늘 하루 종일 집에 있었는데요."), "story",
                       L("How do I know you're really from Nuri Bank?", "진짜 누리은행에서 전화하신 거 맞아요?"), "proof",
                       P(0.5f, L("Miss Kim? Are you still there? This is urgent.", "김지우 씨? 듣고 계세요? 급한 일입니다."))),
-                    Caller(L("Hello, is this Kim Jiwoo? This is Manager Jeon from Nuri Bank's account protection team.", "여보세요, 김지우 씨 되시죠? 누리은행 계좌보호팀 전 과장입니다.")),
-                    Caller(L("Twenty minutes ago, someone logged into your account from an unregistered device in Busan.", "20분 전에 부산에서 등록되지 않은 기기로 고객님 계좌에 로그인한 기록이 있습니다."))),
+                    Caller(L("Hello, is this Kim Jiwoo? This is Manager Jeon from Nuri Bank's account protection team.", "여보세요, 김지우 씨 되시죠? 누리은행 계좌보호팀 전 과장입니다.")).Says("bank"),
+                    Caller(L("Twenty minutes ago, someone logged into your account from an unregistered device in Busan.", "20분 전에 부산에서 등록되지 않은 기기로 고객님 계좌에 로그인한 기록이 있습니다.")).Says("login")),
                 Node("story", "ask",
                     Caller(L("That's exactly why I'm calling. A fraud ring is emptying accounts in Mapo today, and yours is on their list.",
                              "그래서 전화드린 겁니다. 오늘 마포에서 사기 조직이 계좌를 털고 있는데, 고객님 계좌가 그 명단에 있어요."))),
@@ -173,7 +200,7 @@ namespace DontCallMe.Editor.UI
                 Hold("ask",
                     Caller(L("To keep your savings safe, we'll move them to a protected account until the security reset at five o'clock.",
                              "고객님 예금을 지키기 위해 5시 보안 초기화 때까지 보호계좌로 옮겨 두겠습니다."),
-                           L(null, "고객님 예금을 지키기 위해 다섯 시 보안 초기화 때까지 보호계좌로 옮겨 두겠습니다.")),
+                           L(null, "고객님 예금을 지키기 위해 다섯 시 보안 초기화 때까지 보호계좌로 옮겨 두겠습니다.")).Says("protected"),
                     Caller(L("Please transfer 1,200,000 won to the protected account: Nuri Bank 110-900-551207.", "보호계좌로 120만 원을 이체해 주세요. 누리은행 110-900-551207입니다."),
                            L("Please transfer one million, two hundred thousand won to the protected account. Nuri Bank, " + ProtectedAccountSpoken + ".",
                              "보호계좌로 백이십만 원을 이체해 주세요. 누리은행, " + ProtectedAccountSpoken + "입니다."),

@@ -9,7 +9,7 @@ import atlas
 import bedroom_furniture as bf
 from bedroom_shell import ROOM_X, ROOM_Y, wall_group
 from dcm import box, cable, cushion, cylinder, group, join, lathe, plane, sphere, uv_job
-from props import (book_stack, books_row, bills, card, cat, cork_board, flat, frame, mug, newspaper, pinned, pothos, pot,
+from props import (book_stack, books_row, bills, card, cat, cork_board, flat, frame, mug, newspaper, pin, pinned, pothos, pot,
                    rulebook, slipper, standing_fan, taped, trash_bin, wallet)
 
 DESK_TOP = 0.74
@@ -168,9 +168,57 @@ def desk_area(fg):
     return desk
 
 
+def photo_garland(name, parent, x0, x1, z, sag, photos):
+    """Twine between two push pins on a wall group, with instant photos pegged to it so they
+    hang just under the string. photos = (name, x, spin, photo rect)."""
+    def twine_z(x):
+        t = (x - x0) / (x1 - x0)
+        return z - sag * 4 * t * (1 - t)
+    y = -0.006
+    pts = [(x0 + (x1 - x0) * k / 16, y, twine_z(x0 + (x1 - x0) * k / 16)) for k in range(17)]
+    cable(name + "_Twine", pts, 0.0012, "M_Kraft", parent, res=2, bevel_res=1)
+    for k, x in enumerate((x0, x1)):
+        pin("%s_Pin%d" % (name, k), parent, (x, -0.002, z), ("M_Pin_Red", "M_Pin_Yellow")[k])
+    w = 0.1
+    h = w * 1.2
+    for pname, x, spin, rect in photos:
+        zc = twine_z(x) - 0.004 - h / 2
+        card(pname, parent, w, h, (x, -0.004, zc), (0, spin, 0), "M_Paper_White", (0.0, 0.0, 0.02, 0.02))
+        ca, sa = math.cos(math.radians(-spin)), math.sin(math.radians(-spin))
+        oz = h * 0.08
+        card(pname + "_Photo", parent, w * 0.86, w * 0.86, (x - oz * sa, -0.005, zc + oz * ca), (0, spin, 0), "M_Photos", rect)
+        box(pname + "_Peg", (0.009, 0.007, 0.034), (x, -0.009, twine_z(x) - 0.006), "M_Wood_Pine", parent, rot=(0, spin, 0), bev=0.002)
+
+
 def board_and_walls(g):
     north = wall_group("NorthWallDecor", g, "north")
-    board = cork_board(north, "INT_BulletinBoard", (0.92, 0, 1.4), 0.9, 0.66)
+    # Posters over the bed, instant photos over the bookshelf; over the desk the class timetable
+    # with a string of instant photos above it.
+    taped("Poster_Concert", north, 0.36, 0.72, -1.46, 1.63, -1.5, "M_Posters", poster_rect("concert"), seed=1)
+    taped("Poster_Movie", north, 0.36, 0.72, -1.02, 1.6, 1.2, "M_Posters", poster_rect("movie"), seed=2)
+    polaroid("Polaroid_A", north, -1.25, 2.12, 5, crop("family", 0.05, 0.1, 0.95, 0.95), seed=3)
+    polaroid("Polaroid_B", north, -0.12, 1.86, -4, crop("graduation", 0.15, 0.2, 0.85, 0.95), seed=4)
+    polaroid("Polaroid_C", north, 0.02, 2.02, 6, crop("family", 0.4, 0.3, 1.0, 0.95), seed=5)
+    polaroid("Polaroid_D", north, 0.2, 1.84, -2, crop("wedding", 0.1, 0.25, 0.9, 1.0), seed=6)
+    taped("Timetable", north, 0.26, 0.447, 0.97, 1.24, -1.0, "M_Posters", poster_rect("timetable"), seed=10)
+    photo_garland("PhotoGarland", north, 0.65, 1.38, 1.7, 0.05, [
+        ("Polaroid_E", 0.75, 3, crop("graduation", 0.0, 0.0, 1.0, 1.0)),
+        ("Polaroid_G", 0.91, -4, crop("wedding", 0.45, 0.2, 1.0, 0.9)),
+        ("Polaroid_F", 1.09, 2, crop("family", 0.0, 0.0, 0.6, 0.7)),
+        ("Polaroid_H", 1.26, -3, crop("family", 0.25, 0.3, 0.85, 1.0)),
+    ])
+
+    east = wall_group("EastWallDecor", g, "east")
+    taped("Poster_Jeju", east, 0.36, 0.72, -0.4, 1.52, 1.0, "M_Posters", poster_rect("jeju"), seed=9)
+    bf.floor_mirror(east, (0.25, -0.22, 0), (0, 0, 0))
+    rail = bf.hook_rail(east, (1.32, 0, 1.62), (0, 0, 0))
+    bf.backpack(rail, (-0.16, -0.07, 0.02), (0, 0, 4))
+
+    # The cork board hangs by the door, so reading the calendar means getting up from the desk.
+    # Local x on the south wall is -world x: the board hangs just west of the light switch and the
+    # thermostat (world x 0.33 to 0.5), east of the TV's antenna, at reading height under the clock.
+    south = wall_group("SouthWallDecor", g, "south")
+    board = cork_board(south, "INT_BulletinBoard", (0.17, 0, 1.38), 0.9, 0.66)
     N = lambda k: atlas.region("notes", k)
     pinned(board, [
         ("Board_Calendar", 0.28, 0.42, (-0.25, -0.02), -1.5, "M_Calendar", (0, 0, 1, 1), "M_Pin_Red"),
@@ -182,24 +230,6 @@ def board_and_walls(g):
         ("Board_Strip", 0.055, 0.11, (0.37, -0.17), 4.0, "M_Notes", N("strip"), "M_Pin_Yellow"),
         ("Board_IDPhoto", 0.036, 0.048, (0.14, 0.0), -6.0, "M_Photos", atlas.region("photos", "id"), "M_Pin_Green"),
     ])
-    # Posters over the bed, instant photos over the bookshelf and the board.
-    taped("Poster_Concert", north, 0.36, 0.72, -1.46, 1.63, -1.5, "M_Posters", poster_rect("concert"), seed=1)
-    taped("Poster_Movie", north, 0.36, 0.72, -1.02, 1.6, 1.2, "M_Posters", poster_rect("movie"), seed=2)
-    polaroid("Polaroid_A", north, -1.25, 2.12, 5, crop("family", 0.05, 0.1, 0.95, 0.95), seed=3)
-    polaroid("Polaroid_B", north, -0.12, 1.86, -4, crop("graduation", 0.15, 0.2, 0.85, 0.95), seed=4)
-    polaroid("Polaroid_C", north, 0.02, 2.02, 6, crop("family", 0.4, 0.3, 1.0, 0.95), seed=5)
-    polaroid("Polaroid_D", north, 0.2, 1.84, -2, crop("wedding", 0.1, 0.25, 0.9, 1.0), seed=6)
-    polaroid("Polaroid_E", north, 0.62, 1.9, 3, crop("graduation", 0.0, 0.0, 1.0, 1.0), seed=7)
-    polaroid("Polaroid_F", north, 1.12, 1.92, -5, crop("family", 0.0, 0.0, 0.6, 0.7), seed=8)
-
-    east = wall_group("EastWallDecor", g, "east")
-    taped("Poster_Jeju", east, 0.36, 0.72, -0.4, 1.52, 1.0, "M_Posters", poster_rect("jeju"), seed=9)
-    taped("Timetable", east, 0.26, 0.447, -0.98, 1.35, -1.0, "M_Posters", poster_rect("timetable"), seed=10)
-    bf.floor_mirror(east, (0.25, -0.22, 0), (0, 0, 0))
-    rail = bf.hook_rail(east, (1.32, 0, 1.62), (0, 0, 0))
-    bf.backpack(rail, (-0.16, -0.07, 0.02), (0, 0, 4))
-
-    south = wall_group("SouthWallDecor", g, "south")
     clock = group("WallClock", south, (0.7, 0, 1.95))
     r = 0.15
     lathe("Clock_Rim", [(0, 0), (r, 0), (r + 0.004, 0.012), (r, 0.04), (r - 0.018, 0.042), (r - 0.02, 0.03), (0, 0.03)], (0, 0, 0),

@@ -41,6 +41,10 @@ MonoBehaviour:
       reported them?'
     print: {fileID: 0}
     local:
+    - title: '"Protection team" calls in Mapo'
+      text: Callers claiming to be a bank's "account protection team" tell customers
+        that a stranger has logged into their account, and that their savings must
+        go to a "protected account" until a security reset.
     - title: Gas inspections next week
       text: Mapo City Gas checks villas in Mangwon-dong from 12 Oct. Inspectors carry
         ID and never collect money.
@@ -173,6 +177,9 @@ MonoBehaviour:
     - day: 8
       label: Thu 8
       text: Dentist, 18:30
+    - day: 9
+      label: Fri 9
+      text: "Hangul Day \xB7 Yuna in Fukuoka till Sun"
     - day: 13
       label: Tue 13
       text: Midterms start

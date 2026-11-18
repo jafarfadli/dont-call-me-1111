@@ -9,8 +9,8 @@ namespace DontCallMe.UI
 {
     /// <summary>
     /// The next morning (End scene): the Seoul Daily reveals who really called, next to the case
-    /// summary: the verdict stamp, money kept, paid or lost, when the player decided, which clues
-    /// they found and where the missed ones were, and the rule learned. Then the next day, the same
+    /// summary: the verdict stamp, money kept, paid or lost, when the player decided, the case
+    /// notebook checked in red (each claim's truth and where it could be seen), and the rule learned. Then the next day, the same
     /// day again or the menu; after the last day, the week's summary.
     /// The truth is held back for a few seconds: the paper lands with its headline hidden, the
     /// room goes dark with one spotlight on the spot where the stamp will land, and a drumroll
@@ -48,6 +48,9 @@ namespace DontCallMe.UI
         VisualElement verdictStamp;
         VisualElement buttons;
         VisualElement spot;
+        VisualElement afterRedPen;
+        // Something won under the red pen (a trick card, a day opened): it gets the success chime.
+        bool wonTricks;
         bool goodCall;
 
         void Awake()
@@ -180,8 +183,16 @@ namespace DontCallMe.UI
                     Sfx.Play(got ? Sfx.Pop : Sfx.Tick, 0.5f);
                 }).ExecuteLater(restAt + 450 + 180 * i);
             }
+            long penDone = restAt + 450 + 180 * clueLines.Count;
+            if (afterRedPen != null)
+                afterRedPen.schedule.Execute(() =>
+                {
+                    afterRedPen.AddToClassList("end-after--in");
+                    if (wonTricks)
+                        Sfx.Play(Sfx.Success, 0.8f);
+                }).ExecuteLater(penDone + 250);
             if (rule != null)
-                rule.schedule.Execute(() => rule.AddToClassList("end--in")).ExecuteLater(restAt + 450 + 180 * clueLines.Count + 500);
+                rule.schedule.Execute(() => rule.AddToClassList("end--in")).ExecuteLater(penDone + 500);
         }
 
         /// <summary>
@@ -284,27 +295,32 @@ namespace DontCallMe.UI
             stats.Add(Stat(Loc.T("Time taken"), Loc.F("{0} min", Mathf.Max(1, result.minutesTaken)), null));
             card.Add(Late(stats));
 
-            var clues = variant != null ? variant.clues : new List<ClueDef>();
-            var found = new HashSet<string>(result.cluesFound);
-            card.Add(Late(UIKit.Text(Loc.F(day.tutorial ? "WHAT YOU CHECKED  ·  {0}/{1}" : "CLUES YOU FOUND  ·  {0}/{1}", found.Count, clues.Count), "section")));
-            var list = UIKit.Div("end-card__clues");
-            foreach (var clue in clues)
-            {
-                bool got = found.Contains(clue.id);
-                var line = UIKit.Div("end-clue", got ? "end-clue--found" : "end-clue--missed");
-                line.Add(UIKit.Icon(got ? "ic_check" : "ic_cross", "end-clue__icon"));
-                var text = UIKit.Div("grow");
-                text.style.flexShrink = 1;
-                text.Add(UIKit.Text(clue.text, "end-clue__text"));
-                if (!got)
-                    text.Add(UIKit.Text(Loc.T("Where: ") + clue.where, "end-clue__where"));
-                line.Add(text);
-                list.Add(line);
-                clueLines.Add((line, got));
-            }
-            card.Add(list);
+            card.Add(Late(UIKit.Text(Loc.T("YOUR NOTEBOOK, CHECKED BY THE PAPER"), "section")));
+            card.Add(BuildRedPen(conv, result));
 
             var catalog = DayCatalog.Load();
+            // After the red pen: the case's other truth, and the trick cards won today.
+            var after = UIKit.Div("end-after");
+            var book = variant != null ? CaseBook.Find(catalog, day.day, variant.Scenario) : null;
+            if (book != null && book.truths.Count > 1)
+                after.Add(UIKit.Text(Loc.F("Every case has a twin. You have seen {0} of {1} truths of this one.", book.SeenCount, book.truths.Count), "end-twin"));
+            var won = TrickCards.Won(catalog, result.newTricks);
+            if (won != null)
+                after.Add(won);
+            // The first finish of a day opens the next one for good, in the title's day select.
+            if (result.opensDay >= 0)
+            {
+                var opened = UIKit.Div("day-opened");
+                opened.Add(UIKit.Text(Loc.F("DAY {0} OPENED", result.opensDay), "day-opened__tag"));
+                opened.Add(UIKit.Text(Loc.T("It stays open: start it any time from Choose a day."), "day-opened__text"));
+                after.Add(opened);
+            }
+            wonTricks = won != null || result.opensDay >= 0;
+            if (after.childCount > 0)
+            {
+                afterRedPen = after;
+                card.Add(after);
+            }
             bool hasNext = catalog != null && catalog.Get(day.day + 1) != null;
             // Nothing to press until the truth is out.
             buttons = Late(UIKit.Div("end-card__buttons"));
@@ -317,6 +333,44 @@ namespace DontCallMe.UI
             buttons.Add(PauseMenuView.MenuButton("ic_exit", Loc.T("Main menu"), () => Leave(SceneFlow.Home), "btn--blue"));
             card.Add(buttons);
             return card;
+        }
+
+        /// <summary>
+        /// The case notebook gone over in red ink: every claim the caller made, the stamp the player
+        /// gave it (or "?"), a red tick or cross, and the truth with where it could be seen. The lines
+        /// come in one by one after the verdict.
+        /// </summary>
+        VisualElement BuildRedPen(ConversationData conv, DayResult result)
+        {
+            var list = UIKit.Div("end-card__clues");
+            if (conv == null)
+                return list;
+            // On a Write day the player chose what went into the notebook: say which claims never did.
+            bool wrote = result.day != null && result.day.help == NotebookHelp.Write;
+            for (int i = 0; i < conv.claims.Count; i++)
+            {
+                var claim = conv.claims[i];
+                bool missed = wrote && !result.noted.Contains(claim.id);
+                var stamp = CaseNotebook.ParseStamp(result.stamps, claim.id);
+                bool right = stamp == (claim.truth ? Flow.Stamp.True : Flow.Stamp.False);
+                var line = UIKit.Div("end-clue", "end-claim", right ? "end-clue--found" : "end-clue--missed");
+                var top = UIKit.Div("end-claim__top");
+                top.Add(UIKit.Text((i + 1).ToString(), "end-claim__n"));
+                top.Add(UIKit.Text(claim.text, "end-claim__quote"));
+                var yours = stamp == Flow.Stamp.True ? UIKit.Text(Loc.T("TRUE"), "end-claim__stamp", "end-claim__stamp--true")
+                          : stamp == Flow.Stamp.False ? UIKit.Text(Loc.T("FALSE"), "end-claim__stamp", "end-claim__stamp--false")
+                          : UIKit.Text("?", "end-claim__stamp");
+                yours.style.whiteSpace = WhiteSpace.NoWrap;
+                top.Add(yours);
+                line.Add(top);
+                var pen = UIKit.Div("end-claim__pen");
+                pen.Add(UIKit.Icon(right ? "ic_check" : "ic_cross", "end-clue__icon"));
+                pen.Add(UIKit.Text(missed ? Loc.T("You never wrote this one down.") + " " + claim.note : claim.note, "end-claim__note"));
+                line.Add(pen);
+                list.Add(line);
+                clueLines.Add((line, right));
+            }
+            return list;
         }
 
         static (string text, bool good) Judge(bool scam, Outcome outcome) => outcome switch
@@ -384,6 +438,10 @@ namespace DontCallMe.UI
             stats.Add(Stat(Loc.T("Lost to scams"), lost > 0 ? FactText.Won(-lost) : "₩0", lost > 0 ? "amount-out" : "amount-in"));
             stats.Add(Stat(Loc.T("Savings"), $"{FactText.Won(start)} → {FactText.Won(end)}", null));
             card.Add(stats);
+            // What carries over to another week: the truths still face down, the cards still to win.
+            var (seenTruths, allTruths) = CaseBook.Count(catalog);
+            var (wonCards, allCards) = TrickCards.Count(catalog);
+            card.Add(UIKit.Text(Loc.F("Truths seen {0} of {1}  ·  Trick cards {2} of {3}  ·  both kept for your next week", seenTruths, allTruths, wonCards, allCards), "week-collection"));
 
             string rating = right == days.Count && days.Count > 0 ? "SCAM-PROOF" : right >= days.Count - 1 && days.Count > 1 ? "CAREFUL" : "AT RISK";
             var stamps = UIKit.Div("end-card__stamps");
@@ -401,10 +459,11 @@ namespace DontCallMe.UI
             card.Add(rules);
 
             var weekButtons = UIKit.Div("end-card__buttons");
-            weekButtons.Add(PauseMenuView.MenuButton("ic_play", Loc.T("New week"), () =>
+            // Any day can be played again from the title's day select; the tutorial is not forced on a new week.
+            weekButtons.Add(PauseMenuView.MenuButton("ic_play", Loc.T("Choose a day"), () =>
             {
-                GameRun.NewRun();
-                Leave(SceneFlow.Room, GameRun.FirstDay);
+                SceneFlow.ShowDays = true;
+                Leave(SceneFlow.Home);
             }, "btn--green"));
             weekButtons.Add(PauseMenuView.MenuButton("ic_exit", Loc.T("Main menu"), () => Leave(SceneFlow.Home), "btn--blue"));
             card.Add(weekButtons);

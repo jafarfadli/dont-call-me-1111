@@ -16,7 +16,23 @@ namespace DontCallMe.Data
         ChatRead,         // target: chat thread id
         BankOpened,       // target: ""
         ContactsOpened,   // target: ""
+        Marked,           // target: MarkDef.id, when the player circles it
     }
+
+    /// <summary>How much the case notebook helps on a day (the difficulty the DAY card announces).</summary>
+    public enum NotebookHelp
+    {
+        Guided,   // the tutorial: claims written in, where to check them, circleable things glow
+        Hints,    // claims written in, with where each can be checked
+        Plain,    // claims written in, nothing else
+        Write,    // empty lines: the player pins the caller's lines from the transcript themselves
+    }
+
+    /// <summary>
+    /// The places where things can be circled. Video: the caller's face on a video call. Call: a
+    /// caller's answer in the transcript (what they said when asked).
+    /// </summary>
+    public enum MarkPlace { Newspaper, Drawer, Calendar, Computer, Chats, Bank, Contacts, Video, Call }
 
     /// <summary>
     /// One day: the date, where the player starts, and the cases the day can bring. Each
@@ -43,6 +59,15 @@ namespace DontCallMe.Data
         [TextArea(2, 4)] public string intro;
         [Tooltip("Seconds in the chair before the phone rings.")]
         public float ringDelay = 7f;
+        [Tooltip("How much the case notebook helps today.")]
+        public NotebookHelp help = NotebookHelp.Plain;
+        [Tooltip("The difficulty the DAY card shows as stars, out of TopLevel; 0 shows none (the tutorial).")]
+        public int level;
+        [Tooltip("The DAY card's NEW TODAY line: what is harder or new today.")]
+        [TextArea(1, 3)] public string newToday;
+
+        /// <summary>The most stars a DAY card shows.</summary>
+        public const int TopLevel = 4;
 
         [Tooltip("The cases this day can bring, as their truths (a scam and its legit twin share the caller, the ask and the scenario). One is picked when the day starts.")]
         public List<DayVariant> variants = new List<DayVariant>();
@@ -78,6 +103,8 @@ namespace DontCallMe.Data
         public RoomContent room;
         public WorldDirectory directory;
         public List<ClueDef> clues = new List<ClueDef>();
+        [Tooltip("What can be circled for the notebook, each filed under a claim. Clues count when one of their marks is circled (ClueEvent.Marked).")]
+        public List<MarkDef> marks = new List<MarkDef>();
         public List<EndPaper> papers = new List<EndPaper>();
         [Tooltip("Short name for the rule.")]
         public string ruleTitle;
@@ -104,6 +131,39 @@ namespace DontCallMe.Data
         [Tooltip("Tutorial days: what the guide tells the player to do to find it, and why that place is worth checking.")]
         [TextArea(2, 4)] public string guide;
         public List<ClueWhen> when = new List<ClueWhen>();
+    }
+
+    /// <summary>
+    /// One thing the player can circle (a document line, a chat message, a lookup result...) and
+    /// the claim it is filed under. Decoys are marks too: they are about a claim but decide nothing.
+    /// </summary>
+    [Serializable]
+    public class MarkDef
+    {
+        public string id;
+        [Tooltip("The claim (ClaimDef.id) it is filed under.")]
+        public string claim;
+        [Tooltip("Other claims it settles too: it is filed under each of them as well.")]
+        public List<string> also = new List<string>();
+        public MarkPlace place;
+        [Tooltip("Which item, by place. Newspaper: \"warning\", \"headline\", a paragraph's text, or a local item's or an ad's title. Drawer: \"<document title>|<field label>\", or \"<document title>|body\". Calendar: the note's text. Computer: the number or account looked up. Chats: \"<thread id>|<message text>\". Bank: \"<counterparty>|<amount>\", \"balance|<account number>\" for an account's card, or \"today|none\" for the history's \"nothing received yet today\" row. Contacts: the number. Video: \"face\", or \"wave\" (once the caller has waved). Call: the caller's line, as said.")]
+        public string key;
+
+        /// <summary>Is it filed under this claim (its own, or one it also settles)?</summary>
+        public bool Under(string claimId) =>
+            !string.IsNullOrEmpty(claimId) && (claim == claimId || also != null && also.Contains(claimId));
+
+        /// <summary>Every claim it is filed under, its own first.</summary>
+        public IEnumerable<string> Claims
+        {
+            get
+            {
+                yield return claim;
+                if (also != null)
+                    foreach (string c in also)
+                        yield return c;
+            }
+        }
     }
 
     [Serializable]
@@ -148,7 +208,8 @@ namespace DontCallMe.Data
         Any = GoAlong | Refuse | Verify | Timeout,
     }
 
-    public enum EchoKind { Chat, BankTransaction, Contact, DayCard }
+    /// <summary>Note: a calendar note (added, or put in place of one with the same text in <see cref="DayEcho.title"/>).</summary>
+    public enum EchoKind { Chat, BankTransaction, Contact, DayCard, Note }
 
     /// <summary>
     /// Something an earlier day left behind, shown only when that day went a certain way: a chat
@@ -182,6 +243,12 @@ namespace DontCallMe.Data
         public long amount;
         [Tooltip("Chat: Jiwoo wrote it.")]
         public bool outgoing;
+        [Tooltip("Chat: a photo message, described.")]
+        public string photoCaption;
+        [Tooltip("Note: the day of the month.")]
+        public int date;
+        [Tooltip("Note: the calendar's picture from now on (a note crossed out on it), or none to keep it.")]
+        public Texture2D image;
         [Tooltip("Also pops up as a notification while Jiwoo sits at the desk, before the call.")]
         public bool notify;
     }

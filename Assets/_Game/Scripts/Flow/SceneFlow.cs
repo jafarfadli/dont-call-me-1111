@@ -16,6 +16,15 @@ namespace DontCallMe.Flow
         public long moneyDelta;
         public long savingsAfter;
         public readonly List<string> cluesFound = new List<string>();
+        /// <summary>The notebook's stamps ("claim:T" or "claim:F") and what was circled.</summary>
+        public readonly List<string> stamps = new List<string>();
+        public readonly List<string> marks = new List<string>();
+        /// <summary>The claims that were in the notebook at the end (on a Write day, the ones the player pinned).</summary>
+        public readonly List<string> noted = new List<string>();
+        /// <summary>Trick cards won today for the first time (TrickDef ids).</summary>
+        public readonly List<string> newTricks = new List<string>();
+        /// <summary>The day this one opened for good, finished for the first time; -1 when it opened none.</summary>
+        public int opensDay = -1;
         public string decidedAt;
         public float callSeconds;
         /// <summary>Game minutes from the first ring to the decision.</summary>
@@ -31,6 +40,9 @@ namespace DontCallMe.Flow
 
         /// <summary>Set when a day ends; the End scene reads it.</summary>
         public static DayResult LastResult { get; set; }
+
+        /// <summary>Set before loading the Home scene to open its day select at once (the week's summary asks for it).</summary>
+        public static bool ShowDays { get; set; }
 
         /// <summary>Opens the Room scene on the given day of the run.</summary>
         public static void PlayDay(int day)

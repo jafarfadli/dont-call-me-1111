@@ -6,6 +6,9 @@ using UnityEngine.UIElements;
 
 namespace DontCallMe.UI
 {
+    /// <summary>How far the object under the cursor is: in reach, a walk away, or out of reach for now.</summary>
+    public enum PromptReach { Near, Walk, TooFar }
+
     /// <summary>
     /// Always-on HUD: day and clock tag, control hints, the phone button with the notification
     /// badge, the interact prompt at the cursor and toast notifications.
@@ -99,15 +102,35 @@ namespace DontCallMe.UI
         /// <summary>The phone button steps aside while the phone is in Jiwoo's hand (Tab, Esc or a click on the room lowers it).</summary>
         public void SetButtonsVisible(bool on) => buttons.Hide(!on);
 
-        public void ShowPrompt(string text, Vector2 panelPosition)
+        /// <summary>
+        /// What a click on the object under the cursor does: open it, walk over and open it (out of
+        /// reach), or nothing yet (out of reach while the player cannot walk, seated at the desk).
+        /// </summary>
+        public void ShowPrompt(string text, Vector2 panelPosition, PromptReach reach = PromptReach.Near)
         {
-            promptText.text = text;
+            promptKey.text = Loc.T("Click");
+            promptKey.Hide(reach == PromptReach.TooFar);
+            promptText.text = reach switch
+            {
+                PromptReach.Walk => Loc.F("{0} (walk over)", text),
+                PromptReach.TooFar => Loc.F("{0}: too far", text),
+                _ => text,
+            };
+            prompt.EnableInClassList("prompt--far", reach != PromptReach.Near);
             prompt.style.left = panelPosition.x + 26;
             prompt.style.top = panelPosition.y + 20;
             prompt.Hide(false);
         }
 
         public void HidePrompt() => prompt.Hide(true);
+
+        /// <summary>A short shake: the click did nothing because the object is too far.</summary>
+        public void NudgePrompt()
+        {
+            prompt.RemoveFromClassList("prompt--nudge");
+            prompt.AddToClassList("prompt--nudge");
+            prompt.schedule.Execute(() => prompt.RemoveFromClassList("prompt--nudge")).StartingIn(160);
+        }
 
         /// <summary>Informative text: presses go through it to the room.</summary>
         static void IgnorePointer(VisualElement e) => e.Query().ForEach(c => c.pickingMode = PickingMode.Ignore);

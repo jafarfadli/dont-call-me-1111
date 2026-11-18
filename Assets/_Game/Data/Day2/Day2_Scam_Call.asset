@@ -22,10 +22,24 @@ MonoBehaviour:
     portrait: pt_hyunwoo
     voice: Reed (English (US))
   claims:
-  - He is Choi Hyunwoo, the landlord's son.
-  - Mr. Choi went into hospital this morning (his knee).
-  - 'This month the rent goes to his account: Hanbit Bank 620-118-449027.'
-  - He needs it before 17:00 to pay the hospital bill.
+  - id: son
+    text: '"I''m Choi Hyunwoo, the landlord''s son."'
+    truth: 0
+    note: False. The son's number in your lease is 010-2280-6614, and this one was
+      a prepaid phone opened six days ago.
+    trick: stand_in
+  - id: hospital
+    text: '"Dad went into hospital this morning."'
+    truth: 0
+    note: 'False. Mr. Choi was at home fixing the light on the second floor: the
+      residents'' chat, 13:40 and 15:52.'
+    trick: emergency
+  - id: account
+    text: '"This month the rent goes to my account."'
+    truth: 0
+    note: False. CheckFirst shows the account belongs to SEO JIYEON, and the landlord
+      never wrote that the account changed.
+    trick: new_account
   nodes:
   - id: start
     lines:
@@ -37,6 +51,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: son
+      act: 
     - speaker: 0
       text: Sorry to call out of the blue. My father went into hospital this morning.
         It's his knee. Nothing serious, but he'll be there all week.
@@ -44,6 +60,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: hospital
+      act: 
     hasDecision: 1
     decision:
       kind: 0
@@ -71,6 +89,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     hasDecision: 0
     decision:
       kind: 0
@@ -95,6 +115,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     hasDecision: 0
     decision:
       kind: 0
@@ -120,6 +142,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     - speaker: 0
       text: Dad can't use his banking app from the hospital, so this month the rent
         comes to me.
@@ -127,6 +151,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     - speaker: 0
       text: "Please send the \u20A9450,000 to my account: Hanbit Bank 620-118-449027."
       spoken: Please send the four hundred and fifty thousand won to my account.
@@ -140,6 +166,8 @@ MonoBehaviour:
         label: 
       deliver: []
       pauseAfter: 0.4
+      claim: account
+      act: 
     - speaker: 0
       text: I'm paying his hospital bill with the rents, and the billing desk closes
         at five. Could you send it before then? I'll hold.
@@ -147,6 +175,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     hasDecision: 0
     decision:
       kind: 0
@@ -182,6 +212,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     consequence: The caller gave up at five. You kept your money, but you never decided.
   - id: go_along
     verdict: 0
@@ -194,6 +226,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     consequence: "The \u20A9450,000 went to Seo Jiyeon's account and was withdrawn
       within minutes. Mr. Choi was at home all afternoon, and the rent account had
       never changed."
@@ -224,6 +258,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     endingId: 
   - label: Ask why the account changed
     playerLine: Why isn't it going to your father's account like always?
@@ -234,6 +270,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     endingId: 
   - label: Ask about the number he's calling from
     playerLine: Is this your own number?
@@ -245,6 +283,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     endingId: 
   - label: Ask to speak to Mr. Choi
     playerLine: Can I talk to your father?
@@ -255,6 +295,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     endingId: 
   beats:
   - at: 16:32
@@ -265,6 +307,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
   - at: 16:40
     line:
       speaker: 0
@@ -273,6 +317,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
   - at: 16:47
     line:
       speaker: 0
@@ -281,6 +327,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
   - at: 16:53
     line:
       speaker: 0
@@ -289,6 +337,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
   - at: 16:57
     line:
       speaker: 0
@@ -297,6 +347,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
   verdict:
     goAlong: Pay the rent
     goAlongDetail: 
@@ -305,3 +357,8 @@ MonoBehaviour:
     refuseDetail: Say no and end the call
     goAlongLine: Okay, I'm sending the rent now.
     refuseLine: I'm not paying rent into a new account over the phone. Goodbye.
+  video:
+    face: 
+    faked: 0
+    faceNote: 
+    waveNote: 

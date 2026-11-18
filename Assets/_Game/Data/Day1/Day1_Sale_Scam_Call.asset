@@ -22,10 +22,18 @@ MonoBehaviour:
     portrait: pt_buyer
     voice: Tessa
   claims:
-  - She is Bae Sujin, the buyer of my old monitor on Neighbour Market.
-  - "She meant to send \u20A960,000 at 16:07 but typed \u20A9600,000."
-  - "She wants the extra \u20A9540,000 back: Hanbit Bank 620-481-207356, in her name."
-  - It is her rent money, and her rent is due at 17:00.
+  - id: buyer
+    text: '"I''m Bae Sujin, buying your monitor."'
+    truth: 1
+    note: 'True either way: the number and the account are hers. Who she is never
+      settled it; what reached your bank did.'
+    trick: 
+  - id: sent
+    text: "\"I sent you \u20A9600,000 by mistake.\""
+    truth: 0
+    note: False. Your bank history shows no deposit today, and your balance never
+      moved.
+    trick: extra_zero
   nodes:
   - id: start
     lines:
@@ -36,6 +44,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: buyer
+      act: 
     - speaker: 0
       text: 'I''m so sorry, I''ve done something stupid. I just paid you, and my
         finger slipped: one zero too many.'
@@ -43,6 +53,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: sent
+      act: 
     hasDecision: 1
     decision:
       kind: 0
@@ -70,6 +82,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     hasDecision: 0
     decision:
       kind: 0
@@ -95,6 +109,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     hasDecision: 0
     decision:
       kind: 0
@@ -123,6 +139,8 @@ MonoBehaviour:
         label: 
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     - speaker: 0
       text: My account is Hanbit Bank 620-481-207356, in my name, Bae Sujin.
       spoken: My account is Hanbit Bank, six two zero, four eight one, two zero seven
@@ -133,6 +151,8 @@ MonoBehaviour:
         label: 
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     - speaker: 0
       text: It's my rent money. My landlord wants it by five today, and my bank says
         a reversal takes two weeks.
@@ -140,12 +160,16 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     - speaker: 0
       text: I'll stay on the line. I'm really sorry about this.
       spoken: 
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     hasDecision: 0
     decision:
       kind: 0
@@ -181,6 +205,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     consequence: She gave up at five. Nothing had ever arrived from her.
   - id: go_along
     verdict: 0
@@ -193,6 +219,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     consequence: "You sent \u20A9540,000 of your own money. Nothing had ever arrived
       from her, and her Neighbour Market account was gone by the evening."
   actions:
@@ -222,6 +250,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     endingId: 
   - label: Ask why her bank can't take it back
     playerLine: Can't your bank just take it back?
@@ -233,6 +263,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     endingId: 
   - label: Ask whose account the money goes back to
     playerLine: Whose account is that?
@@ -243,6 +275,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     endingId: 
   - label: Offer to settle it on Saturday
     playerLine: Can't we sort it out when you come on Saturday?
@@ -254,6 +288,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     endingId: 
   beats:
   - at: 16:33
@@ -264,6 +300,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
   - at: 16:40
     line:
       speaker: 0
@@ -272,6 +310,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
   - at: 16:47
     line:
       speaker: 0
@@ -280,6 +320,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
   - at: 16:53
     line:
       speaker: 0
@@ -288,6 +330,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
   - at: 16:57
     line:
       speaker: 0
@@ -296,6 +340,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
   verdict:
     goAlong: Send it back
     goAlongDetail: 
@@ -304,3 +350,8 @@ MonoBehaviour:
     refuseDetail: Say no and end the call
     goAlongLine: Okay, I'm sending it back now.
     refuseLine: I can't send that over the phone. Ask your bank. Goodbye.
+  video:
+    face: 
+    faked: 0
+    faceNote: 
+    waveNote: 

@@ -22,15 +22,21 @@ MonoBehaviour:
     portrait: pt_branch
     voice: Grandpa (Korean (South Korea))
   claims:
-  - "\uC11C\uC6B8\uB370\uC77C\uB9AC \uB9C8\uD3EC\uC9C0\uAD6D\uC7A5 \uC624\uC0C1\uCCA0\uC774\uB77C\uACE0
-    \uD55C\uB2E4."
-  - "10\uC6D4\uBD80\uD130 \uC9C0\uAD6D\uC774 \uAD6C\uB3C5\uB8CC\uB97C \uBC29\uBB38
-    \uC218\uAE08 \uB300\uC2E0 \uACC4\uC88C\uC774\uCCB4\uB85C \uBC1B\uB294\uB2E4\uACE0
-    \uD55C\uB2E4."
-  - "10~12\uC6D4 \uAD6C\uB3C5\uB8CC 54,000\uC6D0: \uB204\uB9AC\uC740\uD589 110-457-803312,
-    \uBCF8\uC778 \uBA85\uC758"
-  - "17\uC2DC\uAE4C\uC9C0 \uB0B4\uC9C0 \uC54A\uC73C\uBA74 \uB0B4\uC77C\uBD80\uD130
-    \uC2E0\uBB38\uC774 \uB04A\uAE34\uB2E4\uACE0 \uD55C\uB2E4."
+  - id: manager
+    text: "\"\uC11C\uC6B8\uB370\uC77C\uB9AC \uB9C8\uD3EC\uC9C0\uAD6D\uC7A5\uC785\uB2C8\uB2E4.\""
+    truth: 0
+    note: "\uAC70\uC9D3. \uC624\uB298 \uC790 \uC2E0\uBB38\uC5D0 \uB530\uB974\uBA74
+      \uC624\uC0C1\uCCA0 \uC528\uB294 \uB354 \uC774\uC0C1 \uC11C\uC6B8\uB370\uC77C\uB9AC\uC640
+      \uAD00\uACC4\uAC00 \uC5C6\uACE0 \uAD6C\uB3C5\uB8CC\uB97C \uBC1B\uC744 \uC218
+      \uC5C6\uB2E4."
+    trick: borrowed_name
+  - id: account
+    text: "\"\uC774\uC81C \uAD6C\uB3C5\uB8CC\uB294 \uC81C \uACC4\uC88C\uB85C \uC774\uCCB4\uBC1B\uC544\uC694.\""
+    truth: 0
+    note: "\uAC70\uC9D3. \uCCB4\uD06C\uD37C\uC2A4\uD2B8\uB300\uB85C \uACC4\uC88C\uB294
+      \uC815\uB9D0 \uADF8\uC758 \uAC83\uC774\uC9C0\uB9CC, \uC2E0\uBB38\uC0AC\uB294
+      \uAD6C\uB3C5\uB8CC\uB97C \uC9C0\uB85C\uB85C\uB9CC \uBC1B\uB294\uB2E4."
+    trick: new_account
   nodes:
   - id: start
     lines:
@@ -44,6 +50,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: manager
+      act: 
     - speaker: 0
       text: "3\uC6D4\uC5D0 \uC544\uBC84\uB2D8\uC774 \uD559\uC0DD \uC55E\uC73C\uB85C
         \uC2E0\uBB38\uC744 \uC2E0\uCCAD\uD558\uC2DC\uBA74\uC11C 9\uC6D4\uBD84\uAE4C\uC9C0
@@ -56,6 +64,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     hasDecision: 1
     decision:
       kind: 0
@@ -86,6 +96,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     hasDecision: 0
     decision:
       kind: 0
@@ -112,6 +124,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     hasDecision: 0
     decision:
       kind: 0
@@ -139,6 +153,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     - speaker: 0
       text: "10\uC6D4\uBD80\uD130 12\uC6D4\uAE4C\uC9C0 5\uB9CC 4\uCC9C \uC6D0\uC774\uC5D0\uC694.
         \uB204\uB9AC\uC740\uD589 110-457-803312\uB85C \uBCF4\uB0B4 \uC8FC\uC138\uC694.
@@ -156,6 +172,8 @@ MonoBehaviour:
         label: 
       deliver: []
       pauseAfter: 0.4
+      claim: account
+      act: 
     - speaker: 0
       text: "\uC9C0\uAD6D \uC7A5\uBD80\uB97C 5\uC2DC\uC5D0 \uB9C8\uAC10\uD574\uC694.
         \uADF8\uB54C\uAE4C\uC9C0 \uC548 \uB4E4\uC5B4\uC628 \uC9D1\uC740 \uB0B4\uC77C
@@ -166,12 +184,16 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     - speaker: 0
       text: "\uBCF4\uB0B4\uC2DC\uB294 \uB3D9\uC548 \uAE30\uB2E4\uB9B4\uAC8C\uC694."
       spoken: 
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     hasDecision: 0
     decision:
       kind: 0
@@ -209,6 +231,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     consequence: "\uC0C1\uB300\uB294 5\uC2DC\uC5D0 \uD3EC\uAE30\uD588\uB2E4. \uB2E4\uC74C
       \uB0A0 \uC544\uCE68\uC5D0\uB3C4 \uC2E0\uBB38\uC740 \uADF8\uB300\uB85C \uC654\uB2E4.
       \uADF8\uB294 \uC774\uC81C \uC2E0\uBB38\uACFC \uC544\uBB34 \uAD00\uACC4\uAC00
@@ -225,6 +249,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     consequence: "54,000\uC6D0\uC740 9\uC6D4 \uC774\uD6C4 \uC11C\uC6B8\uB370\uC77C\uB9AC\uC640
       \uBB34\uAD00\uD574\uC9C4 \uC624\uC0C1\uCCA0\uC5D0\uAC8C \uB4E4\uC5B4\uAC14\uB2E4.
       \uC54C\uB9BC\uC740 \uCC45\uC0C1 \uC704 \uC2E0\uBB38\uC5D0 \uC2E4\uB824 \uC788\uC5C8\uB2E4."
@@ -260,6 +286,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     endingId: 
   - label: "\uC65C \uC774\uC81C \uBC29\uBB38 \uC218\uAE08\uC744 \uC548 \uD558\uB294\uC9C0
       \uBB3B\uAE30"
@@ -273,6 +301,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     endingId: 
   - label: "\uC9C0\uAD6D \uC0AC\uBB34\uC2E4 \uBC88\uD638 \uBB3B\uAE30"
     playerLine: "\uC9C0\uAD6D \uC0AC\uBB34\uC2E4 \uBC88\uD638\uAC00 \uC5B4\uB5BB\uAC8C
@@ -291,6 +321,8 @@ MonoBehaviour:
         label: "\uC9C0\uAD6D"
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     endingId: 
   - label: "\uC544\uBE60\uD55C\uD14C \uBA3C\uC800 \uBB3C\uC5B4\uBCF4\uACA0\uB2E4\uACE0
       \uD558\uAE30"
@@ -306,6 +338,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     endingId: 
   beats:
   - at: 16:33
@@ -319,6 +353,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
   - at: 16:41
     line:
       speaker: 0
@@ -328,6 +364,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
   - at: 16:48
     line:
       speaker: 0
@@ -338,6 +376,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
   - at: 16:54
     line:
       speaker: 0
@@ -346,6 +386,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
   - at: 16:57
     line:
       speaker: 0
@@ -356,6 +398,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
   verdict:
     goAlong: "\uAD6C\uB3C5\uB8CC \uB0B4\uAE30"
     goAlongDetail: 
@@ -364,3 +408,8 @@ MonoBehaviour:
     refuseDetail: "\uAC70\uC808\uD558\uACE0 \uD1B5\uD654 \uC885\uB8CC"
     goAlongLine: "\uB124, \uC9C0\uAE08 \uBCF4\uB0BC\uAC8C\uC694."
     refuseLine: "\uC804\uD654\uB85C\uB294 \uC548 \uB0BC\uAC8C\uC694. \uB04A\uC744\uAC8C\uC694."
+  video:
+    face: 
+    faked: 0
+    faceNote: 
+    waveNote: 

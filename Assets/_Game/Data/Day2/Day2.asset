@@ -21,6 +21,9 @@ MonoBehaviour:
   startTime: 16:20
   intro: Rent day. You meant to send it to Mr. Choi after class, like every month.
   ringDelay: 7
+  help: 2
+  level: 2
+  newToday: No more hints. Work out for yourself where each claim can be checked.
   variants:
   - id: scam
     scenario: rent
@@ -37,17 +40,17 @@ MonoBehaviour:
         number"
       guide: 
       when:
-      - kind: 1
-        target: "Lease contract \xB7 Unit 302"
-      - kind: 2
-        target: 010-4127-8830
+      - kind: 7
+        target: lease_son
+      - kind: 7
+        target: check_number
     - id: account_owner
       text: 'The "new rent account" is in a stranger''s name: SEO JIYEON.'
       where: "Computer \u2192 Check a bank account"
       guide: 
       when:
-      - kind: 2
-        target: 620-118-449027
+      - kind: 7
+        target: check_account
       - kind: 3
         target: 620-118-449027
     - id: landlord
@@ -56,8 +59,59 @@ MonoBehaviour:
       where: "Chats \u2192 Mangwon Heights residents"
       guide: 
       when:
-      - kind: 4
-        target: villa
+      - kind: 7
+        target: chat_fixing
+      - kind: 7
+        target: chat_fixed
+    marks:
+    - id: lease_son
+      claim: son
+      also: []
+      place: 1
+      key: "Lease contract \xB7 Unit 302|Son's phone"
+    - id: lease_absent
+      claim: son
+      also: []
+      place: 1
+      key: "Lease contract \xB7 Unit 302|If absent, contact"
+    - id: check_number
+      claim: son
+      also: []
+      place: 3
+      key: 010-4127-8830
+    - id: lease_account
+      claim: account
+      also: []
+      place: 1
+      key: "Lease contract \xB7 Unit 302|Rent account"
+    - id: lease_terms
+      claim: account
+      also: []
+      place: 1
+      key: "Lease contract \xB7 Unit 302|1. The rent account changes only with a
+        written notice from the landlord."
+    - id: check_account
+      claim: account
+      also: []
+      place: 3
+      key: 620-118-449027
+    - id: cal_rent
+      claim: account
+      also: []
+      place: 2
+      key: Rent day! 450,000 won to Mr. Choi
+    - id: chat_fixing
+      claim: hospital
+      also: []
+      place: 4
+      key: "villa|Thank you all for keeping the stairs so clean! I'm fixing the light
+        on the second floor now. See you at the water tank cleaning tomorrow. \u2013
+        Choi, 1F"
+    - id: chat_fixed
+      claim: hospital
+      also: []
+      place: 4
+      key: 'villa|The light is fixed. Rent as always, please: Nuri Bank 110-771-209944.'
     papers:
     - outcome: 1
       headline: Fake "landlord's son" calls tenants on rent day
@@ -69,15 +123,15 @@ MonoBehaviour:
 
 
         The real landlord,
-        Choi Youngsik, 71, was not in hospital: he spent the afternoon organising
-        a water tank cleaning. "My son''s number is in every lease," he said. "And
-        the rent account only changes when I write it down."
+        Choi Youngsik, 71, was not in hospital: he spent the afternoon at home, fixing
+        the light on the second floor. "My son''s number is in every lease," he said.
+        "And the rent account only changes when I write it down."
 
 
-        Police say
-        the account the caller gave, Hanbit Bank 620-118-449027, belongs to a woman
-        who sold her bank book online. Anyone called by 010-4127-8830 should report
-        it to 112.'
+        Police
+        say the account the caller gave, Hanbit Bank 620-118-449027, belongs to a
+        woman who sold her bank book online. Anyone called by 010-4127-8830 should
+        report it to 112.'
       verdictNote: You hung up and kept the rent. The lease had the son's real number,
         and the chat showed Mr. Choi at home.
       print: {fileID: 2800000, guid: 8687e732fe83540049be292512a0ee15, type: 3}
@@ -97,8 +151,8 @@ MonoBehaviour:
 
         The
         real landlord, Choi Youngsik, 71, was not in hospital: he spent the afternoon
-        organising a water tank cleaning. "My son''s number is in every lease," he
-        said. "And the rent account only changes when I write it down."
+        at home, fixing the light on the second floor. "My son''s number is in every
+        lease," he said. "And the rent account only changes when I write it down."
 
 
         Police
@@ -116,13 +170,13 @@ MonoBehaviour:
 
         Most tenants let
         the call run on until the caller gave up. The real landlord, Choi Youngsik,
-        71, was not in hospital: he spent the afternoon organising a water tank cleaning.
-        "My son''s number is in every lease," he said. "And the rent account only
-        changes when I write it down."
+        71, was not in hospital: he spent the afternoon at home, fixing the light
+        on the second floor. "My son''s number is in every lease," he said. "And
+        the rent account only changes when I write it down."
 
 
-        Police ask anyone called by 010-4127-8830
-        to report it to 112.'
+        Police ask
+        anyone called by 010-4127-8830 to report it to 112.'
       verdictNote: Nothing was sent, but you never decided. The lease and the residents'
         chat had the answer.
       print: {fileID: 2800000, guid: 021adfc04d8a5413a9a5da5672b99158, type: 3}
@@ -145,29 +199,80 @@ MonoBehaviour:
         number"
       guide: 
       when:
-      - kind: 1
-        target: "Lease contract \xB7 Unit 302"
-      - kind: 2
-        target: 010-2280-6614
+      - kind: 7
+        target: lease_son
+      - kind: 7
+        target: check_number
     - id: account_owner
       text: The new account is in Choi Hyunwoo's name, the son your lease names.
       where: "Computer \u2192 Check a bank account"
       guide: 
       when:
-      - kind: 2
-        target: 110-771-202358
+      - kind: 7
+        target: check_account
       - kind: 3
         target: 110-771-202358
     - id: landlord
       text: Mr. Choi wrote in the residents' chat this morning that he is in hospital
         and that Hyunwoo collects this month's rent on this account.
-      where: "Chats \u2192 Mangwon Heights residents, or the calendar on the wall"
+      where: "Chats \u2192 Mangwon Heights residents, or the calendar by the door"
       guide: 
       when:
-      - kind: 4
-        target: villa
-      - kind: 0
-        target: Calendar
+      - kind: 7
+        target: chat_hospital
+      - kind: 7
+        target: cal_hospital
+    marks:
+    - id: lease_son
+      claim: son
+      also: []
+      place: 1
+      key: "Lease contract \xB7 Unit 302|Son's phone"
+    - id: lease_absent
+      claim: son
+      also: []
+      place: 1
+      key: "Lease contract \xB7 Unit 302|If absent, contact"
+    - id: check_number
+      claim: son
+      also: []
+      place: 3
+      key: 010-2280-6614
+    - id: lease_account
+      claim: account
+      also: []
+      place: 1
+      key: "Lease contract \xB7 Unit 302|Rent account"
+    - id: lease_terms
+      claim: account
+      also: []
+      place: 1
+      key: "Lease contract \xB7 Unit 302|1. The rent account changes only with a
+        written notice from the landlord."
+    - id: check_account
+      claim: account
+      also: []
+      place: 3
+      key: 110-771-202358
+    - id: cal_rent
+      claim: account
+      also: []
+      place: 2
+      key: Rent day! 450,000 won to Mr. Choi
+    - id: chat_hospital
+      claim: hospital
+      also: []
+      place: 4
+      key: "villa|Good morning everyone. I'm going into Severance Hospital today
+        for my knee, back next week. My son Hyunwoo will look after the building
+        and collect this month's rent: Nuri Bank 110-771-202358 (Choi Hyunwoo). He'll
+        call you today. Thank you! \u2013 Choi, 1F"
+    - id: cal_hospital
+      claim: hospital
+      also: []
+      place: 2
+      key: Mr. Choi in hospital this week. His son Hyunwoo collects the rent (see
+        the residents' chat)
     papers:
     - outcome: 0
       headline: A son keeps the building running
@@ -246,13 +351,49 @@ MonoBehaviour:
     directory: {fileID: 11400000, guid: 7c86cb67b9f974f3a96c5c3ed01d73b0, type: 2}
     clues:
     - id: family_chat
-      text: 'Minjun wrote in the family chat at 15:52, from his own phone: he is
-        in the library with his phone on silent. His phone is not broken.'
+      text: 'Mom wrote in the family chat at 15:52: Minjun had just texted her from
+        his own phone, in the library. His phone is not broken.'
       where: "Chats \u2192 Our family"
       guide: 
       when:
-      - kind: 4
-        target: family
+      - kind: 7
+        target: chat_mom
+    - id: quiz
+      text: 'He dodged a question only Minjun could answer: what you told him about
+        Saturday.'
+      where: "The call \u2192 ask what you told him about Saturday"
+      guide: 
+      when:
+      - kind: 7
+        target: call_quiz
+    marks:
+    - id: chat_mom
+      claim: minjun
+      also:
+      - broken
+      place: 4
+      key: 'family|Minjun just texted me from his phone, in the library: midterms
+        till ten tonight, phone on silent. Text him, don''t call!'
+    - id: call_quiz
+      claim: minjun
+      also: []
+      place: 8
+      key: Noona, come on, I don't have time for quizzes. The centre closes at five.
+    - id: contact_minjun
+      claim: minjun
+      also: []
+      place: 6
+      key: 010-3321-5580
+    - id: check_number
+      claim: minjun
+      also: []
+      place: 3
+      key: 010-9046-2715
+    - id: check_account
+      claim: broken
+      also: []
+      place: 3
+      key: 620-204-771035
     papers:
     - outcome: 1
       headline: '"Noona, my phone broke": copied voices call families'
@@ -270,10 +411,10 @@ MonoBehaviour:
 
 
         "Don''t
-        test the voice. Ask the person," a Mapo police officer said. "Write one line
-        in the chat you already share, and wait for the answer."'
-      verdictNote: You hung up. The real Minjun had just written in the family chat,
-        from his own phone.
+        test the voice. Ask someone else in the family," a Mapo police officer said.
+        "One line in the chat you already share usually settles it."'
+      verdictNote: 'You hung up. Mom had just written in the family chat: the real
+        Minjun was texting from the library.'
       print: {fileID: 2800000, guid: e76593b89d2ef4a99ac6edb58bdd42f1, type: 3}
     - outcome: 0
       headline: 280,000 won for a phone that was never broken
@@ -285,17 +426,17 @@ MonoBehaviour:
 
 
         A 22-year-old student sent 280,000 won. Her brother, a
-        first-year in Daejeon, had posted a photo of his library desk to the family
-        chat half an hour earlier. Police say the voices were copied from short videos
-        on social media. The phone and the account belonged to a real student who
-        had lent both for a "part-time job", so a lookup showed nothing wrong.
+        first-year in Daejeon, had texted their mother from the library half an hour
+        earlier. Police say the voices were copied from short videos on social media.
+        The phone and the account belonged to a real student who had lent both for
+        a "part-time job", so a lookup showed nothing wrong.
 
 
-        "Don''t
-        test the voice. Ask the person," a Mapo police officer said. "Write one line
-        in the chat you already share, and wait for the answer."'
-      verdictNote: 'The family chat had the answer: Minjun had posted from his own
-        phone at 15:52.'
+        "Don''t test
+        the voice. Ask someone else in the family," a Mapo police officer said. "One
+        line in the chat you already share usually settles it."'
+      verdictNote: 'The family chat had the answer: at 15:52 Mom wrote that Minjun
+        had just texted her from his own phone.'
       print: {fileID: 2800000, guid: 935d28f0463fb4af5a99563f77c2eee8, type: 3}
     - outcome: 3
       headline: The voice was his. The call was not.
@@ -312,14 +453,15 @@ MonoBehaviour:
 
 
         "Don''t
-        test the voice. Ask the person," a Mapo police officer said. "Write one line
-        in the chat you already share, and wait for the answer."'
+        test the voice. Ask someone else in the family," a Mapo police officer said.
+        "One line in the chat you already share usually settles it."'
       verdictNote: Nothing was sent, but you never decided. One look at the family
         chat would have told you.
       print: {fileID: 2800000, guid: bdd5152f2de914af6a9e1d6f6bf87cc3, type: 3}
-    ruleTitle: Ask them where you always talk
+    ruleTitle: Ask another family member
     rule: Family asking for money from a strange number? A voice can be copied and
-      a lookup can come back clean. Ask them in the chat you already share.
+      a lookup can come back clean. Ask someone else in the family, in the chat you
+      already share.
     ruleSource: Seoul Daily, 8 Oct
   - id: brother_legit
     scenario: brother
@@ -331,33 +473,69 @@ MonoBehaviour:
     directory: {fileID: 11400000, guid: 882a0bd172f204cf3af2c5e547083304, type: 2}
     clues:
     - id: family_chat
-      text: 'Minjun wrote it himself in the family chat at 15:22: his screen is dead,
-        and he will call from his roommate Dohyun''s phone.'
+      text: 'Mom wrote in the family chat at 15:31: Minjun had just called her from
+        his roommate Dohyun''s phone, his screen dead.'
       where: "Chats \u2192 Our family"
       guide: 
       when:
-      - kind: 4
-        target: family
+      - kind: 7
+        target: chat_mom
+    - id: quiz
+      text: 'He knew what you told him about Saturday: only if he brings snacks.'
+      where: "The call \u2192 ask what you told him about Saturday"
+      guide: 
+      when:
+      - kind: 7
+        target: call_quiz
+    marks:
+    - id: chat_mom
+      claim: minjun
+      also:
+      - broken
+      place: 4
+      key: 'family|Minjun just called me from his roommate Dohyun''s phone: he dropped
+        his phone on the stairs and the screen is dead. He''s taking it to the service
+        centre. I''m in a meeting till six. Jiwoo, can you help him?'
+    - id: call_quiz
+      claim: minjun
+      also: []
+      place: 8
+      key: Only if I bring snacks. I'm bringing snacks, noona. Lots.
+    - id: contact_minjun
+      claim: minjun
+      also: []
+      place: 6
+      key: 010-3321-5580
+    - id: check_number
+      claim: minjun
+      also: []
+      place: 3
+      key: 010-9046-2715
+    - id: check_account
+      claim: broken
+      also: []
+      place: 3
+      key: 620-204-771035
     papers:
     - outcome: 0
       headline: A broken phone, and a sister who checked first
-      subhead: He had written to the family chat before he called. She read it, then
-        paid.
+      subhead: He called their mother first. His sister read her message, then paid.
       body: 'After a month of copied-voice scams, a real call for help can sound
         exactly like a fake one. A first-year student in Daejeon found that out on
         Wednesday, when he broke his phone and rang his sister in Seoul from his
         roommate''s.
 
 
-        "I wrote to our family chat from the dorm PC before
-        I left," he said. "She read it, asked me one question, and sent the money.
-        The phone was fixed by six."
+        "I called Mom first from my roommate''s phone, and
+        she wrote it in our family chat," he said. "My sister read it, asked me one
+        question, and sent the money. The phone was fixed by six."
 
 
-        Police advise families to agree on
-        one place to check: the chat they already share. "If he wrote it there himself,
-        the strange number is explained," an officer said.'
-      verdictNote: 'It really was Minjun, and you checked: his own message in the
+        Police
+        advise families to agree on one place to check: the chat they already share.
+        "If someone else in the family confirms it there, the strange number is explained,"
+        an officer said.'
+      verdictNote: 'It really was Minjun, and you checked: Mom''s message in the
         family chat explained the strange number.'
       print: {fileID: 2800000, guid: f218e64379a7b4631a550fc3da85ba3c, type: 3}
     - outcome: 1
@@ -370,15 +548,15 @@ MonoBehaviour:
 
 
         "She hung up on me," he said. "I don''t blame her.
-        But I had written it in our family chat an hour before." His roommate lent
+        But Mom had written it in our family chat an hour before." His roommate lent
         him the money.
 
 
         Police advise families to agree on one place to
-        check: the chat they already share. "If he wrote it there himself, the strange
-        number is explained," an officer said.'
-      verdictNote: 'This one was real: Minjun had written in the family chat that
-        he would call from his roommate''s phone.'
+        check: the chat they already share. "If someone else in the family confirms
+        it there, the strange number is explained," an officer said.'
+      verdictNote: 'This one was real: Mom had written in the family chat that he
+        was calling from his roommate''s phone.'
       print: {fileID: 2800000, guid: 1ec8a9b56b11344beb4d71fa5e4c9a7a, type: 3}
     - outcome: 3
       headline: The repair desk closed at five
@@ -395,13 +573,14 @@ MonoBehaviour:
 
         Police advise
         families to agree on one place to check: the chat they already share. "If
-        he wrote it there himself, the strange number is explained," an officer said.'
+        someone else in the family confirms it there, the strange number is explained,"
+        an officer said.'
       verdictNote: It really was Minjun, and the answer was in the family chat. Deciding
         in time matters too.
       print: {fileID: 2800000, guid: 43e0b6bdc121b4542b1cadabc04b09ff, type: 3}
-    ruleTitle: Their own message explains the strange number
-    rule: 'The same check clears a real call: when they wrote it themselves in your
-      own chat, the strange number is explained. Check, then help.'
+    ruleTitle: Someone else in the family can vouch
+    rule: 'The same check clears a real call: when another family member confirms
+      it in your own chat, the strange number is explained. Check, then help.'
     ruleSource: Seoul Daily, 8 Oct
   echoes:
   - afterDay: 1
@@ -417,6 +596,9 @@ MonoBehaviour:
     text: "The bank said the \u20A91,200,000 is probably gone for good."
     amount: 0
     outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
     notify: 0
   - afterDay: 1
     scenario: protected
@@ -432,6 +614,9 @@ MonoBehaviour:
       We'll help with tuition \u2665"
     amount: 0
     outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
     notify: 1
   - afterDay: 1
     scenario: protected
@@ -446,6 +631,9 @@ MonoBehaviour:
     text: Thanks Mom... I should have looked up the account first.
     amount: 0
     outgoing: 1
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
     notify: 0
   - afterDay: 1
     scenario: protected
@@ -461,6 +649,9 @@ MonoBehaviour:
       it.
     amount: 0
     outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
     notify: 0
   - afterDay: 1
     scenario: protected
@@ -475,6 +666,9 @@ MonoBehaviour:
     text: A fake bank called me today!! They wanted 1.2 million
     amount: 0
     outgoing: 1
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
     notify: 0
   - afterDay: 1
     scenario: protected
@@ -489,6 +683,9 @@ MonoBehaviour:
     text: WHAT. Good thing you hung up!!
     amount: 0
     outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
     notify: 1
   - afterDay: 1
     scenario: protected
@@ -503,6 +700,9 @@ MonoBehaviour:
     text: The 'protection team' called me too. Hung up. It's 070-8844-2019.
     amount: 0
     outgoing: 1
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
     notify: 0
   - afterDay: 1
     scenario: protected
@@ -517,6 +717,9 @@ MonoBehaviour:
     text: Same number! Thanks 302, reported it.
     amount: 0
     outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
     notify: 0
   - afterDay: 1
     scenario: protected
@@ -531,6 +734,9 @@ MonoBehaviour:
     text: Yesterday's "bank" caller gave up at five. You never gave him an answer.
     amount: 0
     outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
     notify: 0
   - afterDay: 1
     scenario: protected
@@ -546,6 +752,9 @@ MonoBehaviour:
       just hang up.'
     amount: 0
     outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
     notify: 1
   - afterDay: 1
     scenario: paper
@@ -560,6 +769,9 @@ MonoBehaviour:
     text: 
     amount: -54000
     outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
     notify: 0
   - afterDay: 1
     scenario: paper
@@ -575,6 +787,9 @@ MonoBehaviour:
       is gone."
     amount: 0
     outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
     notify: 0
   - afterDay: 1
     scenario: paper
@@ -590,6 +805,9 @@ MonoBehaviour:
       Report it to 112, Jiwoo. And read the front page next time!
     amount: 0
     outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
     notify: 1
   - afterDay: 1
     scenario: paper
@@ -604,6 +822,9 @@ MonoBehaviour:
     text: I know... The notice was right there on my desk.
     amount: 0
     outgoing: 1
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
     notify: 0
   - afterDay: 1
     scenario: paper
@@ -618,6 +839,9 @@ MonoBehaviour:
     text: Yesterday's "branch manager" no longer worked for the paper. You hung up.
     amount: 0
     outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
     notify: 0
   - afterDay: 1
     scenario: paper
@@ -633,6 +857,9 @@ MonoBehaviour:
       he was let go, so I hung up.
     amount: 0
     outgoing: 1
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
     notify: 0
   - afterDay: 1
     scenario: paper
@@ -647,6 +874,9 @@ MonoBehaviour:
     text: Well done. So you do read it! I pay by giro, you don't owe anyone a thing.
     amount: 0
     outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
     notify: 1
   - afterDay: 1
     scenario: paper
@@ -662,6 +892,9 @@ MonoBehaviour:
       morning.
     amount: 0
     outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
     notify: 0
   - afterDay: 1
     scenario: paper
@@ -677,6 +910,9 @@ MonoBehaviour:
       morning's copy.
     amount: 0
     outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
     notify: 0
   - afterDay: 1
     scenario: paper
@@ -691,6 +927,9 @@ MonoBehaviour:
     text: The branch texted me that you paid the paper. Thank you! I owe you a dinner.
     amount: 0
     outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
     notify: 1
   - afterDay: 1
     scenario: paper
@@ -706,6 +945,9 @@ MonoBehaviour:
       him this morning.
     amount: 0
     outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
     notify: 0
   - afterDay: 1
     scenario: paper
@@ -721,7 +963,27 @@ MonoBehaviour:
       Send him the fee tomorrow morning, will you?
     amount: 0
     outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
     notify: 1
+  - afterDay: 1
+    scenario: sale
+    truth: 0
+    outcomes: 15
+    kind: 4
+    from: 
+    sender: 
+    avatar: 
+    when: Sat 10
+    title: 
+    text: Monitor buyer comes at 11:00 (Neighbour Market, 60,000 won paid ahead)
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 10
+    image: {fileID: 0}
+    notify: 0
   - afterDay: 1
     scenario: sale
     truth: 2
@@ -735,6 +997,9 @@ MonoBehaviour:
     text: 
     amount: 600000
     outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
     notify: 0
   - afterDay: 1
     scenario: sale
@@ -749,6 +1014,9 @@ MonoBehaviour:
     text: 
     amount: -540000
     outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
     notify: 0
   - afterDay: 1
     scenario: sale
@@ -764,6 +1032,9 @@ MonoBehaviour:
       is gone."
     amount: 0
     outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
     notify: 0
   - afterDay: 1
     scenario: sale
@@ -779,6 +1050,9 @@ MonoBehaviour:
       my bank first.
     amount: 0
     outgoing: 1
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
     notify: 0
   - afterDay: 1
     scenario: sale
@@ -793,6 +1067,9 @@ MonoBehaviour:
     text: NO. Report it right now, 112 and your bank!! I'm coming over with tteokbokki.
     amount: 0
     outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
     notify: 1
   - afterDay: 1
     scenario: sale
@@ -808,6 +1085,9 @@ MonoBehaviour:
       hung up.
     amount: 0
     outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
     notify: 0
   - afterDay: 1
     scenario: sale
@@ -822,6 +1102,9 @@ MonoBehaviour:
     text: Someone tried the "I paid you too much" trick on my monitor listing!
     amount: 0
     outgoing: 1
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
     notify: 0
   - afterDay: 1
     scenario: sale
@@ -836,6 +1119,9 @@ MonoBehaviour:
     text: The classic!! Did you check your bank first?
     amount: 0
     outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
     notify: 1
   - afterDay: 1
     scenario: sale
@@ -850,6 +1136,9 @@ MonoBehaviour:
     text: Obviously. Nothing there.
     amount: 0
     outgoing: 1
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
     notify: 0
   - afterDay: 1
     scenario: sale
@@ -864,6 +1153,9 @@ MonoBehaviour:
     text: Yesterday's "buyer" gave up at five. Nothing had ever arrived from her.
     amount: 0
     outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
     notify: 0
   - afterDay: 1
     scenario: sale
@@ -879,6 +1171,9 @@ MonoBehaviour:
       the monitor on Saturday."
     amount: 0
     outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
     notify: 0
   - afterDay: 1
     scenario: sale
@@ -894,6 +1189,79 @@ MonoBehaviour:
       with an apology."
     amount: 0
     outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 0
+    scenario: 
+    truth: 0
+    outcomes: 1
+    kind: 0
+    from: villa
+    sender: 
+    avatar: 
+    when: Mon 17:20
+    title: 
+    text: I think I just paid that fake gas bill... 18,420 won.
+    amount: 0
+    outgoing: 1
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 0
+    scenario: 
+    truth: 0
+    outcomes: 1
+    kind: 0
+    from: villa
+    sender: Landlord Choi
+    avatar: pt_landlord
+    when: Mon 17:31
+    title: 
+    text: Oh no. Report it to 1332 right away, and look things up before you pay
+      next time.
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 0
+    scenario: 
+    truth: 0
+    outcomes: 2
+    kind: 0
+    from: villa
+    sender: 
+    avatar: 
+    when: Mon 17:20
+    title: 
+    text: The "gas company" called me too. I checked my bill and hung up. It was
+      010-7359-2046.
+    amount: 0
+    outgoing: 1
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 0
+    scenario: 
+    truth: 0
+    outcomes: 2
+    kind: 0
+    from: villa
+    sender: Landlord Choi
+    avatar: pt_landlord
+    when: Mon 17:31
+    title: 
+    text: Well done, 302! That is how to do it.
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
     notify: 0
   nextDateLabel: Thursday, 8 October
-  builtWith: 8
+  builtWith: 15

@@ -194,6 +194,10 @@ MonoBehaviour:
     - day: 8
       label: "8\uC77C (\uBAA9)"
       text: "\uCE58\uACFC 18:30"
+    - day: 9
+      label: "9\uC77C (\uAE08)"
+      text: "\uD55C\uAE00\uB0A0 \xB7 \uC720\uB098 \uC77C\uC694\uC77C\uAE4C\uC9C0
+        \uD6C4\uCFE0\uC624\uCE74"
     - day: 13
       label: "13\uC77C (\uD654)"
       text: "\uC911\uAC04\uACE0\uC0AC \uC2DC\uC791"

@@ -22,10 +22,24 @@ MonoBehaviour:
     portrait: pt_billing
     voice: Samantha
   claims:
-  - She is Team Leader Baek from the billing team at Mapo City Gas.
-  - My September gas bill, 18,420 won, is unpaid.
-  - The gas goes off at 17:00 today unless I transfer it now.
-  - 'Collection account: Hanbit Bank 620-339-104772.'
+  - id: company
+    text: '"I''m from Mapo City Gas."'
+    truth: 0
+    note: False. Her number was a three-day-old prepaid phone with scam reports.
+      The gas company's number, 02-555-0181, is on your bill and in your contacts.
+    trick: borrowed_name
+  - id: unpaid
+    text: '"Your September bill is unpaid."'
+    truth: 0
+    note: 'False. It was paid by auto-pay on 28 September: the bill says so, and
+      so does your bank.'
+    trick: paid_bill
+  - id: pay
+    text: '"Pay our collection account now, or the gas goes off."'
+    truth: 0
+    note: False. The account was HAN SUNGMIN's, a private person's; today is a holiday;
+      and the landlord warned that the company never phones for money.
+    trick: new_account
   nodes:
   - id: start
     lines:
@@ -37,6 +51,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: company
+      act: 
     - speaker: 0
       text: Your September gas bill, 18,420 won, has not been paid. The gas to your
         unit will be shut off at five o'clock today.
@@ -46,6 +62,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: unpaid
+      act: 
     hasDecision: 1
     decision:
       kind: 0
@@ -73,6 +91,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     hasDecision: 0
     decision:
       kind: 0
@@ -97,6 +117,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     hasDecision: 0
     decision:
       kind: 0
@@ -130,6 +152,8 @@ MonoBehaviour:
         label: 
       deliver: []
       pauseAfter: 0.4
+      claim: pay
+      act: 
     - speaker: 0
       text: As soon as it arrives, I'll cancel the shut-off. I'll stay on the line
         while you send it.
@@ -137,6 +161,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     hasDecision: 0
     decision:
       kind: 0
@@ -172,12 +198,16 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     - speaker: 0
       text: Fine. Don't blame us when the gas goes off.
       spoken: 
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     consequence: She gave up at five. The gas stayed on, but you never gave her an
       answer.
   - id: go_along
@@ -191,12 +221,16 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     - speaker: 0
       text: Enjoy the rest of your holiday.
       spoken: 
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     consequence: The 18,420 won went to Han Sungmin's account. Your real bill had
       been paid a week ago.
   actions:
@@ -227,6 +261,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     endingId: 
   - label: Ask why she isn't calling from the customer centre
     playerLine: Why aren't you calling from the customer centre?
@@ -237,6 +273,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     endingId: 
   - label: Say you'll check your bill first
     playerLine: Let me check my bill first.
@@ -248,6 +286,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     endingId: 
   beats:
   - at: 14:35
@@ -258,6 +298,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
   - at: 15:10
     line:
       speaker: 0
@@ -266,6 +308,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
   - at: 16:00
     line:
       speaker: 0
@@ -274,6 +318,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
   - at: 16:40
     line:
       speaker: 0
@@ -282,6 +328,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
   - at: 16:55
     line:
       speaker: 0
@@ -290,6 +338,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
   verdict:
     goAlong: Pay the bill
     goAlongDetail: 
@@ -298,3 +348,8 @@ MonoBehaviour:
     refuseDetail: Say no and end the call
     goAlongLine: All right, I'm sending it now.
     refuseLine: My bill is already paid. Goodbye.
+  video:
+    face: 
+    faked: 0
+    faceNote: 
+    waveNote: 

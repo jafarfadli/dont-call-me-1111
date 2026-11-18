@@ -1,0 +1,1698 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ea1fbb0ab59d4c84a59e909f29a5c4f, type: 3}
+  m_Name: Day4_ko
+  m_EditorClassIdentifier: DontCallMe::DontCallMe.Data.DayData
+  day: 4
+  tutorial: 0
+  dateLabel: "10\uC6D4 9\uC77C \uAE08\uC694\uC77C"
+  weekday: "\uAE08\uC694\uC77C"
+  shortLabel: "4\uC77C\uCC28 \xB7 10\uC6D4 9\uC77C (\uAE08)"
+  place: "\uC11C\uC6B8 \uB9C8\uD3EC\uAD6C \uB9DD\uC6D0\uB3D9"
+  startTime: 16:20
+  intro: "\uD55C\uAE00\uB0A0\uC774\uB77C \uC218\uC5C5\uC774 \uC5C6\uB2E4. \uC720\uB098\uB294
+    \uC624\uB298 \uC544\uCE68 \uC0AC\uCD0C \uC18C\uBBFC\uC774\uC640 \uC5F0\uD734
+    \uB3D9\uC548 \uD6C4\uCFE0\uC624\uCE74\uB85C \uB5A0\uB0AC\uB2E4."
+  ringDelay: 6
+  help: 3
+  level: 4
+  newToday: "\uC601\uC0C1\uD1B5\uD654. \uC5BC\uAD74\uB3C4 \uAC00\uC9DC\uC77C \uC218
+    \uC788\uB2E4. \uC785 \uBAA8\uC591\uC774 \uBAA9\uC18C\uB9AC\uC640 \uB9DE\uB294\uC9C0
+    \uBCF4\uACE0, \uC5BC\uAD74 \uC55E\uC5D0\uC11C \uCC9C\uCC9C\uD788 \uC190\uC744
+    \uD754\uB4E4\uC5B4 \uB2EC\uB77C\uACE0 \uD558\uB77C. \uC5BC\uAD74\uC744 \uD074\uB9AD\uD558\uBA74
+    \uBCF8 \uAC83\uC774 \uB178\uD2B8\uC5D0 \uC801\uD78C\uB2E4."
+  variants:
+  - id: scam
+    scenario: yuna
+    intro: 
+    conversation: {fileID: 11400000, guid: fee3c3e1559f44197a01992546b774d4, type: 2}
+    phone: {fileID: 11400000, guid: 99b37b87a2a1d4bd2befca2b89bf1107, type: 2}
+    room: {fileID: 11400000, guid: fae0066340b3241cfb3012488ee144bb, type: 2}
+    directory: {fileID: 11400000, guid: ee867352461f1499cae5d9a1e1546e0d, type: 2}
+    clues:
+    - id: face
+      text: "\uC785 \uBAA8\uC591\uC774 \uBAA9\uC18C\uB9AC\uBCF4\uB2E4 \uB2A6\uC5C8\uACE0
+        \uC5BC\uAD74 \uAC00\uC7A5\uC790\uB9AC\uAC00 \uC77C\uB801\uC600\uB2E4. \uC18C\uD504\uD2B8\uC6E8\uC5B4\uB85C
+        \uC50C\uC6B4 \uC5BC\uAD74\uC774\uC5C8\uB2E4."
+      where: "\uC601\uC0C1\uD1B5\uD654 \u2192 \uC5BC\uAD74\uC5D0 \uB3D9\uADF8\uB77C\uBBF8"
+      guide: 
+      when:
+      - kind: 7
+        target: video_face
+    - id: wave
+      text: "\uC190\uC744 \uD754\uB4E4\uC790 \uC5BC\uAD74\uC774 \uC190 \uC704\uC5D0
+        \uADF8\uB300\uB85C \uB5A0 \uC788\uC5C8\uB2E4. \uC190\uAC00\uB77D \uB05D\uB9CC
+        \uBCF4\uC600\uB2E4."
+      where: "\uC601\uC0C1\uD1B5\uD654 \u2192 \uC190\uC744 \uD754\uB4E4\uC5B4 \uB2EC\uB77C\uACE0
+        \uD55C \uB4A4 \uB3D9\uADF8\uB77C\uBBF8"
+      guide: 
+      when:
+      - kind: 7
+        target: video_wave
+    - id: yuna_chat
+      text: "\uC720\uB098\uB294 15:58\uC5D0 \uC790\uAE30 \uD3F0\uC73C\uB85C \uB77C\uBA58
+        \uC904 \uC0AC\uC9C4\uC744 \uBCF4\uB0C8\uB2E4."
+      where: "\uCC44\uD305 \u2192 \uC720\uB098"
+      guide: 
+      when:
+      - kind: 7
+        target: chat_yuna
+    - id: quiz
+      text: "\uC720\uB098\uB9CC \uB2F5\uD560 \uC218 \uC788\uB294 \uC9C8\uBB38\uC744
+        \uD53C\uD588\uB2E4. \uC5B4\uC81C \uC218\uC5C5 \uB05D\uB098\uACE0 \uBB58 \uBA39\uC5C8\uB294\uC9C0."
+      where: "\uD1B5\uD654 \u2192 \uC5B4\uC81C \uBB50 \uBA39\uC5C8\uB294\uC9C0 \uBB3C\uC5B4\uBCF4\uAE30"
+      guide: 
+      when:
+      - kind: 7
+        target: call_quiz
+    marks:
+    - id: video_face
+      claim: yuna
+      also: []
+      place: 7
+      key: face
+    - id: video_wave
+      claim: yuna
+      also: []
+      place: 7
+      key: wave
+    - id: chat_yuna
+      claim: stolen
+      also: []
+      place: 4
+      key: "yuna|\uB77C\uBA58 \uC904 40\uBD84\uC9F8. \uC774\uAC70 \uB9DE\uC544??"
+    - id: call_quiz
+      claim: yuna
+      also: []
+      place: 8
+      key: "\uC9C0\uC6B0\uC57C, \uB098 \uC9C0\uAC11\uB3C4 \uC5C6\uC774 \uC77C\uBCF8\uC5D0
+        \uAC07\uD614\uB294\uB370 \uC9C0\uAE08 \uD034\uC988\uB97C \uB0B4?"
+    - id: chat_landed
+      claim: yuna
+      also: []
+      place: 4
+      key: "yuna|\uD6C4\uCFE0\uC624\uCE74 \uB3C4\uCC29!!"
+    - id: cal_trip
+      claim: stolen
+      also: []
+      place: 2
+      key: "\uD55C\uAE00\uB0A0 \xB7 \uC720\uB098 \uC77C\uC694\uC77C\uAE4C\uC9C0 \uD6C4\uCFE0\uC624\uCE74"
+    - id: contact_yuna
+      claim: yuna
+      also: []
+      place: 6
+      key: 010-7780-1123
+    - id: check_number
+      claim: yuna
+      also: []
+      place: 3
+      key: 010-4870-2263
+    - id: check_account
+      claim: stolen
+      also: []
+      place: 3
+      key: 620-418-905372
+    papers:
+    - outcome: 1
+      headline: "'\uB098\uC57C': \uCE5C\uAD6C \uC5BC\uAD74\uC744 \uC50C\uC6B4 \uC601\uC0C1\uD1B5\uD654"
+      subhead: "\uC5BC\uAD74\uC740 \uC775\uC219\uD588\uB2E4. \uC9C4\uC9DC \uCE5C\uAD6C\uB4E4\uC740
+        \uD6C4\uCFE0\uC624\uCE74\uC5D0\uC11C \uB77C\uBA58\uC744 \uBA39\uACE0 \uC788\uC5C8\uB2E4."
+      body: "\"\uBCF4\uC5EC? \uB098\uC57C.\" \uD55C\uAE00\uB0A0, \uB9C8\uD3EC\uC758
+        \uB300\uD559\uC0DD\uB4E4\uC774 \uD574\uC678\uC5EC\uD589 \uC911\uC778 \uCE5C\uAD6C\uB4E4\uC758
+        \uC601\uC0C1\uD1B5\uD654\uB97C \uBC1B\uC558\uB2E4. \uC775\uC219\uD55C \uC5BC\uAD74,
+        \uB3C4\uB09C\uB2F9\uD55C \uAC00\uBC29, 5\uC2DC \uC804\uC5D0 \uB0B4\uC57C
+        \uD558\uB294 \uD638\uD154\uBE44, \uADF8\uB9AC\uACE0 \uC0AC\uCD0C \uBA85\uC758\uC758
+        \uACC4\uC88C.\n\n\uACBD\uCC30\uC740 \uCE5C\uAD6C\uB4E4\uC774 \uC62C\uB9B0
+        \uC5EC\uD589 \uC601\uC0C1\uC73C\uB85C \uC5BC\uAD74\uC744 \uB9CC\uB4E4\uC5B4
+        \uC2E4\uC2DC\uAC04\uC73C\uB85C \uC50C\uC6B4 \uAC83\uC73C\uB85C \uBCF4\uACE0
+        \uC788\uB2E4. \uC804\uD654\uC640 \uACC4\uC88C\uB294 '\uBD80\uC5C5'\uC774\uB77C\uB294
+        \uB9D0\uC5D0 \uC18D\uC544 \uBA85\uC758\uB97C \uBE4C\uB824\uC900 \uC2E4\uC81C
+        \uC5EC\uC131\uC758 \uAC83\uC774\uC5B4\uC11C, \uC870\uD68C\uD574\uB3C4 \uC774\uC0C1\uD55C
+        \uC810\uC774 \uB098\uC624\uC9C0 \uC54A\uC558\uB2E4.\n\n\uB9C8\uD3EC\uACBD\uCC30\uC11C
+        \uAD00\uACC4\uC790\uB294 \"\uC5BC\uAD74 \uC55E\uC5D0\uC11C \uCC9C\uCC9C\uD788
+        \uC190\uC744 \uD754\uB4E4\uC5B4 \uB2EC\uB77C\uACE0 \uD558\uB77C. \uC50C\uC6B4
+        \uC5BC\uAD74\uC740 \uC190 \uC704\uC5D0 \uADF8\uB300\uB85C \uB5A0 \uC788\uB2E4.
+        \uADF8\uB9AC\uACE0 \uC6D0\uB798 \uC4F0\uB358 \uCC44\uD305\uBC29\uC5D0\uC11C
+        \uCE5C\uAD6C\uC5D0\uAC8C \uBB3C\uC5B4\uBCF4\uB77C\"\uACE0 \uB9D0\uD588\uB2E4."
+      verdictNote: "\uC804\uD654\uB97C \uB04A\uC5C8\uB2E4. \uC9C4\uC9DC \uC720\uB098\uB294
+        \uBC29\uAE08 \uC790\uAE30 \uD3F0\uC73C\uB85C \uC0AC\uC9C4\uC744 \uBCF4\uB0B8
+        \uCC38\uC774\uC5C8\uB2E4."
+      print: {fileID: 0}
+    - outcome: 0
+      headline: "\uB3C4\uB09C\uB2F9\uD55C \uC801 \uC5C6\uB294 \uAC00\uBC29\uC5D0
+        65\uB9CC \uC6D0"
+      subhead: "\uB9DD\uC6D0\uB3D9 \uB300\uD559\uC0DD, '\uCE5C\uAD6C' \uD638\uD154\uBE44
+        \uC1A1\uAE08\u2026 \uCE5C\uAD6C\uB294 \uB77C\uBA58 \uC904\uC5D0 \uC11C \uC788\uC5C8\uB2E4"
+      body: "\"\uBCF4\uC5EC? \uB098\uC57C.\" \uD55C\uAE00\uB0A0, \uB9C8\uD3EC\uC758
+        \uB300\uD559\uC0DD\uB4E4\uC774 \uD574\uC678\uC5EC\uD589 \uC911\uC778 \uCE5C\uAD6C\uB4E4\uC758
+        \uC601\uC0C1\uD1B5\uD654\uB97C \uBC1B\uC558\uB2E4. \uC775\uC219\uD55C \uC5BC\uAD74,
+        \uB3C4\uB09C\uB2F9\uD55C \uAC00\uBC29, 5\uC2DC \uC804\uC5D0 \uB0B4\uC57C
+        \uD558\uB294 \uD638\uD154\uBE44, \uADF8\uB9AC\uACE0 \uC0AC\uCD0C \uBA85\uC758\uC758
+        \uACC4\uC88C.\n\n22\uC138 \uB300\uD559\uC0DD \uD55C \uBA85\uC740 65\uB9CC
+        \uC6D0\uC744 \uBCF4\uB0C8\uB2E4. \uD6C4\uCFE0\uC624\uCE74\uC5D0\uC11C \uD734\uAC00
+        \uC911\uC774\uB358 \uCE5C\uAD6C\uB294 \uC804\uD654 20\uBD84 \uC804\uC5D0
+        \uB77C\uBA58 \uC904 \uC0AC\uC9C4\uC744 \uBCF4\uB0B8 \uC0C1\uD0DC\uC600\uB2E4.
+        \uACBD\uCC30\uC740 \uCE5C\uAD6C\uB4E4\uC774 \uC62C\uB9B0 \uC5EC\uD589 \uC601\uC0C1\uC73C\uB85C
+        \uC5BC\uAD74\uC744 \uB9CC\uB4E4\uC5B4 \uC2E4\uC2DC\uAC04\uC73C\uB85C \uC50C\uC6B4
+        \uAC83\uC73C\uB85C \uBCF4\uACE0 \uC788\uB2E4. \uC804\uD654\uC640 \uACC4\uC88C\uB294
+        '\uBD80\uC5C5'\uC774\uB77C\uB294 \uB9D0\uC5D0 \uC18D\uC544 \uBA85\uC758\uB97C
+        \uBE4C\uB824\uC900 \uC2E4\uC81C \uC5EC\uC131\uC758 \uAC83\uC774\uC5B4\uC11C,
+        \uC870\uD68C\uD574\uB3C4 \uC774\uC0C1\uD55C \uC810\uC774 \uB098\uC624\uC9C0
+        \uC54A\uC558\uB2E4.\n\n\uB9C8\uD3EC\uACBD\uCC30\uC11C \uAD00\uACC4\uC790\uB294
+        \"\uC5BC\uAD74 \uC55E\uC5D0\uC11C \uCC9C\uCC9C\uD788 \uC190\uC744 \uD754\uB4E4\uC5B4
+        \uB2EC\uB77C\uACE0 \uD558\uB77C. \uC50C\uC6B4 \uC5BC\uAD74\uC740 \uC190 \uC704\uC5D0
+        \uADF8\uB300\uB85C \uB5A0 \uC788\uB2E4. \uADF8\uB9AC\uACE0 \uC6D0\uB798 \uC4F0\uB358
+        \uCC44\uD305\uBC29\uC5D0\uC11C \uCE5C\uAD6C\uC5D0\uAC8C \uBB3C\uC5B4\uBCF4\uB77C\"\uACE0
+        \uB9D0\uD588\uB2E4."
+      verdictNote: "\uB2F5\uC740 \uCC44\uD305\uBC29\uC5D0 \uC788\uC5C8\uB2E4. \uC720\uB098\uB294
+        15:58\uC5D0 \uC790\uAE30 \uD3F0\uC73C\uB85C \uC0AC\uC9C4\uC744 \uBCF4\uB0C8\uB2E4."
+      print: {fileID: 0}
+    - outcome: 3
+      headline: "\uC5BC\uAD74\uC740 \uCE5C\uAD6C, \uC804\uD654\uB294 \uB0A8"
+      subhead: "\uD55C\uAE00\uB0A0, \uBCF5\uC81C\uB41C \uC5BC\uAD74\uC774 \uB9C8\uD3EC\uC758
+        \uB300\uD559\uC0DD\uB4E4\uC5D0\uAC8C \uC601\uC0C1\uD1B5\uD654\uB97C \uAC78\uC5C8\uB2E4."
+      body: "\"\uBCF4\uC5EC? \uB098\uC57C.\" \uD55C\uAE00\uB0A0, \uB9C8\uD3EC\uC758
+        \uB300\uD559\uC0DD\uB4E4\uC774 \uD574\uC678\uC5EC\uD589 \uC911\uC778 \uCE5C\uAD6C\uB4E4\uC758
+        \uC601\uC0C1\uD1B5\uD654\uB97C \uBC1B\uC558\uB2E4. \uC775\uC219\uD55C \uC5BC\uAD74,
+        \uB3C4\uB09C\uB2F9\uD55C \uAC00\uBC29, 5\uC2DC \uC804\uC5D0 \uB0B4\uC57C
+        \uD558\uB294 \uD638\uD154\uBE44, \uADF8\uB9AC\uACE0 \uC0AC\uCD0C \uBA85\uC758\uC758
+        \uACC4\uC88C.\n\n\uACBD\uCC30\uC740 \uCE5C\uAD6C\uB4E4\uC774 \uC62C\uB9B0
+        \uC5EC\uD589 \uC601\uC0C1\uC73C\uB85C \uC5BC\uAD74\uC744 \uB9CC\uB4E4\uC5B4
+        \uC2E4\uC2DC\uAC04\uC73C\uB85C \uC50C\uC6B4 \uAC83\uC73C\uB85C \uBCF4\uACE0
+        \uC788\uB2E4. \uC804\uD654\uC640 \uACC4\uC88C\uB294 '\uBD80\uC5C5'\uC774\uB77C\uB294
+        \uB9D0\uC5D0 \uC18D\uC544 \uBA85\uC758\uB97C \uBE4C\uB824\uC900 \uC2E4\uC81C
+        \uC5EC\uC131\uC758 \uAC83\uC774\uC5B4\uC11C, \uC870\uD68C\uD574\uB3C4 \uC774\uC0C1\uD55C
+        \uC810\uC774 \uB098\uC624\uC9C0 \uC54A\uC558\uB2E4.\n\n\uB9C8\uD3EC\uACBD\uCC30\uC11C
+        \uAD00\uACC4\uC790\uB294 \"\uC5BC\uAD74 \uC55E\uC5D0\uC11C \uCC9C\uCC9C\uD788
+        \uC190\uC744 \uD754\uB4E4\uC5B4 \uB2EC\uB77C\uACE0 \uD558\uB77C. \uC50C\uC6B4
+        \uC5BC\uAD74\uC740 \uC190 \uC704\uC5D0 \uADF8\uB300\uB85C \uB5A0 \uC788\uB2E4.
+        \uADF8\uB9AC\uACE0 \uC6D0\uB798 \uC4F0\uB358 \uCC44\uD305\uBC29\uC5D0\uC11C
+        \uCE5C\uAD6C\uC5D0\uAC8C \uBB3C\uC5B4\uBCF4\uB77C\"\uACE0 \uB9D0\uD588\uB2E4."
+      verdictNote: "\uB3C8\uC740 \uBCF4\uB0B4\uC9C0 \uC54A\uC558\uC9C0\uB9CC \uACB0\uC815\uB3C4
+        \uB0B4\uB9AC\uC9C0 \uBABB\uD588\uB2E4. \uC190 \uD55C \uBC88, \uCC44\uD305\uBC29
+        \uD55C \uBC88\uC774\uBA74 \uC54C \uC218 \uC788\uC5C8\uB2E4."
+      print: {fileID: 0}
+    ruleTitle: "\uC5BC\uAD74\uB3C4 \uBCF5\uC81C\uB41C\uB2E4"
+    rule: "\uC601\uC0C1\uD1B5\uD654 \uC18D \uCE5C\uAD6C\uC758 \uC5BC\uAD74\uC740
+      \uACF5\uAC1C\uB41C \uC601\uC0C1\uC73C\uB85C \uAC00\uC9DC\uB97C \uB9CC\uB4E4
+      \uC218 \uC788\uB2E4. \uC785 \uBAA8\uC591\uACFC \uBAA9\uC18C\uB9AC\uB97C \uB9DE\uCDB0
+      \uBCF4\uACE0, \uC5BC\uAD74 \uC55E\uC5D0\uC11C \uCC9C\uCC9C\uD788 \uC190\uC744
+      \uD754\uB4E4\uC5B4 \uB2EC\uB77C\uACE0 \uD558\uACE0, \uC6D0\uB798 \uC4F0\uB358
+      \uCC44\uD305\uBC29\uC5D0\uC11C \uBB3C\uC5B4\uBCF4\uB77C."
+    ruleSource: "\uC11C\uC6B8\uB370\uC77C\uB9AC, 10\uC6D4 10\uC77C"
+  - id: legit
+    scenario: yuna
+    intro: 
+    conversation: {fileID: 11400000, guid: f338b0262f3e94a3c9101ff470996523, type: 2}
+    phone: {fileID: 11400000, guid: 4bc59d09932474b0195a35009a933f13, type: 2}
+    room: {fileID: 11400000, guid: 2b61f45f6921a423eb9a47f96b19ccec, type: 2}
+    directory: {fileID: 11400000, guid: 28ac1ba8024bb47b4907272639c08bf4, type: 2}
+    clues:
+    - id: face
+      text: "\uC785 \uBAA8\uC591\uC774 \uB9D0\uACFC \uB9DE\uC558\uACE0 \uD654\uBA74\uB3C4
+        \uD754\uB4E4\uB9BC \uC5C6\uC5C8\uB2E4."
+      where: "\uC601\uC0C1\uD1B5\uD654 \u2192 \uC5BC\uAD74\uC5D0 \uB3D9\uADF8\uB77C\uBBF8"
+      guide: 
+      when:
+      - kind: 7
+        target: video_face
+    - id: wave
+      text: "\uC190\uC744 \uD754\uB4E4\uC790 \uC190\uC774 \uC9C0\uB098\uAC00\uBA70
+        \uC5BC\uAD74\uC744 \uAC00\uB838\uB2E4."
+      where: "\uC601\uC0C1\uD1B5\uD654 \u2192 \uC190\uC744 \uD754\uB4E4\uC5B4 \uB2EC\uB77C\uACE0
+        \uD55C \uB4A4 \uB3D9\uADF8\uB77C\uBBF8"
+      guide: 
+      when:
+      - kind: 7
+        target: video_wave
+    - id: yuna_chat
+      text: "\uC720\uB098\uB294 15:47\uC5D0 \uD638\uD154 \uB85C\uBE44 PC\uB85C \uC37C\uB2E4.
+        \uAC00\uBC29\uC744 \uB0A0\uCE58\uAE30 \uB2F9\uD588\uACE0 \uC18C\uBBFC\uC774
+        \uD3F0\uC73C\uB85C \uC804\uD654\uD558\uACA0\uB2E4\uACE0."
+      where: "\uCC44\uD305 \u2192 \uC720\uB098"
+      guide: 
+      when:
+      - kind: 7
+        target: chat_yuna
+    - id: quiz
+      text: "\uC5B4\uC81C \uC218\uC5C5 \uB05D\uB098\uACE0 \uBB58 \uBA39\uC5C8\uB294\uC9C0
+        \uC54C\uACE0 \uC788\uC5C8\uB2E4. \uB5A1\uBCF6\uC774, \uADF8\uB9AC\uACE0 \uB370\uC778
+        \uD600\uAE4C\uC9C0."
+      where: "\uD1B5\uD654 \u2192 \uC5B4\uC81C \uBB50 \uBA39\uC5C8\uB294\uC9C0 \uBB3C\uC5B4\uBCF4\uAE30"
+      guide: 
+      when:
+      - kind: 7
+        target: call_quiz
+    marks:
+    - id: video_face
+      claim: yuna
+      also: []
+      place: 7
+      key: face
+    - id: video_wave
+      claim: yuna
+      also: []
+      place: 7
+      key: wave
+    - id: chat_yuna
+      claim: stolen
+      also: []
+      place: 4
+      key: "yuna|\uC9C0\uC6B0\uC57C!! \uD558\uCE74\uD0C0\uC5ED\uC5D0\uC11C \uAC00\uBC29
+        \uB0A0\uCE58\uAE30 \uB2F9\uD588\uC5B4. \uD3F0, \uC9C0\uAC11, \uCE74\uB4DC
+        \uB2E4 \uC5C6\uC5B4. \uC9C0\uAE08 \uD638\uD154 \uB85C\uBE44 PC\uB85C \uC4F0\uB294
+        \uC911. \uC18C\uBBFC\uC774 \uD3F0\uC73C\uB85C \uC601\uC0C1\uD1B5\uD654 \uAC78\uAC8C!!"
+    - id: call_quiz
+      claim: yuna
+      also: []
+      place: 8
+      key: "\uC2DC\uC7A5 \uB5A1\uBCF6\uC774. \uB108 \uC5B4\uBB35 \uBA39\uB2E4\uAC00
+        \uD600 \uB370\uC5C8\uC796\uC544."
+    - id: chat_landed
+      claim: yuna
+      also: []
+      place: 4
+      key: "yuna|\uD6C4\uCFE0\uC624\uCE74 \uB3C4\uCC29!!"
+    - id: cal_trip
+      claim: stolen
+      also: []
+      place: 2
+      key: "\uD55C\uAE00\uB0A0 \xB7 \uC720\uB098 \uC77C\uC694\uC77C\uAE4C\uC9C0 \uD6C4\uCFE0\uC624\uCE74"
+    - id: contact_yuna
+      claim: yuna
+      also: []
+      place: 6
+      key: 010-7780-1123
+    - id: check_number
+      claim: yuna
+      also: []
+      place: 3
+      key: 010-4870-2263
+    - id: check_account
+      claim: stolen
+      also: []
+      place: 3
+      key: 620-418-905372
+    papers:
+    - outcome: 0
+      headline: "\uB3C4\uB09C\uB2F9\uD55C \uAC00\uBC29, \uADF8\uB9AC\uACE0 \uBA3C\uC800
+        \uD655\uC778\uD55C \uCE5C\uAD6C"
+      subhead: "\uADF8\uB140\uB294 \uC804\uD654\uD558\uAE30 \uC804\uC5D0 \uD638\uD154
+        \uB85C\uBE44\uC5D0\uC11C \uAE00\uC744 \uB0A8\uACBC\uB2E4. \uCE5C\uAD6C\uB294
+        \uADF8\uAC78 \uC77D\uACE0 \uB098\uC11C \uB3C8\uC744 \uBCF4\uB0C8\uB2E4."
+      body: "\uAC00\uC9DC \uC5BC\uAD74 \uC0AC\uAE30\uAC00 \uD55C \uB2EC\uC9F8 \uC774\uC5B4\uC9C0\uBA74\uC11C,
+        \uC9C4\uC9DC \uB3C4\uC6C0 \uC694\uCCAD \uC601\uC0C1\uD1B5\uD654\uB3C4 \uAC00\uC9DC\uC640
+        \uB611\uAC19\uC544 \uBCF4\uC774\uAC8C \uB410\uB2E4. \uD6C4\uCFE0\uC624\uCE74\uC5D0\uC11C
+        \uD734\uAC00\uB97C \uBCF4\uB0B4\uB358 \uD55C \uB300\uD559\uC0DD\uC740 \uD55C\uAE00\uB0A0
+        \uADF8\uAC78 \uC2E4\uAC10\uD588\uB2E4. \uD558\uCE74\uD0C0\uC5ED\uC5D0\uC11C
+        \uAC00\uBC29\uC744 \uB0A0\uCE58\uAE30 \uB2F9\uD574 \uC0AC\uCD0C\uC758 \uD3F0\uC73C\uB85C
+        \uC11C\uC6B8\uC758 \uCE5C\uAD6C\uC5D0\uAC8C \uC804\uD654\uB97C \uAC78\uC5C8\uC744
+        \uB54C\uC600\uB2E4.\n\n\uADF8\uB140\uB294 \"\uCE5C\uAD6C\uAC00 \uC5BC\uAD74
+        \uC55E\uC5D0\uC11C \uC190\uC744 \uD754\uB4E4\uC5B4 \uBCF4\uB77C\uACE0 \uD558\uB354\uB2C8,
+        \uB0B4 \uBA54\uC2DC\uC9C0\uB97C \uC77D\uACE0 \uB3C8\uC744 \uBCF4\uB0B4 \uC92C\uB2E4\"\uBA70
+        \"\uB355\uBD84\uC5D0 \uBC29\uC744 \uC9C0\uCF30\uB2E4\"\uACE0 \uB9D0\uD588\uB2E4.\n\n\uACBD\uCC30\uC740
+        \uB3C8\uC744 \uBCF4\uB0B4\uAE30 \uC804\uC5D0 \uB450 \uAC00\uC9C0\uB97C \uD558\uB77C\uACE0
+        \uAD8C\uD55C\uB2E4. \uC5BC\uAD74 \uC55E\uC5D0\uC11C \uCC9C\uCC9C\uD788 \uC190\uC744
+        \uD754\uB4E4\uC5B4 \uB2EC\uB77C\uACE0 \uD558\uACE0, \uCE5C\uAD6C \uBCF8\uC778
+        \uACC4\uC815\uC5D0\uC11C \uC628 \uBA54\uC2DC\uC9C0\uB97C \uCC3E\uC544\uBCF4\uB77C\uB294
+        \uAC83\uC774\uB2E4. \uACBD\uCC30 \uAD00\uACC4\uC790\uB294 \"\uB458 \uB2E4
+        \uB9DE\uC73C\uBA74 \uB3C4\uC640\uC8FC\uB77C\"\uACE0 \uB9D0\uD588\uB2E4."
+      verdictNote: "\uC815\uB9D0 \uC720\uB098\uC600\uACE0, \uB2F9\uC2E0\uC740 \uD655\uC778\uD588\uB2E4.
+        \uC190\uC744 \uD754\uB4E4\uC5B4\uB3C4 \uC5BC\uAD74\uC740 \uADF8\uB300\uB85C\uC600\uACE0,
+        \uC720\uB098\uAC00 \uC9C1\uC811 \uB0A8\uAE34 \uAE00\uC774 \uBAA8\uB974\uB294
+        \uBC88\uD638\uB97C \uC124\uBA85\uD574 \uC8FC\uC5C8\uB2E4."
+      print: {fileID: 0}
+    - outcome: 1
+      headline: "'\uCE5C\uAD6C\uAC00 \uB04A\uC5C8\uC5B4\uC694': \uC9C4\uC9DC \uCE5C\uAD6C\uAC00
+        \uC804\uD654\uD588\uC744 \uB54C"
+      subhead: "\uD6C4\uCFE0\uC624\uCE74\uC5D0\uC11C \uAC00\uBC29\uC744 \uB3C4\uB09C\uB2F9\uD55C
+        \uB300\uD559\uC0DD\uC740 \uAC00\uC7A5 \uCE5C\uD55C \uCE5C\uAD6C\uB97C \uC124\uB4DD\uD558\uC9C0
+        \uBABB\uD588\uB2E4."
+      body: "\uAC00\uC9DC \uC5BC\uAD74 \uC0AC\uAE30\uAC00 \uD55C \uB2EC\uC9F8 \uC774\uC5B4\uC9C0\uBA74\uC11C,
+        \uC9C4\uC9DC \uB3C4\uC6C0 \uC694\uCCAD \uC601\uC0C1\uD1B5\uD654\uB3C4 \uAC00\uC9DC\uC640
+        \uB611\uAC19\uC544 \uBCF4\uC774\uAC8C \uB410\uB2E4. \uD6C4\uCFE0\uC624\uCE74\uC5D0\uC11C
+        \uD734\uAC00\uB97C \uBCF4\uB0B4\uB358 \uD55C \uB300\uD559\uC0DD\uC740 \uD55C\uAE00\uB0A0
+        \uADF8\uAC78 \uC2E4\uAC10\uD588\uB2E4. \uD558\uCE74\uD0C0\uC5ED\uC5D0\uC11C
+        \uAC00\uBC29\uC744 \uB0A0\uCE58\uAE30 \uB2F9\uD574 \uC0AC\uCD0C\uC758 \uD3F0\uC73C\uB85C
+        \uC11C\uC6B8\uC758 \uCE5C\uAD6C\uC5D0\uAC8C \uC804\uD654\uB97C \uAC78\uC5C8\uC744
+        \uB54C\uC600\uB2E4.\n\n\uADF8\uB140\uB294 \"\uCE5C\uAD6C\uAC00 \uC804\uD654\uB97C
+        \uB04A\uC5C8\uB2E4\"\uBA74\uC11C\uB3C4 \"\uD0D3\uD560 \uC218\uB294 \uC5C6\uB2E4.
+        \uB2E4\uB9CC \uC804\uD654\uD558\uAE30 \uC804\uC5D0 \uC6B0\uB9AC \uCC44\uD305\uBC29\uC5D0
+        \uC368 \uB480\uC5C8\uB2E4\"\uACE0 \uB9D0\uD588\uB2E4. \uB3C8\uC740 \uC0AC\uCD0C\uC774
+        \uD638\uD154 \uC8FC\uC778\uC5D0\uAC8C \uBE4C\uB838\uB2E4.\n\n\uACBD\uCC30\uC740
+        \uB3C8\uC744 \uBCF4\uB0B4\uAE30 \uC804\uC5D0 \uB450 \uAC00\uC9C0\uB97C \uD558\uB77C\uACE0
+        \uAD8C\uD55C\uB2E4. \uC5BC\uAD74 \uC55E\uC5D0\uC11C \uCC9C\uCC9C\uD788 \uC190\uC744
+        \uD754\uB4E4\uC5B4 \uB2EC\uB77C\uACE0 \uD558\uACE0, \uCE5C\uAD6C \uBCF8\uC778
+        \uACC4\uC815\uC5D0\uC11C \uC628 \uBA54\uC2DC\uC9C0\uB97C \uCC3E\uC544\uBCF4\uB77C\uB294
+        \uAC83\uC774\uB2E4. \uACBD\uCC30 \uAD00\uACC4\uC790\uB294 \"\uB458 \uB2E4
+        \uB9DE\uC73C\uBA74 \uB3C4\uC640\uC8FC\uB77C\"\uACE0 \uB9D0\uD588\uB2E4."
+      verdictNote: "\uC774\uBC88\uC5D4 \uC9C4\uC9DC\uC600\uB2E4. \uC785 \uBAA8\uC591\uC740
+        \uBAA9\uC18C\uB9AC\uC640 \uB9DE\uC558\uACE0, \uC720\uB098\uB294 \uC18C\uBBFC\uC774
+        \uD3F0\uC73C\uB85C \uC804\uD654\uD558\uACA0\uB2E4\uACE0 \uCC44\uD305\uBC29\uC5D0
+        \uC368 \uB450\uC5C8\uB2E4."
+      print: {fileID: 0}
+    - outcome: 3
+      headline: "\uBC29\uC740 5\uC2DC\uC5D0 \uB118\uC5B4\uAC14\uB2E4"
+      subhead: "\uD6C4\uCFE0\uC624\uCE74\uC758 \uB300\uD559\uC0DD\uC740 \uB05D\uB0B4
+        \uACB0\uC815\uD558\uC9C0 \uBABB\uD55C \uCE5C\uAD6C\uB97C \uC601\uC0C1\uD1B5\uD654\uB85C
+        \uAE30\uB2E4\uB838\uB2E4."
+      body: "\uAC00\uC9DC \uC5BC\uAD74 \uC0AC\uAE30\uAC00 \uD55C \uB2EC\uC9F8 \uC774\uC5B4\uC9C0\uBA74\uC11C,
+        \uC9C4\uC9DC \uB3C4\uC6C0 \uC694\uCCAD \uC601\uC0C1\uD1B5\uD654\uB3C4 \uAC00\uC9DC\uC640
+        \uB611\uAC19\uC544 \uBCF4\uC774\uAC8C \uB410\uB2E4. \uD6C4\uCFE0\uC624\uCE74\uC5D0\uC11C
+        \uD734\uAC00\uB97C \uBCF4\uB0B4\uB358 \uD55C \uB300\uD559\uC0DD\uC740 \uD55C\uAE00\uB0A0
+        \uADF8\uAC78 \uC2E4\uAC10\uD588\uB2E4. \uD558\uCE74\uD0C0\uC5ED\uC5D0\uC11C
+        \uAC00\uBC29\uC744 \uB0A0\uCE58\uAE30 \uB2F9\uD574 \uC0AC\uCD0C\uC758 \uD3F0\uC73C\uB85C
+        \uC11C\uC6B8\uC758 \uCE5C\uAD6C\uC5D0\uAC8C \uC804\uD654\uB97C \uAC78\uC5C8\uC744
+        \uB54C\uC600\uB2E4.\n\n\uADF8\uB140\uB294 \"5\uC2DC\uAE4C\uC9C0 \uC804\uD654\uB97C
+        \uBD99\uB4E4\uACE0 \uC788\uC5C8\uB2E4\"\uBA70 \"\uCC44\uD305\uBC29\uC5D0
+        \uB2E4 \uC368 \uB480\uB294\uB370\"\uB77C\uACE0 \uB9D0\uD588\uB2E4. \uADF8\uB140\uC640
+        \uC0AC\uCD0C\uC740 \uADF8\uB0A0 \uBC24\uC744 PC\uBC29\uC5D0\uC11C \uBCF4\uB0C8\uB2E4.\n\n\uACBD\uCC30\uC740
+        \uB3C8\uC744 \uBCF4\uB0B4\uAE30 \uC804\uC5D0 \uB450 \uAC00\uC9C0\uB97C \uD558\uB77C\uACE0
+        \uAD8C\uD55C\uB2E4. \uC5BC\uAD74 \uC55E\uC5D0\uC11C \uCC9C\uCC9C\uD788 \uC190\uC744
+        \uD754\uB4E4\uC5B4 \uB2EC\uB77C\uACE0 \uD558\uACE0, \uCE5C\uAD6C \uBCF8\uC778
+        \uACC4\uC815\uC5D0\uC11C \uC628 \uBA54\uC2DC\uC9C0\uB97C \uCC3E\uC544\uBCF4\uB77C\uB294
+        \uAC83\uC774\uB2E4. \uACBD\uCC30 \uAD00\uACC4\uC790\uB294 \"\uB458 \uB2E4
+        \uB9DE\uC73C\uBA74 \uB3C4\uC640\uC8FC\uB77C\"\uACE0 \uB9D0\uD588\uB2E4."
+      verdictNote: "\uC815\uB9D0 \uC720\uB098\uC600\uACE0, \uB2F5\uC740 \uCC44\uD305\uBC29\uACFC
+        \uADF8\uB140\uC758 \uC5BC\uAD74\uC5D0 \uC788\uC5C8\uB2E4. \uC81C\uB54C \uACB0\uC815\uD558\uB294
+        \uAC83\uB3C4 \uC911\uC694\uD558\uB2E4."
+      print: {fileID: 0}
+    ruleTitle: "\uC5BC\uAD74\uC744 \uC2DC\uD5D8\uD558\uACE0, \uADF8\uB2E4\uC74C\uC5D0
+      \uB3C4\uC640\uC8FC\uB77C"
+    rule: "\uAC19\uC740 \uD655\uC778\uC774 \uC9C4\uC9DC \uC804\uD654\uB3C4 \uAC00\uB824
+      \uC900\uB2E4. \uC785 \uBAA8\uC591\uC740 \uBAA9\uC18C\uB9AC\uC640 \uB9DE\uC558\uACE0,
+      \uC190\uC740 \uC5BC\uAD74\uC744 \uAC00\uB838\uACE0, \uBCF8\uC778\uC774 \uCC44\uD305\uBC29\uC5D0
+      \uC9C1\uC811 \uC368 \uB450\uC5C8\uB2E4."
+    ruleSource: "\uC11C\uC6B8\uB370\uC77C\uB9AC, 10\uC6D4 10\uC77C"
+  echoes:
+  - afterDay: 3
+    scenario: parcel
+    truth: 1
+    outcomes: 15
+    kind: 0
+    from: hangang
+    sender: "\uD55C\uAC15\uC775\uC2A4\uD504\uB808\uC2A4"
+    avatar: av_courier
+    when: "\uC624\uB298 10:12"
+    title: 
+    text: "[\uD55C\uAC15\uC775\uC2A4\uD504\uB808\uC2A4] \uBC30\uC1A1 \uC644\uB8CC:
+      \uBAA8\uB2C8\uD130, 302\uD638 \uBB38 \uC55E."
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 1
+  - afterDay: 3
+    scenario: parcel
+    truth: 2
+    outcomes: 1
+    kind: 0
+    from: hangang
+    sender: "\uD55C\uAC15\uC775\uC2A4\uD504\uB808\uC2A4"
+    avatar: av_courier
+    when: "\uC624\uB298 10:12"
+    title: 
+    text: "[\uD55C\uAC15\uC775\uC2A4\uD504\uB808\uC2A4] \uBC30\uC1A1 \uC644\uB8CC:
+      \uBAA8\uB2C8\uD130, 302\uD638 \uBB38 \uC55E."
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 1
+  - afterDay: 3
+    scenario: parcel
+    truth: 2
+    outcomes: 10
+    kind: 0
+    from: hangang
+    sender: "\uD55C\uAC15\uC775\uC2A4\uD504\uB808\uC2A4"
+    avatar: av_courier
+    when: "\uC5B4\uC81C 17:05"
+    title: 
+    text: "[\uD55C\uAC15\uC775\uC2A4\uD504\uB808\uC2A4] \uAD00\uC138\uAC00 17:00\uAE4C\uC9C0
+      \uB0A9\uBD80\uB418\uC9C0 \uC54A\uC544 \uBAA8\uB2C8\uD130\uAC00 \uBC1C\uC1A1\uC778\uC5D0\uAC8C
+      \uBC18\uC1A1\uB429\uB2C8\uB2E4."
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 3
+    scenario: parcel
+    truth: 1
+    outcomes: 1
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: "\uC5B4\uC81C\uC758 '\uC138\uAD00' \uC804\uD654\uB294 \uC0AC\uAE30\uC600\uB2E4.
+      5\uB9CC 6,600\uC6D0\uC740 \uB3CC\uC544\uC624\uC9C0 \uC54A\uB294\uB2E4. \uBAA8\uB2C8\uD130\uB294
+      \uC624\uB298 \uC544\uCE68 \uB3C4\uCC29\uD588\uB2E4. \uC138\uAE08\uC740 \uC9C4\uC791
+      \uB0B8 \uC0C1\uD0DC\uC600\uB2E4."
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 3
+    scenario: parcel
+    truth: 1
+    outcomes: 2
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: "\uBAA8\uB2C8\uD130\uB294 \uC624\uB298 \uC544\uCE68 \uB3C4\uCC29\uD588\uB2E4.
+      \uB0BC \uB3C8\uC740 \uCC98\uC74C\uBD80\uD130 \uC5C6\uC5C8\uB2E4. \uC5B4\uC81C
+      \uC804\uD654\uB294 \uD0DD\uBC30\uC0AC \uBC88\uD638\uC640 \uD55C \uC790\uB9AC\uAC00
+      \uB2EC\uB790\uB2E4."
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 3
+    scenario: parcel
+    truth: 1
+    outcomes: 8
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: "\uC5B4\uC81C\uC758 '\uC138\uAD00' \uC804\uD654\uB294 5\uC2DC\uC5D0 \uD3EC\uAE30\uD588\uB2E4.
+      \uBAA8\uB2C8\uD130\uB294 \uC5B4\uCC28\uD53C \uC624\uB298 \uC544\uCE68 \uB3C4\uCC29\uD588\uB2E4."
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 3
+    scenario: parcel
+    truth: 2
+    outcomes: 1
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: "\uAD00\uC138\uB294 \uC81C\uB54C \uB0C8\uB2E4. \uC0C8 \uBAA8\uB2C8\uD130\uB294
+      \uC624\uB298 \uC544\uCE68 \uB3C4\uCC29\uD588\uB2E4."
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 3
+    scenario: parcel
+    truth: 2
+    outcomes: 10
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: "\uAD00\uC138\uB97C \uC81C\uB54C \uB0B4\uC9C0 \uBABB\uD588\uB2E4. \uBAA8\uB2C8\uD130\uB294
+      \uC778\uCC9C\uC73C\uB85C \uB418\uB3CC\uC544\uAC00\uB294 \uC911\uC774\uB2E4."
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 3
+    scenario: dentist
+    truth: 1
+    outcomes: 15
+    kind: 4
+    from: 
+    sender: 
+    avatar: 
+    when: "8\uC77C (\uBAA9)"
+    title: "\uCE58\uACFC 18:30"
+    text: "\uCE58\uACFC 18:30 \u2192 22\uC77C(\uBAA9)\uB85C \uBCC0\uACBD. \uC624\uB298
+      \uC544\uCE68\uC5D0 \uC804\uD654\uD568"
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 8
+    image: {fileID: 2800000, guid: 1e7d19deb2da4461688f93ff7b48b76c, type: 3}
+    notify: 0
+  - afterDay: 3
+    scenario: dentist
+    truth: 1
+    outcomes: 15
+    kind: 4
+    from: 
+    sender: 
+    avatar: 
+    when: "22\uC77C (\uBAA9)"
+    title: 
+    text: "\uCE58\uACFC 18:30, \uC0AC\uB791\uB2C8 (8\uC77C\uC5D0\uC11C \uC62E\uAE40)"
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 22
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 3
+    scenario: dentist
+    truth: 2
+    outcomes: 15
+    kind: 4
+    from: 
+    sender: 
+    avatar: 
+    when: "8\uC77C (\uBAA9)"
+    title: "\uCE58\uACFC 18:30"
+    text: "\uCE58\uACFC 18:30, \uC0AC\uB791\uB2C8. \uC608\uC57D\uAE08 3\uB9CC \uC6D0:
+      \uC624\uD6C4\uC5D0 \uC804\uD654 \uC628\uB314\uC74C, \uC9C4\uB8CC\uBE44\uC5D0\uC11C
+      \uBE60\uC9D0"
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 8
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 3
+    scenario: dentist
+    truth: 1
+    outcomes: 1
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: "\uC5B4\uC81C\uC758 '\uCE58\uACFC'\uB294 \uB2F9\uC2E0\uC758 \uC608\uC57D\uC744
+      \uAC00\uC9C4 \uC801\uC774 \uC5C6\uC5C8\uB2E4. 3\uB9CC \uC6D0\uC740 \uBAA8\uB974\uB294
+      \uC0AC\uB78C\uC5D0\uAC8C \uAC14\uB2E4. \uC9C4\uC9DC \uC608\uC57D\uC740 \uC5EC\uC804\uD788
+      22\uC77C\uC774\uB2E4."
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 3
+    scenario: dentist
+    truth: 1
+    outcomes: 2
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: "\uC608\uC57D\uC740 \uC62E\uACA8 \uB454 \uB300\uB85C 22\uC77C\uC774\uB2E4.
+      \uC5B4\uC81C\uC758 '\uC608\uC57D\uAE08' \uC804\uD654\uB294 \uCE58\uACFC\uAC00
+      \uC544\uB2C8\uC5C8\uB2E4."
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 3
+    scenario: dentist
+    truth: 1
+    outcomes: 8
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: "\uC5B4\uC81C\uC758 '\uCE58\uACFC'\uB294 5\uC2DC\uC5D0 \uD3EC\uAE30\uD588\uB2E4.
+      \uC608\uC57D\uC740 \uC5EC\uC804\uD788 22\uC77C\uC774\uB2E4."
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 3
+    scenario: dentist
+    truth: 2
+    outcomes: 1
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: "\uC0AC\uB791\uB2C8\uB294 \uC5B4\uC82F\uBC24\uC5D0 \uBF51\uC558\uB2E4.
+      \uC624\uB298 \uC810\uC2EC\uB3C4 \uC8FD\uC774\uB2E4."
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 3
+    scenario: dentist
+    truth: 2
+    outcomes: 10
+    kind: 3
+    from: 
+    sender: 
+    avatar: 
+    when: 
+    title: 
+    text: "\uCE58\uACFC\uB294 \uB2F9\uC2E0\uC758 \uC790\uB9AC\uB97C \uB118\uACBC\uB2E4.
+      \uB2E4\uC74C \uBE48\uC790\uB9AC\uB294 3\uC8FC \uB4A4\uB2E4."
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: rent
+    truth: 1
+    outcomes: 15
+    kind: 0
+    from: villa
+    sender: "\uC9D1\uC8FC\uC778 \uCD5C \uC0AC\uC7A5\uB2D8"
+    avatar: pt_landlord
+    when: "\uC218\uC694\uC77C 13:40"
+    title: 
+    text: "\uACC4\uB2E8 \uAE68\uB057\uD558\uAC8C \uC368 \uC8FC\uC154\uC11C \uB2E4\uB4E4
+      \uACE0\uB9C8\uC6CC\uC694! \uC9C0\uAE08 2\uCE35 \uC804\uB4F1 \uACE0\uCE58\uB294
+      \uC911\uC774\uC5D0\uC694. \uB0B4\uC77C \uBB3C\uD0F1\uD06C \uCCAD\uC18C \uB54C
+      \uBD2C\uC694. - 1\uCE35 \uCD5C"
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: rent
+    truth: 1
+    outcomes: 15
+    kind: 0
+    from: villa
+    sender: "\uC9D1\uC8FC\uC778 \uCD5C \uC0AC\uC7A5\uB2D8"
+    avatar: pt_landlord
+    when: "\uC218\uC694\uC77C 15:52"
+    title: 
+    text: "\uC804\uB4F1 \uB2E4 \uACE0\uCCE4\uC5B4\uC694. \uC6D4\uC138\uB294 \uB298
+      \uBCF4\uB0B4\uB358 \uB204\uB9AC\uC740\uD589 110-771-209944\uB85C \uBD80\uD0C1\uD574\uC694."
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: rent
+    truth: 2
+    outcomes: 15
+    kind: 0
+    from: villa
+    sender: "\uC9D1\uC8FC\uC778 \uCD5C \uC0AC\uC7A5\uB2D8"
+    avatar: pt_landlord
+    when: "\uC218\uC694\uC77C 08:10"
+    title: 
+    text: "\uB2E4\uB4E4 \uC88B\uC740 \uC544\uCE68\uC774\uC5D0\uC694. \uBB34\uB98E
+      \uB54C\uBB38\uC5D0 \uC624\uB298 \uC138\uBE0C\uB780\uC2A4\uC5D0 \uC785\uC6D0\uD574\uC11C
+      \uB2E4\uC74C \uC8FC\uC5D0 \uB3CC\uC544\uC635\uB2C8\uB2E4. \uADF8\uB3D9\uC548
+      \uC544\uB4E4 \uD604\uC6B0\uAC00 \uAC74\uBB3C\uC744 \uBD10\uC8FC\uACE0 \uC774\uBC88
+      \uB2EC \uC6D4\uC138\uB3C4 \uBC1B\uC744 \uAC70\uC608\uC694: \uB204\uB9AC\uC740\uD589
+      110-771-202358 (\uCD5C\uD604\uC6B0). \uC624\uB298 \uC911\uC73C\uB85C \uC5F0\uB77D\uB4DC\uB9B4
+      \uAC81\uB2C8\uB2E4. \uACE0\uB9C8\uC6CC\uC694! - 1\uCE35 \uCD5C"
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: rent
+    truth: 2
+    outcomes: 15
+    kind: 0
+    from: villa
+    sender: "201\uD638"
+    avatar: pt_unknown
+    when: "\uC218\uC694\uC77C 08:42"
+    title: 
+    text: "\uC0AC\uC7A5\uB2D8 \uBE68\uB9AC \uCF8C\uCC28\uD558\uC138\uC694!"
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: rent
+    truth: 2
+    outcomes: 15
+    kind: 4
+    from: 
+    sender: 
+    avatar: 
+    when: "7\uC77C (\uC218)"
+    title: 
+    text: "\uCD5C \uC0AC\uC7A5\uB2D8 \uC774\uBC88 \uC8FC \uC785\uC6D0. \uC6D4\uC138\uB294
+      \uC544\uB4E4 \uD604\uC6B0 \uC528\uAC00 \uBC1B\uC74C (\uC785\uC8FC\uBBFC \uCC44\uD305
+      \uCC38\uACE0)"
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 7
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: rent
+    truth: 1
+    outcomes: 15
+    kind: 0
+    from: villa
+    sender: "\uC9D1\uC8FC\uC778 \uCD5C \uC0AC\uC7A5\uB2D8"
+    avatar: pt_landlord
+    when: "\uC218\uC694\uC77C 19:02"
+    title: 
+    text: "\uC5EC\uB7EC\uBD84, \uB204\uAC00 \uC81C \uC544\uB4E4\uC778 \uCC99 \uC138\uC785\uC790\uB4E4\uC5D0\uAC8C
+      \uC804\uD654\uD558\uACE0 \uC788\uC5B4\uC694. \uC800\uB294 \uC785\uC6D0\uD558\uC9C0
+      \uC54A\uC558\uACE0, \uC6D4\uC138 \uACC4\uC88C\uB3C4 \uBC14\uB00C\uC9C0 \uC54A\uC558\uC2B5\uB2C8\uB2E4.
+      \uB298 \uADF8\uB807\uB4EF \uB204\uB9AC\uC740\uD589 110-771-209944\uC608\uC694.
+      - 1\uCE35 \uCD5C"
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: rent
+    truth: 1
+    outcomes: 2
+    kind: 0
+    from: villa
+    sender: "\uC9D1\uC8FC\uC778 \uCD5C \uC0AC\uC7A5\uB2D8"
+    avatar: pt_landlord
+    when: "\uC218\uC694\uC77C 19:05"
+    title: 
+    text: "302\uD638\uB294 \uBC14\uB85C \uB04A\uC5C8\uB2E4\uB124\uC694. \uC798\uD588\uC5B4\uC694!"
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: rent
+    truth: 1
+    outcomes: 1
+    kind: 0
+    from: landlord
+    sender: "\uC9D1\uC8FC\uC778 \uCD5C \uC0AC\uC7A5\uB2D8"
+    avatar: pt_landlord
+    when: "\uC218\uC694\uC77C 19:10"
+    title: "\uC9D1\uC8FC\uC778 \uCD5C \uC0AC\uC7A5\uB2D8"
+    text: "\uC9C0\uC6B0 \uD559\uC0DD, \uC598\uAE30 \uB4E4\uC5C8\uC5B4\uC694. \uC815\uB9D0
+      \uC548\uD0C0\uAE5D\uB124\uC694. \uACBD\uCC30\uC5D0 \uAF2D \uC2E0\uACE0\uD558\uACE0,
+      \uC6D4\uC138\uB294 \uC6D4\uB9D0\uAE4C\uC9C0 \uCC9C\uCC9C\uD788 \uC918\uB3C4
+      \uB3FC\uC694."
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: rent
+    truth: 1
+    outcomes: 1
+    kind: 1
+    from: "\uCD5C\uC601\uC2DD"
+    sender: 
+    avatar: 
+    when: "\uC5B4\uC81C 09:20"
+    title: "10\uC6D4 \uC6D4\uC138"
+    text: 
+    amount: -450000
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: rent
+    truth: 1
+    outcomes: 10
+    kind: 1
+    from: "\uCD5C\uC601\uC2DD"
+    sender: 
+    avatar: 
+    when: "\uC218\uC694\uC77C 19:30"
+    title: "10\uC6D4 \uC6D4\uC138"
+    text: 
+    amount: -450000
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: rent
+    truth: 2
+    outcomes: 15
+    kind: 2
+    from: 010-2280-6614
+    sender: "\uD604\uC6B0 \uC528 (\uC9D1\uC8FC\uC778 \uC544\uB4E4)"
+    avatar: pt_hyunwoo
+    when: 
+    title: 
+    text: "\uCD5C \uC0AC\uC7A5\uB2D8 \uD68C\uBCF5 \uB3D9\uC548 \uAC74\uBB3C \uAD00\uB9AC"
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: rent
+    truth: 2
+    outcomes: 1
+    kind: 0
+    from: hyunwoo
+    sender: "\uD604\uC6B0 \uC528 (\uC9D1\uC8FC\uC778 \uC544\uB4E4)"
+    avatar: pt_hyunwoo
+    when: "\uC218\uC694\uC77C 18:02"
+    title: "\uD604\uC6B0 \uC528 (\uC9D1\uC8FC\uC778 \uC544\uB4E4)"
+    text: "\uC6D4\uC138 \uC798 \uBC1B\uC558\uC5B4\uC694, \uC9C0\uC6B0 \uC528! \uC544\uBC84\uC9C0\uAC00
+      \uBCD1\uC2E4\uC5D0\uC11C \uC548\uBD80 \uC804\uD558\uC138\uC694^^"
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: rent
+    truth: 2
+    outcomes: 10
+    kind: 0
+    from: hyunwoo
+    sender: "\uD604\uC6B0 \uC528 (\uC9D1\uC8FC\uC778 \uC544\uB4E4)"
+    avatar: pt_hyunwoo
+    when: "\uC218\uC694\uC77C 17:20"
+    title: "\uD604\uC6B0 \uC528 (\uC9D1\uC8FC\uC778 \uC544\uB4E4)"
+    text: "\uC9C0\uC6B0 \uC528, 1\uCE35 \uD604\uC6B0\uC608\uC694. \uC870\uC2EC\uD558\uC2E0
+      \uAC70 \uC774\uD574\uD574\uC694. \uC544\uBC84\uC9C0 \uAE00\uC740 \uC785\uC8FC\uBBFC
+      \uCC44\uD305\uBC29\uC5D0 \uC788\uC5B4\uC694. \uD3B8\uD558\uC2E4 \uB54C \uC6D4\uC138
+      \uBCF4\uB0B4 \uC8FC\uC138\uC694."
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: rent
+    truth: 2
+    outcomes: 10
+    kind: 1
+    from: "\uCD5C\uD604\uC6B0"
+    sender: 
+    avatar: 
+    when: "\uC5B4\uC81C 09:20"
+    title: "10\uC6D4 \uC6D4\uC138 (\uC9C0\uC5F0)"
+    text: 
+    amount: -450000
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: rent
+    truth: 2
+    outcomes: 15
+    kind: 0
+    from: villa
+    sender: "\uC9D1\uC8FC\uC778 \uCD5C \uC0AC\uC7A5\uB2D8"
+    avatar: pt_landlord
+    when: "\uC5B4\uC81C 10:15"
+    title: 
+    text: "\uCF8C\uC720 \uBA54\uC2DC\uC9C0 \uB2E4\uB4E4 \uACE0\uB9C8\uC6CC\uC694.
+      \uBCD1\uC6D0 \uBC25\uC740 \uC815\uB9D0 \uB9DB\uC5C6\uB124\uC694 \u314E\u314E"
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: brother
+    truth: 0
+    outcomes: 15
+    kind: 1
+    from: "\uCD5C\uC601\uC2DD"
+    sender: 
+    avatar: 
+    when: "\uC218\uC694\uC77C 15:10"
+    title: "10\uC6D4 \uC6D4\uC138 \xB7 \uB204\uB9AC 110-771-209944"
+    text: 
+    amount: -450000
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: brother
+    truth: 1
+    outcomes: 15
+    kind: 0
+    from: family
+    sender: "\uC5C4\uB9C8"
+    avatar: pt_mom
+    when: "\uC218\uC694\uC77C 15:52"
+    title: 
+    text: "\uBBFC\uC900\uC774\uAC00 \uBC29\uAE08 \uC790\uAE30 \uD3F0\uC73C\uB85C
+      \uB3C4\uC11C\uAD00\uC5D0\uC11C \uD1A1 \uBCF4\uB0C8\uC5B4. \uC911\uAC04\uACE0\uC0AC
+      \uB54C\uBB38\uC5D0 \uBC24 10\uC2DC\uAE4C\uC9C0 \uC788\uACE0 \uD3F0\uC740 \uBB34\uC74C\uC774\uB798.
+      \uC804\uD654 \uB9D0\uACE0 \uD1A1 \uD574!"
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: brother
+    truth: 2
+    outcomes: 15
+    kind: 0
+    from: family
+    sender: "\uC5C4\uB9C8"
+    avatar: pt_mom
+    when: "\uC218\uC694\uC77C 15:31"
+    title: 
+    text: "\uBBFC\uC900\uC774\uAC00 \uBC29\uAE08 \uB8F8\uBA54\uC774\uD2B8 \uB3C4\uD604\uC774
+      \uD3F0\uC73C\uB85C \uC804\uD654\uD588\uC5B4. \uACC4\uB2E8\uC5D0\uC11C \uD3F0
+      \uB5A8\uC5B4\uB728\uB824\uC11C \uC561\uC815\uC774 \uB098\uAC14\uB300. \uC11C\uBE44\uC2A4\uC13C\uD130
+      \uAC04\uB2E4\uACE0. \uC5C4\uB9C8\uB294 6\uC2DC\uAE4C\uC9C0 \uD68C\uC758\uC57C.
+      \uC9C0\uC6B0\uC57C, \uC880 \uB3C4\uC640\uC904 \uC218 \uC788\uC5B4?"
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: brother
+    truth: 1
+    outcomes: 1
+    kind: 0
+    from: family
+    sender: 
+    avatar: 
+    when: "\uC218\uC694\uC77C 17:10"
+    title: 
+    text: "\uBBFC\uC900\uC544, \uB3C4\uD604\uC774\uD55C\uD14C \uB3C8 \uB4E4\uC5B4\uAC14\uB300?
+      \uD3F0\uC740 \uACE0\uCCE4\uC5B4?"
+    amount: 0
+    outgoing: 1
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: brother
+    truth: 1
+    outcomes: 1
+    kind: 0
+    from: family
+    sender: "\uBBFC\uC900\uC774"
+    avatar: pt_minjun
+    when: "\uC218\uC694\uC77C 17:14"
+    title: 
+    text: "?? \uBB34\uC2A8 \uB3C8? \uB0B4 \uD3F0 \uBA40\uCA61\uD55C\uB370. \uB3C4\uD604\uC774\uAC00
+      \uB204\uAD6C\uC57C??"
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: brother
+    truth: 1
+    outcomes: 1
+    kind: 0
+    from: family
+    sender: "\uC5C4\uB9C8"
+    avatar: pt_mom
+    when: "\uC218\uC694\uC77C 17:20"
+    title: 
+    text: "\uC9C0\uC6B0\uC57C, \uC9C0\uAE08 \uBC14\uB85C \uC740\uD589\uC774\uB791
+      112\uC5D0 \uC804\uD654\uD574. \uC5C4\uB9C8 \uD68C\uC758 \uB098\uC640\uC11C
+      \uC804\uD654\uD560\uAC8C."
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: brother
+    truth: 1
+    outcomes: 2
+    kind: 0
+    from: family
+    sender: 
+    avatar: 
+    when: "\uC218\uC694\uC77C 16:50"
+    title: 
+    text: "\uBBFC\uC900\uC544, \uBC29\uAE08 \uB2E4\uB978 \uC0AC\uB78C \uD3F0\uC73C\uB85C
+      \uB098\uD55C\uD14C \uC804\uD654\uD588\uC5B4?"
+    amount: 0
+    outgoing: 1
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: brother
+    truth: 1
+    outcomes: 2
+    kind: 0
+    from: family
+    sender: "\uBBFC\uC900\uC774"
+    avatar: pt_minjun
+    when: "\uC218\uC694\uC77C 16:53"
+    title: 
+    text: "\uC544\uB2C8?? \uB098 \uB3C4\uC11C\uAD00\uC778\uB370. \uC65C"
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: brother
+    truth: 1
+    outcomes: 2
+    kind: 0
+    from: family
+    sender: 
+    avatar: 
+    when: "\uC218\uC694\uC77C 16:54"
+    title: 
+    text: "\uB124 \uBAA9\uC18C\uB9AC\uB85C \uB204\uAC00 \uD3F0 \uAE68\uC84C\uB2E4\uACE0
+      28\uB9CC \uC6D0 \uBCF4\uB0B4 \uB2EC\uB798."
+    amount: 0
+    outgoing: 1
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: brother
+    truth: 1
+    outcomes: 2
+    kind: 0
+    from: family
+    sender: "\uBBFC\uC900\uC774"
+    avatar: pt_minjun
+    when: "\uC218\uC694\uC77C 16:55"
+    title: 
+    text: "\uD5D0. \uC18C\uB984. \uBB3C\uC5B4\uBD10\uC11C \uB2E4\uD589\uC774\uB2E4!!"
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: brother
+    truth: 2
+    outcomes: 1
+    kind: 0
+    from: family
+    sender: "\uBBFC\uC900\uC774"
+    avatar: pt_minjun
+    when: "\uC218\uC694\uC77C 17:48"
+    title: 
+    text: "\uD3F0 \uC0B4\uC544\uB0AC\uB2E4!! \uB204\uB098 \uACE0\uB9C8\uC6CC \u2665
+      25\uC77C\uC5D0 \uAC1A\uC744\uAC8C."
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: brother
+    truth: 2
+    outcomes: 10
+    kind: 0
+    from: family
+    sender: "\uBBFC\uC900\uC774"
+    avatar: pt_minjun
+    when: "\uC218\uC694\uC77C 18:20"
+    title: 
+    text: "\uB204\uB098\u2026 \uADF8\uAC70 \uC9C4\uC9DC \uB098\uC600\uC5B4. \uB3C4\uD604\uC774\uAC00
+      \uBE4C\uB824\uC918\uC11C \uACE0\uCCE4\uC5B4. \uC624\uB298 \uBC24\uC5D0 \uB3C4\uD604\uC774\uD55C\uD14C
+      \uBCF4\uB0B4 \uC904 \uC218 \uC788\uC5B4?"
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: brother
+    truth: 2
+    outcomes: 10
+    kind: 0
+    from: family
+    sender: 
+    avatar: 
+    when: "\uC218\uC694\uC77C 18:31"
+    title: 
+    text: "\uBBF8\uC548!! \uBC29\uAE08 \uBCF4\uB0C8\uC5B4."
+    amount: 0
+    outgoing: 1
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 2
+    scenario: brother
+    truth: 2
+    outcomes: 10
+    kind: 1
+    from: "\uC774\uB3C4\uD604"
+    sender: 
+    avatar: 
+    when: "\uC218\uC694\uC77C 18:30"
+    title: "\uBBFC\uC900\uC774 \uD3F0 \uC218\uB9AC\uBE44 \xB7 \uD55C\uBE5B 620-204-771035"
+    text: 
+    amount: -280000
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 0
+    scenario: 
+    truth: 0
+    outcomes: 1
+    kind: 0
+    from: villa
+    sender: 
+    avatar: 
+    when: "\uC6D4\uC694\uC77C 17:20"
+    title: 
+    text: "\uC800 \uBC29\uAE08 \uADF8 \uAC00\uC9DC \uAC00\uC2A4 \uC694\uAE08 \uB0B8
+      \uAC83 \uAC19\uC544\uC694\u2026 18,420\uC6D0."
+    amount: 0
+    outgoing: 1
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 0
+    scenario: 
+    truth: 0
+    outcomes: 1
+    kind: 0
+    from: villa
+    sender: "\uC9D1\uC8FC\uC778 \uCD5C \uC0AC\uC7A5\uB2D8"
+    avatar: pt_landlord
+    when: "\uC6D4\uC694\uC77C 17:31"
+    title: 
+    text: "\uC800\uB7F0. \uBC14\uB85C 1332\uC5D0 \uC2E0\uACE0\uD574\uC694. \uB2E4\uC74C\uBD80\uD130\uB294
+      \uBCF4\uB0B4\uAE30 \uC804\uC5D0 \uAF2D \uC870\uD68C\uD574 \uBCF4\uACE0\uC694."
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 0
+    scenario: 
+    truth: 0
+    outcomes: 2
+    kind: 0
+    from: villa
+    sender: 
+    avatar: 
+    when: "\uC6D4\uC694\uC77C 17:20"
+    title: 
+    text: "\uC800\uD55C\uD14C\uB3C4 '\uAC00\uC2A4 \uD68C\uC0AC' \uC804\uD654 \uC654\uC5B4\uC694.
+      \uACE0\uC9C0\uC11C \uD655\uC778\uD558\uACE0 \uB04A\uC5C8\uC2B5\uB2C8\uB2E4.
+      010-7359-2046\uC774\uC5D0\uC694."
+    amount: 0
+    outgoing: 1
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 0
+    scenario: 
+    truth: 0
+    outcomes: 2
+    kind: 0
+    from: villa
+    sender: "\uC9D1\uC8FC\uC778 \uCD5C \uC0AC\uC7A5\uB2D8"
+    avatar: pt_landlord
+    when: "\uC6D4\uC694\uC77C 17:31"
+    title: 
+    text: "302\uD638 \uC798\uD588\uC5B4\uC694! \uADF8\uB807\uAC8C \uD558\uB294 \uAC81\uB2C8\uB2E4."
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 1
+    scenario: protected
+    truth: 0
+    outcomes: 1
+    kind: 0
+    from: family
+    sender: "\uC5C4\uB9C8"
+    avatar: pt_mom
+    when: "\uD654\uC694\uC77C 21:30"
+    title: 
+    text: "\uC9C0\uC6B0\uC57C, \uC544\uBE60\uD55C\uD14C \uB4E4\uC5C8\uC5B4. \uB108\uBB34
+      \uC790\uCC45\uD558\uC9C0 \uB9C8, \uADF8 \uC0AC\uB78C\uB4E4 \uC804\uBB38\uAC00\uB4E4\uC774\uC57C.
+      \uB4F1\uB85D\uAE08\uC740 \uC5C4\uB9C8 \uC544\uBE60\uAC00 \uB3C4\uC640\uC904\uAC8C
+      \u2665"
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 1
+    scenario: protected
+    truth: 0
+    outcomes: 1
+    kind: 0
+    from: family
+    sender: 
+    avatar: 
+    when: "\uD654\uC694\uC77C 21:34"
+    title: 
+    text: "\uACE0\uB9C8\uC6CC \uC5C4\uB9C8\u2026 \uACC4\uC88C\uB9CC \uC870\uD68C\uD574
+      \uBD24\uC5B4\uB3C4 \uB410\uB294\uB370."
+    amount: 0
+    outgoing: 1
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 1
+    scenario: protected
+    truth: 0
+    outcomes: 2
+    kind: 0
+    from: yuna
+    sender: 
+    avatar: 
+    when: "\uD654\uC694\uC77C 17:30"
+    title: 
+    text: "\uC624\uB298 \uAC00\uC9DC \uC740\uD589\uD55C\uD14C \uC804\uD654 \uC654\uC5B4!!
+      120\uB9CC \uC6D0 \uBCF4\uB0B4\uB798"
+    amount: 0
+    outgoing: 1
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 1
+    scenario: protected
+    truth: 0
+    outcomes: 2
+    kind: 0
+    from: yuna
+    sender: "\uC720\uB098"
+    avatar: pt_yuna
+    when: "\uD654\uC694\uC77C 17:31"
+    title: 
+    text: "\uD5D0. \uB04A\uC5B4\uC11C \uB2E4\uD589\uC774\uB2E4 \u3137\u3137"
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 1
+    scenario: protected
+    truth: 0
+    outcomes: 2
+    kind: 0
+    from: villa
+    sender: 
+    avatar: 
+    when: "\uD654\uC694\uC77C 17:50"
+    title: 
+    text: "\uC800\uB3C4 '\uBCF4\uD638\uD300' \uC804\uD654 \uBC1B\uC558\uC5B4\uC694.
+      \uB04A\uC5C8\uC5B4\uC694. 070-8844-2019\uC608\uC694."
+    amount: 0
+    outgoing: 1
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 1
+    scenario: protected
+    truth: 0
+    outcomes: 2
+    kind: 0
+    from: villa
+    sender: "201\uD638"
+    avatar: pt_unknown
+    when: "\uD654\uC694\uC77C 18:10"
+    title: 
+    text: "\uAC19\uC740 \uBC88\uD638\uB124\uC694! 302\uD638 \uAC10\uC0AC\uD574\uC694,
+      \uC2E0\uACE0\uD588\uC5B4\uC694."
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 1
+    scenario: protected
+    truth: 0
+    outcomes: 8
+    kind: 0
+    from: villa
+    sender: "201\uD638"
+    avatar: pt_unknown
+    when: "\uD654\uC694\uC77C 18:10"
+    title: 
+    text: "\uADF8 '\uBCF4\uD638\uD300' \uC544\uC9C1\uB3C4 \uC804\uD654 \uB3CC\uB9AC\uB124\uC694.
+      070-8844-2019\uC608\uC694. \uADF8\uB0E5 \uB04A\uC73C\uC138\uC694."
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 1
+    scenario: paper
+    truth: 2
+    outcomes: 10
+    kind: 1
+    from: "\uC624\uC0C1\uCCA0"
+    sender: 
+    avatar: 
+    when: "\uC218\uC694\uC77C 08:10"
+    title: "\uC11C\uC6B8\uB370\uC77C\uB9AC 10~12\uC6D4 \uAD6C\uB3C5\uB8CC"
+    text: 
+    amount: -54000
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 1
+    scenario: paper
+    truth: 1
+    outcomes: 1
+    kind: 0
+    from: family
+    sender: "\uC544\uBE60"
+    avatar: pt_dad
+    when: "\uD654\uC694\uC77C 19:40"
+    title: 
+    text: "\uC11C\uC6B8\uB370\uC77C\uB9AC\uC5D0\uC11C \uC5F0\uB77D\uC774 \uC654\uB2E4.
+      \uADF8 \uC0AC\uB78C 9\uC6D4\uC5D0 \uADF8\uB9CC\uB480\uB2E8\uB2E4. \uC9C0\uC6B0\uC57C,
+      112\uC5D0 \uC2E0\uACE0\uD574\uB77C. \uB2E4\uC74C\uBD80\uD130\uB294 1\uBA74\uBD80\uD130
+      \uC77D\uACE0!"
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 1
+    scenario: paper
+    truth: 1
+    outcomes: 1
+    kind: 0
+    from: family
+    sender: 
+    avatar: 
+    when: "\uD654\uC694\uC77C 19:44"
+    title: 
+    text: "\uC54C\uC544\uC694\u2026 \uC54C\uB9BC\uC774 \uBC14\uB85C \uCC45\uC0C1
+      \uC704\uC5D0 \uC788\uC5C8\uB294\uB370."
+    amount: 0
+    outgoing: 1
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 1
+    scenario: paper
+    truth: 1
+    outcomes: 2
+    kind: 0
+    from: family
+    sender: 
+    avatar: 
+    when: "\uD654\uC694\uC77C 17:20"
+    title: 
+    text: "\uC544\uBE60, \uB204\uAC00 \uC2E0\uBB38 \uAD6C\uB3C5\uB8CC \uB0B4\uB77C\uACE0
+      \uC804\uD654\uD588\uC5B4\uC694. \uC2E0\uBB38\uC5D0 \uADF8 \uC0AC\uB78C \uADF8\uB9CC\uB480\uB2E4\uACE0
+      \uC2E4\uB824 \uC788\uC5B4\uC11C \uB04A\uC5C8\uC5B4\uC694."
+    amount: 0
+    outgoing: 1
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 1
+    scenario: paper
+    truth: 1
+    outcomes: 2
+    kind: 0
+    from: family
+    sender: "\uC544\uBE60"
+    avatar: pt_dad
+    when: "\uD654\uC694\uC77C 17:35"
+    title: 
+    text: "\uC798\uD588\uB2E4. \uC2E0\uBB38\uC744 \uC77D\uAE34 \uC77D\uB294\uAD6C\uB098!
+      \uAD6C\uB3C5\uB8CC\uB294 \uC544\uBE60\uAC00 \uC9C0\uB85C\uB85C \uB0B8\uB2E4.
+      \uB10C \uB204\uAD6C\uD55C\uD14C\uB3C4 \uB0BC \uAC83 \uC5C6\uB2E4."
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 1
+    scenario: paper
+    truth: 2
+    outcomes: 1
+    kind: 0
+    from: family
+    sender: "\uC544\uBE60"
+    avatar: pt_dad
+    when: "\uD654\uC694\uC77C 18:10"
+    title: 
+    text: "\uC9C0\uAD6D\uC5D0\uC11C \uB124\uAC00 \uAD6C\uB3C5\uB8CC \uB0C8\uB2E4\uACE0
+      \uBB38\uC790 \uC654\uB2E4. \uACE0\uB9D9\uB2E4! \uC544\uBE60\uAC00 \uBC25 \uD55C\uBC88
+      \uC0AC\uB9C8."
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 1
+    scenario: paper
+    truth: 2
+    outcomes: 10
+    kind: 0
+    from: family
+    sender: "\uC544\uBE60"
+    avatar: pt_dad
+    when: "\uD654\uC694\uC77C 18:30"
+    title: 
+    text: "\uC9C0\uC6B0\uC57C, \uC9C0\uAD6D\uC7A5\uB2D8\uD55C\uD14C \uC804\uD654
+      \uC654\uB2E4. \uC9C4\uC9DC \uB9DE\uB2E4, \uC624\uB298 \uC2E0\uBB38\uC5D0\uB3C4
+      \uB0AC\uC5B4. \uB0B4\uC77C \uC544\uCE68\uC5D0 \uAD6C\uB3C5\uB8CC \uAF2D \uBCF4\uB0B4
+      \uB4DC\uB824\uB77C."
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 1
+    scenario: sale
+    truth: 0
+    outcomes: 15
+    kind: 4
+    from: 
+    sender: 
+    avatar: 
+    when: "10\uC77C (\uD1A0)"
+    title: 
+    text: "\uBAA8\uB2C8\uD130 \uAD6C\uB9E4\uC790 11\uC2DC \uBC29\uBB38 (\uC774\uC6C3\uB9C8\uCF13,
+      6\uB9CC \uC6D0 \uC120\uC785\uAE08)"
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 10
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 1
+    scenario: sale
+    truth: 2
+    outcomes: 15
+    kind: 1
+    from: "\uBC30\uC218\uC9C4"
+    sender: 
+    avatar: 
+    when: "\uD654\uC694\uC77C 16:07"
+    title: "\uBAA8\uB2C8\uD130 (\uC774\uC6C3\uB9C8\uCF13)"
+    text: 
+    amount: 600000
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 1
+    scenario: sale
+    truth: 2
+    outcomes: 10
+    kind: 1
+    from: "\uBC30\uC218\uC9C4"
+    sender: 
+    avatar: 
+    when: "\uC218\uC694\uC77C 08:20"
+    title: "\uCC29\uC624 \uC785\uAE08 \uBC18\uD658 \xB7 \uD55C\uBE5B 620-481-207356"
+    text: 
+    amount: -540000
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 1
+    scenario: sale
+    truth: 1
+    outcomes: 1
+    kind: 0
+    from: yuna
+    sender: 
+    avatar: 
+    when: "\uD654\uC694\uC77C 18:05"
+    title: 
+    text: "\uB098 \uBC29\uAE08 \uAC00\uC9DC \uBAA8\uB2C8\uD130 \uAD6C\uB9E4\uC790\uD55C\uD14C
+      54\uB9CC \uC6D0 \uBCF4\uB0C8\uC5B4. \uD1B5\uC7A5\uB3C4 \uC548 \uBCF4\uACE0\u2026"
+    amount: 0
+    outgoing: 1
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 1
+    scenario: sale
+    truth: 1
+    outcomes: 1
+    kind: 0
+    from: yuna
+    sender: "\uC720\uB098"
+    avatar: pt_yuna
+    when: "\uD654\uC694\uC77C 18:07"
+    title: 
+    text: "\uD5D0 \uC548 \uB3FC. \uC9C0\uAE08 \uB2F9\uC7A5 \uC2E0\uACE0\uD574, 112\uB791
+      \uC740\uD589!! \uB5A1\uBCF6\uC774 \uC0AC \uB4E4\uACE0 \uAC08\uAC8C."
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 1
+    scenario: sale
+    truth: 1
+    outcomes: 2
+    kind: 0
+    from: yuna
+    sender: 
+    avatar: 
+    when: "\uD654\uC694\uC77C 17:25"
+    title: 
+    text: "\uB0B4 \uBAA8\uB2C8\uD130 \uAE00\uC5D0 '\uB3C8 \uB354 \uBCF4\uB0C8\uC5B4\uC694'
+      \uC218\uBC95 \uC4F0\uB294 \uC0AC\uB78C \uC788\uC5C8\uC5B4!"
+    amount: 0
+    outgoing: 1
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 1
+    scenario: sale
+    truth: 1
+    outcomes: 2
+    kind: 0
+    from: yuna
+    sender: "\uC720\uB098"
+    avatar: pt_yuna
+    when: "\uD654\uC694\uC77C 17:27"
+    title: 
+    text: "\uACE0\uC804 \uC218\uBC95\uC774\uB124!! \uD1B5\uC7A5\uBD80\uD130 \uD655\uC778\uD588\uC5B4?"
+    amount: 0
+    outgoing: 0
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  - afterDay: 1
+    scenario: sale
+    truth: 1
+    outcomes: 2
+    kind: 0
+    from: yuna
+    sender: 
+    avatar: 
+    when: "\uD654\uC694\uC77C 17:28"
+    title: 
+    text: "\uB2F9\uC5F0\uD558\uC9C0. \uC544\uBB34\uAC83\uB3C4 \uC5C6\uC5C8\uC5B4."
+    amount: 0
+    outgoing: 1
+    photoCaption: 
+    date: 0
+    image: {fileID: 0}
+    notify: 0
+  nextDateLabel: "10\uC6D4 10\uC77C \uD1A0\uC694\uC77C"
+  builtWith: 15

@@ -51,32 +51,54 @@ namespace DontCallMe.Editor.UI
             };
 
             var v = StoreVariant("scam", CaseGas, Day0Dir, "Day0", Day0Call(), HouseholdPhone(), room, HouseholdDirectory());
+            // Every place the player can check holds one piece, filed under one of the three claims.
+            v.marks = new List<MarkDef>
+            {
+                MarkNews("news_warning", "company", "warning"),
+                MarkCheck("check_number", "company", GasScamNumber),
+                MarkContact("contact_gas", "company", GasOfficialNumber),
+                MarkField("bill_centre", "company", GasBillTitle, L("Customer centre", "고객센터")),
+                MarkField("bill_paid", "unpaid", GasBillTitle, GasBillPaid),
+                MarkTx("tx_gas", "unpaid", GasCompany, -GasBill),
+                MarkCheck("check_account", "pay", GasScamAccount),
+                MarkNote("cal_holiday", "pay", Holiday),
+                MarkNews("news_holiday", "pay", L("Holiday today", "오늘은 대체공휴일")),
+                MarkChat("chat_landlord", "pay", VillaChat, LandlordGasWarning),
+            };
+            // The guide walks these in order. Before the call it only teaches reading the paper; the
+            // rest are circled for the notebook once the caller holds.
             v.clues = new List<ClueDef>
             {
                 Guided(Clue("paper", L("Today's paper warns about exactly this: callers who say a bill is unpaid and want a transfer.", "오늘 신문이 바로 이 수법을 경고한다. 요금이 미납됐다며 이체를 요구하는 전화."),
-                            AtPaper, new ClueWhen(ClueEvent.PanelOpened, "Newspaper")),
+                            AtPaper, new ClueWhen(ClueEvent.PanelOpened, "Newspaper"), Circled("news_warning")),
                        L("Every morning's paper warns about the trick going round. Click the newspaper on the desk.", "매일 아침 신문에는 요즘 도는 수법이 실린다. 책상 위 신문을 클릭하세요.")),
                 Guided(Clue("caller_number", L("Her number is a prepaid phone opened three days ago, with four scam reports. It is not the gas company's.", "발신 번호는 3일 전 개통된 선불폰이고 사기 신고가 4건 있다. 가스 회사 번호가 아니다."),
-                            AtNumberCheck, new ClueWhen(ClueEvent.NumberChecked, GasScamNumber)),
-                       L("The computer shows who really owns a number. Click the glowing laptop, then click her number under Check a phone number.", "컴퓨터로 그 번호의 진짜 주인을 볼 수 있다. 빛나는 노트북을 클릭한 뒤, '전화번호 조회'에서 상대의 번호를 클릭하세요.")),
-                Guided(Clue("account_owner", L("The \"collection account\" belongs to a private person, HAN SUNGMIN, not to Mapo City Gas.", "'수납 계좌'의 예금주는 마포도시가스가 아니라 개인 '한성민'이다."),
-                            AtAccountCheck, new ClueWhen(ClueEvent.NumberChecked, GasScamAccount), new ClueWhen(ClueEvent.RecipientShown, GasScamAccount)),
-                       L("The computer shows whose account it is, too. Click the laptop, choose Check a bank account, then click the account she gave you.", "컴퓨터로 누구 계좌인지도 알 수 있다. 노트북을 클릭하고 '계좌 조회'를 고른 뒤, 상대가 불러 준 계좌를 클릭하세요.")),
+                            AtNumberCheck, Circled("check_number")),
+                       L("Claim 1: is she really the gas company? The computer shows who owns a number. Click the glowing laptop, click her number under Check a phone number, then click the result to circle it.",
+                         "주장 1: 정말 가스 회사일까? 컴퓨터로 번호의 주인을 볼 수 있다. 빛나는 노트북을 클릭하고 '전화번호 조회'에서 상대 번호를 누른 뒤, 결과를 클릭해 동그라미 치세요.")),
+                Guided(Clue("contacts", L("Mapo City Gas is saved in your contacts as 02-555-0181, the number on the bill. The caller's number is not it.", "마포도시가스는 연락처에 고지서에 적힌 02-555-0181로 저장돼 있다. 발신 번호는 그게 아니다."),
+                            AtContacts, Circled("contact_gas")),
+                       L("A company you deal with is in your contacts. On the phone, open Apps, then Contacts, open Mapo City Gas and click its card to circle the number.",
+                         "거래하는 회사는 연락처에 있다. 휴대폰에서 '앱', '연락처'를 차례로 열고 마포도시가스를 연 뒤, 카드를 클릭해 번호에 동그라미 치세요.")),
                 Guided(Clue("bill", L("The gas bill in your drawer is stamped PAID (auto-pay, 28 September), and the company's real number on it is 02-555-0181.", "서랍 속 가스 고지서에는 '납부완료' 도장이 찍혀 있고(9월 28일 자동이체), 회사의 진짜 번호는 02-555-0181이다."),
-                            AtGasBill, new ClueWhen(ClueEvent.DocumentViewed, GasBillTitle)),
-                       L("Your own papers are in the desk drawer. Open it and find the gas bill.", "내 서류는 책상 서랍에 있다. 서랍을 열고 가스 고지서를 찾아보세요.")),
-                Guided(Clue("calendar", L("Your calendar says today is a public holiday. Offices are closed, yet \"the gas company\" is calling.", "달력을 보니 오늘은 대체공휴일이다. 회사들이 쉬는 날인데 '가스 회사'에서 전화가 왔다."),
-                            AtCalendar, new ClueWhen(ClueEvent.PanelOpened, "Calendar")),
-                       L("The calendar on the wall shows what day it is and what you wrote down. Click it.", "벽에 걸린 달력에는 오늘이 무슨 날인지, 내가 적어 둔 일정이 있다. 달력을 클릭하세요.")),
+                            AtGasBill, Circled("bill_paid")),
+                       L("Claim 2: is the bill unpaid? Your own papers are in the desk drawer. Open it, find the gas bill and circle the line that says when it was paid.",
+                         "주장 2: 정말 미납일까? 내 서류는 책상 서랍에 있다. 서랍을 열어 가스 고지서를 찾고, 납부한 날짜가 적힌 줄에 동그라미 치세요.")),
                 Guided(Clue("bank", L("Your bank history shows 18,420 won went to Mapo City Gas on 28 September. The bill is paid.", "은행 내역에 9월 28일 마포도시가스로 18,420원이 나간 기록이 있다. 요금은 이미 냈다."),
-                            AtBank, new ClueWhen(ClueEvent.BankOpened)),
-                       L("Your bank app shows what really left your account. On the phone, press Apps, then open Nuri Bank.", "은행 앱에서 실제로 빠져나간 돈을 볼 수 있다. 휴대폰에서 '앱'을 누른 뒤 누리은행을 여세요.")),
+                            AtBank, Circled("tx_gas")),
+                       L("Your bank app shows what really left your account. On the phone, open Apps, then Nuri Bank, and circle the payment to Mapo City Gas.",
+                         "은행 앱에서 실제로 빠져나간 돈을 볼 수 있다. 휴대폰에서 '앱'과 누리은행을 연 뒤, 마포도시가스로 나간 내역에 동그라미 치세요.")),
+                Guided(Clue("account_owner", L("The \"collection account\" belongs to a private person, HAN SUNGMIN, not to Mapo City Gas.", "'수납 계좌'의 예금주는 마포도시가스가 아니라 개인 '한성민'이다."),
+                            AtAccountCheck, Circled("check_account"), new ClueWhen(ClueEvent.RecipientShown, GasScamAccount)),
+                       L("Claim 3: should the money go to her account? The computer shows whose account it is. Open the laptop, choose Check a bank account, click her account and circle the result.",
+                         "주장 3: 그 계좌로 보내야 할까? 컴퓨터로 누구 계좌인지 알 수 있다. 노트북에서 '계좌 조회'를 고르고 상대 계좌를 누른 뒤 결과에 동그라미 치세요.")),
+                Guided(Clue("calendar", L("Your calendar says today is a public holiday. Offices are closed, yet \"the gas company\" is calling.", "달력을 보니 오늘은 대체공휴일이다. 회사들이 쉬는 날인데 '가스 회사'에서 전화가 왔다."),
+                            AtCalendar, Circled("cal_holiday")),
+                       L("The calendar hangs on the board by the door and shows what day it is. Click it and circle today's note.", "문 옆 게시판에 걸린 달력에는 오늘이 무슨 날인지 적혀 있다. 달력을 클릭하고 오늘 메모에 동그라미 치세요.")),
                 Guided(Clue("chat", L("In the residents' chat the landlord warns everyone: the gas company never phones for money.", "입주민 채팅방에서 집주인이 모두에게 경고했다. 가스 회사는 전화로 돈을 요구하지 않는다고."),
-                            AtVillaChat, new ClueWhen(ClueEvent.ChatRead, VillaChat)),
-                       L("People you know write to you themselves. Go back to Apps, open Chats and read the residents' chat.", "아는 사람들은 직접 글을 남긴다. '앱'으로 돌아가 '채팅'을 열고 입주민 채팅방을 읽어 보세요.")),
-                Guided(Clue("contacts", L("The caller is not in your contacts. A number you saved would show its name when it rings.", "상대는 연락처에 없는 번호다. 저장된 번호라면 전화가 올 때 이름이 뜬다."),
-                            AtContacts, new ClueWhen(ClueEvent.ContactsOpened)),
-                       L("A number you saved shows its name when it calls. Go back to Apps and open Contacts: is she there?", "저장된 번호는 전화가 올 때 이름이 뜬다. '앱'으로 돌아가 '연락처'를 열어 보세요. 상대가 있나요?")),
+                            AtVillaChat, Circled("chat_landlord")),
+                       L("People you know write to you themselves. On the phone, open Apps, then Chats, read the residents' chat and circle what the landlord wrote.",
+                         "아는 사람들은 직접 글을 남긴다. 휴대폰에서 '앱'과 '채팅'을 열어 입주민 채팅방을 읽고, 집주인이 쓴 글에 동그라미 치세요.")),
             };
             v.papers = Day0Papers();
             v.ruleTitle = L("Check before you pay", "보내기 전에 확인하라");
@@ -87,6 +109,10 @@ namespace DontCallMe.Editor.UI
             var d = ScriptableObject.CreateInstance<DayData>();
             d.day = 0;
             d.tutorial = true;
+            d.help = NotebookHelp.Guided;
+            d.level = 0;
+            d.newToday = L("The case notebook. Every claim the caller makes goes in it, and you check them one by one.",
+                           "수사 노트. 상대가 하는 주장이 모두 노트에 적히고, 하나씩 확인하면 된다.");
             d.dateLabel = DateLabel(today);
             d.shortLabel = ShortLabel(0, today);
             d.weekday = WeekdayLabel(today);
@@ -146,12 +172,16 @@ namespace DontCallMe.Editor.UI
             c.isScam = true;
             c.revealAtEnd = false;
             c.caller = new CallerInfo { displayName = L("Team Leader Baek", "백 팀장"), number = GasScamNumber, inContacts = false, portrait = "pt_billing", voice = VoiceBilling };
-            c.claims = new List<string>
+            c.claims = new List<ClaimDef>
             {
-                L("She is Team Leader Baek from the billing team at Mapo City Gas.", "마포도시가스 요금팀 백 팀장이라고 한다."),
-                L("My September gas bill, 18,420 won, is unpaid.", "9월 가스 요금 18,420원이 미납이라고 한다."),
-                L("The gas goes off at 17:00 today unless I transfer it now.", "지금 이체하지 않으면 오늘 17시에 가스가 끊긴다고 한다."),
-                L("Collection account: Hanbit Bank 620-339-104772.", "수납 계좌: 한빛은행 620-339-104772"),
+                Claim("company", L("\"I'm from Mapo City Gas.\"", "\"마포도시가스 요금팀입니다.\""), false,
+                      L("False. Her number was a three-day-old prepaid phone with scam reports. The gas company's number, 02-555-0181, is on your bill and in your contacts.",
+                        "거짓. 상대 번호는 개통 3일 된 선불폰이었고 사기 신고가 있었다. 가스 회사 번호 02-555-0181은 고지서와 연락처에 있다.")).Via(TrickBorrowedName),
+                Claim("unpaid", L("\"Your September bill is unpaid.\"", "\"9월 요금이 미납입니다.\""), false,
+                      L("False. It was paid by auto-pay on 28 September: the bill says so, and so does your bank.", "거짓. 9월 28일 자동이체로 이미 냈다. 고지서에도, 은행 내역에도 나와 있다.")).Via(TrickPaidBill),
+                Claim("pay", L("\"Pay our collection account now, or the gas goes off.\"", "\"지금 수납 계좌로 내지 않으면 가스가 끊깁니다.\""), false,
+                      L("False. The account was HAN SUNGMIN's, a private person's; today is a holiday; and the landlord warned that the company never phones for money.",
+                        "거짓. 계좌는 개인 '한성민'의 것이었고, 오늘은 공휴일이며, 집주인도 가스 회사는 전화로 돈을 요구하지 않는다고 했다.")).Via(TrickNewAccount),
             };
             c.nodes = new List<ConvNode>
             {
@@ -163,11 +193,11 @@ namespace DontCallMe.Editor.UI
                     Caller(L("Hello, is this Kim Jiwoo at Mangwon Heights 302? This is Team Leader Baek from the billing team at Mapo City Gas.",
                              "여보세요, 망원하이츠 302호 김지우 고객님 맞으시죠? 마포도시가스 요금팀 백 팀장입니다."),
                            L("Hello, is this Kim Jiwoo at Mangwon Heights three oh two? This is Team Leader Baek from the billing team at Mapo City Gas.",
-                             "여보세요, 망원하이츠 삼백이 호 김지우 고객님 맞으시죠? 마포도시가스 요금팀 백 팀장입니다.")),
+                             "여보세요, 망원하이츠 삼백이 호 김지우 고객님 맞으시죠? 마포도시가스 요금팀 백 팀장입니다.")).Says("company"),
                     Caller(L("Your September gas bill, 18,420 won, has not been paid. The gas to your unit will be shut off at five o'clock today.",
                              "9월 가스 요금 18,420원이 미납 상태입니다. 오늘 오후 5시에 댁의 가스 공급이 차단될 예정이에요."),
                            L("Your September gas bill, eighteen thousand, four hundred and twenty won, has not been paid. The gas to your unit will be shut off at five o'clock today.",
-                             "구월 가스 요금 만 팔천사백이십 원이 미납 상태입니다. 오늘 오후 다섯 시에 댁의 가스 공급이 차단될 예정이에요."))),
+                             "구월 가스 요금 만 팔천사백이십 원이 미납 상태입니다. 오늘 오후 다섯 시에 댁의 가스 공급이 차단될 예정이에요.")).Says("unpaid")),
                 Node("autopay", "ask",
                     Caller(L("The auto-payment failed, ma'am. It happens when a bank updates its system.", "자동이체가 실패했습니다, 고객님. 은행 전산 점검 때 종종 그래요."))),
                 Node("holiday", "ask",
@@ -176,7 +206,7 @@ namespace DontCallMe.Editor.UI
                     Caller(L("To stop it, please transfer 18,420 won to our collection account: Hanbit Bank 620-339-104772.", "차단을 막으려면 수납 계좌로 18,420원을 이체해 주세요. 한빛은행 620-339-104772입니다."),
                            L("To stop it, please transfer eighteen thousand, four hundred and twenty won to our collection account. Hanbit Bank, " + GasScamAccountSpoken + ".",
                              "차단을 막으려면 수납 계좌로 만 팔천사백이십 원을 이체해 주세요. 한빛은행, " + GasScamAccountSpoken + "입니다."),
-                           F(FactKind.Account, GasScamAccount), F(FactKind.Amount, "18,420")),
+                           F(FactKind.Account, GasScamAccount), F(FactKind.Amount, "18,420")).Says("pay"),
                     Caller(L("As soon as it arrives, I'll cancel the shut-off. I'll stay on the line while you send it.", "입금이 확인되는 대로 차단을 취소해 드릴게요. 보내시는 동안 기다리겠습니다."))),
             };
             c.caseInfo = new CaseInfo

@@ -17,3 +17,85 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3f30c6cde14e4465788ca0b902ec506f, type: 2}
   - {fileID: 11400000, guid: bbb380aeaaaeb4049bbdca104bc7597a, type: 2}
   - {fileID: 11400000, guid: c9029ba7d2fc945059523c27202a3894, type: 2}
+  - {fileID: 11400000, guid: f9bc26c71dfbb4cde80995de5a61ff67, type: 2}
+  tricks:
+  - id: borrowed_name
+    name: The borrowed name
+    how: 'The caller uses the name of a company you really deal with: your gas company,
+      your courier, your newspaper, your clinic.'
+    tell: Look the number up, and compare it with the one on your own bill, slip
+      or contacts.
+  - id: bank_call
+    name: The call from your bank
+    how: Someone from your bank's "security team" rings about your money.
+    tell: Your bank calls from its own number. Hang up and ring the one in your contacts.
+  - id: break_in
+    name: The break-in alarm
+    how: Someone has got into your account from far away, and you must act right
+      now.
+    tell: Fear is the tool. Your own bank history shows whether anything happened.
+  - id: safe_account
+    name: The safe account
+    how: To keep your savings safe, they must go to a "protected" account for now.
+    tell: No bank and no police have such an account. Moving money to keep it safe
+      means stop.
+  - id: paid_bill
+    name: The bill you already paid
+    how: A bill is "unpaid", and something gets cut off today unless you pay now.
+    tell: Your bank history and the bill itself know whether it was paid.
+  - id: new_account
+    name: The new account
+    how: 'This time the money goes to a different account: a person''s name, or a
+      company nobody has heard of.'
+    tell: Look up who owns the account. Real companies change accounts in writing,
+      not in a phone call.
+  - id: stand_in
+    name: The stand-in
+    how: 'Someone rings for a person you trust: their son, their assistant, the new
+      manager.'
+    tell: Check the stand-in's number against your own papers, or ask the person
+      themselves.
+  - id: emergency
+    name: The sudden emergency
+    how: 'A hospital, a broken phone, an accident: something happened this morning
+      and money is needed now.'
+    tell: Look for what they, or someone close to them, wrote today. People post,
+      text and write in chats.
+  - id: borrowed_phone
+    name: The borrowed phone
+    how: Family calls from a friend's phone, because theirs is broken or lost.
+    tell: Write to their own number or the family chat. If their phone answers, it
+      isn't broken.
+  - id: extra_zero
+    name: The extra zero
+    how: Someone sent you too much by mistake, and needs the difference back right
+      away.
+    tell: Look at your own bank history, not at their screenshot. Send back only
+      what really arrived.
+  - id: held_parcel
+    name: The held parcel
+    how: Your parcel is stuck at customs until you pay a fee.
+    tell: The courier's and the shop's own messages say whether anything is due.
+  - id: leaked_list
+    name: The leaked list
+    how: The caller knows your name, your order or your appointment, so it must be
+      real.
+    tell: 'Lists leak. Knowing your details proves nothing: check what they say against
+      your own notes.'
+  - id: deposit
+    name: The small deposit
+    how: 'A small payment now holds your place: an appointment, a booking, a delivery.'
+    tell: Is there anything to hold? Check your own calendar first, and pay only
+      where you booked.
+  - id: borrowed_face
+    name: The borrowed face
+    how: A few seconds of someone's public videos are enough to put their face on
+      a caller, live, on a video call.
+    tell: 'Watch the lips against the voice, and ask for a slow wave in front of
+      the face: a pasted face stays on top of the hand.'
+  - id: stranded
+    name: Stranded abroad
+    how: 'A friend is stuck abroad: bag stolen, cards gone, a hotel or a ticket to
+      pay before a deadline.'
+    tell: Travel makes the story easy to believe and hard to check. Look at what
+      they posted from their own phone today.

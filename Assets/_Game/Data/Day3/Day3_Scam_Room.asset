@@ -28,8 +28,8 @@ MonoBehaviour:
       day yesterday. His father was in hospital, he said, and this month's rent should
       go to a new account before 5 p.m.
     - 'The real landlord, Choi Youngsik, 71, was not in hospital: he spent the afternoon
-      organising a water tank cleaning. "My son''s number is in every lease," he
-      said. "And the rent account only changes when I write it down."'
+      at home, fixing the light on the second floor. "My son''s number is in every
+      lease," he said. "And the rent account only changes when I write it down."'
     - Police say the account the caller gave, Hanbit Bank 620-118-449027, belongs
       to a woman who sold her bank book online. Anyone called by 010-4127-8830 should
       report it to 112.
@@ -173,6 +173,9 @@ MonoBehaviour:
     - day: 8
       label: Thu 8
       text: Dentist, 18:30
+    - day: 9
+      label: Fri 9
+      text: "Hangul Day \xB7 Yuna in Fukuoka till Sun"
     - day: 9
       label: Fri 9
       text: Monitor arrives! Hangang Express, 14:00-18:00

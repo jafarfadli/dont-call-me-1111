@@ -498,7 +498,8 @@ namespace DontCallMe.Editor.Art
             AddAuditCamera(audit.transform, "Audit_Overview", new Vector3(1.45f, -1.55f, 1.62f), new Vector3(-1.0f, 1.0f, 0.95f), 70f);
             AddAuditCamera(audit.transform, "Audit_WindowBed", new Vector3(0.45f, -0.35f, 1.55f), new Vector3(-1.8f, 0.9f, 1.15f));
             AddAuditCamera(audit.transform, "Audit_Desk", new Vector3(0.55f, 0.3f, 1.55f), new Vector3(1.0f, 1.9f, 1.0f));
-            AddAuditCamera(audit.transform, "Audit_Board", new Vector3(0.92f, 0.85f, 1.45f), new Vector3(0.92f, 1.9f, 1.4f), 50f);
+            // The cork board hangs on the south wall, beside the door.
+            AddAuditCamera(audit.transform, "Audit_Board", new Vector3(-0.12f, -0.85f, 1.45f), new Vector3(-0.17f, -1.9f, 1.38f), 50f);
             AddAuditCamera(audit.transform, "Audit_DeskTop", new Vector3(0.92f, 1.0f, 1.3f), new Vector3(0.92f, 1.62f, 0.74f), 50f);
             AddAuditCamera(audit.transform, "Audit_Drawer", new Vector3(1.05f, 0.75f, 1.05f), new Vector3(1.12f, 1.62f, 0.62f), 45f);
             AddAuditCamera(audit.transform, "Audit_Door", new Vector3(-0.6f, 1.0f, 1.6f), new Vector3(0.9f, -1.9f, 1.05f), 65f);

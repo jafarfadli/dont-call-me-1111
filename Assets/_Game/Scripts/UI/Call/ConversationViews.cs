@@ -6,12 +6,11 @@ using UnityEngine.UIElements;
 
 namespace DontCallMe.UI
 {
-    /// <summary>Today's case as the UI knows it: who is calling, their claims and every fact heard (offered as lookup chips on the computer).</summary>
+    /// <summary>Today's case as the UI knows it: who is calling and every fact heard (offered as lookup chips on the computer).</summary>
     public class CaseFile
     {
         public CallerInfo caller;
         public string callerTitle;
-        public readonly List<string> claims = new List<string>();
         public readonly List<Fact> facts = new List<Fact>();
 
         public void AddFact(Fact f)
@@ -41,6 +40,7 @@ namespace DontCallMe.UI
         readonly ScrollView log;
         readonly VisualElement footer;
         readonly VisualElement voiceBars;
+        readonly Button skipButton;
         VisualElement typingRow;
         DecisionTimer timer;
         Action<int> pickHandler;
@@ -55,6 +55,9 @@ namespace DontCallMe.UI
         VisualElement holdBox;
         VisualElement questionsArea;
         VisualElement verdictArea;
+
+        /// <summary>Called by the header's Skip button (the call director cuts the current line short).</summary>
+        public Action SkipClicked;
 
         public bool HasDecision => pickHandler != null;
         public bool HasQuestions => askHandler != null && holdQuestions != null && holdQuestions.Count > 0;
@@ -79,6 +82,12 @@ namespace DontCallMe.UI
             voiceBars.pickingMode = PickingMode.Ignore;
             header.Add(voiceBars);
             voiceBars.schedule.Execute(AnimateVoice).Every(70);
+            // Shown while a line is being said: cuts it short (Space does the same).
+            skipButton = new Button(() => SkipClicked?.Invoke()) { focusable = false };
+            skipButton.AddToClassList("skip-btn");
+            skipButton.Add(UIKit.Text(Loc.T("Skip"), "skip-btn__text"));
+            skipButton.Add(UIKit.Text(Loc.T("Space"), "skip-btn__key"));
+            header.Add(skipButton);
             var rec = UIKit.Div("rec");
             rec.Add(UIKit.Div("rec__dot"));
             recTime = UIKit.Text("00:00", "rec__time");
@@ -140,11 +149,13 @@ namespace DontCallMe.UI
         }
 
         /// <param name="reveal">Seconds over which the text appears, matching its voice clip; 0 shows it at once.</param>
-        public void AddLine(Speaker speaker, string text, List<Fact> facts = null, string portrait = null, float reveal = 0f)
+        /// <returns>The line's bubble (null for a system line).</returns>
+        public VisualElement AddLine(Speaker speaker, string text, List<Fact> facts = null, string portrait = null, float reveal = 0f)
         {
             SetTyping(false);
             CompleteReveal();
             VisualElement row;
+            VisualElement said = null;
             if (speaker == Speaker.System)
             {
                 row = UIKit.Div("line", "line--system");
@@ -169,6 +180,7 @@ namespace DontCallMe.UI
                     bubble.Add(chips);
                 }
                 col.Add(bubble);
+                said = bubble;
                 var time = UIKit.Text(GameClock.Now, "line__time");
                 if (player)
                     time.style.alignSelf = Align.FlexEnd;
@@ -178,6 +190,7 @@ namespace DontCallMe.UI
             log.Add(row);
             row.schedule.Execute(() => row.AddToClassList("line--shown")).ExecuteLater(20);
             UIKit.ScrollToEnd(log);
+            return said;
         }
 
         /// <summary>
@@ -201,6 +214,16 @@ namespace DontCallMe.UI
                 if (n >= text.Length)
                     CompleteReveal();
             }).Every(30);
+        }
+
+        /// <summary>Shows or hides the Skip button (a line is being said).</summary>
+        public void SetSkippable(bool on) => skipButton.EnableInClassList("skip-btn--on", on);
+
+        /// <summary>The line was skipped: all of its text at once, and the voice meter stops.</summary>
+        public void FinishLine()
+        {
+            CompleteReveal();
+            speakingLeft = 0f;
         }
 
         /// <summary>Shows the rest of a line still being revealed (the next line, or a decision, is coming).</summary>

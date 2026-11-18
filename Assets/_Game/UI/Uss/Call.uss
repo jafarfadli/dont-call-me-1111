@@ -48,6 +48,39 @@
     color: var(--ink-soft);
 }
 
+/* Skip: shown in the header while a line is being said. */
+.skip-btn {
+    display: none;
+    flex-direction: row;
+    align-items: center;
+    margin: 0 10px 0 0;
+    padding: 4px 6px 4px 12px;
+    border-width: 2px;
+    border-color: var(--ink);
+    border-radius: 8px;
+    background-color: #F8EFDA;
+}
+
+.skip-btn--on { display: flex; }
+
+.skip-btn:hover { background-color: #FFF7E4; }
+
+.skip-btn__text {
+    font-size: 19px;
+    margin-right: 8px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset");
+}
+
+.skip-btn__key {
+    font-size: 15px;
+    padding: 2px 6px;
+    border-width: 2px;
+    border-color: var(--ink);
+    border-radius: 5px;
+    background-color: #FFFFFF;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+}
+
 .rec {
     flex-direction: row;
     align-items: center;
@@ -467,6 +500,20 @@
     -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-Bold.asset");
 }
 
+/* Out of reach: walk closer. */
+.prompt {
+    transition-property: translate;
+    transition-duration: 0.08s;
+}
+
+.prompt--far .prompt__key {
+    background-color: var(--amber);
+}
+
+.prompt--nudge {
+    translate: 8px 0;
+}
+
 .controls-hint {
     position: absolute;
     left: 28px;
@@ -773,4 +820,346 @@
 .tutorial__text {
     font-size: 21px;
     -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+}
+
+/* ---------------------------------------------------------------- the case notebook
+   At the left edge from the moment the call comes in (its top follows the guide's note). The
+   claims are in plain Nanum Gothic, since the player acts on them; only the rule at the foot is
+   Jiwoo's handwriting. */
+
+.notebook {
+    position: absolute;
+    left: 28px;
+    top: 196px;
+    width: 380px;
+    background-image: url("project://database/Assets/_Game/UI/Sprites/frame_paper.png");
+    -unity-slice-left: 44;
+    -unity-slice-top: 44;
+    -unity-slice-right: 50;
+    -unity-slice-bottom: 50;
+    -unity-slice-scale: 0.6px;
+    padding: 14px 20px 20px 16px;
+}
+
+.notebook__head {
+    flex-direction: row;
+    align-items: center;
+}
+
+.notebook__tab {
+    font-size: 16px;
+    color: #F8EFDA;
+    background-color: var(--ink);
+    padding: 2px 10px 1px 10px;
+    border-radius: 4px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DoHyeon-Regular.asset");
+}
+
+.notebook__label {
+    flex-grow: 1;
+    margin-left: 10px;
+    font-size: 15px;
+    letter-spacing: 1px;
+    color: var(--muted);
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+}
+
+.notebook__key {
+    font-size: 14px;
+    padding: 1px 7px;
+    border-width: 2px;
+    border-color: var(--ink);
+    border-radius: 5px;
+    background-color: #FFFFFF;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+}
+
+.notebook__body {
+    flex-shrink: 1;
+    margin-top: 8px;
+    overflow: hidden;
+}
+
+.notebook--folded .notebook__body { display: none; }
+
+.notebook__scroll { flex-shrink: 1; }
+
+.notebook__title {
+    font-size: 26px;
+    margin-bottom: 6px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DoHyeon-Regular.asset");
+}
+
+.notebook__facts {
+    background-color: #FFFDF6;
+    border-width: 2px;
+    border-color: var(--ink);
+    border-radius: 6px;
+    padding: 6px 10px 7px 10px;
+    margin-bottom: 6px;
+}
+
+.notebook__fact {
+    flex-direction: row;
+    margin: 1px 0;
+}
+
+.notebook__fact-label {
+    width: 78px;
+    flex-shrink: 0;
+    font-size: 15px;
+    color: var(--muted);
+}
+
+.notebook__fact-value {
+    flex-shrink: 1;
+    font-size: 15px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/NanumGothic-ExtraBold.asset");
+}
+
+.notebook__empty {
+    font-size: 17px;
+    color: var(--muted);
+    margin: 10px 0 4px 0;
+}
+
+.notebook__rule {
+    font-size: 23px;
+    margin-top: 10px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/Gaegu-Bold.asset");
+}
+
+.nb-claim {
+    padding: 10px 4px 10px 4px;
+    border-top-width: 2px;
+    border-color: rgba(26, 22, 32, 0.25);
+    border-radius: 4px;
+    transition-property: background-color;
+    transition-duration: 0.4s;
+}
+
+.nb-claim--fresh { background-color: rgba(242, 194, 48, 0.45); }
+
+.nb-claim__top {
+    flex-direction: row;
+    padding-right: 76px;
+}
+
+.nb-claim__n {
+    width: 24px;
+    flex-shrink: 0;
+    font-size: 21px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DoHyeon-Regular.asset");
+}
+
+.nb-claim__quote {
+    flex-shrink: 1;
+    font-size: 18px;
+}
+
+.nb-claim--loose .nb-claim__quote { color: var(--muted); }
+
+.nb-claim__unknown {
+    position: absolute;
+    right: 6px;
+    top: 9px;
+    font-size: 24px;
+    padding: 0 12px;
+    color: var(--muted);
+    border-width: 3px;
+    border-color: var(--muted);
+    border-radius: 8px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DoHyeon-Regular.asset");
+}
+
+.nb-claim__stamp {
+    position: absolute;
+    right: -4px;
+    top: 6px;
+    margin: 0;
+    font-size: 19px;
+    letter-spacing: 1px;
+    padding: 3px 8px 0 8px;
+    border-width: 3px;
+    border-radius: 6px;
+    rotate: -8deg;
+}
+
+.nb-claim__hint {
+    margin: 4px 0 0 24px;
+    font-size: 15px;
+    color: #264296;
+}
+
+.nb-pin {
+    margin: 6px 0 0 24px;
+    padding: 5px 8px 6px 8px;
+    background-color: #FFFDF6;
+    border-left-width: 4px;
+    border-color: #264296;
+}
+
+.nb-pin__text { font-size: 15px; }
+
+.nb-pin__where {
+    margin-top: 2px;
+    font-size: 13px;
+    color: var(--muted);
+}
+
+.nb-claim__stamps {
+    flex-direction: row;
+    align-items: center;
+    margin: 8px 0 0 24px;
+}
+
+.nb-stamp-btn {
+    margin: 0 8px 0 0;
+    padding: 3px 10px 1px 10px;
+    font-size: 16px;
+    letter-spacing: 1px;
+    background-color: rgba(255, 253, 246, 0.6);
+    border-width: 2px;
+    border-radius: 6px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Generated/DoHyeon-Regular.asset");
+}
+
+.nb-stamp-btn:hover { background-color: #FFFFFF; }
+.nb-stamp-btn--true { color: #3F7F3A; border-color: #3F7F3A; }
+.nb-stamp-btn--false { color: var(--red); border-color: var(--red); }
+.nb-stamp-btn--true.nb-stamp-btn--on { background-color: #3F7F3A; color: #FFFFFF; }
+.nb-stamp-btn--false.nb-stamp-btn--on { background-color: var(--red); color: #FFFFFF; }
+.nb-stamp-btn:disabled { opacity: 0.35; }
+
+.nb-claim__wait {
+    flex-shrink: 1;
+    font-size: 14px;
+    color: var(--muted);
+}
+
+/* A Write day: the player fills the lines by pinning what the caller says. */
+
+.nb-claim__wait--below { margin: 4px 0 0 24px; }
+
+.notebook__write {
+    font-size: 15px;
+    color: #264296;
+    margin: 0 0 6px 0;
+}
+
+.notebook__full {
+    font-size: 15px;
+    color: var(--red);
+    margin: 6px 0 0 0;
+}
+
+.nb-slot__text {
+    flex-shrink: 1;
+    font-size: 16px;
+    color: var(--muted);
+}
+
+.nb-slot__line {
+    height: 2px;
+    margin: 12px 0 2px 24px;
+    background-color: rgba(26, 22, 32, 0.18);
+}
+
+.nb-unpin {
+    flex-shrink: 0;
+    margin: 0 0 0 6px;
+    padding: 2px 8px 1px 8px;
+    font-size: 13px;
+    color: var(--muted);
+    background-color: rgba(0, 0, 0, 0);
+    border-width: 0;
+    border-bottom-width: 1px;
+    border-color: var(--muted);
+    border-radius: 0;
+}
+
+.nb-unpin:hover { color: var(--ink); border-color: var(--ink); }
+
+/* Caller lines in the transcript, on a Write day. */
+
+.pinnable {
+    transition-property: -unity-background-image-tint-color, translate;
+    transition-duration: 0.12s;
+}
+
+.pinnable:hover { -unity-background-image-tint-color: #FFF4CC; translate: 2px 0; }
+
+.pinnable--on { -unity-background-image-tint-color: #FFE38A; }
+
+.pinnable:hover.pinnable--on { -unity-background-image-tint-color: #FFDA66; }
+
+.pinnable__tag {
+    display: none;
+    align-self: flex-start;
+    margin-top: 6px;
+    padding: 2px 8px 1px 8px;
+    font-size: 13px;
+    letter-spacing: 1px;
+    color: #17121A;
+    background-color: #F2C230;
+    border-radius: 4px;
+}
+
+.pinnable--on > .pinnable__tag { display: flex; }
+
+/* An answer that can be circled, on a Write day (a click on the line itself pins it). */
+.mark-handle {
+    align-self: flex-start;
+    margin-top: 6px;
+    padding: 2px 8px 1px 8px;
+    font-size: 13px;
+    letter-spacing: 1px;
+    color: #17121A;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-width: 1.5px;
+    border-color: #17121A;
+    border-radius: 4px;
+}
+
+.mark-handle:hover { background-color: #F2C230; }
+
+.markable--on > .mark-handle { color: #FFFFFF; background-color: #2B4C9B; border-color: #2B4C9B; }
+
+/* ---------------------------------------------------------------- circling for the notebook
+   Items with a mark today light up under the pointer (and glow on the guided day); a click draws
+   Jiwoo's blue ballpoint ring round them. */
+
+.markable {
+    border-radius: 6px;
+    transition-property: background-color;
+    transition-duration: 0.12s;
+}
+
+.markable.markable:hover { background-color: rgba(242, 194, 48, 0.34); }
+.markable.markable--glow { background-color: rgba(242, 194, 48, 0.2); }
+.markable:hover > .ink-ring { opacity: 0.3; scale: 0.96 0.96; }
+.markable--glow > .ink-ring { opacity: 0.22; scale: 0.96 0.96; }
+
+.ink-ring {
+    position: absolute;
+    left: -14px;
+    top: -10px;
+    right: -14px;
+    bottom: -10px;
+    background-image: url("project://database/Assets/_Game/UI/Sprites/ink_ring_mid.png");
+    -unity-background-scale-mode: stretch-to-fill;
+    opacity: 0;
+    scale: 0.88 0.88;
+    transition-property: opacity, scale;
+    transition-duration: 0.18s;
+}
+
+.ink-ring--wide { background-image: url("project://database/Assets/_Game/UI/Sprites/ink_ring_wide.png"); }
+.ink-ring--round { background-image: url("project://database/Assets/_Game/UI/Sprites/ink_ring_round.png"); }
+
+/* Circled: the full ring, whatever the pointer does (this rule outweighs the faint ones above). */
+.markable.markable--on > .ink-ring,
+.markable.markable--on:hover > .ink-ring {
+    opacity: 1;
+    scale: 1 1;
 }

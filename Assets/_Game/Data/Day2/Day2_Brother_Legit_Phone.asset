@@ -45,6 +45,10 @@ MonoBehaviour:
     number: 1599-0000
     memo: Customer centre, the number on my card
     portrait: app_bank
+  - name: Mapo City Gas
+    number: 02-555-0181
+    memo: Customer centre, the number on the gas bill
+    portrait: app_contacts
   - name: Mangwon Heights office
     number: 02-555-0192
     memo: Building management
@@ -133,20 +137,12 @@ MonoBehaviour:
       outgoing: 1
       photoCaption: 
       facts: []
-    - sender: Minjun
-      avatar: pt_minjun
-      when: Today 15:22
-      text: Dropped my phone on the stairs and the screen is dead. Writing this from
-        the dorm PC. I'm taking it to the service centre with my roommate Dohyun,
-        so if a strange number calls, it's me on his phone!
-      outgoing: 0
-      photoCaption: 
-      facts: []
     - sender: Mom
       avatar: pt_mom
       when: Today 15:31
-      text: Again?! That's the second one this year. I'm in a meeting till six, ask
-        your sister.
+      text: 'Minjun just called me from his roommate Dohyun''s phone: he dropped
+        his phone on the stairs and the screen is dead. He''s taking it to the service
+        centre. I''m in a meeting till six. Jiwoo, can you help him?'
       outgoing: 0
       photoCaption: 
       facts: []

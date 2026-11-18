@@ -295,17 +295,23 @@ def person(p, hx, hy, R, spec, seed=0):
     eye_y = hy - R * 0.02
     tired = spec.get("expression") == "tired"
     ink = rgb("2A1C18")
+    blink = spec.get("blink")
     for side in (-1, 1):
         ex = hx + side * R * 0.31
         socket = p.ellipse(ex, eye_y - R * 0.01, R * 0.19, R * 0.11)
         p.paint(socket * face * 0.35, dark)
-        white = p.ellipse(ex + side * R * 0.03, eye_y + R * 0.01, R * 0.13, R * 0.05)
-        p.paint(white * 0.85, rgb("D2C4B2"))
-        iris = p.ellipse(ex, eye_y + R * 0.01, R * 0.065, R * 0.06)
-        p.paint(iris * np.clip(white * 1.5, 0, 1), ink)
-        lid = p.line(bezier((ex - R * 0.15, eye_y + R * 0.02), (ex, eye_y - R * (0.08 if not tired else 0.055)),
-                            (ex + R * 0.16, eye_y + R * 0.02)), R * (0.07 if tired else 0.055))
-        p.paint(lid, ink)
+        if blink:
+            # Closed: the lid comes down to a curve, lashes in ink.
+            p.paint(p.line(bezier((ex - R * 0.15, eye_y + R * 0.01), (ex, eye_y + R * 0.06), (ex + R * 0.16, eye_y + R * 0.01)),
+                           R * 0.06), ink)
+        else:
+            white = p.ellipse(ex + side * R * 0.03, eye_y + R * 0.01, R * 0.13, R * 0.05)
+            p.paint(white * 0.85, rgb("D2C4B2"))
+            iris = p.ellipse(ex, eye_y + R * 0.01, R * 0.065, R * 0.06)
+            p.paint(iris * np.clip(white * 1.5, 0, 1), ink)
+            lid = p.line(bezier((ex - R * 0.15, eye_y + R * 0.02), (ex, eye_y - R * (0.08 if not tired else 0.055)),
+                                (ex + R * 0.16, eye_y + R * 0.02)), R * (0.07 if tired else 0.055))
+            p.paint(lid, ink)
         if tired:
             p.paint(p.line(bezier((ex - R * 0.11, eye_y + R * 0.1), (ex, eye_y + R * 0.13), (ex + R * 0.12, eye_y + R * 0.09)),
                            R * 0.035) * 0.6, dark)
@@ -317,11 +323,19 @@ def person(p, hx, hy, R, spec, seed=0):
         p.paint(nostril * 0.9, dark * 0.7)
     smile = spec.get("expression") == "smile"
     p.paint(p.line(bezier((hx - R * 0.12, hy + R * 0.5), (hx, hy + R * 0.48), (hx + R * 0.12, hy + R * 0.5)), R * 0.05) * 0.4, dark)
-    mouth = p.line(bezier((hx - R * 0.18, hy + R * (0.57 if smile else 0.59)), (hx, hy + R * (0.64 if smile else 0.58)),
-                          (hx + R * 0.18, hy + R * (0.57 if smile else 0.6))), R * 0.06)
-    p.paint(mouth, dark * 0.62)
-    lip = p.ellipse(hx - R * 0.02, hy + R * 0.66, R * 0.1, R * 0.03)
-    p.paint(lip * 0.45, light)
+    talk = spec.get("mouth")   # None (closed), "open" or "wide": a mouth caught mid-word
+    if talk:
+        mh = R * (0.07 if talk == "open" else 0.115)
+        mw = R * (0.16 if talk == "open" else 0.14)
+        p.paint(p.ellipse(hx, hy + R * 0.6, mw, mh, soft=0.6), rgb("4A1F22"))
+        p.paint(p.ellipse(hx, hy + R * 0.6 - mh * 0.55, mw * 0.75, mh * 0.32, soft=0.6) * 0.85, rgb("EDE3D6"))
+        p.paint(p.ellipse(hx, hy + R * 0.6 + mh * 1.05, mw * 0.7, R * 0.03) * 0.45, light)
+    else:
+        mouth = p.line(bezier((hx - R * 0.18, hy + R * (0.57 if smile else 0.59)), (hx, hy + R * (0.64 if smile else 0.58)),
+                              (hx + R * 0.18, hy + R * (0.57 if smile else 0.6))), R * 0.06)
+        p.paint(mouth, dark * 0.62)
+        lip = p.ellipse(hx - R * 0.02, hy + R * 0.66, R * 0.1, R * 0.03)
+        p.paint(lip * 0.45, light)
     if spec.get("lipstick"):
         p.paint(p.ellipse(hx, hy + R * 0.6, R * 0.13, R * 0.05) * 0.6, rgb("A8453E"))
     if spec.get("glasses"):
@@ -424,6 +438,24 @@ def person(p, hx, hy, R, spec, seed=0):
             p.shaded(board, rgb("26242A"), R * 0.08, warm=False)
             p.paint(p.line([(hx, hy - R * 1.1), (hx + rx * 1.5, hy - R * 1.06), (hx + rx * 1.62, hy - R * 0.45)], R * 0.07),
                     rgb("D8AE4E"))
+
+
+def hand(p, cx, cy, R, spec):
+    """An open hand held up, palm to the camera, with its sleeve coming up from below the picture."""
+    skin = rgb(spec.get("skin", "C98E66"))
+    cloth = rgb(spec.get("cloth", "8FA3C4"))
+    sleeve = p.polygon([(cx - R * 0.42, cy + R * 0.5), (cx + R * 0.36, cy + R * 0.5), (cx + R * 0.62, p.h + 10), (cx - R * 0.4, p.h + 10)])
+    p.shaded(sleeve, cloth, max(2, int(R * 0.1)))
+    mask = p.ellipse(cx, cy, R * 0.36, R * 0.42)
+    mask = np.maximum(mask, p.polygon([(cx - R * 0.3, cy + R * 0.2), (cx + R * 0.26, cy + R * 0.2), (cx + R * 0.22, cy + R * 0.56), (cx - R * 0.28, cy + R * 0.56)]))
+    for k, dx in enumerate((-0.25, -0.085, 0.08, 0.24)):
+        length = R * (0.4 + (0.09 if k in (1, 2) else 0.0))
+        mask = np.maximum(mask, p.line([(cx + dx * R, cy - R * 0.18), (cx + dx * R * 1.18, cy - R * 0.18 - length)], R * 0.15))
+    mask = np.maximum(mask, p.line([(cx - R * 0.3, cy + R * 0.05), (cx - R * 0.6, cy - R * 0.26)], R * 0.16))
+    p.shaded(np.clip(mask, 0, 1), skin, max(2, int(R * 0.12)))
+    # The creases of the palm.
+    dark = tones(skin)[0]
+    p.paint(p.line(bezier((cx - R * 0.14, cy - R * 0.12), (cx - R * 0.04, cy + R * 0.12), (cx + R * 0.0, cy + R * 0.36)), R * 0.035) * 0.55, dark)
 
 
 # ---------------------------------------------------------------- pictures

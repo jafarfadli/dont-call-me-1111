@@ -516,7 +516,7 @@ def menu_glyphs():
 
 
 def title_icons():
-    """The title menu's icons (start, case files, settings, quit): cream with a thick ink line and
+    """The title menu's icons (start, choose a day, case files, settings, quit): cream with a thick ink line and
     an offset ink shadow, like the logo's letters."""
     K = INK + (255,)
     C = (248, 239, 218, 255)
@@ -551,7 +551,18 @@ def title_icons():
             cv.line([(x - 14, y), (x + 30, y)], col, wd)
             cv.line([(x + 16, y - 15), (x + 31, y), (x + 16, y + 15)], col, wd)
 
-    for name, fn in (("mi_play", play), ("mi_folder", folder), ("mi_gear", gear), ("mi_exit", door)):
+    def calendar(cv, x, y, fill, ink):
+        # A wall-calendar page: a red band with two rings, and the days as dots.
+        cv.poly([(x - 34, y - 26), (x + 34, y - 26), (x + 34, y + 32), (x - 34, y + 32)], fill=fill, outline=ink, width=8)
+        cv.poly([(x - 34, y - 26), (x + 34, y - 26), (x + 34, y - 8), (x - 34, y - 8)],
+                fill=(hexc("C9483A") + (255,)) if fill != ink else ink, outline=ink, width=8)
+        for rx in (-18, 18):
+            cv.line([(x + rx, y - 36), (x + rx, y - 18)], ink, 9)
+        for row in (6, 21):
+            for col in (-19, 0, 19):
+                cv.ellipse(x + col, y + row, 5, 5, fill=ink)
+
+    for name, fn in (("mi_play", play), ("mi_folder", folder), ("mi_gear", gear), ("mi_exit", door), ("mi_calendar", calendar)):
         sticker(name, fn)
 
 
@@ -658,7 +669,7 @@ PORTRAITS = {
     "pt_cafe": (dict(sex="m", skin="D9A982", hair="2B211B", style="short", outfit="shirt", cloth="3E4B5E", glasses=True), "sand"),
     "pt_jeon": (dict(sex="m", skin="D6A47E", hair="1F1A18", style="short", outfit="blazer", cloth="2F3A52", expression="neutral",
                      glasses=True), "dusk"),
-    "pt_hr": (dict(sex="f", skin="E6BE9E", hair="3A2A22", style="long", outfit="blazer", cloth="B89A72", expression="smile"), "teal"),
+    "pt_courier": (dict(sex="f", skin="E6BE9E", hair="3A2A22", style="long", outfit="blazer", cloth="B89A72", expression="smile"), "teal"),
     # Day 0: "Team Leader Baek" of the gas company's billing team.
     "pt_billing": (dict(sex="f", skin="E3B998", hair="2B1E19", style="bob", outfit="blazer", cloth="3E5476", expression="smile"), "olive"),
     # The other cases' callers: the newspaper's branch manager, the monitor's buyer, the dentist's coordinator.
@@ -699,6 +710,97 @@ def portraits():
              100 + 58 * math.sin(-math.pi / 2 + k * math.pi / 5) * (1 if k % 2 == 0 else 0.45)) for k in range(10)]
     cv.poly(star, fill=hexc("FBF4E4"), outline=INK, width=5)
     save(cv.result(), "av_shop")
+
+
+# ---------------------------------------------------------------- video calls
+
+# Faces seen on video calls: the person, the room behind them, and the grid. The frames share one
+# palette, so only the mouth, the eyes and the hand change between them.
+VIDEO_FACES = {
+    # Day 4: Yuna in a Fukuoka hotel room (or someone wearing her face).
+    "vc_yuna": dict(spec=PORTRAITS["pt_yuna"][0], wall=("BFA286", "6B5444"), window=True),
+}
+VIDEO_GRID = (60, 120)   # a phone held upright; shown at 6x
+VIDEO_SCALE = 6
+
+
+def video_faces():
+    """
+    Each video face as frames (see VideoCall in ConversationData.cs): <name> (still), _talk and
+    _talk2 (mouth open), _blink, _wave1.._wave3 (a hand passing in front of the face, left, middle,
+    right) and, for a face faked by software, _fake_wave1.._fake_wave3 (the face drawn over the
+    hand, its edge torn) and _fake_glitch (a few rows of the face slipping sideways). The face
+    sits where Phone.uss's .video__face expects it: centred, 36% down.
+    """
+    gw, gh = VIDEO_GRID
+    for name, cfg in VIDEO_FACES.items():
+        spec = cfg["spec"]
+        top, bottom = cfg["wall"]
+
+        def paint(extra=None, hand_x=None, spec=spec, top=top, bottom=bottom, cfg=cfg):
+            p = pp.Painter(gw * 8, gh * 8, (0, 0, 0))
+            pp.backdrop_studio(p, top, bottom, spot=0.1)
+            if cfg.get("window"):
+                # A window at dusk on the left, with the lights of the city.
+                win = p.polygon([(0, p.h * 0.1), (p.w * 0.2, p.h * 0.12), (p.w * 0.2, p.h * 0.44), (0, p.h * 0.46)])
+                p.paint(win, pp.rgb("2E3F5E"))
+                rng = np.random.default_rng(4)
+                for _ in range(14):
+                    x, y = rng.uniform(4, p.w * 0.18), rng.uniform(p.h * 0.28, p.h * 0.43)
+                    p.paint(p.ellipse(x, y, 5, 4), pp.rgb("F2C877"))
+                p.paint(p.line([(p.w * 0.2, p.h * 0.12), (p.w * 0.2, p.h * 0.44)], 10), pp.rgb("3B2C24"))
+            hx, hy, R = p.w * 0.5, p.h * 0.36, p.h * 0.16
+            pp.person(p, hx, hy, R, dict(spec, **(extra or {})), seed=sum(map(ord, name)) % 97)
+            if hand_x is not None:
+                pp.hand(p, hx + hand_x * R, hy + R * 0.12, R * 1.1, spec)
+            return p
+
+        def small(p):
+            img = Image.fromarray(np.clip(p.rgb, 0, 255).astype(np.uint8))
+            a = np.asarray(img.resize((gw, gh), Image.BOX)).astype(np.float32)
+            a *= 1.0 + np.random.default_rng(7).normal(0.0, 0.012, (gh, gw, 1))
+            return np.clip(a, 0, 255).astype(np.uint8)
+
+        frames = {
+            name: small(paint()),
+            name + "_talk": small(paint({"mouth": "open"})),
+            name + "_talk2": small(paint({"mouth": "wide"})),
+            name + "_blink": small(paint({"blink": True})),
+        }
+        for i, x in ((1, -0.95), (2, 0.0), (3, 0.95)):
+            frames[f"{name}_wave{i}"] = small(paint(hand_x=x))
+
+        # A faked face is pasted over whatever is in front of it: the hand vanishes behind it.
+        still = frames[name]
+        yy, xx = np.mgrid[0:gh, 0:gw]
+        # The swapped part runs from the brows to the chin: fingers above it still show.
+        cx, cy = gw * 0.5, gh * (0.36 + 0.16 * 0.22)
+        rx, ry = gh * 0.16 * 0.58, gh * 0.16 * 0.72
+        inner = ((xx - cx) / rx) ** 2 + ((yy - cy) / ry) ** 2 <= 1.0
+        edge = inner & ~(((xx - cx) / (rx - 1.2)) ** 2 + ((yy - cy) / (ry - 1.2)) ** 2 <= 1.0)
+        for i in (1, 2, 3):
+            a = frames[f"{name}_wave{i}"].copy()
+            shifted = np.roll(still, 1, axis=1)
+            a[inner] = shifted[inner]
+            # The seam: every third row of the edge slips a pixel and picks up a faint colour fringe.
+            torn = edge & (yy % 3 == 0)
+            a[torn] = np.clip(np.roll(still, -1, axis=1)[torn].astype(np.int32) + np.array([16, -4, 12]), 0, 255)
+            frames[f"{name}_fake_wave{i}"] = a
+        g = still.copy()
+        rows = (yy >= int(gh * 0.27)) & (yy <= int(gh * 0.47))
+        band = rows & (((yy // 2) % 3) == 0)
+        g[band] = np.roll(still, 2, axis=1)[band]
+        g[edge & (yy % 2 == 0)] = np.clip(g[edge & (yy % 2 == 0)].astype(np.int32) + np.array([20, -6, 16]), 0, 255)
+        frames[name + "_fake_glitch"] = g
+
+        # One palette for every frame, then the grade and the hard pixels.
+        names = list(frames)
+        sheet = Image.fromarray(np.concatenate([frames[n] for n in names], axis=1))
+        palette = sheet.quantize(colors=48, method=Image.Quantize.MEDIANCUT, kmeans=3, dither=Image.Dither.NONE)
+        for n in names:
+            q = Image.fromarray(frames[n]).quantize(palette=palette, dither=Image.Dither.NONE).convert("RGB")
+            q = pp.grade(q, vignette=0.12)
+            save(q.resize((gw * VIDEO_SCALE, gh * VIDEO_SCALE), Image.NEAREST), n)
 
 
 # ---------------------------------------------------------------- documents and the calendar
@@ -784,8 +886,48 @@ def spotlight():
     save(Image.fromarray(rgba.astype(np.uint8), "RGBA"), "spotlight")
 
 
+def ink_rings():
+    """Jiwoo's ballpoint rings for the case notebook: a loop drawn a little more than once round
+    whatever the player circles, wobbling and thinning like a quick hand. Three shapes, so a long
+    line gets a long flat ring and a block a rounder one (the UI picks by the item's shape)."""
+    ink = (38, 66, 150)
+    for name, (w, h), seed in (("ink_ring_wide", (1200, 170), 21), ("ink_ring_mid", (640, 240), 22), ("ink_ring_round", (420, 340), 23)):
+        k = 3
+        W, H = w * k, h * k
+        img = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+        d = ImageDraw.Draw(img)
+        rng = np.random.default_rng(seed)
+        cx, cy = W / 2, H / 2
+        # Room for the wobble and the outward drift, so the stroke never leaves the image.
+        rx, ry = (W / 2 - 10 * k) / 1.07, (H / 2 - 10 * k) / 1.09
+        start = rng.uniform(0.6, 1.2) * math.pi
+        turns = 1.12
+        n = 420
+        phase = rng.uniform(0, 6.28, 3)
+        pts = []
+        for i in range(n + 1):
+            t = i / n
+            a = start + t * turns * 2 * math.pi
+            # The loop drifts outward as it goes round, so the end passes outside the start.
+            grow = 1.0 - 0.06 + 0.07 * t
+            wob = 1 + 0.025 * math.sin(3 * a + phase[0]) + 0.015 * math.sin(7 * a + phase[1])
+            x = cx + rx * grow * wob * math.cos(a)
+            y = cy + ry * grow * wob * math.sin(a) + 0.04 * ry * math.sin(a * 2 + phase[2])
+            pts.append((x, y, t))
+        for (x0, y0, t0), (x1, y1, _) in zip(pts, pts[1:]):
+            # Thin where the pen lands and lifts, heaviest in the middle of the stroke.
+            press = math.sin(math.pi * min(1.0, max(0.0, t0 * 1.05))) ** 0.6
+            width = max(1.0, (2.8 + 3.8 * press) * k)
+            alpha = int(255 * (0.55 + 0.45 * press))
+            d.line([(x0, y0), (x1, y1)], fill=ink + (alpha,), width=int(width))
+            r = width / 2
+            d.ellipse([x1 - r, y1 - r, x1 + r, y1 + r], fill=ink + (alpha,))
+        save(img.resize((w, h), Image.LANCZOS), name)
+
+
 def run():
     frames()
+    ink_rings()
     buttons()
     bubbles()
     phone_frame()
@@ -795,6 +937,7 @@ def run():
     spotlight()
     icons()
     portraits()
+    video_faces()
     documents()
     tiles()
     wallpaper()
@@ -808,4 +951,11 @@ def run():
 
 
 if __name__ == "__main__":
-    print(run())
+    import sys
+    # One or more steps by name (e.g. "ink_rings") without touching the rest or slices.json.
+    if len(sys.argv) > 1:
+        for step in sys.argv[1:]:
+            globals()[step]()
+        print(UI_OUT)
+    else:
+        print(run())

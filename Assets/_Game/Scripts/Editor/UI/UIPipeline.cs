@@ -79,7 +79,8 @@ namespace DontCallMe.Editor.UI
                 string path = AssetDatabase.GUIDToAssetPath(guid);
                 string name = Path.GetFileNameWithoutExtension(path);
                 var importer = (TextureImporter)AssetImporter.GetAtPath(path);
-                bool pixel = name.StartsWith("pt_");
+                // Pixel pictures of people: portraits, and the faces on video calls.
+                bool pixel = name.StartsWith("pt_") || name.StartsWith("vc_");
                 bool tile = name.StartsWith("tile_");
                 importer.textureType = TextureImporterType.Sprite;
                 importer.spriteImportMode = SpriteImportMode.Single;
@@ -333,6 +334,7 @@ namespace DontCallMe.Editor.UI
                 iso.FindProperty("view").objectReferenceValue = player.GetComponentInChildren<Camera>();
                 iso.FindProperty("ui").objectReferenceValue = ui;
                 iso.FindProperty("player").objectReferenceValue = player;
+                iso.FindProperty("reach").floatValue = Interactor.Reach;
                 iso.ApplyModifiedPropertiesWithoutUndo();
             }
             else
@@ -364,6 +366,10 @@ namespace DontCallMe.Editor.UI
                     Debug.LogWarning($"[UIPipeline] {obj} not found in the scene");
                     continue;
                 }
+                // Rebuilt every time, so a moved model or a new padding always gets a fitting box.
+                var old = go.GetComponent<BoxCollider>();
+                if (old != null)
+                    UnityEngine.Object.DestroyImmediate(old);
                 if (go.GetComponent<Collider>() == null)
                     AddBox(go, plain);
                 var it = go.GetComponent<Interactable>();
@@ -413,10 +419,19 @@ namespace DontCallMe.Editor.UI
             }
             if (!any)
                 return;
+            // A few centimetres around the object, so the cursor does not have to hit its very edge;
+            // a trigger, so it never stops the player walking.
+            Vector3 scale = go.transform.lossyScale;
+            Vector3 pad = new Vector3(ClickPad / Mathf.Max(1e-4f, Mathf.Abs(scale.x)), ClickPad / Mathf.Max(1e-4f, Mathf.Abs(scale.y)),
+                                      ClickPad / Mathf.Max(1e-4f, Mathf.Abs(scale.z))) * 2f;
             var box = go.AddComponent<BoxCollider>();
+            box.isTrigger = true;
             box.center = bounds.center;
-            box.size = Vector3.Max(bounds.size, new Vector3(0.02f, 0.02f, 0.02f));
+            box.size = Vector3.Max(bounds.size, new Vector3(0.02f, 0.02f, 0.02f)) + pad;
         }
+
+        /// <summary>Metres added on every side of a clickable object's box.</summary>
+        const float ClickPad = 0.025f;
 
         static InputActionReference FindAction(string map, string action)
         {

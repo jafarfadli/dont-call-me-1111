@@ -28,6 +28,7 @@ namespace DontCallMe.UI
         public const string Error = "error";
         public const string Whoosh = "whoosh";
         public const string Stamp = "stamp";
+        public const string Pen = "pen";
         public const string Suspense = "suspense";
         public const string Roll = "roll";
         public const string Reveal = "reveal";
@@ -125,6 +126,8 @@ namespace DontCallMe.UI
             clips[HangUp] = Make(0.9f, t => (t % 0.3f < 0.18f ? Sine(t, 480) : 0f) * 0.3f);
             clips[Heart] = Make(0.95f, t => Thump(t) + Thump(t - 0.24f) * 0.8f);
             clips[Stamp] = Make(0.28f, t => Thump(t) * 0.8f + Noise() * Env(t, 0.001f, 0.06f) * 0.4f);
+            // A ballpoint drawn round something: scratchy noise swirling a few times.
+            clips[Pen] = Make(0.42f, t => Noise() * (0.55f + 0.45f * Mathf.Sin(t * 2f * Mathf.PI * 9f)) * Mathf.Sin(Mathf.PI * t / 0.42f) * 0.16f);
             clips[Buzz] = Make(0.8f, t => t < 0.45f ? Saw(t, 150) * (0.6f + 0.4f * Mathf.Sin(t * 190f)) * 0.16f : 0f);
             BuildReveal();
             // A cheerful retro ringtone: square-ish melody, then a pause.

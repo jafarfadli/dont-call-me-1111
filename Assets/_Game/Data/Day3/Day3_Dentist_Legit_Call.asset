@@ -22,10 +22,22 @@ MonoBehaviour:
     portrait: pt_dental
     voice: Karen
   claims:
-  - She is Moon Jihye, the coordinator at Saebom Dental.
-  - My appointment is today at 18:30.
-  - "Evening slots need a \u20A930,000 deposit: Nuri Bank 5620-71-336029."
-  - Slots that are not confirmed by 17:00 go to someone else.
+  - id: clinic
+    text: '"I''m Moon Jihye, from Saebom Dental."'
+    truth: 1
+    note: True. Your own note said the clinic would ring this afternoon, and she
+      knew your booking.
+    trick: borrowed_name
+  - id: appointment
+    text: '"Your appointment is today at 18:30."'
+    truth: 1
+    note: 'True. Today''s note on your calendar: dentist at 18:30.'
+    trick: leaked_list
+  - id: deposit
+    text: "\"Evening slots need a \u20A930,000 deposit.\""
+    truth: 1
+    note: 'True. Your own note: a 30,000 won deposit that comes off the bill.'
+    trick: deposit
   nodes:
   - id: start
     lines:
@@ -36,12 +48,16 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: clinic
+      act: 
     - speaker: 0
       text: I'm calling about your appointment today, at half past six.
       spoken: 
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: appointment
+      act: 
     hasDecision: 1
     decision:
       kind: 0
@@ -69,6 +85,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     hasDecision: 0
     decision:
       kind: 0
@@ -94,6 +112,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     hasDecision: 0
     decision:
       kind: 0
@@ -123,6 +143,8 @@ MonoBehaviour:
         label: 
       deliver: []
       pauseAfter: 0.4
+      claim: deposit
+      act: 
     - speaker: 0
       text: 'Please send it to our payment account: Nuri Bank 5620-71-336029.'
       spoken: Please send it to our payment account. Nuri Bank, five six two zero,
@@ -133,6 +155,8 @@ MonoBehaviour:
         label: 
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     - speaker: 0
       text: At five we release every slot that isn't confirmed. I'll hold while you
         send it.
@@ -140,6 +164,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     hasDecision: 0
     decision:
       kind: 0
@@ -176,6 +202,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     consequence: Five o'clock passed. The clinic gave your slot away; the next one
       is in three weeks.
   - id: go_along
@@ -189,6 +217,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     consequence: "The deposit held your slot. The wisdom tooth came out at 18:30,
       and the \u20A930,000 came off the bill."
   actions:
@@ -218,6 +248,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     endingId: 
   - label: Ask what the appointment is for
     playerLine: What am I booked in for?
@@ -229,6 +261,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     endingId: 
   - label: Ask whose name is on the account
     playerLine: Whose name is on that account?
@@ -240,6 +274,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     endingId: 
   - label: Offer to pay at the desk tonight
     playerLine: Can't I just pay at the desk tonight?
@@ -251,6 +287,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
     endingId: 
   beats:
   - at: 16:36
@@ -261,6 +299,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
   - at: 16:43
     line:
       speaker: 0
@@ -270,6 +310,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
   - at: 16:50
     line:
       speaker: 0
@@ -278,6 +320,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
   - at: 16:55
     line:
       speaker: 0
@@ -286,6 +330,8 @@ MonoBehaviour:
       facts: []
       deliver: []
       pauseAfter: 0.4
+      claim: 
+      act: 
   verdict:
     goAlong: Pay the deposit
     goAlongDetail: 
@@ -294,3 +340,8 @@ MonoBehaviour:
     refuseDetail: Say no and end the call
     goAlongLine: Okay, I'm sending the deposit now.
     refuseLine: I'm not paying a deposit over the phone. Goodbye.
+  video:
+    face: 
+    faked: 0
+    faceNote: 
+    waveNote: 

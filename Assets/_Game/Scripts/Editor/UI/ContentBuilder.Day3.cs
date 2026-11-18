@@ -35,6 +35,10 @@ namespace DontCallMe.Editor.UI
 
             var d = ScriptableObject.CreateInstance<DayData>();
             d.day = 3;
+            d.help = NotebookHelp.Write;
+            d.level = 3;
+            d.newToday = L("Write the claims down yourself. Click what the caller says in the transcript to put it in your notebook, three lines at most.",
+                           "주장을 직접 적어야 한다. 대화 기록에서 상대가 한 말을 클릭하면 노트에 적힌다. 최대 세 줄.");
             d.dateLabel = DateLabel(today);
             d.shortLabel = ShortLabel(3, today);
             d.weekday = WeekdayLabel(today);
@@ -79,60 +83,71 @@ namespace DontCallMe.Editor.UI
 
             // ---- where the monitor really is: the courier's and the shop's own notices, and Jiwoo's calendar
             string shopName = L("AliStar", "알리스타");
+            string shopSays = scam
+                ? L("Your monitor has arrived in Korea.\nImport taxes: INCLUDED. We collected duty and VAT at checkout, so there is nothing more to pay.",
+                    "모니터가 한국에 도착했습니다.\n수입 세금: 포함. 결제 시 관세와 부가세를 함께 받았으므로 추가로 낼 금액은 없습니다.")
+                : L("Your monitor has arrived in Korea.\nImport taxes: NOT included. Orders over US$150 are charged duty and VAT on arrival, collected by the courier.",
+                    "모니터가 한국에 도착했습니다.\n수입 세금: 미포함. 미화 150달러가 넘는 주문은 도착 시 택배사를 통해 관세와 부가세가 부과됩니다.");
+            string courierSays = scam
+                ? L($"[Hangang Express] Your overseas parcel {Tracking} has cleared customs (taxes paid by the seller). Delivery: Fri 9 Oct, 14:00-18:00. Nothing to pay.",
+                    $"[한강익스프레스] 해외 택배 {Tracking} 통관 완료(세금은 판매자 납부). 배송 예정: 10월 9일(금) 14:00~18:00. 납부하실 금액은 없습니다.")
+                : L($"[Hangang Express] Your overseas parcel {Tracking} is held at Incheon customs: duty and VAT ₩56,600. Pay by 17:00 today to our virtual account Nuri Bank {Day3LegitAccount} (HANGANG EXPRESS (CUSTOMS)). Our customs desk may call you from 1588-5520.",
+                    $"[한강익스프레스] 해외 택배 {Tracking}이 인천세관에 보류되었습니다: 관세·부가세 56,600원. 오늘 17:00까지 가상계좌 누리은행 {Day3LegitAccount}(한강익스프레스(관세))로 납부해 주세요. 통관팀이 1588-5520으로 연락드릴 수 있습니다.");
+            string calendarSays = scam
+                ? L("Monitor arrives! Hangang Express, 14:00-18:00", "모니터 도착! 한강익스프레스 14:00~18:00")
+                : L("Monitor held at customs: duty 56,600 won, pay Hangang Express by 17:00", "모니터 세관 보류: 관세 56,600원, 17시까지 한강익스프레스에 납부");
+            AddChat(phone, ShopChat, 7, "21:05", shopName, "av_shop", shopSays);
+            AddChat(phone, CourierChat, 8, "10:02", Courier, "av_courier", courierSays);
+            Note(room, scam ? 9 : 8, calendarSays);
             if (scam)
             {
-                AddChat(phone, ShopChat, 7, "21:05", shopName, "av_shop",
-                        L("Your monitor has arrived in Korea.\nImport taxes: INCLUDED. We collected duty and VAT at checkout, so there is nothing more to pay.",
-                          "모니터가 한국에 도착했습니다.\n수입 세금: 포함. 결제 시 관세와 부가세를 함께 받았으므로 추가로 낼 금액은 없습니다."));
-                AddChat(phone, CourierChat, 8, "10:02", Courier, "av_courier",
-                        L($"[Hangang Express] Your overseas parcel {Tracking} has cleared customs (taxes paid by the seller). Delivery: Fri 9 Oct, 14:00-18:00. Nothing to pay.",
-                          $"[한강익스프레스] 해외 택배 {Tracking} 통관 완료(세금은 판매자 납부). 배송 예정: 10월 9일(금) 14:00~18:00. 납부하실 금액은 없습니다."));
-                Note(room, 9, L("Monitor arrives! Hangang Express, 14:00-18:00", "모니터 도착! 한강익스프레스 14:00~18:00"));
                 directory.accounts.Add(new DirAccount { bank = bank, number = account, holder = L("KR CUSTOMS CLEARANCE", "(주)케이알통관"), note = L("Business account, opened 5 days ago", "법인 계좌 · 개설 5일") });
                 directory.numbers.Add(new DirNumber { number = Day3ScamNumber, owner = L("KR Clearance Service", "케이알통관서비스"), note = L("Business line, opened 4 days ago", "법인 회선 · 개통 4일") });
             }
             else
             {
-                AddChat(phone, ShopChat, 7, "21:05", shopName, "av_shop",
-                        L("Your monitor has arrived in Korea.\nImport taxes: NOT included. Orders over US$150 are charged duty and VAT on arrival, collected by the courier.",
-                          "모니터가 한국에 도착했습니다.\n수입 세금: 미포함. 미화 150달러가 넘는 주문은 도착 시 택배사를 통해 관세와 부가세가 부과됩니다."));
-                AddChat(phone, CourierChat, 8, "10:02", Courier, "av_courier",
-                        L($"[Hangang Express] Your overseas parcel {Tracking} is held at Incheon customs: duty and VAT ₩56,600. Pay by 17:00 today to our virtual account Nuri Bank {Day3LegitAccount} (HANGANG EXPRESS (CUSTOMS)). Our customs desk may call you from 1588-5520.",
-                          $"[한강익스프레스] 해외 택배 {Tracking}이 인천세관에 보류되었습니다: 관세·부가세 56,600원. 오늘 17:00까지 가상계좌 누리은행 {Day3LegitAccount}(한강익스프레스(관세))로 납부해 주세요. 통관팀이 1588-5520으로 연락드릴 수 있습니다."));
-                Note(room, 8, L("Monitor held at customs: duty 56,600 won, pay Hangang Express by 17:00", "모니터 세관 보류: 관세 56,600원, 17시까지 한강익스프레스에 납부"));
                 directory.accounts.Add(new DirAccount { bank = bank, number = account, holder = L("HANGANG EXPRESS (CUSTOMS)", "한강익스프레스(관세)"), note = L("Virtual account issued to Hangang Express Co., Ltd.", "(주)한강익스프레스에 발급된 가상계좌") });
             }
 
             var v = StoreVariant(scam ? "scam" : "legit", CaseParcel, Day3Dir, scam ? "Day3_Scam" : "Day3_Legit", Day3Call(scam), phone, room, directory);
-            string courierPlace = L("Chats → Hangang Express, or the calendar on the wall", "채팅 → 한강익스프레스, 또는 벽에 걸린 달력");
+            string courierPlace = L("Chats → Hangang Express, or the calendar by the door", "채팅 → 한강익스프레스, 또는 문 옆 달력");
             string shopPlace = L("Chats → AliStar", "채팅 → 알리스타");
             string numberPlace = L("Desk drawer → Delivery slip, or Computer → Check a phone number", "책상 서랍 → 택배 송장, 또는 컴퓨터 → 전화번호 조회");
-            var numberWhen = new[]
+            var numberWhen = new[] { Circled("slip_number"), Circled("check_number") };
+            v.marks = new List<MarkDef>
             {
-                new ClueWhen(ClueEvent.DocumentViewed, SlipTitle), new ClueWhen(ClueEvent.NumberChecked, scam ? Day3ScamNumber : Day3LegitNumber),
+                MarkField("slip_number", "courier", SlipTitle, L("Customer centre", "고객센터")),
+                MarkLine("slip_line", "courier", SlipTitle, L("Hangang Express has one number for everything, deliveries and customs: 1588-5520.", "한강익스프레스의 배송·통관 문의 번호는 하나입니다: 1588-5520")),
+                MarkCheck("check_number", "courier", scam ? Day3ScamNumber : Day3LegitNumber),
+                MarkNews("news_leak", "courier", L("AliStar data leak", "알리스타 개인정보 유출")),
+                MarkChat("chat_courier", "held", CourierChat, courierSays),
+                MarkNote("cal_parcel", "held", calendarSays),
+                MarkChat("chat_shop", "held", ShopChat, shopSays),
+                MarkCheck("check_account", "account", account),
+                MarkNews("news_warning", "account", "warning"),
             };
             v.clues = scam
                 ? new List<ClueDef>
                 {
                     Clue("courier_notice", L("Hangang Express's own notice says the monitor cleared customs and arrives on Friday, with nothing to pay.", "한강익스프레스가 직접 보낸 알림에는 모니터가 통관을 마쳤고 금요일에 도착하며, 낼 돈은 없다고 적혀 있다."), courierPlace,
-                         new ClueWhen(ClueEvent.ChatRead, CourierChat), new ClueWhen(ClueEvent.PanelOpened, "Calendar")),
+                         Circled("chat_courier"), Circled("cal_parcel")),
                     Clue("taxes", L("AliStar's message says the import taxes were included at checkout.", "알리스타 메시지에는 수입 세금이 결제 때 포함됐다고 적혀 있다."), shopPlace,
-                         new ClueWhen(ClueEvent.ChatRead, ShopChat)),
+                         Circled("chat_shop")),
                     Clue("number", L("Hangang Express's number is 1588-5520. The caller's 1588-5502 is one digit off and belongs to \"KR Clearance Service\".", "한강익스프레스 번호는 1588-5520이다. 발신 번호 1588-5502는 한 자리가 다르고, '케이알통관서비스' 명의다."), numberPlace,
                          numberWhen),
                     Clue("account_owner", L("The account belongs to \"KR CUSTOMS CLEARANCE\", not to Hangang Express.", "계좌 주인은 한강익스프레스가 아니라 '(주)케이알통관'이다."), AtAccountCheck,
-                         new ClueWhen(ClueEvent.NumberChecked, account), new ClueWhen(ClueEvent.RecipientShown, account)),
+                         Circled("check_account"), new ClueWhen(ClueEvent.RecipientShown, account)),
                 }
                 : new List<ClueDef>
                 {
                     Clue("courier_notice", L("Hangang Express's own notice says the monitor is held at customs, with ₩56,600 due and the same account.", "한강익스프레스가 직접 보낸 알림에도 모니터가 세관에 보류되어 있고, 56,600원과 같은 계좌가 적혀 있다."), courierPlace,
-                         new ClueWhen(ClueEvent.ChatRead, CourierChat), new ClueWhen(ClueEvent.PanelOpened, "Calendar")),
+                         Circled("chat_courier"), Circled("cal_parcel")),
                     Clue("taxes", L("AliStar's message says the import taxes were not included.", "알리스타 메시지에는 수입 세금이 포함되지 않았다고 적혀 있다."), shopPlace,
-                         new ClueWhen(ClueEvent.ChatRead, ShopChat)),
+                         Circled("chat_shop")),
                     Clue("number", L("1588-5520, the number calling you, is Hangang Express's official number.", "지금 전화한 1588-5520은 한강익스프레스의 공식 번호다."), numberPlace,
                          numberWhen),
                     Clue("account_owner", L("The account is a virtual account in the name HANGANG EXPRESS (CUSTOMS).", "계좌는 '한강익스프레스(관세)' 명의의 가상계좌다."), AtAccountCheck,
-                         new ClueWhen(ClueEvent.NumberChecked, account), new ClueWhen(ClueEvent.RecipientShown, account)),
+                         Circled("check_account"), new ClueWhen(ClueEvent.RecipientShown, account)),
                 };
             v.papers = scam ? Day3ScamPapers() : Day3LegitPapers();
             v.ruleTitle = scam ? L("Is anything due? Read the courier's own notice", "낼 돈이 있나? 택배사 알림을 보라") : L("Pay duty only to the courier", "관세는 택배사에만");
@@ -159,13 +174,19 @@ namespace DontCallMe.Editor.UI
             c.title = scam ? L("Day 3 · The held parcel (M2, scam)", "3일차 · 붙잡힌 택배 (M2, 사기)") : L("Day 3 · The held parcel (legit)", "3일차 · 붙잡힌 택배 (진짜)");
             c.isScam = scam;
             c.revealAtEnd = false;
-            c.caller = new CallerInfo { displayName = L("Yoon Seora", "윤서라"), number = number, inContacts = false, portrait = "pt_hr", voice = VoiceCustoms };
-            c.claims = new List<string>
+            c.caller = new CallerInfo { displayName = L("Yoon Seora", "윤서라"), number = number, inContacts = false, portrait = "pt_courier", voice = VoiceCustoms };
+            c.claims = new List<ClaimDef>
             {
-                L("She is Yoon Seora from Hangang Express's customs clearance desk.", "한강익스프레스 통관팀 윤서라라고 한다."),
-                L("My AliStar monitor (HX-5520-1183-KR) is held at Incheon customs.", "알리스타에서 산 모니터(HX-5520-1183-KR)가 인천세관에 묶여 있다고 한다."),
-                L("Duty and VAT of ₩56,600 haven't been paid.", "관세와 부가세 5만 6,600원이 미납이라고 한다."),
-                L($"Pay into {bank} {account} before 17:00, or it goes back to the seller.", $"17시 전까지 {bank} {account}로 납부하지 않으면 판매자에게 반송된다고 한다."),
+                Claim("courier", L("\"I'm from Hangang Express's customs desk.\"", "\"한강익스프레스 통관팀입니다.\""), !scam,
+                      scam ? L("False. Hangang Express has one number, 1588-5520, on your delivery slip. 1588-5502 is one digit off and belongs to KR Clearance Service. Knowing your order proves nothing: AliStar leaked it.",
+                               "거짓. 한강익스프레스 번호는 택배 송장에 적힌 1588-5520 하나다. 1588-5502는 한 자리가 다르고 케이알통관서비스 명의다. 주문 내역을 아는 건 증거가 아니다. 알리스타에서 유출됐다.")
+                           : L("True. 1588-5520 is the number on your delivery slip, the courier's only line.", "사실. 1588-5520은 택배 송장에 적힌 택배사의 유일한 번호다.")).Via(TrickBorrowedName),
+                Claim("held", L("\"Your monitor is held at customs for unpaid duty.\"", "\"모니터가 관세 미납으로 세관에 보류됐어요.\""), !scam,
+                      scam ? L("False. The courier's own notice says it cleared customs and comes on Friday, and AliStar collected the taxes at checkout.", "거짓. 택배사 알림에는 통관을 마치고 금요일에 온다고 했고, 알리스타는 결제 때 세금을 받았다.")
+                           : L("True. The courier's own notice says it is held, and AliStar's message says taxes were not included.", "사실. 택배사 알림에 보류됐다고 나와 있고, 알리스타 메시지에도 세금이 포함되지 않았다고 했다.")).Via(TrickHeldParcel),
+                Claim("account", L("\"Pay it into our customs account.\"", "\"관세 계좌로 납부해 주세요.\""), !scam,
+                      scam ? L("False. The account belongs to KR CUSTOMS CLEARANCE, a five-day-old company, not to Hangang Express.", "거짓. 계좌 주인은 한강익스프레스가 아니라 개설 5일 된 (주)케이알통관이다.")
+                           : L("True. It is a virtual account in the name HANGANG EXPRESS (CUSTOMS), the same one the notice gives.", "사실. 알림에 나온 것과 같은 '한강익스프레스(관세)' 명의 가상계좌다.")).Via(TrickNewAccount),
             };
             c.nodes = new List<ConvNode>
             {
@@ -174,22 +195,22 @@ namespace DontCallMe.Editor.UI
                       L("Yes, that's mine. Is something wrong?", "네, 제 거 맞아요. 무슨 문제 있어요?"), "problem",
                       L("How do you know what I ordered?", "제가 뭘 주문했는지 어떻게 아세요?"), "know",
                       P(0.5f, L("Miss Kim? Are you there?", "김지우 고객님? 들리세요?"))),
-                    Caller(L("Hello, is this Kim Jiwoo? This is Yoon Seora from Hangang Express, the customs clearance desk.", "안녕하세요, 김지우 고객님 맞으시죠? 한강익스프레스 통관팀 윤서라입니다.")),
+                    Caller(L("Hello, is this Kim Jiwoo? This is Yoon Seora from Hangang Express, the customs clearance desk.", "안녕하세요, 김지우 고객님 맞으시죠? 한강익스프레스 통관팀 윤서라입니다.")).Says("courier"),
                     Caller(L($"I'm calling about your parcel from AliStar: the 27-inch monitor, tracking number {Tracking}.", $"알리스타에서 주문하신 27인치 모니터 건으로 연락드렸어요. 운송장 번호 {Tracking}입니다."),
                            L($"I'm calling about your parcel from AliStar. The twenty seven inch monitor, tracking number {TrackingSpoken}.", $"알리스타에서 주문하신 이십칠 인치 모니터 건으로 연락드렸어요. 운송장 번호 {TrackingSpoken}입니다."),
                            F(FactKind.Case, Tracking, L("Tracking", "운송장")))),
                 Node("problem", "ask",
-                    Caller(L("It's held at Incheon customs. The import duty and VAT haven't been paid.", "인천세관에 보류되어 있어요. 관세와 부가세가 납부되지 않았거든요."))),
+                    Caller(L("It's held at Incheon customs. The import duty and VAT haven't been paid.", "인천세관에 보류되어 있어요. 관세와 부가세가 납부되지 않았거든요.")).Says("held")),
                 Node("know", "ask",
                     Caller(L("It's on the customs declaration, Miss Kim. We see every item that comes through.", "통관 신고서에 다 나와 있어요, 고객님. 들어오는 물품은 저희가 전부 확인하거든요.")),
-                    Caller(L("It's held at Incheon customs because the import duty and VAT haven't been paid.", "관세와 부가세가 납부되지 않아서 인천세관에 보류되어 있어요."))),
+                    Caller(L("It's held at Incheon customs because the import duty and VAT haven't been paid.", "관세와 부가세가 납부되지 않아서 인천세관에 보류되어 있어요.")).Says("held")),
                 Hold("ask",
                     Caller(L("The total is ₩56,600. Once it's paid, the monitor is released and delivered tomorrow.", "총 5만 6,600원이에요. 납부되면 바로 통관되고 내일 배송됩니다."),
                            L("The total is fifty six thousand, six hundred won. Once it's paid, the monitor is released and delivered tomorrow.", "총 오만 육천육백 원이에요. 납부되면 바로 통관되고 내일 배송됩니다."),
                            F(FactKind.Amount, "56,600")),
                     Caller(L($"Please pay it into our customs account: {bank} {account}.", $"관세 계좌로 납부해 주세요. {bank} {account}입니다."),
                            L($"Please pay it into our customs account. {bank}, {accountSpoken}.", $"관세 계좌로 납부해 주세요. {bank}, {accountSpoken}입니다."),
-                           F(FactKind.Account, account)),
+                           F(FactKind.Account, account)).Says("account"),
                     Caller(L("The desk closes at five. After that the parcel goes back to the seller, and you pay the return shipping.", "통관팀은 5시에 마감해요. 그 뒤로는 판매자에게 반송되고, 반송비는 고객님 부담이에요."),
                            L(null, "통관팀은 다섯 시에 마감해요. 그 뒤로는 판매자에게 반송되고, 반송비는 고객님 부담이에요.")),
                     Caller(L("I'll stay on the line while you pay.", "납부하시는 동안 기다릴게요."))),
@@ -344,7 +365,9 @@ namespace DontCallMe.Editor.UI
             SetDay(3, "16:25");
             var echoes = new List<DayEcho>(OfCase(CaseRent, Day2RentEchoes()));
             echoes.AddRange(BrotherEchoes());
-            // Tuesday's cases: only the money that moved after the call is still to be seen.
+            // Two days back and more: what was written and moved is still there, the day card's line is not.
+            echoes.AddRange(StillThere(Day1Echoes()));
+            echoes.AddRange(StillThere(OfCase(CaseProtected, Day1ProtectedEchoes())));
             echoes.AddRange(PaperEchoes(false));
             echoes.AddRange(SaleEchoes(false));
             return echoes;
@@ -384,6 +407,13 @@ namespace DontCallMe.Editor.UI
             string landlordPaid = L("CHOI YOUNGSIK", "최영식"), october = L("October rent", "10월 월세");
             return new[]
             {
+                // What Mr. Choi wrote on Wednesday is still in the chat, and the hospital on the calendar.
+                EchoChat(2, Truth.Scam, Any, VillaChat, Landlord, "pt_landlord", Oct(7, "13:40"), RentFixing),
+                EchoChat(2, Truth.Scam, Any, VillaChat, Landlord, "pt_landlord", Oct(7, "15:52"), RentFixed),
+                EchoChat(2, Truth.Legit, Any, VillaChat, Landlord, "pt_landlord", Oct(7, "08:10"), RentInHospital),
+                EchoChat(2, Truth.Legit, Any, VillaChat, L("201", "201호"), "pt_unknown", Oct(7, "08:42"), RentGetWell),
+                EchoNote(2, Truth.Legit, Any, 7, RentHospitalNote),
+
                 // The "son" was a scammer: the landlord warns everyone; the real rent still has to be paid.
                 EchoCard(2, Truth.Scam, Sent, L("Mr. Choi never asked for a new account. You paid him the real rent this morning, again.", "최 사장님은 새 계좌를 요청한 적이 없었다. 오늘 아침 진짜 월세를 다시 보냈다.")),
                 EchoCard(2, Truth.Scam, HungUp, L("The \"landlord's son\" was a fake. Mr. Choi thanked the tenants who hung up.", "'집주인 아들'은 가짜였다. 최 사장님은 전화를 끊은 세입자들에게 고마워했다.")),
